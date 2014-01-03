@@ -1,0 +1,938 @@
+/**
+ * HTML Elements
+ */
+ .resaltado{
+     background-color: #cd7532 ! important;
+     color: #FFFFFF;
+ }
+ 
+ #menu9 {
+	width: 200px;
+	margin: 0 0 0 -91px;
+	}
+	
+	#menu9 li a {
+	height: 32px;
+	width: 65px; 
+	voice-family: "\"}\""; 
+  	voice-family: inherit;
+  	height: 24px;
+	text-decoration: none;
+	}	
+	
+    #menu9 li a:link, #menu9 li a:visited {
+	color: #69F;
+	display: block;
+	background:  url(menu3.gif);
+	padding: 7px 0 1px 357px;
+	font: bolder 12px/14px Arial,sans-serif;
+	}
+	
+    #menu9 li a:hover {
+	color: #036;
+	background:  url(menu3.gif)0 -32px;
+	padding: 7px 0 1px 357px;
+	font: bolder 12px/14px Arial,sans-serif;
+	
+	}
+html
+{
+  background: #0d0d0d url(../img/orange3.jpg) repeat;
+}
+
+body
+{
+  background: none;
+	color: #555;
+	font: 13px/150% Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+        width: 1235px;
+}
+
+a:link, a:visited
+{
+  color: #388806;
+  text-decoration: none;
+}
+
+a:hover, a:active
+{
+  color: #368107;
+}
+
+h1, h2, h3
+{
+  background: url(../img/line_hor.gif) repeat-x 0 100%;
+  color: #565756;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  letter-spacing: -1px;
+  padding-bottom: 2px;
+  text-transform: uppercase;
+}
+
+textarea,
+input[type="text"],
+input[type="password"] {
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: 2px solid #5cb623;
+}
+
+::-moz-selection { background: #6eca34; color: #fff; text-shadow: none; }
+::selection { background: #6eca34; color: #fff; text-shadow: none; }
+
+
+/**
+ * Layout
+ */
+#header
+{
+  background: #2d2d2d url(../img/header_bg_tail.gif) repeat-x;
+  color: #fff;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  height: 84px;
+  line-height: 84px;
+	margin: 0;
+  overflow: hidden;
+	padding: 0;
+  position: relative;
+  width: 1202px;/*#*/
+}
+
+#logo
+{
+  float: left;
+	font-size: 3em;
+  margin: 0 1em;
+  width: 150px;
+}
+#logo a
+{
+  color: #fff;
+  text-decoration: none;
+}
+
+#main-wrapper
+{
+  background: url(../img/header_bottom.png) repeat-y;
+  /*margin-top: 65px;*/
+  padding-top: 45px;
+}
+
+#main
+{
+    width: 1205px;
+  overflow: hidden;
+}
+
+#content
+{
+  background: #fff;
+  padding: 40px;
+  /*width:740px;*/
+   width: 898px;/*#*/
+   margin: auto;
+}
+
+.span-7
+{
+  margin-left: 20px;
+  margin-right: 0;
+  width: 200px;/*#*/
+  /*width: 260px;*/
+}
+
+#sidebar
+{
+
+}
+
+#footer
+{
+  background: #2d2d2d url(../img/footer_bg.gif) 0 0 repeat;
+  clear: both;
+  color: #fff;
+  overflow: hidden;
+  padding: 0 40px 20px;
+  position: relative;
+  width: 1118px;/*#*/
+}
+
+#footer a:link, #footer a:visited
+{
+  color: #949494;
+}
+
+#footer a:hover, #footer a:active, #footer .active a
+{
+  color: #52A51E;
+}
+
+#footer .content
+{
+  float: right;
+  padding-top: 34px;
+  text-align: right;
+}
+
+
+/**
+ * Menus
+ */
+#mainmenu
+{
+  float: right;
+}
+
+#footermenu
+{
+  float: left;
+  padding-top: 34px;
+}
+
+#mainmenu ul,
+#footermenu ul
+{
+  line-height: 1em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: auto;
+}
+
+#mainmenu ul li,
+#footermenu ul li
+{
+  background: url(../img/menu_divider.gif) right bottom no-repeat;
+  border: 0;
+  float: left;
+  overflow: inherit;
+  padding: 0;
+  position: relative;
+  text-align: center;
+}
+
+#mainmenu ul li.last
+{
+  background: none;
+}
+
+#footermenu ul li
+{
+  background: none;
+  margin-right: 1.5em;
+}
+
+#mainmenu ul li a,
+#footermenu ul li a
+{
+  border: 0;
+  color: #fff;
+  display: block;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: bold;
+  padding: 39px 19px 27px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+#footermenu ul li a
+{
+  font-size: 1em;
+  font-weight: normal;
+  line-height: 1em;
+  padding: 0;
+  text-transform: none;
+}
+
+#mainmenu ul li a:hover, #mainmenu ul li.active a
+{
+  background: url(../img/menu_hover.gif) 0 0 repeat-x;
+  color: #fff;
+}
+
+#footermenu ul li a:hover, #footermenu ul li.active a
+{
+}
+
+
+/**
+ * Flash Messages
+ */
+div.flash-error, div.flash-notice, div.flash-success
+{
+	padding:.8em;
+	margin-bottom:1em;
+	border:2px solid #ddd;
+}
+
+div.flash-error
+{
+	background:#FBE3E4;
+	color:#8a1f11;
+	border-color:#FBC2C4;
+}
+
+div.flash-notice
+{
+	background:#FFF6BF;
+	color:#514721;
+	border-color:#FFD324;
+}
+
+div.flash-success
+{
+	background:#E6EFC2;
+	color:#264409;
+	border-color:#C6D880;
+}
+
+div.flash-error a
+{
+	color:#8a1f11;
+}
+
+div.flash-notice a
+{
+	color:#514721;
+}
+
+div.flash-success a
+{
+	color:#264409;
+}
+
+
+/**
+ * Content
+ */
+div.form .rememberMe label
+{
+	display: inline;
+}
+
+div.view
+{
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid #ccc;
+}
+
+#content table.detail-view tr.odd
+{
+  background-color: #eaf8e1;
+}
+
+div.breadcrumbs
+{
+	font-size: 0.9em;
+	padding: 5px 20px;
+}
+
+div.breadcrumbs span
+{
+	font-weight: bold;
+}
+
+div.search-form
+{
+	padding: 10px;
+	margin: 10px 0;
+	background: #eee;
+}
+
+#content .grid-view table.items th
+{
+	background: url(../img/title1_bg.gif) repeat-y;
+}
+
+
+/**
+ * Portlets
+ */
+.portlet
+{
+
+}
+
+.portlet-decoration
+{
+	background: url(../img/title1_bg.gif) repeat-y;
+  border-bottom: 6px solid #368107;
+	/*padding: 3px 18px;
+        width: 181px;*/
+        padding: 3px 18px;
+        padding-right: 10px;
+width: 187px;
+border-left-width: 3px;
+padding-left: 12px;
+}
+
+.portlet-title
+{
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 2em;
+	font-weight: bold;
+  line-height: 1.5em;
+	padding: 0;
+	margin: 0;
+	color: #fff;
+}
+
+.portlet-content
+{
+  background: #fff;
+	font-size: 0.9em;
+	/*margin: 0 0 20px 0;
+	padding: 5px 8px;
+        width: 200px;*/
+        width: 200px;
+padding-left: 8px;
+border-left-width: 3px;
+padding-bottom: 4px;
+margin-bottom: 0px;
+margin-left: 0px;
+margin-right: 38px;
+}
+
+.portlet-content ul
+{
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin: 0;
+	padding: 0;
+}
+
+.portlet-content li
+{
+	padding: 2px 0 4px 0px;
+}
+
+.operations
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.operations li
+{
+	padding-bottom: 2px;
+}
+
+.operations li a
+{
+	font: bold 12px Arial;
+	color: #388806;
+	display: block;
+	padding: 2px 0 2px 8px;
+	line-height: 15px;
+	text-decoration: none;
+}
+
+.operations li a:visited
+{
+	color: #368107;
+}
+
+.operations li a:hover
+{
+	background: #388806;
+  color: #fff;
+} 
+
+
+/**
+ * Twitter Bootstrap Buttons
+ */
+.buttons input, .buttons button
+{
+  display: inline-block;
+  padding: 4px 10px 4px;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #fafafa;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-repeat: no-repeat;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+  border: 1px solid #ccc;
+  border-bottom-color: #bbb;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  *margin-left: .3em;
+}
+.buttons input:first-child
+{
+  *margin-left: 0;
+}
+.buttons input:hover
+{
+  color: #333333;
+  text-decoration: none;
+  background-color: #e6e6e6;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  -ms-transition: background-position 0.1s linear;
+  -o-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+.buttons input:focus
+{
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.buttons input:active
+{
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #e6e6e6;
+  background-color: #d9d9d9 \9;
+  color: rgba(0, 0, 0, 0.5);
+  outline: 0;
+}
+.oculta
+{
+  display: none;
+}
+.LibroVentas table.items th
+{
+  background: rgba(255,187,0,1) !important;
+}
+div.grid-view.detalleCuenta table.items tbody tr th,
+.ReporteDepositos table.items th,
+.ReportePABrighstar table.items th#reportePaBrightstar_c3,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c3,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c4,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c3,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c4,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c7,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c8,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c9,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c10,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c11,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c12,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c13,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c7,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c8,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c9,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c10,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c11,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c12,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c13
+{
+  background: rgba(51,153,153,1) !important;
+  color:white;
+}
+.ReporteBrighstar table.items th,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c14,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c15,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c16,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c17,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c14,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c15,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c16,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c17
+{
+  background: rgba(255,153,51,1) !important;
+}
+.ReporteCaptura table.items th,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c18,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c19,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c20,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c21,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c22,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c23,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c18,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c19,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c20,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c21,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c22,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c23
+{
+  background: rgba(204,153,204,1) !important;
+}
+.ReportePABrighstar table.items th#reportePaBrightstar_c0,
+.ReportePABrighstar table.items th#reportePaBrightstar_c1,
+.ReportePABrighstar table.items th#reportePaBrightstar_c2,
+.ReportePABrighstar table.items th#reportePaBrightstar_c6,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c0,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c1,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c0,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c1,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c0,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c1,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c0,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c1
+{
+  background: rgba(0, 153, 0, 1) !important;
+}
+.ReportePABrighstar table.items th#reportePaBrightstar_c4,
+.ReportePABrighstar table.items th#reportePaBrightstar_c5,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c2,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c2,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c2,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c3,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c4,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c5,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c6,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c2,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c3,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c4,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c5,
+.balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c6
+{
+  background: rgba(255,187,0,1) !important;
+}
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c5,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c6,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c5,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c6
+{
+  background: rgba(255,153,51,1) !important;
+}
+.ReportePABrighstar table.items th#reportePaBrightstar_c7,
+.ReportePABrighstar table.items th#reportePaBrightstar_c8,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c8,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c9,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c10,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c8,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c9,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c10
+{
+  background: rgba(204,153,204,1) !important;
+}
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c11,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c12,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c11,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c12
+{
+  background: rgba(46,135,255,1) !important;
+}
+.tiponovedad
+{
+  border:1;
+  width:200;
+}
+
+.tiponovedad tbody tr td span label
+{
+  display: inline;
+}
+
+div.grid-view.LibroVentas#balanceLibroVentas1 div.summary,
+div.grid-view.ReporteDepositos#balanceReporteDepositos1 div.summary,
+div.grid-view.ReporteBrighstar#balanceReporteBrighstar1 div.summary,
+div.grid-view.ReporteCaptura#balanceReporteCaptura1 div.summary,
+div.grid-view.LibroVentas#balanceLibroVentas1 div.pager,
+div.grid-view.ReporteDepositos#balanceReporteDepositos1 div.pager,
+div.grid-view.ReporteBrighstar#balanceReporteBrighstar1 div.pager,
+div.grid-view.ReporteCaptura#balanceReporteCaptura1 div.pager
+{
+  display:none;
+}
+#totalFecha, #balance-grid_c0, 
+#balanceReporteDepositos_c0, 
+#balanceCicloIngresosResumido_c0
+{
+  min-width: 69px;
+  text-align: center;
+}
+#todas
+{
+  min-width: 65px;
+  text-align: center;
+}
+#vistaAdmin1, #vistaAdmin2
+{
+  min-width: 80px;
+  text-align: center;
+}
+#totalTrafico, #totalRecargaMov, #totalRecargaClaro, table#ventas tbody tr td#todas
+{
+  min-width: 83px;
+  text-align: center;
+}
+#balanceTotalesVentas4, table#ventas tbody tr td#totalTrafico
+{
+  min-width: 111px;
+  text-align: center;
+}
+#totalVentas2
+{
+  min-width: 47px;
+  text-align: center;
+}
+table#depositos tbody tr td#totalVentas2,
+table#depositos thead tr th#totalVentas2
+{
+  max-width: 93px;
+  text-align: center;
+}
+table#depositos tbody tr td#totalMontoDeposito,
+table#depositos thead tr th#totalMontoDeposito
+{
+  width: 93px;
+  text-align: center;
+}
+div#totales table.items tbody tr td#totalMontoDeposito
+{
+  text-align: center;
+}
+table#depositos tbody tr td#nunref,
+table#depositos tbody tr td#balanceTotalesDepositos3
+{
+  width: 94px;
+  text-align: center;
+}
+table#depositos tbody tr td#totalDiferencialBancario
+{
+  width: 105px;
+  text-align: center;
+}
+table#depositos tbody tr td#totalConcilicacionBancaria
+{
+  width: 110px;
+  text-align: center;
+}
+div#pronosticos div.summary
+{
+  display: none;
+}
+h1 span button#cambio, button#cambio
+{
+  display: inline-block;
+  padding: 4px 10px 4px;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #fafafa;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-repeat: no-repeat;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+  border: 1px solid #ccc;
+  border-bottom-color: #bbb;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  /*margin-left: .3em;*/
+}
+div#cicloingresosbotons ul
+{
+  list-style-type:none;
+}
+div#cicloingresosbotons ul li
+{
+  display: inline-block;
+}
+div#cicloingresosbotons ul li a
+{
+  font-size: 15px;
+  font-weight:bold;
+}
+div#cicloingresosbotons ul li img
+{
+  margin-bottom: -10px;
+}
+div#cicloingresosbotons
+{
+  margin-bottom: 20px;
+}
+section#content h1 span img
+{
+  margin-bottom: -10px;
+}
+div#totalesPronostico table.items th#totalCabinas,
+div#totalesPronostico table.items td#totalCabinas
+{
+  width: 165px;
+  text-align: center;
+}
+div#totalesPronostico table.items th#totalRecargadas,
+div#totalesPronostico table.items td#totalRecargadas
+{
+  width: 170px;
+  text-align: center;
+}
+div#totalesPronostico table.items th#totalSaldoActual,
+div#totalesPronostico table.items td#totalSaldoActual,
+div#totalesPronostico table.items th#diasMaxima,
+div#totalesPronostico table.items td#diasMaxima,
+div#totalesPronostico table.items th#cabinasPronostico,
+div#totalesPronostico table.items td#cabinasPronostico,
+div#totalesPronostico table.items td#totalMontoRecargas,
+div#totalesPronostico table.items th#totalMontoRecargas,
+div#totalesPronostico table.items td#totalVentas,
+div#totalesPronostico table.items th#totalVentas,
+div#totalesPronostico table.items td#ventaMaxima,
+div#totalesPronostico table.items th#ventaMaxima,
+div#totalesPronostico table.items td#totalComision,
+div#totalesPronostico table.items th#totalComision,
+div#totalesPronostico table.items td#totalSaldo,
+div#totalesPronostico table.items th#totalSaldo,
+div#totalesPronostico table.items td#totalNuevoSaldo,
+div#totalesPronostico table.items th#totalNuevoSaldo,
+div#totalesPronostico table.items td#disponible,
+div#totalesPronostico table.items th#disponible
+{
+  text-align: center;
+}
+div#totalesPronostico table.items th#cabinasPronostico
+{
+  width: 66px;
+}
+div#totalesPronostico table.items th#totalMontoRecargas
+{
+  width: 57px;
+}
+div#totalesPronostico table.items th#totalVentas
+{
+  width: 77px;
+}
+div#totalesPronostico table.items th#ventaMaxima
+{
+  width: 89px;
+}
+div#totalesPronostico table.items th#totalComision
+{
+  width: 50px;
+}
+div#totalesPronostico table.items th#totalSaldo
+{
+  width: 52px;
+}
+div#totalesPronostico table.items th#totalNuevoSaldo
+{
+  width: 43px;
+}
+div#totalesPronostico table.items th#disponible
+{
+  width: 76px;
+}
+div#totalesPronostico table.items tr.odd
+{
+  height: 40px;
+}
+div#pronosticos.grid-view
+{
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  padding-top: 15px;
+}
+div#recargados.grid-view
+{
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  padding-top: 15px;
+}
+div#totalesPronostico.grid-view
+{
+  margin-top: -19px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+div#cicloingresosbotons
+{
+    margin-left: 190px;
+}
+div#botonsExport
+{
+    margin-left: 70px;
+}
+#balanceCicloIngresosResumido .items,
+#balanceCicloIngresosResumidoOculta .items
+{
+  width: auto;
+}
+
+/*Estados de gasto*/
+div.grid-view.totalMonto
+{
+  margin-top: -49px;
+  width: 295px;
+}
+div.grid-view.totalMonto table
+{
+  width: 100%;
+}
+tr th#mensajeMonto
+{
+  background: rgba(255,153,51,1) !important;
+  width: 239px;
+}
+tr th#soles, tr th#dolares
+{
+  background: rgba(255,153,51,1) !important;
+}
+tr td#soles, tr td#dolares
+{
+  text-align: center;
+}
+/**
+* Vista comisiones
+*/
+table#comision tbody tr td
+{
+  text-align: center;
+}
+/*
+* Vista de detalle cuenta
+*/
+div.grid-view.detalleCuenta
+{
+  max-width: 510px;
+}
+div.grid-view.detalleCuenta table.items tbody tr.odd
+{
+  background: #E5F1F4;
+}
+div.grid-view.detalleCuenta table.items tbody tr.even
+{
+  background: #F8F8F8;
+}
+div.grid-view.detalleCuenta table.items tbody tr.dis
+{
+  background: #ECFBD4;
+}
+div.grid-view.detalleCuenta table.items tbody tr.total
+{
+  background: rgba(51,153,153,1);
+  color:white;
+}

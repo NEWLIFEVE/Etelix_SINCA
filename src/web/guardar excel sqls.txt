@@ -1,0 +1,8 @@
+Borrar datos ingresados:
+
+update balance set TraficoCapturaDollar=Null, RecargaVentasMov=Null, RecargaVentasClaro=Null  where id>1;
+
+
+
+
+select * from balance;

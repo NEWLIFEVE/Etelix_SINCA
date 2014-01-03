@@ -1,0 +1,62 @@
+/*
+* Procedimiento encargado de crear la lista de balances del dia;
+*/
+delimiter $$
+DROP PROCEDURE IF EXISTS genbalances$$
+CREATE PROCEDURE genbalances()
+BEGIN
+DECLARE reg, ultimo, par INT;
+DECLARE done INT Default 0;
+DECLARE cur CURSOR FOR SELECT Id FROM cabina WHERE status=1 LIMIT 0,1000;
+DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
+SELECT Id INTO par FROM paridad WHERE Fecha<=CURDATE() ORDER BY Fecha DESC LIMIT 1;
+OPEN cur;
+REPEAT
+	FETCH cur INTO reg;
+		IF NOT done THEN
+			START TRANSACTION;
+				INSERT INTO balance(Fecha, SaldoApMov, SaldoApClaro, CABINA_Id, PARIDAD_Id) VALUES(CURDATE(), -1, -1, reg, par);
+		END IF;
+UNTIL done END REPEAT;
+END$$
+delimiter ;
+/*
+* Evento para crear registros en tabla balance con apertura menos cero
+*/
+DROP EVENT IF EXISTS balance_ap_dia;
+CREATE EVENT balance_ap_dia ON SCHEDULE EVERY 24 HOUR STARTS '2013-06-13 00:30:00' DO CALL genbalances();
+
+/*
+*  Nueva version del procedimiento
+*/
+delimiter $$
+DROP PROCEDURE IF EXISTS genpab$$
+CREATE PROCEDURE genpab()
+BEGIN
+DECLARE cierre FLOAT;
+DECLARE com, reg INT;
+DECLARE no_more_rows BOOLEAN DEFAULT FALSE;
+DECLARE cur CURSOR FOR SELECT Id FROM compania;
+DECLARE CONTINUE HANDLER FOR NOT FOUND set no_more_rows := TRUE;
+
+OPEN cur;
+LOOP1: loop
+	FETCH cur INTO com;
+	START TRANSACTION;
+		SELECT Id INTO reg FROM pabrightstar where Compania=com AND Fecha=CURDATE();
+		SELECT IFNULL(SaldoAperturaPA,0)+(SELECT IFNULL(TransferenciaPA+ComisionPA,0) FROM pabrightstar WHERE Compania=com AND Fecha=CURDATE())-(SELECT IFNULL(SUM(MontoRecarga),0) FROM recargas WHERE PABRIGHTSTAR_Id=reg AND FechaHora LIKE CURDATE()) INTO cierre FROM pabrightstar WHERE Compania=com AND Fecha=CURDATE();
+		UPDATE pabrightstar SET SaldoCierrePA=cierre WHERE Id=reg;
+		INSERT INTO pabrightstar(Compania, SaldoAperturaPA, Fecha) VALUES(com, cierre, CURDATE() + INTERVAL 1 DAY);
+	IF no_more_rows THEN
+		CLOSE cur;
+		LEAVE LOOP1;
+	END IF;
+END loop LOOP1;
+END$$
+delimiter ;
+
+/*
+* Evento para ejecutar el procedimiento que cierra los registros de portal administrativo brightstar
+*/
+DROP EVENT IF EXISTS saldo_cierre;
+CREATE EVENT saldo_cierre ON SCHEDULE EVERY 24 HOUR STARTS '2013-06-12 23:45:00' DO CALL genpab();
