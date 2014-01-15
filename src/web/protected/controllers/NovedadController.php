@@ -162,8 +162,8 @@ class NovedadController extends Controller
                     $_POST ['html']=$html;
 
                     //$_POST ['correoUsuario']=Yii::app()->getModule('user')->user()->email;
-                    //$_POST ['correoUsuario']="FallasCabinasPeru@etelix.com";
-                    $_POST ['correoUsuario']="mark182182@gmail.com";
+                    $_POST ['correoUsuario']="FallasCabinasPeru@etelix.com";
+//                    $_POST ['correoUsuario']="mark182182@gmail.com";
 
                 Yii::app()->enviarEmail->enviar($_POST);
                 Yii::app()->user->setFlash('success', "*Su Observacion fue enviada satisfactoriamente, en breve le daremos una respuesta*");
