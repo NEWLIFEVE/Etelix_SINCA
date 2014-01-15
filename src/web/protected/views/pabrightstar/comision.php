@@ -133,14 +133,14 @@ function reinstallDatePicker(id, data) {
 ");
 ?>
 <div id="totales" class="grid-view ReporteBrighstar">
-<table class="items" id="totales_comision">
+<table class="items" id="comision">
     <thead>
         <tr>
             <th>Fecha</th>
             <th>Cabina</th>
             <th>VentaMaxima</th>
-            <th>Recargas</th>
-            <th>Ventas</th>
+            <th id="recargas"></th>
+            <th id="ventas"></th>
             <th>Comision (S/.)</th>
         </tr>
     </thead>
