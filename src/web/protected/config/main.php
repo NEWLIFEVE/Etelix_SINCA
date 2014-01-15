@@ -81,10 +81,10 @@ return array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
             ),
 		'db'=>array(
-			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
+			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-			'username'=>'manuelz',
-			'password'=>'123',
+			'username'=>'root',
+			'password'=>'Nsusfd8263',
 			'charset'=>'utf8',
 			),
 		'errorHandler'=>array(
