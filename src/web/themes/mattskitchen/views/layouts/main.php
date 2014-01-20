@@ -136,7 +136,8 @@
   
   <footer id="footer">
     <nav id="footermenu">
-      <?php $this->widget('zii.widgets.CMenu',array('items'=>$menuItems)); ?>
+                <h5 style="color:#949494 ">S I N C A - v1.5.2</h5>
+        <?php //  $this->widget('zii.widgets.CMenu',array('items'=>$menuItems)); ?>
     </nav>
     <div class="content">
       <?php echo 'Copyright 2013 by <a href="http://www.sacet.com.ve/" rel="external"> www.sacet.com.ve</a> Legal privacy' // echo Yii::powered(); ?>

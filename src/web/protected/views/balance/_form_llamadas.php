@@ -110,7 +110,7 @@ Yii::import('webroot.protected.controllers.SiteController');
   </tr>
 </table>
 
-<?php if (Yii::app()->getModule('user')->user()->CABINA_Id != '17'): ?>
+<?php // if (Yii::app()->getModule('user')->user()->CABINA_Id != '17'): ?>
         
 <table width="200" border="1">
   <tr>
@@ -142,31 +142,31 @@ Yii::import('webroot.protected.controllers.SiteController');
 	</div></td>
   </tr>
 </table>
-<?php endif; ?>
+<?php // endif; ?>
         
-<?php if (Yii::app()->getModule('user')->user()->CABINA_Id == '17'): ?>
+<?php // if (Yii::app()->getModule('user')->user()->CABINA_Id == '17'): ?>
         
-<table width="200" border="1">
+<!--<table width="200" border="1">
   <tr>
     <td><h2>BRIGHTSTAR</h2></td>
   </tr>
   <tr>
     <td>  	<div class="row">
-		<?php echo $form->labelEx($model,'RecargaCelularMov'); ?>
-		<?php echo $form->textField($model,'RecargaCelularMov',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'RecargaCelularMov'); ?>
+		<?php // echo $form->labelEx($model,'RecargaCelularMov'); ?>
+		<?php // echo $form->textField($model,'RecargaCelularMov',array('size'=>15,'maxlength'=>15)); ?>
+		<?php // echo $form->error($model,'RecargaCelularMov'); ?>
 	</div></td>
   </tr>
   <tr>
     <td><div class="row">
-		<?php echo $form->labelEx($model,'RecargaFonoYaMov'); ?>
-		<?php echo $form->textField($model,'RecargaFonoYaMov',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'RecargaFonoYaMov'); ?>
+		<?php // echo $form->labelEx($model,'RecargaFonoYaMov'); ?>
+		<?php // echo $form->textField($model,'RecargaFonoYaMov',array('size'=>15,'maxlength'=>15)); ?>
+		<?php // echo $form->error($model,'RecargaFonoYaMov'); ?>
 	</div></td>
   </tr>
 </table>
-        
-<?php endif; ?>
+        -->
+<?php // endif; ?>
         
         <h2>MISCELANEOS</h2>
 	<div class="row">
