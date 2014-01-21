@@ -31,11 +31,15 @@ $egresos=0;
     echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
     echo CHtml::textField('asunto','RETESO MOVIMIENTOS '.$model->cUENTA->Nombre.' '.$model->Fecha,array('id'=>'asunto','style'=>'display:none'));
     echo CHtml::endForm();
-?>
+echo "<form action='";?><?php echo Yii::app()->request->baseUrl; ?><?php echo"/ficheroExcel.php?nombre=Balances%20Cabinas' method='post' target='_blank' id='FormularioExportacion'>
+          <input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
+        </form>";
+    ?>
 
-<form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=RETESO%20MOVIMIENTOS%20<?php echo $model->cUENTA->Nombre.'%20'.$model->Fecha; ?>" method="post" target="_blank" id="FormularioExportacion">
+
+<!--<form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=RETESO%20MOVIMIENTOS%20<?php echo $model->cUENTA->Nombre.'%20'.$model->Fecha; ?>" method="post" target="_blank" id="FormularioExportacion">
     <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
-</form>
+</form>-->
 <div class="grid-view enviarTabla detalleCuenta">
 	<table class="items">
 			<tr>
@@ -62,7 +66,7 @@ $egresos=0;
 					$clase="odd";
 				}
 				echo "<tr class='".$clase."'>
-						<td colspan='2'>".$balance->cABINA->Nombre."</td>
+						<td colspan='2'>".$balance->cABINA->Nombre." ( ref.-".$balance->Fecha.")</td>
 						<td>".$balance->MontoBanco."</td>
 					  </tr>";
 			}
