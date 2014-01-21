@@ -28,7 +28,7 @@
                     'showButtonPanel' => 'false', 
                     'constrainInput' => 'false',
                     'showAnim' => 'show',
-                    'minDate'=>'-7D', //fecha minima
+//                    'minDate'=>'-7D', //fecha minima
                     'maxDate'=> "-0D", //fecha maxima
                      ),
                         'htmlOptions'=>array('readonly'=>'readonly'),
