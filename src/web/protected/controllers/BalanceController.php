@@ -427,16 +427,16 @@ class BalanceController extends Controller
                 $model->RecargaCelularMov=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularMov']);
                 $model->RecargaFonoYaMov=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoYaMov']);
                 $model->OtrosServicios=Utility::ComaPorPunto($_POST['Balance']['OtrosServicios']);
-                if($cabina == '17')
-                {
-                    $model->RecargaCelularClaro='0';
-                    $model->RecargaFonoClaro='0';
-                }
-                else
-                {
+//                if($cabina == '17')
+//                {
+//                    $model->RecargaCelularClaro='0';
+//                    $model->RecargaFonoClaro='0';
+//                }
+//                else
+//                {
                     $model->RecargaCelularClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularClaro']);
                     $model->RecargaFonoClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoClaro']);                    
-                }
+//                }
                 $model->FechaIngresoLlamadas=date("Y-m-d H:i:s");
                 if ($model->save())
                 {

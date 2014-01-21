@@ -51,8 +51,6 @@ Yii::import('webroot.protected.controllers.SiteController');
                 ?>
 		<?php echo $form->error($model,'Fecha',array('readonly'=>'readonly')); ?>
 	</div>
-
-        <?php if (Yii::app()->getModule('user')->user()->CABINA_Id != '17'): ?>
         
 	<div class="row">
 		<?php echo $form->labelEx($model,'SaldoApMov'); ?>
@@ -65,17 +63,8 @@ Yii::import('webroot.protected.controllers.SiteController');
 		<?php echo $form->textField($model,'SaldoApClaro',array('size'=>15,'maxlength'=>15)); ?>
 		<?php echo $form->error($model,'SaldoApClaro'); ?>
 	</div>
-        <?php endif; ?>
+      
         
-       <?php if (Yii::app()->getModule('user')->user()->CABINA_Id == '17'): ?>
-        
-	<div class="row">
-		<?php echo $form->labelEx($model,'SaldoApMov'); ?>
-		<?php echo $form->textField($model,'SaldoApMov',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'SaldoApMov'); ?>
-	</div>
-        
-        <?php endif; ?>
         
         <div class="row" style="display:none;">
 		<?php echo $form->labelEx($model,'CABINA_Id'); ?>

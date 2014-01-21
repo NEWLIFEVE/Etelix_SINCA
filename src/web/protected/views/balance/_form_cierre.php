@@ -54,8 +54,6 @@ Yii::import('webroot.protected.controllers.SiteController');
 		<?php echo $form->error($model,'Fecha',array('readonly'=>'readonly')); ?>
 	</div>
 
-        <?php if (Yii::app()->getModule('user')->user()->CABINA_Id != '17'): ?>
-        
 	<div class="row">
 		<?php echo $form->labelEx($model,'SaldoCierreMov'); ?>
 		<?php echo $form->textField($model,'SaldoCierreMov',array('size'=>15,'maxlength'=>15)); ?>
@@ -67,19 +65,7 @@ Yii::import('webroot.protected.controllers.SiteController');
 		<?php echo $form->textField($model,'SaldoCierreClaro',array('size'=>15,'maxlength'=>15)); ?>
 		<?php echo $form->error($model,'SaldoCierreClaro'); ?>
 	</div>
-
-        <?php endif; ?>
         
-        <?php if (Yii::app()->getModule('user')->user()->CABINA_Id == '17'): ?>
-        
-       <div class="row">
-		<?php echo $form->labelEx($model,'SaldoCierreMov'); ?>
-		<?php echo $form->textField($model,'SaldoCierreMov',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'SaldoCierreMov'); ?>
-	</div>
-        
-        <?php endif; ?>
-
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Declarar' : 'Save',array('confirm'=>SiteController::mensajesConfirm(1))); ?>
 	</div>
