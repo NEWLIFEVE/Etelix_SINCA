@@ -251,28 +251,8 @@ class BalanceController extends Controller
                 $resultado=Balance::model()->find('Fecha=:fecha AND SaldoApMov < 0 AND SaldoApClaro < 0 AND CABINA_Id=:cabina', array(':fecha'=>$fecha,':cabina'=>$cabina));
                 if($resultado != null)
                 {
-                    if($cabina == '17')
-                    {
-                        //******************************************************
-                        //Inicio cambiar punto por coma
-                        //******************************************************
-                        $resultado->SaldoApMov=Utility::ComaPorPunto($_POST['Balance']['SaldoApMov']);
-                        $resultado->SaldoApClaro = '0';
-                        //******************************************************
-                        //Fin cambiar punto por coma
-                        //******************************************************
-                    }
-                    else
-                    {
-                        //******************************************************
-                        //Inicio cambiar punto por coma
-                        //******************************************************
-                        $resultado->SaldoApMov=Utility::ComaPorPunto($_POST['Balance']['SaldoApMov']);
-                        $resultado->SaldoApClaro=Utility::ComaPorPunto($_POST['Balance']['SaldoApClaro']);
-                        //******************************************************
-                        //Fin cambiar punto por coma
-                        //******************************************************
-                    }
+                    $resultado->SaldoApMov=Utility::ComaPorPunto($_POST['Balance']['SaldoApMov']);
+                    $resultado->SaldoApClaro=Utility::ComaPorPunto($_POST['Balance']['SaldoApClaro']);           
                     $resultado->PARIDAD_Id = Paridad::model()->find('Fecha<=:fecha order by Fecha DESC', array(':fecha'=>$fecha))->Id;
                     if($resultado->save())
                     {
@@ -291,28 +271,8 @@ class BalanceController extends Controller
             {
                 $modelAux=new Balance;
                 $modelAux->Fecha=$fecha;
-                if($cabina == '17')
-                {
-                    //******************************************************
-                    //Inicio cambiar punto por coma
-                    //******************************************************
-                    $modelAux->SaldoApMov=Utility::ComaPorPunto($_POST['Balance']['SaldoApMov']);
-                    $modelAux->SaldoApClaro = '0';
-                    //******************************************************
-                    //Fin cambiar punto por coma
-                    //******************************************************
-                }
-                else
-                {
-                    //******************************************************
-                    //Inicio cambiar punto por coma
-                    //******************************************************
-                    $modelAux->SaldoApMov=Utility::ComaPorPunto($_POST['Balance']['SaldoApMov']);
-                    $modelAux->SaldoApClaro=Utility::ComaPorPunto($_POST['Balance']['SaldoApClaro']);
-                    //******************************************************
-                    //Fin cambiar punto por coma
-                    //******************************************************
-                }
+                $modelAux->SaldoApMov=Utility::ComaPorPunto($_POST['Balance']['SaldoApMov']);
+                $modelAux->SaldoApClaro=Utility::ComaPorPunto($_POST['Balance']['SaldoApClaro']);         
                 $modelAux->PARIDAD_Id = Paridad::model()->find('Fecha<=:fecha order by Fecha DESC', array(':fecha'=>$fecha))->Id;
                 $modelAux->CABINA_Id=$cabina;
                 if($modelAux->save())
@@ -427,16 +387,16 @@ class BalanceController extends Controller
                 $model->RecargaCelularMov=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularMov']);
                 $model->RecargaFonoYaMov=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoYaMov']);
                 $model->OtrosServicios=Utility::ComaPorPunto($_POST['Balance']['OtrosServicios']);
-                if($cabina == '17')
-                {
-                    $model->RecargaCelularClaro='0';
-                    $model->RecargaFonoClaro='0';
-                }
-                else
-                {
+//                if($cabina == '17')
+//                {
+//                    $model->RecargaCelularClaro='0';
+//                    $model->RecargaFonoClaro='0';
+//                }
+//                else
+//                {
                     $model->RecargaCelularClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularClaro']);
                     $model->RecargaFonoClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoClaro']);                    
-                }
+//                }
                 $model->FechaIngresoLlamadas=date("Y-m-d H:i:s");
                 if ($model->save())
                 {
