@@ -37,7 +37,8 @@
 	}
 html
 {
-  background: #0d0d0d url(../img/orange3.jpg) repeat;
+  /*background: #0d0d0d url(../img/orange3.jpg) repeat;*/
+  background: #f1f5f8;
 }
 
 body
@@ -119,7 +120,6 @@ input[type="password"]:focus {
 {
   background: url(../img/header_bottom.png) repeat-y;
   /*margin-top: 65px;*/
-  padding-top: 45px;
 }
 
 #main
