@@ -162,7 +162,7 @@ class NovedadController extends Controller
                     $_POST ['html']=$html;
 
                     //$_POST ['correoUsuario']=Yii::app()->getModule('user')->user()->email;
-                    $_POST ['correoUsuario']="FallasCabinasPeru@etelix.com";
+                    $_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
                     //$_POST ['correoUsuario']="mark182182@gmail.com";
 
                 Yii::app()->enviarEmail->enviar($_POST);

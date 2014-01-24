@@ -96,8 +96,10 @@ class BancoController extends Controller
 		if(isset($_POST['Banco']))
 		{
 			$model->attributes=$_POST['Banco'];
-						$model->CUENTA_Id=$_POST['Banco']['CUENTA_Id'];
-                        $model->Fecha = date("Y-m-d ", time());
+			$model->CUENTA_Id=$_POST['Banco']['CUENTA_Id'];
+                        $model->SaldoApBanco=Utility::ComaPorPunto($_POST['Banco']['SaldoApBanco']);
+                        $model->Fecha=Yii::app()->format->formatDate($_POST['Banco']['Fecha'],'post');
+//                        $model->Fecha = date("Y-m-d ", time());
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->Id));
 		}
