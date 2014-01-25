@@ -30,9 +30,9 @@ $('.search-form form').submit(function(){
     Administrar Bancos
   </span>
   <span>
-    <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/sms-icon.png" class="botonCorreo" />
+    <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreo" />
     <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" />
-    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/info-icon.png' class='printButton' />
+    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/print.png' class='printButton' />
     <div>
       <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/reportecaptura') ?>">
         <label for="dateMonth">
