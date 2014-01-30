@@ -164,6 +164,31 @@ Yii::import('webroot.protected.controllers.SiteController');
 		<?php echo $form->error($model,'MontoBanco'); ?>
 	</div>
 </td>
+<td><div class="row">
+                    <?php echo $form->labelEx($model,'FechaDep'); ?>
+                    <?php
+                        $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                            'language'=>'es',
+                            'model'=>$model,
+                            'attribute'=>'FechaDep',
+                            'options'=>array(
+                                'changeMonth'=>'true',//para poder cambiar mes
+                                'changeYear'=>'true',//para poder cambiar año
+                                'showButtonPanel'=>'false',
+                                'constrainInput'=>'false',
+                                'showAnim'=>'show',
+                                ),
+                            'htmlOptions'=>array('readonly'=>'readonly'),
+                            )
+                        );
+                        echo CHtml::label('', 'diaSemana',array(
+                            'id'=>'diaSemana2',
+                            'style'=>'color:forestgreen'
+                            )
+                        );
+                    ?>
+                    <?php echo $form->error($model,'FechaDep',array('readonly'=>'readonly')); ?>
+                </div></td>
     <td></td>
   </tr>
 

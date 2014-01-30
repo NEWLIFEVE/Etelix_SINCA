@@ -33,8 +33,8 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 </form>
 <div id="detail" class="enviarTabla">
 <?php
-//if(Yii::app()->getModule('user')->user()->CABINA_Id != '17')
-//{
+if(Yii::app()->getModule('user')->user()->tipo == '1')
+{
     $this->widget('zii.widgets.CDetailView', array(
         'data'=>$model,
         'attributes'=>array(
@@ -95,64 +95,70 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
         )
     );
-//}
-//else if(Yii::app()->getModule('user')->user()->CABINA_Id == '17')
-//{
-//    $this->widget('zii.widgets.CDetailView', array(
-//        'data'=>$model,
-//        'attributes'=>array(
-//            'Id',
-//            array(
-//                'name'=>'Cabina',
-//                'value'=>$model->cABINA->Nombre,
-//                ),
-//            'Fecha',
-//            array(
-//                'name'=>'SaldoApMov',
-//                'htmlOptions'=>array(
-//                    'id'=>'apertura'
-//                    ),
-//                ),
-//            'SaldoCierreMov',
-//            'FijoLocal',
-//            'FijoProvincia',
-//            'FijoLima',
-//            'Rural',
-//            'Celular',
-//            'LDI',
-//            array(
-//                'name'=>'Total de llamadas',
-//                'value'=>Yii::app()->format->formatDecimal(
-//                    $model->FijoLocal + $model->FijoProvincia + $model->FijoLima + $model->Rural + $model->Celular + $model->LDI
-//                    ),
-//                'cssClass'=>'resaltado',
-//                ),
-//            'RecargaCelularMov',
-//            'RecargaFonoYaMov',
-//            array(
-//                'name'=>'Total en Recargas',
-//                'value'=>Yii::app()->format->formatDecimal(
-//                    $model->RecargaCelularMov + $model->RecargaFonoYaMov
-//                    ),
-//                'cssClass'=>'resaltado',
-//                ),
-//            'OtrosServicios',
-//            array(
-//                'name'=>'Total de ventas',
-//                'value'=>Yii::app()->format->formatDecimal(
-//                    $model->FijoLocal + $model->FijoProvincia + $model->FijoLima + $model->Rural + $model->Celular + $model->LDI + $model->RecargaCelularMov + $model->RecargaFonoYaMov + $model->OtrosServicios
-//                    ),
-//                'cssClass'=>'resaltado',
-//                ),
-//            'MontoDepositoOp',
-//            'NumRefDeposito',
-//            'Depositante',
-//            'FechaDep',
-//            'HoraDep',
-//            'TiempoCierre',
-//            ),
-//        )
-//    );
-//}
+}
+else 
+{
+    $this->widget('zii.widgets.CDetailView', array(
+        'data'=>$model,
+        'attributes'=>array(
+            'Id',
+            array(
+                'name'=>'Cabina',
+                'value'=>$model->cABINA->Nombre,
+                ),
+            'Fecha',
+            array(
+                'name'=>'SaldoApMov',
+                'cssClass'=>'apertura',
+                ),
+            array(
+                'name'=>'SaldoApClaro',
+                'cssClass'=>'apertura',
+                ),
+            'SaldoCierreMov',
+            'SaldoCierreClaro',
+            'FijoLocal',
+            'FijoProvincia',
+            'FijoLima',
+            'Rural',
+            'Celular',
+            'LDI',
+            array(
+                'name'=>'Total de llamadas',
+                'value'=>Yii::app()->format->formatDecimal(
+                    $model->FijoLocal + $model->FijoProvincia + $model->FijoLima + $model->Rural + $model->Celular + $model->LDI
+                    ),
+                'cssClass'=>'resaltado',
+                ),
+            'RecargaCelularMov',
+            'RecargaFonoYaMov',
+            'RecargaCelularClaro',
+            'RecargaFonoClaro',
+            array(
+                'name'=>'Total en Recargas',
+                'value' => Yii::app()->format->formatDecimal(
+                    $model->RecargaCelularMov + $model->RecargaCelularClaro + $model->RecargaFonoYaMov + $model->RecargaFonoClaro
+                    ),
+                'cssClass'=>'resaltado',
+                ),
+            'OtrosServicios',
+            array(
+                'name'=>'Total a Depositar',
+                'value'=>Yii::app()->format->formatDecimal(
+                    $model->FijoLocal + $model->FijoProvincia + $model->FijoLima + $model->Rural + $model->Celular + $model->LDI + $model->RecargaCelularMov + $model->RecargaCelularClaro + $model->RecargaFonoYaMov + $model->RecargaFonoClaro + $model->OtrosServicios
+                    ),
+                'cssClass'=>'resaltado',
+                ),
+            'MontoBanco',
+            'MontoDeposito',
+            'NumRefDeposito',
+            'Depositante',
+            'FechaDep',
+            'HoraDep',
+            'TiempoCierre',
+            ),
+        )
+    );
+}
 ?>
 </div>
