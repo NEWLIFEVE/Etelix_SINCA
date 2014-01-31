@@ -124,7 +124,7 @@ class BancoController extends Controller
 		if(isset($_POST['Banco']))
 		{
 			$model->attributes=$_POST['Banco'];
-                        $model->Fecha = date("Y-m-d ", time());
+                        $model->Fecha =Yii::app()->format->formatDate($_POST['Banco']['Fecha'],'post');
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->Id));
 		}
