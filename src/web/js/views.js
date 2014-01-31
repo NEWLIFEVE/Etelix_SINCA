@@ -984,12 +984,14 @@ function gen_excel()
 {
     $('img.botonExcel').on('click',function(event)
     {
-        //Obtengo el id del gridview que va para el ecel
+        alert('imprimir');
+        console.log('imp');
+        //Obtengo el id del gridview que va para el excel
         var id=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
         var id2=$('div[rel="total"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
         var id3=$('div#totales').filter(function(){return $(this).css('display') == "block" }).attr('id');
         //le quito los links al thead
-        noLink(id);
+//        noLink(id);
         //cambio el color del fondo
         if(id=='reportePaBrightstar'){
             var primero="th#reportePaBrightstar_c0,th#reportePaBrightstar_c1,th#reportePaBrightstar_c2";
@@ -1005,9 +1007,9 @@ function gen_excel()
         }
         if(id!='balanceCicloIngresosResumido' && id!='balanceCicloIngresosResumidoOculta')
         {
-            fondo(id);
-            if(id3=='totales')
-                fondo(id3);
+//            fondo(id);
+//            if(id3=='totales')
+//                fondo(id3);
         }
         else
         {
@@ -1039,10 +1041,10 @@ function gen_excel()
         }
         $(".filters").remove();
         $(".button-column").remove();
-        fila(id);
+//        fila(id);
         $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html());
         if(id3=='totales'){
-            fila(id3);
+//            fila(id3);
             $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html()+$("<tr>").append($('#'+id3).children('table.items').clone()).html());
         }
         $("table.items input" ).attr('disabled','disabled');
