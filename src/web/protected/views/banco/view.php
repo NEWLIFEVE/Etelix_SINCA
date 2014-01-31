@@ -20,7 +20,7 @@ $egresos=0;
     </span>
     <span>
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/sms-icon.png" class="botonCorreoDetail" />
-        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcelDetail" />
+        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" />
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/info-icon.png' class='printButtonDetail' />
     </span>
 </h1>
@@ -31,12 +31,18 @@ $egresos=0;
     echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
     echo CHtml::textField('asunto','RETESO MOVIMIENTOS '.$model->cUENTA->Nombre.' '.$model->Fecha,array('id'=>'asunto','style'=>'display:none'));
     echo CHtml::endForm();
-?>
+    
+echo "<form action='";?><?php echo Yii::app()->request->baseUrl; ?><?php echo"/ficheroExcel.php?nombre=RETESO%20MOVIMIENTOS%20".$model->cUENTA->Nombre.'%20'.$model->Fecha."' method='post' target='_blank' id='FormularioExportacion'>
+          <input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
+        </form>";
+    ?>
 
-<form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=RETESO%20MOVIMIENTOS%20<?php echo $model->cUENTA->Nombre.'%20'.$model->Fecha; ?>" method="post" target="_blank" id="FormularioExportacion">
+
+<!--<form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=RETESO%20MOVIMIENTOS%20<?php echo $model->cUENTA->Nombre.'%20'.$model->Fecha; ?>" method="post" target="_blank" id="FormularioExportacion">
     <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
-</form>
-<div class="grid-view enviarTabla detalleCuenta">
+</form>-->
+<div  rel="total" class="grid-view enviarTabla detalleCuenta">
+    <div class="summary"></div>
 	<table class="items">
 			<tr>
 				<th colspan='2'>Banco Credito de Perú</th>
@@ -62,7 +68,7 @@ $egresos=0;
 					$clase="odd";
 				}
 				echo "<tr class='".$clase."'>
-						<td colspan='2'>".$balance->cABINA->Nombre."</td>
+						<td colspan='2'>".$balance->cABINA->Nombre." ( cº. ".$balance->Fecha.")</td>
 						<td>".$balance->MontoBanco."</td>
 					  </tr>";
 			}

@@ -8,10 +8,6 @@ $this->breadcrumbs=array(
 );
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu= BancoController::controlAcceso($tipoUsuario);
-//$this->menu=array(
-//	array('label'=>'List Banco', 'url'=>array('index')),
-//	array('label'=>'Manage Banco', 'url'=>array('admin')),
-//);
 ?>
 
 <h1>DECLARAR SALDO DE APERTURA BANCO </h1>
