@@ -10,9 +10,9 @@ $this->menu= ProfileController::controlAcceso($tipoUsuario);
         Su Perfil
     </span> 
     <span>
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/sms-icon.png" class="botonCorreoDetail" />
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreoDetail" />
         <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcelDetail" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/info-icon.png' class='printButtonDetail' />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/print.png' class='printButtonDetail' />
     </span>
 </h1>
 <!--<h1><?php //echo UserModule::t('Your profile'); ?></h1>-->

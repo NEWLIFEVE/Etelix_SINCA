@@ -136,7 +136,7 @@ echo CHtml::endForm();
 
 ?>
 
-<h1>Tablero de Control de Actividades<img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/sms-icon.png" class="botonCorreoPanel" /></h1>
+<h1>Tablero de Control de Actividades <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreoPanel" /></h1>
 <div id="enviar" rel="total">
     <div>
         <div>
@@ -192,13 +192,13 @@ echo CHtml::endForm();
 <?php if ($model !== null) { ?>
 <table id="tabla" class="tabla2 items" border="1" style="background-color:#F2F4F2; border-collapse:collapse;width:auto;">
     <tr>
-        <td style='font-weight:bold; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' ><span style="background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif&quot;) repeat scroll 0 0 #2D2D2D;"><img style="padding-left: 16px;" src="http://fullredperu.com/images/Activity%20Monitor.png" /></span></td>
-        <td style='width: 120px; font-weight:bold; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'><?php //echo $fechaActual.' '; ?>Inicio Jornada</h3></td>
-        <td style='width: 120px; font-weight:bold; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Saldo Apertura</h3></td>
-        <td style='width: 120px; font-weight:bold; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Ventas Llamadas</h3></td>
-        <td style='width: 120px; font-weight:bold; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Depositos</h3></td>
-        <td style='width: 120px; font-weight:bold; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Saldo Cierre</h3></td>
-        <td style='width: 120px; font-weight:bold; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Fin Jornada</h3></td>
+        <td style='font-weight:bold; background: #1967B2' ><span style="background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif&quot;) repeat scroll 0 0 #2D2D2D;"><img style="padding-left: 24px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Activity-w.png" /></span></td>
+        <td style='width: 120px; font-weight:bold; background: #1967B2;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'><?php //echo $fechaActual.' '; ?>Inicio Jornada</h3></td>
+        <td style='width: 120px; font-weight:bold; background: #1967B2' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Saldo Apertura</h3></td>
+        <td style='width: 120px; font-weight:bold; background: #1967B2' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Ventas Llamadas</h3></td>
+        <td style='width: 120px; font-weight:bold; background: #1967B2' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Depositos</h3></td>
+        <td style='width: 120px; font-weight:bold; background: #1967B2' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Saldo Cierre</h3></td>
+        <td style='width: 120px; font-weight:bold; background: #1967B2' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Fin Jornada</h3></td>
     </tr>
     <tr <?php echo ($x++) % 2 == 0 ? "style='background-color:#CCC'" : ""; ?>>
 <?php for ($i = 1; $i <= $cabinas->count(); $i++) {
@@ -214,7 +214,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 
     $post = $model->find('CABINA_Id = :id and Fecha = :fecha', array(':id' => $i, ':fecha' => $fechaActual));
     ?><tr <?php echo ($x++) % 2 == 0 ? "style='background-color:#CCC'" : ""; ?>>
-        <td style='font-size:10px; font-weight:bold; color:#FFFFFF; background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif") repeat scroll 0 0 #2D2D2D;' >
+        <td style='font-size:10px; font-weight:bold; color:#FFFFFF; background: #1967B2' >
                 <div align="center" style="width:80px;"><?php echo $nombre[$i];//$cabinas->readColumn(1); ?></div>
         </td>
         
@@ -231,7 +231,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo  $id->readColumn(0) ?></div>
             
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
                      <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
                     <?php
                 }?>
@@ -250,7 +250,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
             
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                     <?php
                 }?>
             </td>
@@ -278,7 +278,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
             
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                      <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
                     <?php
                 }?>
@@ -308,7 +308,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
             
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                      <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
                     <?php
                 }?>
@@ -338,7 +338,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
             
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                      <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
                     <?php
                 }?>
@@ -367,7 +367,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                              
                     <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo  $id2->readColumn(0) ?></div>
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                     <?php
                 } ?>            
             </td>
