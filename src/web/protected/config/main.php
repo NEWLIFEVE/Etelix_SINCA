@@ -83,7 +83,7 @@ return array(
 		'db'=>array(
 			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-			'username'=>'edmaku',
+			'username'=>'manuelz',
 			'password'=>'123',
 			'charset'=>'utf8',
 			),

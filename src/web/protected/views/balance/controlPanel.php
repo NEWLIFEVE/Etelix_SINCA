@@ -231,7 +231,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo  $id->readColumn(0) ?></div>
             
                 <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                      <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
                     <?php
                 }?>
@@ -247,7 +247,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $id = $command->query(); // execute a query SQL
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
             
                 <?php } else { ?>
                     <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
@@ -257,9 +257,9 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
             
 <!--            <td><?php if ($post->SaldoApMov !== null) {
                 ?>
-                    <div align="center"><img  src="http://fullredperu.com/images/check-icon.png"></div>
+                    <div align="center"><img  src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                     <?php }
                     ?>
             </td>-->
@@ -275,7 +275,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $id = $command->query(); // execute a query SQL
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
             
                 <?php } else { ?>
                     <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
@@ -286,9 +286,9 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
             
             <!--<td><?php if ($post->FechaIngresoLlamadas !== null) {
                 ?>
-                    <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
                 <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                     <?php }
                     ?>            
             </td>-->
@@ -305,7 +305,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $id = $command->query(); // execute a query SQL
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
             
                 <?php } else { ?>
                     <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
@@ -316,9 +316,9 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
             
 <!--            <td><?php if ($post->FechaIngresoDeposito !== null) {
                 ?>
-                    <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
+                    <div align="center"><img src=""<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
                 <?php } else { ?>
-                   <div align="center"> <img src="http://fullredperu.com/images/no-icon.png"></div>
+                   <div align="center"> <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                     <?php }
                     ?>            
             </td>-->
@@ -335,7 +335,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $id = $command->query(); // execute a query SQL
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
+                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
             
                 <?php } else { ?>
                     <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>

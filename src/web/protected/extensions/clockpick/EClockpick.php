@@ -55,6 +55,7 @@ class EClockpick extends CJuiInputWidget
 		// Register the extension script and needed Css - different $baseUrl from the zii stuff
 		$path = dirname(__FILE__); // changed to enable various extension Paths - GOsha
 		$basePath = $path . DIRECTORY_SEPARATOR. 'assets';
+		var_dump($basePath);
 		$baseUrl=Yii::app()->getAssetManager()->publish($basePath);
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCssFile($baseUrl.'/'.$this->extraCssFile);
