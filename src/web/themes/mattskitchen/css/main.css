@@ -132,7 +132,8 @@ input[type="password"]:focus {
 
 #content
 {
-  background: #fff;
+  background: rgba(241, 245, 248, 0.46);
+  /*background: #fff;*/
   padding: 40px;
   /*width:740px;*/
    width: 898px;/*#*/
@@ -398,7 +399,7 @@ padding-left: 12px;
 	/*margin: 0 0 20px 0;
 	padding: 5px 8px;
         width: 200px;*/
-        width: 200px;
+        width: 195px;
 padding-left: 5px;
 border-left-width: 3px;
 padding-bottom: 4px;
@@ -944,4 +945,14 @@ div.grid-view.detalleCuenta table.items tbody tr.total
 {
   background: rgba(51,153,153,1);
   color:white;
+}
+
+#scroll-top {
+position: fixed;
+bottom: 20px;
+right: 20px;
+width: 50px;
+height: 50px;
+background-color: #1967B2;
+opacity: 0;
 }
