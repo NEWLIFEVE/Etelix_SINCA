@@ -19,9 +19,9 @@ $egresos=0;
         RETESO MOVIMIENTOS <?php echo $model->cUENTA->Nombre; echo " ".$model->Fecha; ?>
     </span>
     <span>
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/sms-icon.png" class="botonCorreoDetail" />
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreoDetail" />
         <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/info-icon.png' class='printButtonDetail' />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/print.png' class='printButtonDetail' />
     </span>
 </h1>
 <?php

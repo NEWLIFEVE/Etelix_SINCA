@@ -43,6 +43,7 @@ div.form textarea,
 div.form select
 {
 	margin: 0.2em 0 0.5em 0;
+        font: 13px/22px "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 div.form fieldset
@@ -157,4 +158,35 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 {
 	clear: left;
 	padding-left: 110px;
+}
+
+.grid-view .filters input 
+{
+    width: 100% !important;
+    border: 1px solid #ccc !important;
+    font: 13px/22px "Trebuchet MS", Arial, Helvetica, sans-serif !important;
+    height: 18px !important;
+}
+
+.grid-view .filters select
+{
+    width: 100% !important;
+    border: 1px solid #ccc !important;
+    font: 13px/22px "Trebuchet MS", Arial, Helvetica, sans-serif !important;
+    height: 22px !important;
+}
+
+.grid-view table.items th a {
+    color: #FFF !important;
+    font-weight: normal !important;
+}
+
+#content .grid-view table.items th {
+    color: #FFF !important;
+    font-weight: normal !important;
+}
+
+select
+{
+    font: 13px/22px "Trebuchet MS", Arial, Helvetica, sans-serif !important;
 }

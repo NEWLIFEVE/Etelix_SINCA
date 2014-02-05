@@ -16,13 +16,6 @@ Yii::import('webroot.Yii.framework.zii.widgets.jui.CJuiInputWidget');
         <p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
         <?php echo $form->errorSummary($model); ?>
-
-<!--	<div class="row">
-                <?php echo $form->labelEx($model,'Fecha'); ?>
-                <?php echo $form->textField($model,'Fecha'); ?>
-                <?php echo $form->error($model,'Fecha'); ?>
-        </div>-->
-
         <div class="row">
                 <?php echo $form->labelEx($model,'Hora'); ?>
 
@@ -45,25 +38,6 @@ Yii::import('webroot.Yii.framework.zii.widgets.jui.CJuiInputWidget');
                      ?>
                 <?php echo $form->error($model,'Hora',array('readonly'=>'readonly')); ?>
         </div>
-
-<!--	<div class="row">
-                <?php echo $form->labelEx($model,'FechaEsp'); ?>
-                <?php echo $form->textField($model,'FechaEsp'); ?>
-                <?php echo $form->error($model,'FechaEsp'); ?>
-        </div>-->
-
-<!--	<div class="row">
-                <?php echo $form->labelEx($model,'ACCIONLOG_Id'); ?>
-                <?php echo $form->textField($model,'ACCIONLOG_Id'); ?>
-                <?php echo $form->error($model,'ACCIONLOG_Id'); ?>
-        </div>-->
-
-<!--	<div class="row">
-                <?php echo $form->labelEx($model,'USERS_Id'); ?>
-                <?php echo $form->textField($model,'USERS_Id'); ?>
-                <?php echo $form->error($model,'USERS_Id'); ?>
-        </div>-->
-
         <div class="row buttons">
                 <?php echo CHtml::submitButton($model->isNewRecord ? 'Declarar' : 'Declarar',array('confirm'=>  SiteController::mensajesConfirm(3))); ?>
         </div>

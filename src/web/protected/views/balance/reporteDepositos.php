@@ -242,14 +242,14 @@ function reinstallDatePicker(id, data) {
 <table class="items" id="depositos">
     <thead>
         <tr>
-            <th id="totalFecha"style="background:rgba(51,153,153,1); color:white;">Fecha</th>
-            <th id="todas"style="background:rgba(51,153,153,1); color:white;">Cabinas</th>
-            <th id="totalVentas2" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th id="totalMontoDeposito" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th style="background:rgba(51,153,153,1); color:white;">Num de Ref:</th>
-            <th id="balanceTotalesDepositos3" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th id="totalDiferencialBancario" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th id="totalConcilicacionBancaria" style="background:rgba(51,153,153,1); color:white;"></th>
+            <th id="totalFecha"style="background:#1967B2; color:white;">Fecha</th>
+            <th id="todas"style="background:#1967B2; color:white;">Cabinas</th>
+            <th id="totalVentas2" style="background:#1967B2; color:white;"></th>
+            <th id="totalMontoDeposito" style="background:#1967B2; color:white;"></th>
+            <th style="background:#1967B2; color:white;">Num de Ref:</th>
+            <th id="balanceTotalesDepositos3" style="background:#1967B2; color:white;"></th>
+            <th id="totalDiferencialBancario" style="background:#1967B2; color:white;"></th>
+            <th id="totalConcilicacionBancaria" style="background:#1967B2; color:white;"></th>
         </tr>
     </thead>
     <tbody>
