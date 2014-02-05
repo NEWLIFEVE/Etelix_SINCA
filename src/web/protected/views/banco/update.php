@@ -7,15 +7,10 @@ $this->breadcrumbs=array(
 	$model->Id=>array('view','id'=>$model->Id),
 	'Update',
 );
-
-$this->menu=array(
-	array('label'=>'List Banco', 'url'=>array('index')),
-	array('label'=>'Create Banco', 'url'=>array('create')),
-	array('label'=>'View Banco', 'url'=>array('view', 'id'=>$model->Id)),
-	array('label'=>'Manage Banco', 'url'=>array('admin')),
-);
+$tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
+$this->menu= BancoController::controlAcceso($tipoUsuario);
 ?>
 
-<h1>Update Banco <?php echo $model->Id; ?></h1>
+<h1>Modificar Saldo Apertura de Cuenta <?php  echo $model->cUENTA->Nombre; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form_update', array('model'=>$model)); ?>

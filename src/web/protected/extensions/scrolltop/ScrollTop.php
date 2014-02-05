@@ -50,21 +50,18 @@ class ScrollTop extends CWidget
 		$cs->registerCss('css-scroll-top' , '
 			#' .$this->id. '
 			{
-				position:fixed;
-				bottom:20px;
-				right: 20px;
-				width:50px;
-				height:50px;
-				background-color:#DDD;
-				-webkit-border-radius: 5px;
-				-moz-border-radius: 5px;
-				border-radius: 5px;
-				opacity:0;
+                            position: fixed;
+                            bottom: 20px;
+                            right: 20px;
+                            width: 50px;
+                            height: 50px;
+                            background-color: #1967B2;
+                            opacity: 0;
 			}
 
 			#' .$this->id. '-arrow
 			{
-				padding:10px 12px;
+				padding:0px 0px;
 			}
 		');
 		
