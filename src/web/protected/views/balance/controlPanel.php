@@ -136,7 +136,7 @@ echo CHtml::endForm();
 
 ?>
 
-<h1>Tablero de Control de Actividades <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreoPanel" /></h1>
+<h1>Tablero de Control de Actividades <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoPanel" /></h1>
 <div id="enviar" rel="total">
     <div>
         <div>

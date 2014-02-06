@@ -358,11 +358,11 @@ totalPronostico.prototype.alarmas=function(week,weekend,suma)
     var laboral=$(this.ids.laborable).val();
     var fin=$(this.ids.fin).val();
     var dias=$(this.ids.dias);
-    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
-    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
     
-    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
-    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
 }
 //metodo que cambia el icono de aprobado o no aprobado
 totalPronostico.prototype.totalesPronostico=function()
@@ -378,11 +378,11 @@ totalPronostico.prototype.totalesPronostico=function()
     var disponible=$('td#disponible').text();
     if(parseFloat(recargas)<=parseFloat(disponible))
     {
-        $('td#aprobacion').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+        $('td#aprobacion').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
     }
     else
     {
-        $('td#aprobacion').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+        $('td#aprobacion').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
     }
 }
 totalPronostico.prototype.nuevoSaldo=function(objeto)
@@ -984,7 +984,6 @@ function gen_excel()
 {
     $('img.botonExcel').on('click',function(event)
     {
-        alert('imprimir');
         console.log('imp');
         //Obtengo el id del gridview que va para el excel
         var id=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
