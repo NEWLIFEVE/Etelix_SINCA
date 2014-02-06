@@ -6,11 +6,20 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 ?>
+
+
+<div id="nombreContenedor" class="black_overlay"></div>
+    <div id="loading" class="ventana_flotante">Generando Excel...
+        <iframe id="excelframe" src=""></iframe>
+    </div>
+
+
 <h1>
   <span class="enviar">
     Administrar Balances
   </span>
   <span id="botones">
+      
     <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreo" />
     <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" />
     <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/print.png' class='printButton'/>
@@ -31,9 +40,16 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
   echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
   echo CHtml::textField('asunto','Reporte de Administrar Balances Solicitado',array('id'=>'asunto','style'=>'display:none'));
   echo CHtml::endForm();
+  
+  /*
   echo "<form action='";?><?php echo Yii::app()->request->baseUrl; ?><?php echo"/ficheroExcel.php?nombre=Balances%20Cabinas' method='post' target='_blank' id='FormularioExportacion'>
           <input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
         </form>";
+  
+  */
+  
+  
+  
   $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid',
     'htmlOptions'=>array(

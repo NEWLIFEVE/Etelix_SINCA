@@ -297,12 +297,12 @@ imprimir.prototype.detalle=function()
 imprimir.prototype.printo=function()
 {
     this.imp = window.open(" ","Formato de Impresion");
-    this.imp.document.open();
+    //this.imp.document.open();
     this.imp.document.write(this.estilo);     //abrimos
     this.imp.document.write(this.div);//agregamos el objeto
-    this.imp.document.close();
+    //this.imp.document.close();
     this.imp.print();   //Abrimos la opcion de imprimir
-    this.imp.close();
+    //this.imp.close();
     if(this.id1!=undefined)
     {
         $.fn.yiiGridView.update(this.id1);
@@ -979,11 +979,51 @@ function resetValues()
     });
 }
 
+function excel_ajax(data) {
+    
+//console.log(data);
+        var param = 'data='+data;
+        
+        $.ajax({
+                url:'../ficheroExcel.php',
+                dataType:'text',
+                type:'post',
+                data:param,
+                success:function(data){
+                
+                   if(data == true){
+                    alert('Los Datos no han sido enviados');
+                   }else{
+                       
+                    $("#nombreContenedor").css("display", "inline");
+                    $("#loading").css("display", "inline");
+                    $('#excelframe').attr('src', '../ficheroExcel.php?'+$.param({nombre: "Balances%20Cabinas"}));
+                    //window.open('data:application/vnd.ms-excel,' + data,'_top');
+                    }
+                   
+
+                 //window.open('../ficheroExcel.php?'+$.param({nombre: "Balances%20Cabinas",}),'_top');
+                 //window.location ='../ficheroExcel.php?'+$.param({nombre: "Balances%20Cabinas",});
+
+                },
+                complete:function(data){
+
+                 //alert(data_string);
+                 
+//                 $("#nombreContenedor").css("display", "none");
+//                 $("#loading").css("display", "none");
+                 
+                }
+                
+               });
+                   
+}
 
 function gen_excel()
 {
     $('img.botonExcel').on('click',function(event)
     {
+        
         //Obtengo el id del gridview que va para el ecel
         var id=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
         var id2=$('div[rel="total"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
@@ -1040,18 +1080,29 @@ function gen_excel()
         $(".filters").remove();
         $(".button-column").remove();
         fila(id);
-        $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html());
+        var data = $("<div>").append($('#'+id).children('table.items').clone()).html();
+    
         if(id3=='totales'){
             fila(id3);
-            $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html()+$("<tr>").append($('#'+id3).children('table.items').clone()).html());
+           data = $("<div>").append($('#'+id).children('table.items').clone()).html()+$("<tr>").append($('#'+id3).children('table.items').clone()).html();
         }
-        $("table.items input" ).attr('disabled','disabled');
-        $("#FormularioExportacion").submit();
+        $("table.items input").attr('disabled','disabled');
+        
+        
+        //Llamar al metodo que exporta a Excel
+        excel_ajax(data);
+        
+        //$('#FormularioExportacion').submit();
+        
         $.fn.yiiGridView.update(id);
         $.fn.yiiGridView.update(id2);
         if(id3=='totales')
             $.fn.yiiGridView.update(id3);
     });
+    
+    
+    
+    
     $("img.botonExcelCompleto").on('click',function(event)
     {
         //obtengo el nombre de la capa activa

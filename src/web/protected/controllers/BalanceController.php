@@ -47,7 +47,8 @@ class BalanceController extends Controller
                     'cicloIngresos',
                     'cicloIngresosTotal',
                     'pop',
-                    'EnviarEmail'
+                    'EnviarEmail',
+                    'excel'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(5)),
             ),
@@ -74,7 +75,8 @@ class BalanceController extends Controller
                     'subirCaptura',
                     'admin',
                     'EnviarEmail',
-                    'update'
+                    'update',
+                    'excel'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(4)),
             ),
@@ -101,7 +103,8 @@ class BalanceController extends Controller
                     'subirCaptura',
                     'admin',
                     'EnviarEmail',
-                    'update'
+                    'update',
+                    'excel'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(6)),
             ),
@@ -137,7 +140,8 @@ class BalanceController extends Controller
                     'updateMonto',
                     'delete',
                     'EnviarEmail',
-                    'test'
+                    'test',
+                    'excel'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(3)),
             ),
@@ -161,7 +165,8 @@ class BalanceController extends Controller
                     'subirCaptura',
                     'admin',
                     'EnviarEmail',
-                    'update'
+                    'update',
+                    'excel'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(2)),
             ),
@@ -175,7 +180,8 @@ class BalanceController extends Controller
                     'createCierre',
                     'createAperturaEsp',
                     'admin',
-                    'EnviarEmail'
+                    'EnviarEmail',
+                    'excel'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(1)),
             ),
@@ -699,6 +705,24 @@ class BalanceController extends Controller
             'model' => $model,
         ));
     }
+    
+    public function actionExcel()
+    {
+        $model = new Balance('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['Balance']))
+            $model->attributes = $_GET['Balance'];
+        
+        Yii::app()->request->sendFile('ejemplo.xls',
+           $this->renderPartial('excel',array(
+               'model'=>$model,'pag'=>$pag
+               ),true));
+
+//        $this->render('admin', array(
+//            'model' => $model,
+//        ));
+        
+    }
 
     /**
     *
@@ -1021,6 +1045,7 @@ class BalanceController extends Controller
                 array('label' => 'Reporte Captura', 'url' => array('reporteCaptura')),
                 array('label' => 'Reporte Ciclo de Ingresos', 'url' => array('cicloIngresos')),
                 array('label' => 'Reporte Ciclo de Ingresos Total', 'url' => array('cicloIngresosTotal')),
+                array('label' => 'Reporte Balances', 'url' => array('balance/excel')),
             );
         }
         /* TESORERO */
