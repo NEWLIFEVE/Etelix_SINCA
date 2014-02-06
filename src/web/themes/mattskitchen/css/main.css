@@ -212,7 +212,7 @@ input[type="password"]:focus {
 #mainmenu ul li,
 #footermenu ul li
 {
-  background: url(../img/menu_divider.gif) right bottom no-repeat;
+  /*background: url(../img/menu_divider.gif) right bottom no-repeat;*/
   border: 0;
   float: left;
   overflow: inherit;
@@ -476,7 +476,7 @@ margin-right: 38px;
     opacity: 0.5;
 }
 
-.buttons input:first-child,  button#cambio
+.buttons input,  button#cambio
 {
   display: inline-block;
   padding: 7px 10px 4px;

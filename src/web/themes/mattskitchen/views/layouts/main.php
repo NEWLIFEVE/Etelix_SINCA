@@ -36,6 +36,7 @@
   <![endif]-->
   <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/main.css" />
   <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/form.css" /> 
+  <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datepicker.css" /> 
   <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/themes/base/jquery-ui.css" />
   <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/themes/base/jquery.ui.datepicker.css" />
   <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/themes/base/jquery.ui.all.css" />
