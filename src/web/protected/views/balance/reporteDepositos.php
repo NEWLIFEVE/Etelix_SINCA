@@ -10,9 +10,9 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         Reporte de Depositos Bancarios
     </span>
     <span>
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreo" />
-        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/print.png' class='printButton' />
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
+        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
         <button id="cambio">Inactivas</button>
         <div>
             <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/reportecaptura') ?>">
@@ -42,7 +42,7 @@ echo CHtml::endForm();
 <!--<p>Exportar a Excel  </p>-->
     <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
 </form>
-<!--<p>Imprimir <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonImprimir" /></p>-->
+<!--<p>Imprimir <img src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonImprimir" /></p>-->
 <p>
 <?php
 $_POST['vista']='Depositos';
@@ -242,14 +242,14 @@ function reinstallDatePicker(id, data) {
 <table class="items" id="depositos">
     <thead>
         <tr>
-            <th id="totalFecha"style="background:rgba(51,153,153,1); color:white;">Fecha</th>
-            <th id="todas"style="background:rgba(51,153,153,1); color:white;">Cabinas</th>
-            <th id="totalVentas2" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th id="totalMontoDeposito" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th style="background:rgba(51,153,153,1); color:white;">Num de Ref:</th>
-            <th id="balanceTotalesDepositos3" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th id="totalDiferencialBancario" style="background:rgba(51,153,153,1); color:white;"></th>
-            <th id="totalConcilicacionBancaria" style="background:rgba(51,153,153,1); color:white;"></th>
+            <th id="totalFecha"style="background:#1967B2; color:white;">Fecha</th>
+            <th id="todas"style="background:#1967B2; color:white;">Cabinas</th>
+            <th id="totalVentas2" style="background:#1967B2; color:white;"></th>
+            <th id="totalMontoDeposito" style="background:#1967B2; color:white;"></th>
+            <th style="background:#1967B2; color:white;">Num de Ref:</th>
+            <th id="balanceTotalesDepositos3" style="background:#1967B2; color:white;"></th>
+            <th id="totalDiferencialBancario" style="background:#1967B2; color:white;"></th>
+            <th id="totalConcilicacionBancaria" style="background:#1967B2; color:white;"></th>
         </tr>
     </thead>
     <tbody>

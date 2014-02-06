@@ -69,9 +69,9 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
         Ciclo de Ingresos Total <?php echo $_POST["formFecha"]; ?>
     </span>
     <span style="display: none">
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/mail.png" class="botonCorreo" />
-        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/images/print.png' class='printButton' />
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
+        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
     </span>
 </h1>
 <div>
@@ -79,11 +79,11 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
         <table width="200" border="1">
           <tr>
             <td width="64"><form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Reporte_Ciclo_Ingresos_Total" method="post" target="_blank" id="FormularioExportacion">    
-            <p>Exportar Resumido a Excel  <img title="Exportar Resumido a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" /></p>
+            <p>Exportar Resumido a Excel  <img title="Exportar Resumido a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" /></p>
             <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
         </form></td>
             <td width="120" style="display: none"><form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Completo" method="post" target="_blank" id="FormularioExportacionCompleto">
-            <p>Exportar Completo a Excel  <img title="Exportar a Excel COMPLETO" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcelCompleto" /></p>
+            <p>Exportar Completo a Excel  <img title="Exportar a Excel COMPLETO" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelCompleto" /></p>
             <input type="hidden" id="datos_a_enviar_completo" name="datos_a_enviar" />
         </form></td>
           </tr>

@@ -358,11 +358,11 @@ totalPronostico.prototype.alarmas=function(week,weekend,suma)
     var laboral=$(this.ids.laborable).val();
     var fin=$(this.ids.fin).val();
     var dias=$(this.ids.dias);
-    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
-    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
     
-    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
-    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
 }
 //metodo que cambia el icono de aprobado o no aprobado
 totalPronostico.prototype.totalesPronostico=function()
@@ -378,11 +378,11 @@ totalPronostico.prototype.totalesPronostico=function()
     var disponible=$('td#disponible').text();
     if(parseFloat(recargas)<=parseFloat(disponible))
     {
-        $('td#aprobacion').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+        $('td#aprobacion').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
     }
     else
     {
-        $('td#aprobacion').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+        $('td#aprobacion').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
     }
 }
 totalPronostico.prototype.nuevoSaldo=function(objeto)
@@ -1022,14 +1022,13 @@ function excel_ajax(data) {
 function gen_excel()
 {
     $('img.botonExcel').on('click',function(event)
-    {
-        
+    {     
         //Obtengo el id del gridview que va para el ecel
         var id=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
         var id2=$('div[rel="total"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
         var id3=$('div#totales').filter(function(){return $(this).css('display') == "block" }).attr('id');
         //le quito los links al thead
-        noLink(id);
+//        noLink(id);
         //cambio el color del fondo
         if(id=='reportePaBrightstar'){
             var primero="th#reportePaBrightstar_c0,th#reportePaBrightstar_c1,th#reportePaBrightstar_c2";
@@ -1045,9 +1044,9 @@ function gen_excel()
         }
         if(id!='balanceCicloIngresosResumido' && id!='balanceCicloIngresosResumidoOculta')
         {
-            fondo(id);
-            if(id3=='totales')
-                fondo(id3);
+//            fondo(id);
+//            if(id3=='totales')
+//                fondo(id3);
         }
         else
         {
@@ -1085,6 +1084,13 @@ function gen_excel()
         if(id3=='totales'){
             fila(id3);
            data = $("<div>").append($('#'+id).children('table.items').clone()).html()+$("<tr>").append($('#'+id3).children('table.items').clone()).html();
+//=======
+//        fila(id);
+//        $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html());
+//        if(id3=='totales'){
+////            fila(id3);
+//            $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html()+$("<tr>").append($('#'+id3).children('table.items').clone()).html());
+//>>>>>>> a8fa9a3af8debeebfdb3e98bcca71d901ec5bb6e
         }
         $("table.items input").attr('disabled','disabled');
         

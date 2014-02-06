@@ -352,7 +352,7 @@ class BalanceController extends Controller
                 $post->TiempoCierre = $model->TiempoCierre;
 
                      
-
+                if ($model->CABINA_Id==17)$post->CUENTA_Id=2; else $post->CUENTA_Id=4;
                 if ($post->save())
                 {
                     /* ALMACENAR EL LOG */
@@ -476,6 +476,8 @@ class BalanceController extends Controller
         if(isset($_POST['Balance']))
         {
             $model->attributes=$_POST['Balance'];
+            $model->FechaDep =Yii::app()->format->formatDate($_POST['Balance']['FechaDep'],'post');
+            if ($model->CABINA_Id==17)$model->CUENTA_Id=2; else $model->CUENTA_Id=4;
             if ($model->save())
                 $this->redirect(array('view','id'=>$model->Id));
         }
