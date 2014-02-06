@@ -85,6 +85,7 @@ return array(
 			'emulatePrepare'=>true,
 			'username'=>'root',
 			'password'=>'Nsusfd8263',
+
 			'charset'=>'utf8',
 			),
 		'errorHandler'=>array(

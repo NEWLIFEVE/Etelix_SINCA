@@ -21,13 +21,13 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
     <ul>
         <li>
             <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Resumido" method="post" target="_blank" id="FormularioExportacion">
-            Resumido<img title="Exportar Resumido a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcel" />
+            Resumido<img title="Exportar Resumido a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
             <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
             </form>
         </li>
         <li>
             <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Completo" method="post" target="_blank" id="FormularioExportacionCompleto">
-                Completo<img title="Exportar a Excel COMPLETO" src="<?php echo Yii::app()->request->baseUrl; ?>/images/excel.png" class="botonExcelCompleto" />
+                Completo<img title="Exportar a Excel COMPLETO" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelCompleto" />
                 <input type="hidden" id="datos_a_enviar_completo" name="datos_a_enviar" />
             </form>
         </li>
