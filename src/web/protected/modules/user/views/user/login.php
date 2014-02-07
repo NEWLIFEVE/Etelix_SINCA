@@ -1,4 +1,4 @@
-<?php
+<?php //
 $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Login");
 $this->breadcrumbs=array(
 	UserModule::t("Login"),
@@ -15,12 +15,12 @@ $this->breadcrumbs=array(
 
 <?php endif; ?>
 
-<p><?php echo UserModule::t("Please fill out the following form with your login credentials:"); ?></p>
+<!--<p><?php echo UserModule::t("Please fill out the following form with your login credentials:"); ?></p>-->
 
-<div class="form">
+<div class="form loginform">
 <?php echo CHtml::beginForm(); ?>
 
-	<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
+	<!--<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>-->
 	
 	<?php echo CHtml::errorSummary($model); ?>
 	
@@ -34,19 +34,19 @@ $this->breadcrumbs=array(
 		<?php echo CHtml::activePasswordField($model,'password') ?>
 	</div>
 	
-	<div class="row">
+<!--	<div class="row">
 		<p class="hint">
 		<?php echo CHtml::link(UserModule::t("Register"),Yii::app()->getModule('user')->registrationUrl); ?> | <?php echo CHtml::link(UserModule::t("Lost Password?"),Yii::app()->getModule('user')->recoveryUrl); ?>
 		</p>
 	</div>
-	
+	-->
 	<div class="row rememberMe">
 		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
 		<?php echo CHtml::activeLabelEx($model,'rememberMe'); ?>
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton(UserModule::t("Login"),array('id'=>'cambio')); ?>
+		<?php echo CHtml::submitButton(UserModule::t("Login"),array('id'=>'cambio', 'class'=>'loginButton')); ?>
 	</div>
 	
 <?php echo CHtml::endForm(); ?>
