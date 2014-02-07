@@ -48,6 +48,7 @@
   <script>window.jQuery || document.write(unescape('%3Cscript src="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/ui/jquery-ui.js"%3E%3C/script%3E'))</script>
   
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/modernizr.js"></script>
+  <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/sinca.js"></script>
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/views.js"></script>
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/estadoGastos.js"></script>
   

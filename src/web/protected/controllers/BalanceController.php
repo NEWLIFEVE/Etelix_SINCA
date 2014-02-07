@@ -707,28 +707,8 @@ class BalanceController extends Controller
             'model' => $model,
         ));
     }
-    
-    public function actionExcel()
-    {
-        $model = new Balance('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Balance']))
-            $model->attributes = $_GET['Balance'];
-        
-        Yii::app()->request->sendFile('ejemplo.xls',
-           $this->renderPartial('excel',array(
-               'model'=>$model,'pag'=>$pag
-               ),true));
+ 
 
-//        $this->render('admin', array(
-//            'model' => $model,
-//        ));
-        
-    }
-
-    /**
-    *
-    */
     public function actionControlPanel()
     {
         $model = new Balance('search');
@@ -1047,7 +1027,7 @@ class BalanceController extends Controller
                 array('label' => 'Reporte Captura', 'url' => array('reporteCaptura')),
                 array('label' => 'Reporte Ciclo de Ingresos', 'url' => array('cicloIngresos')),
                 array('label' => 'Reporte Ciclo de Ingresos Total', 'url' => array('cicloIngresosTotal')),
-                array('label' => 'Reporte Balances', 'url' => array('balance/excel')),
+                //array('label' => 'Reporte Balances', 'url' => array('balance/excel')),
             );
         }
         /* TESORERO */

@@ -5,6 +5,21 @@
 /**
 * Variables globales
 */
+
+//$(document).ready(function(){
+//       $(".botonExcel").hover(function hover_link()
+//        {
+//            var data = "";            
+//
+//
+//            $('#excel_href').attr('href', function(index, Oldhref) {
+//                return Oldhref.replace('html=' ,'html='+data);
+//              });
+//
+//        });
+//});
+
+
 var fondos={
         'log-grid':'rgba(64,152,8,1)',
         'list-user-grid':'rgba(64,152,8,1)',
@@ -978,209 +993,6 @@ function resetValues()
         $('#FechaMes').val("");
     });
 }
-
-function excel_ajax(data) {
-    
-//console.log(data);
-        var param = 'data='+data;
-        
-        $.ajax({
-                url:'../ficheroExcel.php',
-                dataType:'text',
-                type:'post',
-                data:param,
-                success:function(data){
-                
-                   if(data == true){
-                    alert('Los Datos no han sido enviados');
-                   }else{
-                       
-                    $("#nombreContenedor").css("display", "inline");
-                    $("#loading").css("display", "inline");
-                    $('#excelframe').attr('src', '../ficheroExcel.php?'+$.param({nombre: "Balances%20Cabinas"}));
-                    //window.open('data:application/vnd.ms-excel,' + data,'_top');
-                    }
-                   
-
-                 //window.open('../ficheroExcel.php?'+$.param({nombre: "Balances%20Cabinas",}),'_top');
-                 //window.location ='../ficheroExcel.php?'+$.param({nombre: "Balances%20Cabinas",});
-
-                },
-                complete:function(data){
-
-                 //alert(data_string);
-                 
-//                 $("#nombreContenedor").css("display", "none");
-//                 $("#loading").css("display", "none");
-                 
-                }
-                
-               });
-                   
-}
-
-function gen_excel()
-{
-    $('img.botonExcel').on('click',function(event)
-    {     
-        //Obtengo el id del gridview que va para el ecel
-        var id=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
-        var id2=$('div[rel="total"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
-        var id3=$('div#totales').filter(function(){return $(this).css('display') == "block" }).attr('id');
-        //le quito los links al thead
-//        noLink(id);
-        //cambio el color del fondo
-        if(id=='reportePaBrightstar'){
-            var primero="th#reportePaBrightstar_c0,th#reportePaBrightstar_c1,th#reportePaBrightstar_c2";
-            $(primero).css({'background':'rgba(18,103,22,1)','color':'white'});
-            var verde="th#reportePaBrightstar_c3";
-            $(verde).css({'background':'rgba(51,153,153,1)','color':'white'});
-            var amarillo="th#reportePaBrightstar_c4,th#reportePaBrightstar_c5";
-            $(amarillo).css({'background':'rgba(255,187,0,1)','color':'white'});
-            var naranja="th#reportePaBrightstar_c6";
-            $(naranja).css({'background':'rgba(18,103,22,1)','color':'white'});
-            var rosa="th#reportePaBrightstar_c7";
-            $(rosa).css({'background':'rgba(204,153,204,1)','color':'white'});
-        }
-        if(id!='balanceCicloIngresosResumido' && id!='balanceCicloIngresosResumidoOculta')
-        {
-//            fondo(id);
-//            if(id3=='totales')
-//                fondo(id3);
-        }
-        else
-        {
-            var primero="th#balanceCicloIngresosResumido_c0, th#balanceCicloIngresosResumidoOculta_c0, th#balanceCicloIngresosResumido_c1, th#balanceCicloIngresosResumidoOculta_c1";
-            $(primero).css({'background':'rgba(18,103,22,1)','color':'white'});
-            var amarillo="th#balanceCicloIngresosResumido_c2, th#balanceCicloIngresosResumidoOculta_c2";
-            $(amarillo).css({'background':'rgba(255,187,0,1)','color':'white'});
-            var verde="th#balanceCicloIngresosResumido_c3, th#balanceCicloIngresosResumidoOculta_c3, th#balanceCicloIngresosResumido_c4, th#balanceCicloIngresosResumidoOculta_c4";
-            $(verde).css({'background':'rgba(51,153,153,1)','color':'white'});
-            var naranja="th#balanceCicloIngresosResumido_c5, th#balanceCicloIngresosResumidoOculta_c5, th#balanceCicloIngresosResumido_c6, th#balanceCicloIngresosResumidoOculta_c6";
-            $(naranja).css({'background':'rgba(255,153,51,1)','color':'white'});
-            var rosa="th#balanceCicloIngresosResumido_c7, th#balanceCicloIngresosResumidoOculta_c7, th#balanceCicloIngresosResumido_c8,  th#balanceCicloIngresosResumidoOculta_c8, th#balanceCicloIngresosResumido_c9, th#balanceCicloIngresosResumidoOculta_c9, th#balanceCicloIngresosResumido_c10, th#balanceCicloIngresosResumidoOculta_c10";
-            $(rosa).css({'background':'rgba(204,153,204,1)','color':'white'});
-            var azul="th#balanceCicloIngresosResumido_c11, th#balanceCicloIngresosResumidoOculta_c11,th#balanceCicloIngresosResumido_c12, th#balanceCicloIngresosResumidoOculta_c12";
-            $(azul).css({'background':'rgba(46,135,255,1)','color':'white'});
-            
-            var primero="th#totalFecha, th#totalCabinas";
-            $(primero).css({'background':'rgba(18,103,22,1)','color':'white'});
-            var amarillo="th#totalVentas2";
-            $(amarillo).css({'background':'rgba(255,187,0,1)','color':'white'});
-            var verde="th#totalDiferencialBancario, th#totalConcilicacionBancaria";
-            $(verde).css({'background':'rgba(51,153,153,1)','color':'white'});
-            var naranja="th#totalesDiferencialBrightstarMovistar, th#totalesDiferencialBrightstarClaro";
-            $(naranja).css({'background':'rgba(255,153,51,1)','color':'white'});
-            var rosa="th#paridad, th#totalesDiferencialCapturaSoles, th#totalesDiferencialCapturaDollar,th#totalesAcumulado";
-            $(rosa).css({'background':'rgba(204,153,204,1)','color':'white'});
-            var azul="th#totalesSobrante, th#totalesSobranteAcum";
-            $(azul).css({'background':'rgba(46,135,255,1)','color':'white'});
-        }
-        $(".filters").remove();
-        $(".button-column").remove();
-        fila(id);
-        var data = $("<div>").append($('#'+id).children('table.items').clone()).html();
-    
-        if(id3=='totales'){
-            fila(id3);
-           data = $("<div>").append($('#'+id).children('table.items').clone()).html()+$("<tr>").append($('#'+id3).children('table.items').clone()).html();
-//=======
-//        fila(id);
-//        $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html());
-//        if(id3=='totales'){
-////            fila(id3);
-//            $("#datos_a_enviar").val($("<div>").append($('#'+id).children('table.items').clone()).html()+$("<tr>").append($('#'+id3).children('table.items').clone()).html());
-//>>>>>>> a8fa9a3af8debeebfdb3e98bcca71d901ec5bb6e
-        }
-        $("table.items input").attr('disabled','disabled');
-        
-        
-        //Llamar al metodo que exporta a Excel
-        excel_ajax(data);
-        
-        //$('#FormularioExportacion').submit();
-        
-        $.fn.yiiGridView.update(id);
-        $.fn.yiiGridView.update(id2);
-        if(id3=='totales')
-            $.fn.yiiGridView.update(id3);
-    });
-    
-    
-    
-    
-    $("img.botonExcelCompleto").on('click',function(event)
-    {
-        //obtengo el nombre de la capa activa
-        var name=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('name')+"oculta";
-        //obtengo el id de la capa que generara el excel completo
-        var id=$('div[rel="completa"]').filter(function(){return $(this).attr('name') == name }).attr('id');
-        //le quito los links al thead
-        noLink(id);
-        var primero="#balanceCicloIngresosCompletoActivas_c0, #balanceCicloIngresosCompletoInactivas_c0, #balanceCicloIngresosCompletoActivas_c1, #balanceCicloIngresosCompletoInactivas_c1";
-        $(primero).css({'background':'rgba(18,103,22,1)','color':'white'});
-        var amarillo="#balanceCicloIngresosCompletoActivas_c2, #balanceCicloIngresosCompletoInactivas_c2, #balanceCicloIngresosCompletoActivas_c3, #balanceCicloIngresosCompletoInactivas_c3, #balanceCicloIngresosCompletoActivas_c4, #balanceCicloIngresosCompletoInactivas_c4, #balanceCicloIngresosCompletoActivas_c5, #balanceCicloIngresosCompletoInactivas_c5, #balanceCicloIngresosCompletoActivas_c6, #balanceCicloIngresosCompletoInactivas_c6";
-        $(amarillo).css({'background':'rgba(255,187,0,1)','color':'white'});
-        var verde="#balanceCicloIngresosCompletoActivas_c7, #balanceCicloIngresosCompletoInactivas_c7, #balanceCicloIngresosCompletoActivas_c8, #balanceCicloIngresosCompletoInactivas_c8, #balanceCicloIngresosCompletoActivas_c9, #balanceCicloIngresosCompletoInactivas_c9, #balanceCicloIngresosCompletoActivas_c10, #balanceCicloIngresosCompletoInactivas_c10, #balanceCicloIngresosCompletoActivas_c11, #balanceCicloIngresosCompletoInactivas_c11, #balanceCicloIngresosCompletoActivas_c12, #balanceCicloIngresosCompletoInactivas_c12, #balanceCicloIngresosCompletoActivas_c13, #balanceCicloIngresosCompletoInactivas_c13";
-        $(verde).css({'background':'rgba(51,153,153,1)','color':'white'});
-        var naranja="#balanceCicloIngresosCompletoActivas_c14, #balanceCicloIngresosCompletoInactivas_c14, #balanceCicloIngresosCompletoActivas_c15, #balanceCicloIngresosCompletoInactivas_c15, #balanceCicloIngresosCompletoActivas_c16, #balanceCicloIngresosCompletoInactivas_c16, #balanceCicloIngresosCompletoActivas_c17, #balanceCicloIngresosCompletoInactivas_c17";
-        $(naranja).css({'background':'rgba(255,153,51,1)','color':'white'});
-        var rosa="#balanceCicloIngresosCompletoActivas_c18, #balanceCicloIngresosCompletoInactivas_c18, #balanceCicloIngresosCompletoActivas_c19, #balanceCicloIngresosCompletoInactivas_c19, #balanceCicloIngresosCompletoActivas_c20, #balanceCicloIngresosCompletoInactivas_c20, #balanceCicloIngresosCompletoActivas_c21, #balanceCicloIngresosCompletoInactivas_c21, #balanceCicloIngresosCompletoActivas_c22, #balanceCicloIngresosCompletoInactivas_c22, #balanceCicloIngresosCompletoActivas_c23, #balanceCicloIngresosCompletoInactivas_c23, #balanceCicloIngresosCompletoActivas_c24, #balanceCicloIngresosCompletoInactivas_c24";
-        $(rosa).css({'background':'rgba(204,153,204,1)','color':'white'});
-        var azul="#balanceCicloIngresosCompletoActivas_c25, #balanceCicloIngresosCompletoInactivas_c25, #balanceCicloIngresosCompletoActivas_c26, #balanceCicloIngresosCompletoInactivas_c26";
-        $(azul).css({'background':'rgba(46,135,255,1)','color':'white'});
-        //le coloco los fondos a los resultados
-        fila(id);
-        $(".filters").remove();
-        $(".button-column").remove();
-        $("#datos_a_enviar_completo").val($("<div>").append($('#'+id).children('table.items').clone()).html());
-        $("#FormularioExportacionCompleto").submit();
-        id=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
-        $.fn.yiiGridView.update(id);
-    });  
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*

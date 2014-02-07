@@ -7,10 +7,11 @@ $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 ?>
 
+<input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
 
 <div id="nombreContenedor" class="black_overlay"></div>
     <div id="loading" class="ventana_flotante">Generando Excel...
-        <iframe id="excelframe" src=""></iframe>
+        <iframe  src=""></iframe>
     </div>
 
 
@@ -22,6 +23,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
     <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
     <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
     <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton'/>
+
 
     <?php 
       if($tipoUsuario>1)
@@ -60,7 +62,17 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
     'filter'=>$model,
     'columns'=>array(
       array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            //'style'=>'visibility: collapse;',
+          ),
+        ),
+      array(
         'name'=>'Fecha',
+        'id'=>'Fechas',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
           'model'=>$model,
           'attribute'=>'Fecha',

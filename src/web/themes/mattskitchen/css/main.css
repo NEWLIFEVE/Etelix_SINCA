@@ -370,10 +370,9 @@ div.search-form
 #content .grid-view table.items th
 {
 	background: #00992B;
-         border: 0px white solid !important;
+        border: 0px white solid !important;
 	/*background: url(../img/title1_bg.gif) repeat-y;*/
 }
-
 
 /**
  * Portlets
