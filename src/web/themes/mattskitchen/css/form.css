@@ -191,11 +191,17 @@ select
     font: 13px/22px "Trebuchet MS", Arial, Helvetica, sans-serif !important;
 }
 
-input#UserLogin_username, input#UserLogin_password, input.loginButton
+input#UserLogin_username, input#UserLogin_password
 {
     height: 3em;
-    width: 19em;
+    width: 18em;
+    padding-left: 10px;
 }
+input.loginButton
+ {
+    height: 3em;
+    width: 19em;
+ }
 
 .loginform
 {
