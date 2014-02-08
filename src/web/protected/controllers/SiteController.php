@@ -225,11 +225,11 @@ class SiteController extends Controller {
     public function actionExcel()
     {  
 
-/* @var $_POST type */
         $archivos=array();
         
         $archivos['balance']['nombre']=$_GET['name'];
-        $archivos['balance']['cuerpo']=$this->genTable($_GET['ids']);
+        $archivos['balance']['cuerpo']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
+        
         
         foreach($archivos as $key => $archivo)
         {
@@ -248,71 +248,5 @@ class SiteController extends Controller {
         
 
     }
-    
-    public function genTable($ids)
-    {   
-            $model = new Balance;
-            $model->findAllBySql("SELECT * FROM balance WHERE id IN ($ids)");
-            
-            $table = '<table class="items">
-                        <thead>
-                        <tr>
-                        <th id="balance-grid_c0">ID</th><th id="Fechas">Fecha del Balance</th><th id="balance-grid_c2">Cabina</th><th id="balance-grid_c3">Saldo Apertura Movistar (S/.)</th><th id="balance-grid_c4">Saldo Apertura Claro (S/.)</th><th id="balance-grid_c5">Trafico (S/.)</th><th id="balance-grid_c6">Recarga Movistar (S/.)</th><th id="balance-grid_c7">Recarga Claro (S/.)</th><th id="balance-grid_c8">Monto Deposito (S/.)</th></tr>
-
-                        </thead>
-                        <tbody>
-                        <tr class="odd" style="background-color: rgb(234, 248, 225); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1181</td><td style="text-align: center;" id="fecha">2014-01-30</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">456.00</td><td style="text-align: center;" id="aperturaClaro">600.00</td><td style="text-align: center;" id="trafico">3583.00</td><td style="text-align: center;" id="recargaMov">3225.00</td><td style="text-align: center;" id="recargaClaro">2242.00</td><td style="text-align: center;" id="montoDeposito">140.00</td></tr>
-                        <tr class="even" style="background-color: rgb(248, 248, 248); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1180</td><td style="text-align: center;" id="fecha">2014-01-28</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">12000.00</td><td style="text-align: center;" id="aperturaClaro">3000.00</td><td style="text-align: center;" id="trafico">4021.00</td><td style="text-align: center;" id="recargaMov">133.00</td><td style="text-align: center;" id="recargaClaro">213.00</td><td style="text-align: center;" id="montoDeposito">150.00</td></tr>
-                        <tr class="odd" style="background-color: rgb(234, 248, 225); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1183</td><td style="text-align: center;" id="fecha">2014-01-27</td><td style="text-align: center;">PIURA</td><td style="text-align: center;" id="aperturaMov">2333.00</td><td style="text-align: center;" id="aperturaClaro">122.00</td><td style="text-align: center;" id="trafico">72.00</td><td style="text-align: center;" id="recargaMov">24.00</td><td style="text-align: center;" id="recargaClaro">24.00</td><td style="text-align: center;" id="montoDeposito">450.00</td></tr>
-                        <tr class="even" style="background-color: rgb(248, 248, 248); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1182</td><td style="text-align: center;" id="fecha">2014-01-25</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">122.00</td><td style="text-align: center;" id="aperturaClaro">133.00</td><td style="text-align: center;" id="trafico">25508.00</td><td style="text-align: center;" id="recargaMov">212123.00</td><td style="text-align: center;" id="recargaClaro">23.00</td><td style="text-align: center;" id="montoDeposito">500.00</td></tr>
-                        <tr class="odd" style="background-color: rgb(234, 248, 225); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1179</td><td style="text-align: center;" id="fecha">2014-01-20</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">4500.00</td><td style="text-align: center;" id="aperturaClaro">4500.00</td><td style="text-align: center;" id="trafico">199.00</td><td style="text-align: center;" id="recargaMov">30.00</td><td style="text-align: center;" id="recargaClaro">30.00</td><td style="text-align: center;" id="montoDeposito">&nbsp;</td></tr>
-                        <tr class="even" style="background-color: rgb(248, 248, 248); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1178</td><td style="text-align: center;" id="fecha">2014-01-18</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">120.00</td><td style="text-align: center;" id="aperturaClaro">0.00</td><td style="text-align: center;" id="trafico">0.00</td><td style="text-align: center;" id="recargaMov">0.00</td><td style="text-align: center;" id="recargaClaro">0.00</td><td style="text-align: center;" id="montoDeposito">&nbsp;</td></tr>
-                        <tr class="odd" style="background-color: rgb(234, 248, 225); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1177</td><td style="text-align: center;" id="fecha">2014-01-17</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">400.00</td><td style="text-align: center;" id="aperturaClaro">500.00</td><td style="text-align: center;" id="trafico">76.00</td><td style="text-align: center;" id="recargaMov">157.00</td><td style="text-align: center;" id="recargaClaro">219.00</td><td style="text-align: center;" id="montoDeposito">100.00</td></tr>
-                        <tr class="even" style="background-color: rgb(248, 248, 248); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1176</td><td style="text-align: center;" id="fecha">2014-01-16</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">33.00</td><td style="text-align: center;" id="aperturaClaro">0.00</td><td style="text-align: center;" id="trafico">0.00</td><td style="text-align: center;" id="recargaMov">0.00</td><td style="text-align: center;" id="recargaClaro">0.00</td><td style="text-align: center;" id="montoDeposito">&nbsp;</td></tr>
-                        <tr class="odd" style="background-color: rgb(234, 248, 225); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1175</td><td style="text-align: center;" id="fecha">2014-01-15</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">4000.00</td><td style="text-align: center;" id="aperturaClaro">0.00</td><td style="text-align: center;" id="trafico">0.00</td><td style="text-align: center;" id="recargaMov">0.00</td><td style="text-align: center;" id="recargaClaro">0.00</td><td style="text-align: center;" id="montoDeposito">&nbsp;</td></tr>
-                        <tr class="even" style="background-color: rgb(248, 248, 248); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1174</td><td style="text-align: center;" id="fecha">2014-01-14</td><td style="text-align: center;">ETELIX - PERU</td><td style="text-align: center;" id="aperturaMov">5000.00</td><td style="text-align: center;" id="aperturaClaro">0.00</td><td style="text-align: center;" id="trafico">738.00</td><td style="text-align: center;" id="recargaMov">20.00</td><td style="text-align: center;" id="recargaClaro">20.00</td><td style="text-align: center;" id="montoDeposito">&nbsp;</td></tr>
-                        <tr class="odd" style="background-color: rgb(234, 248, 225); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                        <td id="ids" style="display: none;">1173</td><td style="text-align: center;" id="fecha">2013-09-01</td><td style="text-align: center;">PIURA</td><td style="text-align: center;" id="aperturaMov">222.00</td><td style="text-align: center;" id="aperturaClaro">300.00</td><td style="text-align: center;" id="trafico">913.00</td><td style="text-align: center;" id="recargaMov">144.00</td><td style="text-align: center;" id="recargaClaro">4398.00</td><td style="text-align: center;" id="montoDeposito">&nbsp;</td></tr>
-                        </tbody>
-                        </table><table class="items">
-                            <thead>
-                                <tr>
-                                   <th style="background:rgba(64,152,8,1); color:white;">Fecha</th>
-                                    <th style="background:rgba(64,152,8,1); color:white;">Cabina</th>
-                                    <th id="vistaAdmin1" style="background:rgba(64,152,8,1); color:white;">Saldo Apertura Movistar</th>
-                                    <th id="vistaAdmin2" style="background:rgba(64,152,8,1); color:white;">Saldo Apertura Claro</th>
-                                    <th id="totalTrafico" style="background:rgba(64,152,8,1); color:white;">Trafico (S/.)</th>
-                                    <th id="totalRecargaMov" style="background:rgba(64,152,8,1); color:white;">Recarga Movistar (S/.)</th>
-                                    <th id="totalRecargaClaro" style="background:rgba(64,152,8,1); color:white;">Recarga Claro (S/.)</th>
-                                    <th id="totalMontoDeposito" style="background:rgba(64,152,8,1); color:white;">Monto Deposito (S/.)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                              <tr class="odd" style="background-color: rgb(234, 248, 225); text-align: center; background-position: initial initial; background-repeat: initial initial;">
-                                <td id="totalFecha">Septiembre</td>
-                                <td id="todas">Todas</td>
-                                <td id="vistaAdmin1">29186</td>
-                                <td id="vistaAdmin2">9155</td>
-                                <td id="totalTrafico">35110</td>
-                                <td id="totalRecargaMov">215856</td>
-                                <td id="totalRecargaClaro">7169</td>
-                                <td id="totalMontoDeposito">1340</td>
-                              </tr>
-                            </tbody>
-                       </table>';
-            
-            return $table;
-        
-
-    }    
+ 
 }

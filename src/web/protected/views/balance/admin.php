@@ -7,12 +7,8 @@ $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 ?>
 
-<input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
-
 <div id="nombreContenedor" class="black_overlay"></div>
-    <div id="loading" class="ventana_flotante">Generando Excel...
-        <iframe  src=""></iframe>
-    </div>
+<div id="loading" class="ventana_flotante">Generando Excel...</div>
 
 
 <h1>
