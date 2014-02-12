@@ -37,6 +37,7 @@ class Detallegasto extends CActiveRecord
     public $Pagada;
     public $vista;
     public $sum;
+    public $Cabina;
 
     /**
     *
@@ -69,7 +70,7 @@ class Detallegasto extends CActiveRecord
 			array('FechaVenc', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('Id, Monto, FechaMes, FechaVenc, Descripcion, status, TransferenciaPago, FechaTransf, beneficiario, USERS_Id, TIPOGASTO_Id, CABINA_Id, CUENTA_Id', 'safe', 'on'=>'search'),
+			array('Id, Monto, FechaMes, FechaVenc, nombreTipoDetalle, Descripcion, status, TransferenciaPago, FechaTransf, beneficiario, USERS_Id, TIPOGASTO_Id, CABINA_Id, CUENTA_Id', 'safe', 'on'=>'search'),
 		);
 	}
 

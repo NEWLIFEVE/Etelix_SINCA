@@ -542,7 +542,8 @@ div.grid-view.detalleCuenta table.items tbody tr th,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c16,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c17
 {
-  background: rgba(255,153,51,1) !important;
+  background: #ff9900 !important;
+/*  background: rgba(255,153,51,1) !important;*/
 }
 .ReporteCaptura table.items th,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c18,
@@ -933,7 +934,7 @@ div.grid-view.detalleCuenta table.items tbody tr.total
     padding-bottom: 10px;
     text-transform: uppercase;
     font-size: 25px;
-
+}
 #scroll-top {
     position: fixed;
     bottom: 20px;
@@ -950,4 +951,21 @@ div.grid-view.detalleCuenta table.items tbody tr.total
     color: #1967B2;
     background-color: rgba(241, 245, 248, 0.46);
     width: 92.5em;
+}
+
+table.matrizGastos tr td
+{
+    border:  1px rgb(233, 224, 224) solid !important;  
+    text-align: center;
+}
+table.matrizGastos th
+{
+    width: 120px;
+    background: #1967B2;
+    text-align: center;
+}
+
+.matrizGastos h3
+{
+    font-size:10px; color:#FFFFFF; background: none; text-align: center;
 }

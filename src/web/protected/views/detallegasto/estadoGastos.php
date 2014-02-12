@@ -59,10 +59,7 @@ else
         $estatus='(pagado)';
     }
 }
-$this->breadcrumbs = array(
-    'Detallegastos' => array('index'),
-    'Manage',
-);
+
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 Yii::app()->clientScript->registerScript('search', "

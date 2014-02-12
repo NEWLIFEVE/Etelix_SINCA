@@ -11,7 +11,7 @@ function gen_excel()
                     
                 });
                 
-        window.open('/Etelix_SINCA/src/web/site/excel?ids='+ids+'&name=Balance','_top');
+        window.open('/site/excel?ids='+ids+'&name=Balance','_top');
                 
         alert(ids);
 

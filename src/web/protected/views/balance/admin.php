@@ -64,6 +64,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         'htmlOptions'=>array(
             'id'=>'ids',
             //'style'=>'visibility: collapse;',
+            'width'=>'1px',
           ),
         ),
       array(
@@ -276,14 +277,14 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 <table class="items">
     <thead>
         <tr>
-           <th style="background:rgba(64,152,8,1); color:white;">Fecha</th>
-            <th style="background:rgba(64,152,8,1); color:white;">Cabina</th>
-            <th id="vistaAdmin1" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="vistaAdmin2" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalTrafico" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalRecargaMov" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalRecargaClaro" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalMontoDeposito" style="background:rgba(64,152,8,1); color:white;"></th>
+           <th style="background:#00992B; color:white;">Fecha</th>
+            <th style="background:#00992B; color:white;">Cabina</th>
+            <th id="vistaAdmin1" style="background:#00992B; color:white;"></th>
+            <th id="vistaAdmin2" style="background:#00992B; color:white;"></th>
+            <th id="totalTrafico" style="background:#00992B; color:white;"></th>
+            <th id="totalRecargaMov" style="background:#00992B; color:white;"></th>
+            <th id="totalRecargaClaro" style="background:#00992B; color:white;"></th>
+            <th id="totalMontoDeposito" style="background:#00992B; color:white;"></th>
         </tr>
     </thead>
     <tbody>
