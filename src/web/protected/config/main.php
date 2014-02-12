@@ -19,6 +19,7 @@ return array(
 		'application.components.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
+                'application.components.reportes.*'
 		),
 	'modules'=>array(
 	// uncomment the following to enable the Gii tool
@@ -54,7 +55,7 @@ return array(
 		// application components
 	'components'=>array(
 		'reporte'=>array(
-			'class'=>'application.components.Reporte'
+			'class'=>'application.components.Reportes'
 			),
 		'user'=>array(
 			'class'=>'WebUser',
@@ -85,7 +86,6 @@ return array(
 			'emulatePrepare'=>true,
 			'username'=>'root',
 			'password'=>'Nsusfd8263',
-
 			'charset'=>'utf8',
 			),
 		'errorHandler'=>array(

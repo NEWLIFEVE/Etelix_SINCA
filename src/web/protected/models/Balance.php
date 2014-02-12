@@ -1374,5 +1374,6 @@ class Balance extends CActiveRecord
             $mes=$fecha->Fecha;
         }
         return $mes;
-    }    
+    } 
+    
 }

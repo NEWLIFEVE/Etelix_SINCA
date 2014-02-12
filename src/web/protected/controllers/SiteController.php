@@ -105,6 +105,10 @@ class SiteController extends Controller {
         $this->redirect(Yii::app()->homeUrl);
     }
 
+    public static function actionMail(){
+        $mailer = new EnviarEmail;
+    }
+   
     /* Esta funcion se encarga de devolver el arreglo con el Menu del sistema dependiendo del tipo de usuario */
 
     public static function controlAcceso($tipoUsuario) {
@@ -217,5 +221,32 @@ class SiteController extends Controller {
                 break;
         }
     }
+    
+    public function actionExcel()
+    {  
 
+        $archivos=array();
+        
+        $archivos['balance']['nombre']=$_GET['name'];
+        $archivos['balance']['cuerpo']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
+        
+        
+        foreach($archivos as $key => $archivo)
+        {
+            $this->genExcel($archivo['nombre'],$archivo['cuerpo']);
+        }
+
+    }
+
+    public function genExcel($nombre,$html)
+    {   
+        header("Content-type: application/vnd.ms-excel; charset=utf-8"); 
+        header("Content-Disposition: attachment; filename={$nombre}.xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        echo $html;
+        
+
+    }
+ 
 }

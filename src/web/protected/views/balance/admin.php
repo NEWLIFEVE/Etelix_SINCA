@@ -6,6 +6,11 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 ?>
+
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante">Generando Excel...</div>
+
+
 <h1>
   <span class="enviar">
     Administrar Balances
@@ -14,6 +19,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
     <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
     <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
     <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton'/>
+
 
     <?php 
       if($tipoUsuario>1)
@@ -31,9 +37,16 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
   echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
   echo CHtml::textField('asunto','Reporte de Administrar Balances Solicitado',array('id'=>'asunto','style'=>'display:none'));
   echo CHtml::endForm();
+  
+  /*
   echo "<form action='";?><?php echo Yii::app()->request->baseUrl; ?><?php echo"/ficheroExcel.php?nombre=Balances%20Cabinas' method='post' target='_blank' id='FormularioExportacion'>
           <input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
         </form>";
+  
+  */
+  
+  
+  
   $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid',
     'htmlOptions'=>array(
@@ -45,7 +58,18 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
     'filter'=>$model,
     'columns'=>array(
       array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            //'style'=>'visibility: collapse;',
+            'width'=>'1px',
+          ),
+        ),
+      array(
         'name'=>'Fecha',
+        'id'=>'Fechas',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
           'model'=>$model,
           'attribute'=>'Fecha',
@@ -253,14 +277,14 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 <table class="items">
     <thead>
         <tr>
-           <th style="background:rgba(64,152,8,1); color:white;">Fecha</th>
-            <th style="background:rgba(64,152,8,1); color:white;">Cabina</th>
-            <th id="vistaAdmin1" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="vistaAdmin2" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalTrafico" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalRecargaMov" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalRecargaClaro" style="background:rgba(64,152,8,1); color:white;"></th>
-            <th id="totalMontoDeposito" style="background:rgba(64,152,8,1); color:white;"></th>
+           <th style="background:#00992B; color:white;">Fecha</th>
+            <th style="background:#00992B; color:white;">Cabina</th>
+            <th id="vistaAdmin1" style="background:#00992B; color:white;"></th>
+            <th id="vistaAdmin2" style="background:#00992B; color:white;"></th>
+            <th id="totalTrafico" style="background:#00992B; color:white;"></th>
+            <th id="totalRecargaMov" style="background:#00992B; color:white;"></th>
+            <th id="totalRecargaClaro" style="background:#00992B; color:white;"></th>
+            <th id="totalMontoDeposito" style="background:#00992B; color:white;"></th>
         </tr>
     </thead>
     <tbody>
