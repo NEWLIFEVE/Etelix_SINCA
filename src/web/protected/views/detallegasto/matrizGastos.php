@@ -110,11 +110,10 @@ if (count($model)> 1) { ?>
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
-                $sqlMontoGasto = "SELECT  d.FechaMes,c.nombre as Cabina, t.Nombre as nombreTipoDetalle,d.Monto, d.status, d.moneda 
-                                FROM detallegasto d, cabina c, tipogasto t 
-                                WHERE d.CABINA_Id=c.id AND d.FechaMes='$mes' AND 
-                                d.TIPOGASTO_Id=t.id and d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id and d.CABINA_Id = $cabina->Id";
-                
+                $sqlMontoGasto = "SELECT  SUM(d.Monto) as Monto, d.status 
+                                  FROM detallegasto d, cabina c, tipogasto t 
+                                  WHERE d.CABINA_Id=c.id AND d.FechaMes='$mes' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
+                                  GROUP BY d.status;";
                 $MontoGasto = Detallegasto::model()->findBySql($sqlMontoGasto);
                
                 if ($MontoGasto!=NULL){
