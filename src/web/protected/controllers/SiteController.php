@@ -222,31 +222,200 @@ class SiteController extends Controller {
         }
     }
     
+    ////// ACCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR (LLAMAN A LAS FUNCIONES CORRESPONDIENTES)   
+    
     public function actionExcel()
     {  
 
-        $archivos=array();
+        $files=array();
         
-        $archivos['balance']['nombre']=$_GET['name'];
-        $archivos['balance']['cuerpo']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
+        if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta'){
+            
+               $files['balance']['name']='Administrar_Balance_de_Cabinas';
+               $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids']);   
+        }
+        if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta'){
+            
+               $files['libroVentas']['name']='Reporte_Libro_de_Ventas';
+               $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids']);
+        }
+        if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta'){
+            
+               $files['depositoBancario']['name']='Reporte_de_Depositos_Bancarios';
+               $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids']);
+        }
+        if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta'){
+                 
+               $files['ventasbrighstar']['name']='Reporte_de_Ventas_Recargas_Brighstar';
+               $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids']);
+        }
+        if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta'){
+                 
+               $files['traficocaptura']['name']='Reporte_de_Trafico_Captura';
+               $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids']);
+        }
+        if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta'){
+              
+               $files['cicloIngreso']['name']='Ciclo_de_Ingresos_Resumido';
+               $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);   
+        }
+        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas'){
+              
+               $files['cicloIngresoC']['name']='Ciclo_de_Ingresos_Completo';
+               $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);  
+        }
+       if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta'){
+              
+               $files['cicloIngresoT']['name']='Ciclo_de_Ingresos_Total';
+               $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+        }
         
-        
-        foreach($archivos as $key => $archivo)
+        foreach($files as $key => $file)
         {
-            $this->genExcel($archivo['nombre'],$archivo['cuerpo']);
+            $this->genExcel($file['name'],$file['body'],true);
+        }
+
+    }
+    
+    public function actionSendEmail()
+    {
+
+        //$html = balanceAdmin::reporte($_GET['ids']);
+        $correo = Yii::app()->getModule('user')->user()->email;
+        //$correo = 'pnfiuty.rramirez@gmail.com';
+        $topic = $_GET['name'];
+        
+        $files=array();
+        
+        if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta'){
+            
+               $files['balance']['name']=$_GET['name'];
+               $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
+               $files['balance']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['balance']['name'].".xls";
+                
+        }
+        if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta'){
+                 
+               $files['libroVentas']['name']=$_GET['name'];
+               $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids']);
+               $files['libroVentas']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['libroVentas']['name'].".xls";
+                
+        }
+        if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta'){
+                 
+               $files['depositoBancario']['name']=$_GET['name'];
+               $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids']);
+               $files['depositoBancario']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['depositoBancario']['name'].".xls";
+                
+        }
+        if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta'){
+                 
+               $files['ventasbrighstar']['name']=$_GET['name'];
+               $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids']);
+               $files['ventasbrighstar']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['ventasbrighstar']['name'].".xls";
+                
+        }
+        if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta'){
+                 
+               $files['traficocaptura']['name']=$_GET['name'];
+               $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids']);
+               $files['traficocaptura']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['traficocaptura']['name'].".xls";
+                
+        }
+        if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta'){
+              
+               $files['cicloIngreso']['name']=$_GET['name'];
+               $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
+               $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";
+                
+        }
+        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas'){
+              
+               $files['cicloIngreso']['name']=$_GET['name'];
+               $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
+               $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";
+                
+        }
+        if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta'){
+              
+               $files['cicloIngresoT']['name']=$_GET['name'];
+               $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+               $files['cicloIngresoT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngresoT']['name'].".xls";
+                
+        }
+        
+        foreach($files as $key => $file)
+        {
+            $this->genExcel($file['name'],utf8_encode($file['body']),false);
+            Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
         }
 
     }
 
-    public function genExcel($nombre,$html)
-    {   
-        header("Content-type: application/vnd.ms-excel; charset=utf-8"); 
-        header("Content-Disposition: attachment; filename={$nombre}.xls");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        echo $html;
+    public function actionPrint(){
         
-
+        if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta'){
+            echo Yii::app()->reporte->balanceAdmin($_GET['ids']);
+        }
+        if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta'){
+            echo Yii::app()->reporte->libroVenta($_GET['ids']);
+        }
+        if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta'){
+            echo Yii::app()->reporte->depositoBancario($_GET['ids']);
+        }
+        if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta'){
+            echo Yii::app()->reporte->brightstar($_GET['ids']);
+        }
+        if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta'){
+            echo Yii::app()->reporte->captura($_GET['ids']);
+        }
+        if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta'){
+            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
+        }
+        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas'){
+            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
+        }
+        if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta'){
+            echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+        }
+        if($_GET['table']=='tabla'){
+            echo Yii::app()->reporte->matrizGastos($_GET['ids']);
+        }
+               
+        
+    }
+    
+    ////// FUNCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR
+    
+    public function genExcel($name,$html,$salida=true)
+    {   
+        
+        if($salida)
+            {
+                header('Content-type: application/vnd.ms-excel');
+                header("Content-Disposition: attachment; filename={$name}.xls");
+                header("Pragma: cache");
+                header("Expires: 0");
+                echo $html;
+            }
+            else
+            {
+                $ruta=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR;
+                $fp=fopen($ruta."$name.xls","w+");
+                $cuerpo="
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <meta charset='utf-8'>
+                        <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
+                    </head>
+                    <body>";
+                $cuerpo.=$html;
+                $cuerpo.="</body>
+                </html>";
+                fwrite($fp,$cuerpo);
+            }
+        
     }
  
 }

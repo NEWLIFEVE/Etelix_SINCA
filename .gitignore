@@ -1,4 +1,8 @@
 src/web/assets/
 src/web/protected/runtime/
 src/web/themes/classic/
+<<<<<<< HEAD
 nbproject/*
+=======
+nbproject/
+>>>>>>> exportar_excel

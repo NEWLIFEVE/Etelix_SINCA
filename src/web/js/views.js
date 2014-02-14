@@ -1,5 +1,10 @@
-
-
+/**
+* @file views.js
+* archivo encargado de almacenar funciones para las vistas
+*/
+/**
+* Variables globales
+*/
 var fondos={
         'log-grid':'rgba(64,152,8,1)',
         'list-user-grid':'rgba(64,152,8,1)',
@@ -17,6 +22,7 @@ var fondos={
         'balanceReporteCaptura':'rgba(204,153,204,1)',
         'balanceReporteCapturaOculta':'rgba(204,153,204,1)',
         };
+
 
 
 /**
@@ -292,12 +298,14 @@ imprimir.prototype.detalle=function()
 imprimir.prototype.printo=function()
 {
     this.imp = window.open(" ","Formato de Impresion");
-    //this.imp.document.open();
+
+    this.imp.document.open();
     this.imp.document.write(this.estilo);     //abrimos
     this.imp.document.write(this.div);//agregamos el objeto
-    //this.imp.document.close();
+    this.imp.document.close();
     this.imp.print();   //Abrimos la opcion de imprimir
-    //this.imp.close();
+    this.imp.close();
+
     if(this.id1!=undefined)
     {
         $.fn.yiiGridView.update(this.id1);
@@ -353,11 +361,13 @@ totalPronostico.prototype.alarmas=function(week,weekend,suma)
     var laboral=$(this.ids.laborable).val();
     var fin=$(this.ids.fin).val();
     var dias=$(this.ids.dias);
-    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
-    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
+
+    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(laboral)}).parent().children('td#laboral').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
     
-    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
-    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) < parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+    dias.filter(function(){return parseFloat($(this).text()) >= parseFloat(fin)}).parent().children('td#fin').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+
 }
 //metodo que cambia el icono de aprobado o no aprobado
 totalPronostico.prototype.totalesPronostico=function()
@@ -373,11 +383,13 @@ totalPronostico.prototype.totalesPronostico=function()
     var disponible=$('td#disponible').text();
     if(parseFloat(recargas)<=parseFloat(disponible))
     {
-        $('td#aprobacion').css({'background-image':'url(/themes/mattskitchen/img/si.png)','background-repeat':'no-repeat','background-position':'center' });
+
+        $('td#aprobacion').css({'background-image':'url(/images/check-icon.png)','background-repeat':'no-repeat','background-position':'center' });
     }
     else
     {
-        $('td#aprobacion').css({'background-image':'url(/themes/mattskitchen/img/no.png)','background-repeat':'no-repeat','background-position':'center' });
+        $('td#aprobacion').css({'background-image':'url(/images/no-icon.png)','background-repeat':'no-repeat','background-position':'center' });
+
     }
 }
 totalPronostico.prototype.nuevoSaldo=function(objeto)
@@ -422,7 +434,9 @@ $(document).ready(function()
     datepicker.escoge("input#dateMonth");
     datepicker.escoge("input#FechaMes");
     totales.run();
-    imprime.run();
+
+    //imprime.run();
+
     pronostico.run();
 
     /*
@@ -436,16 +450,20 @@ $(document).ready(function()
     validarNum();
     getHref();
     getHref2();
-    gen_excel();
-    send_mail();
-    send_mail_detail();
-    send_mail_panel();
+
+    //gen_excel();
+//    send_mail();
+//    send_mail_detail();
+//    send_mail_panel();
+
     takeOff();
     switchCabina();
     $(this).ajaxComplete(function()
     {
-        totales.run();
-        imprime.run();
+        //totales.run();
+
+        //imprime.run();
+
 
 
 
@@ -454,8 +472,10 @@ $(document).ready(function()
     validarNum();
     getHref();
     getHref2();
-    gen_excel();
-    send_mail();
+
+    //gen_excel();
+    //send_mail();
+
     switchCabina();
     });
 });
@@ -961,4 +981,143 @@ function validar()
             }
         });
     return valor;
+
+}
+
+/*se encarga de realizar el cambio de cabinas activas a inactivas*/
+function resetValues()
+{
+    $('#reset').on('click',function()
+    {
+        $('#FechaMes').val("");
+        $('#formCabina').val("");
+        $('#FechaMes').val("");
+    });
+}
+
+
+
+
+/*
+* Clase encargada de generar los excel
+*/
+var excel=function()
+{
+    this.boton=null;
+}
+//metodo para generar excel de detalle
+excel.prototype.detalle=function(boton, objeto, input, form)
+{
+    this.boton=$(boton);
+    var objeto=$(objeto);
+    var campo=$(input);
+    var formulario=$(form);
+    this.boton.on('click',function()
+    {
+        objeto.children('table').children('tbody').children().each(function()
+        {
+            if($(this).attr('class') == 'odd')
+            {
+                $(this).css('background','rgba(229,241,244,1)');
+            }
+            else
+            {
+                $(this).css('background','rgba(248,248,248,1)');
+            }
+        });
+        campo.val($('<div>').append('<h1>'+$('.enviar').html()+'</h1>'+'<br>'+objeto.html()).html());
+        formulario.submit();
+    });
+    
+}
+
+/*
+* Clase encargada de enviar mail
+*/
+var mail=function()
+{
+    this.boton=null;
+    this.objeto=null;
+}
+mail.prototype.panel=function(id)
+{
+
+}
+//Metodo encargado de enviar mail en todas las vistas de reportes
+mail.prototype.mail=function(boton, capa)
+{
+    this.boton=$(boton);
+    this.objeto=$(capa);
+    this.boton.on('click',function()
+    {
+        this.objeto.filter(function(){return $(this).css('display') == 'block'}).attr('id')
+    });
+}
+function send_mail()
+{
+    $(".botonCorreo").click(function(event)
+    {
+        //Obtengo el id del gridview que va para el ecel
+        var id=$('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
+        if($('div[rel="total"]').filter(function(){return $(this).css('display') == "none" }).length)
+        var id2=$('div[rel="total"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
+        if($("div#totales" ).length)
+            var id3=$('div#totales').filter(function(){return $(this).css('display') == "block" }).attr('id');
+        //le quito los links al thead
+        noLink(id);
+        //cambio el color del fondo
+        fondo(id);
+        if($("div#totales" ).length)
+            fondo(id3);
+        //le coloco los fondos a los resultados
+        fila(id);
+        if($("div#totales" ).length)
+            fila(id3);
+        $(".filters").remove();
+        $(".button-column").remove();
+        $("table.items input" ).attr('disabled','disabled');
+        if($("div#totales" ).length)
+            var html = "<h1>" + $(".enviar").clone().html() + "</h1>" + "<br/>"  + $("table.items" ).clone().html() + "<br/>" +$("div#totales" ).children().clone().html();
+        else
+            html = "<h1>" + $(".enviar").clone().html() + "</h1>" + "<br/>"  + $("table.items" ).clone().html();
+        $("#html").val(html);
+        $("#FormularioCorreo").submit();
+        $.fn.yiiGridView.update(id);
+        $.fn.yiiGridView.update(id2);
+        alert('Correo Enviado');
+    });
+    $("img#enviar").click(function(event)
+    {
+        var html = $("div.enviar").clone().html();
+        $("#html").val(html);
+        $("#FormularioCorreo").submit();
+        alert('Correo Enviado');
+    });
+}
+function send_mail_panel()
+{
+    $(".botonCorreoPanel").click(function(event)
+    {
+        $("h1").children().remove();
+        $(".filters").remove();
+        var h1=$("h1").clone().html();
+        var html = $("div#enviar").clone().html();
+        var reglas = $("div#reglasCorreo").clone().html();
+        var completo= "<h1>"+h1+"</h1>"+"<br/>"+html+"<br/>"+"<div>"+reglas+"</div>";
+        $("#html").val(completo);
+        $("#FormularioCorreo").submit();
+        alert('Correo Enviado');
+    });
+}
+function send_mail_detail()
+{
+    $(".botonCorreoDetail").click(function(event)
+    {
+        var id="detail";
+        fila(id);
+        var html = "<h1>"+ $(".enviar").clone().html() + "</h1>" + "<br/>" +$(".enviarTabla").clone().html();
+        $("#html").val(html);
+        $("#FormularioCorreo").submit();
+        alert('Correo Enviado');
+    });
 }

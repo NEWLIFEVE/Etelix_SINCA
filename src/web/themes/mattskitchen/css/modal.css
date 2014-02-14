@@ -1,0 +1,21 @@
+.black_overlay { /* afuera: la parte oscura */
+   background: #000000;
+   display: block;
+   position: fixed;
+   left: 0; top: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 1001;
+   opacity: .75; /* opacidad para Firefox */
+   filter: alpha(opacity=75);  /* opacidad para Internet Explorer */
+}
+
+.white_content { /* adentro: la ventana modal */
+  display: none;
+  position: absolute;
+  overflow: auto;
+  z-index:1002;
+  left: distancia;  top: distancia; /* la posición de la ventana modal */
+  width: ancho; height: alto; /* el tamaño de la ventana modal */
+  /* cualquier otra propeidad, colores, márgenes, fondo */
+}
