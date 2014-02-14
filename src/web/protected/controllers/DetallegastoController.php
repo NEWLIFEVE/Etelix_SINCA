@@ -44,6 +44,7 @@ class DetallegastoController extends Controller {
                     'dynamicCuenta',
                     'dynamicGastoAnterior',
                     'estadoGastos',
+                    'matrizGastos',
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
@@ -63,6 +64,7 @@ class DetallegastoController extends Controller {
                     'dynamicUsers',
                     'dynamicCuenta',
                     'dynamicGastoAnterior',
+                    'matrizGastos',
                     'estadoGastos',
                     'filtrarPorStatus',
                     'updateGasto',
@@ -83,6 +85,7 @@ class DetallegastoController extends Controller {
                     'dynamicCuenta',
                     'dynamicGastoAnterior',
                     'estadoGastos',
+                    'matrizGastos',
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
@@ -225,6 +228,14 @@ class DetallegastoController extends Controller {
             'model' => $model,
         ));
     }
+    public function actionMatrizGastos() {
+        if(isset($_POST['formFecha'])){
+            $this->render('matrizGastos', array('formFecha'=>$_POST['formFecha']));
+        }else{
+           $this->render('matrizGastos', array()); 
+        }
+        
+    }
 
     public function actionUpdateGasto() {
         $model = new Detallegasto;
@@ -357,6 +368,7 @@ class DetallegastoController extends Controller {
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
                // array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
             );
         }
         /* ADMINISTRADOR */
@@ -366,6 +378,7 @@ class DetallegastoController extends Controller {
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
               //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
             );
         }
         /* TESORERO */

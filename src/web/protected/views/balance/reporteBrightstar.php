@@ -221,12 +221,12 @@ function reinstallDatePicker(id, data) {
 <table class="items">
     <thead>
         <tr>
-            <th style="background:rgba(255,153,51,1); color:white;">Fecha</th>
-            <th style="background:rgba(255,153,51,1); color:white;">Cabinas</th>
-            <th id="balanceTotalesBrightstar1" style="background:rgba(255,153,51,1); color:white;"></th>
-            <th id="totalesDiferencialBrightstarMovistar" style="background:rgba(255,153,51,1); color:white;"></th>
-            <th id="balanceTotalesBrightstar3" style="background:rgba(255,153,51,1); color:white;"></th>
-            <th id="totalesDiferencialBrightstarClaro" style="background:rgba(255,153,51,1); color:white;"></th>
+            <th style="background:#ff9900; color:white;">Fecha</th>
+            <th style="background:#ff9900; color:white;">Cabinas</th>
+            <th id="balanceTotalesBrightstar1" style="background:#ff9900; color:white;"></th>
+            <th id="totalesDiferencialBrightstarMovistar" style="background:#ff9900; color:white;"></th>
+            <th id="balanceTotalesBrightstar3" style="background:#ff9900; color:white;"></th>
+            <th id="totalesDiferencialBrightstarClaro" style="background:#ff9900; color:white;"></th>
         </tr>
     </thead>
     <tbody>

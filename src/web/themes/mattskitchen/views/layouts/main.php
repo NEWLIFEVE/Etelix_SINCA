@@ -3,52 +3,27 @@
 [if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]
 [if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]
 [if gt IE 8]> <html class="no-js" lang="en"> <![endif]-->
-
-<?php
-
-//    if( stripos(Yii::app()->controller->getPageTitle(), 'Detallegasto') == FALSE
-//        && (    stripos(Yii::app()->controller->getPageTitle(), 'EstadoGastos') == FALSE
-//             || stripos(Yii::app()->controller->getPageTitle(), 'View')         == FALSE
-//             || stripos(Yii::app()->controller->getPageTitle(), 'Update')       == FALSE )
-//      ){
-//    if(!isset($_POST["formFecha"]) && !isset($_POST["formCabina"])){
-//
-//        Yii::app()->user->setState('mesSesion','');
-//        Yii::app()->user->setState('cabinaSesion','');
-//        Yii::app()->user->setState('rbtnStatusSesion','');
-//
-//    }
-
-?>
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
   <meta name="language" content="en" />
-
   <link rel="shortcut icon" href="<?php echo Yii::app()->theme->baseUrl; ?>/favicon.ico" type="image/x-icon" />
-  <!-- blueprint CSS framework -->
+
   <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/screen.css" media="screen, projection" />
   <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" />
-  <!--[if lt IE 8]>
-  <link rel="stylesheet" type="text/css" href="<?php //echo Yii::app()->theme->baseUrl; ?>/css/ie.css" media="screen, projection" />
-  <![endif]-->
   <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/main.css" />
   <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/form.css" /> 
   <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datepicker.css" /> 
-  <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/themes/base/jquery-ui.css" />
-  <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/themes/base/jquery.ui.datepicker.css" />
-  <link rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/themes/base/jquery.ui.all.css" />
 
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/ui/jquery.ui.datepicker.js"></script>
+  <?php Yii::app()->clientScript->registerCssFile(Yii::app()->clientScript->getCoreScriptUrl().'/jui/css/base/jquery-ui.css'); ?>
+  <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+  <?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
   <script>window.jQuery || document.write(unescape('%3Cscript src="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/jquery-1.9.1.js"%3E%3C/script%3E'))</script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <script>window.jQuery || document.write(unescape('%3Cscript src="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/ui/jquery-ui.js"%3E%3C/script%3E'))</script>
   
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/modernizr.js"></script>
-  <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/sinca.js"></script>
+  <!--<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/sinca.js"></script>-->
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/views.js"></script>
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/estadoGastos.js"></script>
   
