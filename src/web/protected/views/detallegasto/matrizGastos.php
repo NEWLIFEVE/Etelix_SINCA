@@ -130,22 +130,28 @@ if (count($model)> 1) { ?>
                             $pagado.="<td></td>";
                             break;
                         case "2":
-                            $opago.="<td></td>";
+                            
                             if ($count>0){
+                                $opago.="<td></td>";
                                 $aprobado.="<td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
+                                $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
                                 $aprobado.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
                             $pagado.="<td></td>";
                             break;
                         case "3":
-                            $opago.="<td></td>";
-                            $aprobado.="<td></td>";
+                            
                             if ($count>0){
+                                $opago.="<td ></td>";
+                                $aprobado.="<td></td>";
                                 $pagado.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $pagado.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td ></td>";
+                                $aprobado.="<td></td>";
+                                $pagado.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             break;
                     }
