@@ -146,7 +146,10 @@ $(document).ready(function()
         $('img.botonExcelMatriz').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
-
+            $("#loading").html("Generando Excel... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+             
             var gridview = 'tabla';
             //var mes = $('#dateMonth').val();
             var name = genNameFile(gridview);
@@ -157,34 +160,24 @@ $(document).ready(function()
             var response = $.ajax({ type: "GET",   
                                     url: '/site/excel?name='+name+"&table="+gridview,   
                                     async: false,
-                                    beforeSend: function () {
-            window.open("/site/excel?name="+name+"&table="+gridview,"_top");                            
-            $("#loading").html("Generando Excel... !!");
-            $("#nombreContenedor").css("display", "inline");
-            $("#loading").css("display", "inline");
-             
-                                    },
-                                    success:  function (response) {
-             
-             $("#complete").html("Archivo Excel Descargado... !!");
-             setTimeout('$("#complete").css("display", "inline");', 19000);
-             setTimeout('$("#loading").css("display", "none");', 19000); 
-             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 19000);
-             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 19000);
-                                    }
+                                    succes: alert,
                                   }).responseText;
 
              //alert(response);
              if(response != 'Error'){
              //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
              var win = false;
-             //win = window.open("/site/excel?name="+name+"&table="+gridview,"_top");
+             win = window.open("/site/excel?name="+name+"&table="+gridview,"_top");
 
             if (win.closed == false)
             {
  
              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-
+             $("#complete").html("Archivo Excel Descargado... !!");
+             setTimeout('$("#complete").css("display", "inline");', 1000);
+             setTimeout('$("#loading").css("display", "none");', 1000); 
+             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
             }
              }else{
                         $("#error").html("No se Muestran Datos... !!");
