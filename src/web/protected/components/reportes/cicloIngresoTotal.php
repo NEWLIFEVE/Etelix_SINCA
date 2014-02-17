@@ -37,24 +37,24 @@
 
                 }
                 
-                 $balanceTotals = cicloIngresoTotal::get_ModelTotal($ids);
-                 $table.=  Reportes::defineHeader("cicloI")
-                                .'<tr >
-                                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->TotalVentas).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->DiferencialBancario,$balanceTotals->DiferencialBancario).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$balanceTotals->ConciliacionBancaria).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar).'</td> 
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Acumulado,$balanceTotals->Acumulado).'</td> 
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Sobrante,$balanceTotals->Sobrante).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->SobranteAcum,$balanceTotals->SobranteAcum).'</td>   
-                                      </tr>
-                                    </tbody>
+                 //$balanceTotals = cicloIngresoTotal::get_ModelTotal($ids);
+                 //$table.=  Reportes::defineHeader("cicloI")
+//                                .'<tr style="display:none;">
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->TotalVentas).'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->DiferencialBancario,$balanceTotals->DiferencialBancario).'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$balanceTotals->ConciliacionBancaria).'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles).'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar).'</td> 
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Acumulado,$balanceTotals->Acumulado).'</td> 
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Sobrante,$balanceTotals->Sobrante).'</td>
+//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->SobranteAcum,$balanceTotals->SobranteAcum).'</td>   
+//                                      </tr>
+                                      $table.=   '</tbody>
                            </table>';
             }else{
                 $table='Hubo un error';

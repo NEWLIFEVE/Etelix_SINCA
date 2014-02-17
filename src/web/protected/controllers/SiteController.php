@@ -269,11 +269,16 @@ class SiteController extends Controller {
                $files['cicloIngresoT']['name']='Ciclo_de_Ingresos_Total';
                $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
         }
+        if($_GET['table']=='tabla'){
+            $files['matriz']['name']='Matriz de Gastos';
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
+        }
         
         foreach($files as $key => $file)
         {
             $this->genExcel($file['name'],$file['body'],true);
         }
+
 
     }
     
@@ -281,8 +286,8 @@ class SiteController extends Controller {
     {
 
         //$html = balanceAdmin::reporte($_GET['ids']);
-        $correo = Yii::app()->getModule('user')->user()->email;
-        //$correo = 'pnfiuty.rramirez@gmail.com';
+        //$correo = Yii::app()->getModule('user')->user()->email;
+        $correo = 'pnfiuty.rramirez@gmail.com';
         $topic = $_GET['name'];
         
         $files=array();
@@ -343,9 +348,18 @@ class SiteController extends Controller {
                $files['cicloIngresoT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngresoT']['name'].".xls";
                 
         }
+        if($_GET['table']=='tabla'){
+            
+            $files['matriz']['name']=$_GET['name'];
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
+            $files['matriz']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matriz']['name'].".xls";
+        
+               
+        }
         
         foreach($files as $key => $file)
-        {
+        {   
+            
             $this->genExcel($file['name'],utf8_encode($file['body']),false);
             Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
         }
@@ -379,7 +393,7 @@ class SiteController extends Controller {
             echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
         }
         if($_GET['table']=='tabla'){
-            echo Yii::app()->reporte->matrizGastos($_GET['ids']);
+            echo Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
         }
                
         

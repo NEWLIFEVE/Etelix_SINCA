@@ -142,6 +142,60 @@ $(document).ready(function()
             }
 
         });
+        
+        $('img.botonExcelMatriz').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
+        {    
+
+
+            var gridview = 'tabla';
+            //var mes = $('#dateMonth').val();
+            var name = genNameFile(gridview);
+            
+            //alert(mes);
+            
+            
+            var response = $.ajax({ type: "GET",   
+                                    url: '/site/excel?name='+name+"&table="+gridview,   
+                                    async: false,
+                                    beforeSend: function () {
+            window.open("/site/excel?name="+name+"&table="+gridview,"_top");                            
+            $("#loading").html("Generando Excel... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+             
+                                    },
+                                    success:  function (response) {
+             
+             $("#complete").html("Archivo Excel Descargado... !!");
+             setTimeout('$("#complete").css("display", "inline");', 19000);
+             setTimeout('$("#loading").css("display", "none");', 19000); 
+             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 19000);
+             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 19000);
+                                    }
+                                  }).responseText;
+
+             //alert(response);
+             if(response != 'Error'){
+             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+             var win = false;
+             //win = window.open("/site/excel?name="+name+"&table="+gridview,"_top");
+
+            if (win.closed == false)
+            {
+ 
+             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+
+            }
+             }else{
+                        $("#error").html("No se Muestran Datos... !!");
+                        $("#loading").css("display", "none");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+
+        });
     }
 
 
@@ -268,6 +322,43 @@ $(document).ready(function()
                         setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
             }
         }); 
+        
+        $('img.botonCorreoMatriz').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
+        {    
+
+
+            var gridview = 'tabla';
+            //var mes = $('#dateMonth').val();
+            var name = genNameFile(gridview);
+            //alert(mes);
+            
+            if(gridview != ''){
+            
+                                $.ajax({ 
+                                    type: "GET",   
+                                    url: '/site/sendemail?name='+name+"&table="+gridview,   
+                                    async: false,
+                                    beforeSend: function () {
+                                            //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
+//                                            $("#nombreContenedor").css("display", "inline");
+//                                            $("#loading").css("display", "inline");
+                                    },
+                                    success:  function (response) {
+                                            $("#complete").html("Correo Enviado con Exito... !!");
+                                            $("#nombreContenedor").css("display", "inline");
+                                            $("#complete").css("display", "inline");
+                                            setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                            setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  });
+            }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+        });  
     }
 
 //--- FUNCION PARA IMPIRMIR.
@@ -301,6 +392,13 @@ $(document).ready(function()
             '<script type="text/javascript">function printPage() { window.focus(); window.print();return; }</script>'+
             '</body></html>';
     
+//    
+//            $.fancybox.open({
+//		href : 'iframe.html',
+//		type : 'iframe',
+//		padding : 5
+//				});
+                        
             //Creamos un 'iframe' para simular la apertura de una pagina nueva sin recargar ni alterar la anterior.
             var newIframe = document.createElement('iframe');
             newIframe.width = '0';
@@ -419,6 +517,58 @@ $(document).ready(function()
                         setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
                         setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
             }
+        
+        }); 
+            
+        $('img.printButtonMatriz').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
+        {    
+
+           
+            var gridview = 'tabla';
+            //var mes = $('#dateMonth').val();
+            var name = genNameFile(gridview);
+            //alert(mes);
+            
+            
+            //Creamos la variable que contiene la tabla generada.
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/print?table="+gridview,   
+                                    async: false,
+                                  }).responseText;
+            //Creamos la variable que alberga la pagina con la tabla generada.
+            //alert(response);
+            if(response != 'No Data'){
+            var content = '<html lang="es"><meta charset="latin1">'+
+            '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
+            '<body><h1 style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;">'+name+'</h1><br>'
+            //Tabla con Formato
+            +response+
+
+            '<script type="text/javascript">function printPage() { window.focus(); window.print();return; }</script>'+
+            '</body></html>';
+    
+            //Creamos un 'iframe' para simular la apertura de una pagina nueva sin recargar ni alterar la anterior.
+            var newIframe = document.createElement('iframe');
+            newIframe.id = "plotFrame";
+            newIframe.name = "displayData";
+            newIframe.width = '0';
+            newIframe.height = '0';
+            newIframe.src = 'about:blank';
+            document.body.appendChild(newIframe);
+            newIframe.contentWindow.contents = content;
+            newIframe.src = 'javascript:window["contents"]';
+            newIframe.focus();
+            setTimeout(function() {
+            newIframe.contentWindow.printPage();
+            }, 10);
+            return;
+            }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
         }); 
     }
 
@@ -451,6 +601,9 @@ $(document).ready(function()
         }
         if(gridview=='balanceCicloIngresosTotalResumido' || gridview=='balanceCicloIngresosTotalResumidoOculta'){
             name = 'Ciclo de Ingresos Total';
+        }
+        if(gridview=='tabla'){
+            name = 'Matriz de Gastos';
         }
         
         return name;   

@@ -29,15 +29,19 @@ $model = Detallegasto::model()->findAllBySql($sql);
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 ?>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
         Matriz de Gastos
         <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?>
     </span>
     <span>
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
-        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoMatriz" />
+        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelMatriz" />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonMatriz' />
     </span>
 </h1>
 <form name="Detallegasto" method="post" action="<?php echo Yii::app()->createAbsoluteUrl('detallegasto/matrizGastos') ?>">
@@ -55,26 +59,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
     </div>
 </form>
 <div style="display: block;">&nbsp;</div>
-<?php
-echo CHtml::beginForm(Yii::app()->createUrl('detallegasto/enviarEmail'), 'post', array('name' => 'FormularioCorreo', 'id' => 'FormularioCorreo', 'style' => 'display:none'));
-echo CHtml::textField('html', 'Hay Efectivo', array('id' => 'html', 'style' => 'display:none'));
-echo CHtml::textField('vista', 'estadoGastos', array('id' => 'vista', 'style' => 'display:none'));
-echo CHtml::textField('correoUsuario', Yii::app()->getModule('user')->user()->email, array('id' => 'email', 'style' => 'display:none'));
-echo CHtml::textField('asunto', 'Reporte de Estado de Gastos Solicitado', array('id' => 'asunto', 'style' => 'display:none'));
-echo CHtml::endForm();
-echo "<form action='";
-?>
-<?php
-echo Yii::app()->request->baseUrl;
-?>
-<?php
-echo "/ficheroExcel.php?nombre=Estado_Gastos_".date("Y-m-d");
-echo $mes != NULL ? "_". Utility::monthName($mes) : "";
-echo "' name='excel' method='post' target='_blank' id='FormularioExportacion'>
-        <input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
-     </form>";
-echo CHtml::beginForm(Yii::app()->createUrl('detallegasto/updateGasto'), 'post', array('name' => 'actualizar', 'id' => 'Form'));
-?>
+
 <?php 
 
 if (count($model)> 1) { ?>
@@ -123,35 +108,35 @@ if (count($model)> 1) { ?>
                             if ($count>0){
                                 $opago.="<td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
-                            $aprobado.="<td></td>";
-                            $pagado.="<td></td>";
+                            //$aprobado.="<td></td>";
+                            //$pagado.="<td></td>";
                             break;
                         case "2":
                             
                             if ($count>0){
-                                $opago.="<td></td>";
-                                $aprobado.="<td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                //$opago.="<td></td>";
+                                $opago.="<td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
-                                $aprobado.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                //$opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
-                            $pagado.="<td></td>";
+                            //$pagado.="<td></td>";
                             break;
                         case "3":
                             
                             if ($count>0){
-                                $opago.="<td ></td>";
-                                $aprobado.="<td></td>";
-                                $pagado.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                //$opago.="<td ></td>";
+                                //$aprobado.="<td></td>";
+                                $opago.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
-                                $opago.="<td ></td>";
-                                $aprobado.="<td></td>";
-                                $pagado.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                //$opago.="<td ></td>";
+                                //$aprobado.="<td></td>";
+                                $opago.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             break;
                     }
@@ -159,11 +144,11 @@ if (count($model)> 1) { ?>
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
+                        $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
                     }
                     
-                    $aprobado.="<td></td>";
-                    $pagado.="<td></td>";
+                    //$aprobado.="<td></td>";
+                    //$pagado.="<td></td>";
                 }
                 $count++;
             }
@@ -172,12 +157,7 @@ if (count($model)> 1) { ?>
      $tr.="<tr id='ordenPago'> 
             $opago
     </tr>
-    <tr id='aprobado'> 
-            $aprobado
-    </tr>
-    <tr id='pagado'> 
-            $pagado
-    </tr>
+
     <tr style='height: em; background-color: #DADFE4;'>
         <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>";

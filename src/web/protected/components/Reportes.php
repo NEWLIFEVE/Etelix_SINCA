@@ -58,7 +58,11 @@ class Reportes extends CApplicationComponent
     
     public function matrizGastos($ids)
     {
-        $var= matrizGastos::reporte($ids);
+        if($ids == null){
+        $var= 'Error';
+        }else{
+        $var= matrizGastos::reporte($ids);    
+        }
         return $var;
     }
 

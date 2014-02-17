@@ -3,6 +3,11 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+    - Mejora en el proceso de Exportacion a Excel (Balances).
+    - Mejora en el proceso de Visualizacion para Impresion (Balances).
+    - Mejora en el envio de del Reporte al Correo Electronico (Balances).
+    - Creacion de la Matriz de Gastos (Gastos). 
+
 Realese 1.5.3
     -Cambio en update para saldo de apertura banco.
     -Agregado fecha de deposito en update balance.

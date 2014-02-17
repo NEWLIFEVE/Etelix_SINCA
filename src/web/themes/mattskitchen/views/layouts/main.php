@@ -26,12 +26,11 @@
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/sinca.js"></script>
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/views.js"></script>
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/estadoGastos.js"></script>
-  
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-  <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.fancybox.js"></script>
-  <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.fancybox.css" media="screen" />
-  
-  
+ 
+  <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-1.10.1.min.js"></script>
+  <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.fancybox.js?v=2.1.5"></script>
+  <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+        
   <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
