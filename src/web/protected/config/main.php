@@ -85,14 +85,10 @@ return array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
             ),
 		'db'=>array(
-<<<<<<< HEAD
-			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
-=======
 			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
->>>>>>> 69e8abc017658e731ff9366b90fbfa979d800d14
 			'emulatePrepare'=>true,
-                        'username'=>'ramonr',
-			'password'=>'123',
+            'username'=>'root',
+			'password'=>'Nsusfd8263',
 			'charset'=>'utf8',
 			),
 		'errorHandler'=>array(
@@ -128,6 +124,6 @@ return array(
 		// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'manuel@newlifeve.com',
+		'adminEmail'=>'manuelz@sacet.biz',
 	),
 );
