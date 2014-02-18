@@ -475,6 +475,10 @@ margin-right: 38px;
     opacity: 0.5;
 }
 
+.printButtonComplete:hover,.botonExcelComplete:hover,.botonCorreoComplete:hover{
+    opacity: 0.5;
+}
+
 .buttons input,  button#cambio
 {
   display: inline-block;
@@ -934,7 +938,62 @@ div.grid-view.detalleCuenta table.items tbody tr.total
     padding-bottom: 10px;
     text-transform: uppercase;
     font-size: 25px;
-}
+}  
+
+.ventana_flotante2 {
+
+    display: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+    bottom: 50px;
+    left: auto;
+    margin-left: -120px;
+    padding: 10px 0 0;
+    position: fixed;
+    text-align: center;
+    width: 500px;
+    height: 200px;
+    z-index: 1500;
+    margin: 15% auto;
+    margin-left: 10%;
+    background-image: url(../img/si2.png);
+    background-size:120px 100px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    letter-spacing: -1px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 25px;
+} 
+
+.ventana_flotante3 {
+
+    display: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+    bottom: 50px;
+    left: auto;
+    margin-left: -120px;
+    padding: 10px 0 0;
+    position: fixed;
+    text-align: center;
+    width: 500px;
+    height: 200px;
+    z-index: 1500;
+    margin: 15% auto;
+    margin-left: 10%;
+    background-image: url(../img/stop.png);
+    background-size:80px 100px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    letter-spacing: -1px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 25px;
+} 
+
 #scroll-top {
     position: fixed;
     bottom: 20px;
@@ -968,4 +1027,8 @@ table.matrizGastos th
 .matrizGastos h3
 {
     font-size:10px; color:#FFFFFF; background: none; text-align: center;
+}
+img
+{
+    cursor: pointer;
 }

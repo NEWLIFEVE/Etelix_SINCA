@@ -5,6 +5,10 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = BalanceController::controlAcceso($tipoUsuario);
 ?>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
         Reporte de Trafico Captura
@@ -28,20 +32,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
         </div>
     </span>
 </h1>
-<?php
-echo CHtml::beginForm(Yii::app()->createUrl('balance/enviarEmail'), 'post', array('name' => 'FormularioCorreo', 'id' => 'FormularioCorreo','style'=>'display:none'));
-echo CHtml::textField('html', 'Hay Efectivo', array('id' => 'html', 'style'=>'display:none'));
-echo CHtml::textField('vista', 'reporteCaptura', array('id' => 'vista', 'style'=>'display:none'));
-echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
-echo CHtml::textField('asunto', 'Reporte de Trafico Captura Solicitado', array('id' => 'asunto', 'style'=>'display:none'));
-echo CHtml::endForm();
-?>
-<!--<p>Enviar por Correo  </p>-->
-<form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Reporte_Captura" method="post" target="_blank" id="FormularioExportacion">
-<!--<p>Exportar a Excel  </p>-->
-    <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
-</form>
-<!-- CGridView here -->
+
 <?php
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceReporteCaptura',
@@ -54,6 +45,17 @@ $this->widget('zii.widgets.grid.CGridView',array(
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
         array(
             'name'=>'Fecha',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
@@ -156,6 +158,17 @@ $this->widget('zii.widgets.grid.CGridView',array(
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
         array(
             'name'=>'Fecha',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(

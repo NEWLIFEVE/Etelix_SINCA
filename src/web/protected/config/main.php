@@ -57,6 +57,9 @@ return array(
 		'reporte'=>array(
 			'class'=>'application.components.Reportes'
 			),
+                'correo'=>array(
+			'class'=>'application.components.EnviarEmail'
+			),
 		'user'=>array(
 			'class'=>'WebUser',
 			// enable cookie-based authentication
@@ -84,7 +87,7 @@ return array(
 		'db'=>array(
 			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-			'username'=>'root',
+            'username'=>'root',
 			'password'=>'Nsusfd8263',
 			'charset'=>'utf8',
 			),
@@ -121,6 +124,6 @@ return array(
 		// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'manuel@newlifeve.com',
+		'adminEmail'=>'manuelz@sacet.biz',
 	),
 );

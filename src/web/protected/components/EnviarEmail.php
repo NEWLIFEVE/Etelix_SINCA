@@ -1,9 +1,9 @@
 <?php
 class EnviarEmail extends CFormatter{
 
-        public function enviar(){
+     public function sendEmail($html,$correo,$topic,$dir){
 
-        if(isset($_POST ['html']) && isset($_POST ['correoUsuario'])){
+        if(isset($html) && isset($correo)){
             $mailer = Yii::createComponent('application.extensions.mailer.EMailer');
             $mailer->Host = 'smtp.gmail.com';
             $mailer->Port = '587';
@@ -16,17 +16,16 @@ class EnviarEmail extends CFormatter{
             $mailer->IsHTML(true);
             $mailer->From = 'sinca.test@gmail.com';
             $mailer->AddReplyTo('sinca.test@gmail.com');
-            $mailer->AddAddress($_POST ['correoUsuario']);
+            $mailer->AddAddress($correo);
             $mailer->FromName = 'SINCA';
             $mailer->CharSet = 'UTF-8';
-            $mailer->Subject = Yii::t('', $_POST['asunto']);
-            $message = $_POST['html'];
+            $mailer->Subject = Yii::t('', $topic);
+            $mailer->AddAttachment($dir);
+            $message = $html;
             $mailer->Body = $message;
             $mailer->Send();
-        }
-
-
-    }
+            }
+     }
     
 }
 
