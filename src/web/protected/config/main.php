@@ -77,9 +77,6 @@ return array(
 				'<controller:\w+>/<action:\w+>/<compania:\w+>'=>'<controller>/<action>/view',
 				),
 			),
-		/*'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-			),*/
 		// uncomment the following to use a MySQL database
 		'importcsv'=>array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
@@ -87,17 +84,9 @@ return array(
 		'db'=>array(
 			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-                        'username'=>'root',
+            'username'=>'root',
 			'password'=>'Nsusfd8263',
-			'charset'=>'utf8',
-                        
-//                       'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
-//			'emulatePrepare'=>true,
-//                        'username'=>'ramonr',
-//			'password'=>'123',
-//			'charset'=>'utf8',
-                    
-                    
+			'charset'=>'utf8',       
 			),
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors
