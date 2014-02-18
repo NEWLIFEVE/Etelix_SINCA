@@ -460,7 +460,7 @@ $(document).ready(function()
     switchCabina();
     $(this).ajaxComplete(function()
     {
-        //totales.run();
+        totales.run();
 
         //imprime.run();
 
