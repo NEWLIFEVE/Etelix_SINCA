@@ -42,7 +42,7 @@ $(document).ready(function()
              setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table="+gridview+"','_top');",500);
 
              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Descargado... !!");
+             $("#complete").html("Archivo Excel Generado... !!");
              setTimeout('$("#complete").css("display", "inline");', 1000);
              setTimeout('$("#loading").css("display", "none");', 1000); 
              setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
@@ -85,7 +85,7 @@ $(document).ready(function()
              setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table="+gridview+"','_top');",500);
 
              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Descargado... !!");
+             $("#complete").html("Archivo Excel Generado... !!");
              setTimeout('$("#complete").css("display", "inline");', 1000);
              setTimeout('$("#loading").css("display", "none");', 1000); 
              setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
@@ -127,7 +127,7 @@ $(document).ready(function()
              setTimeout('window.open("/site/excel?ids='+ids+'&name='+name+'&table='+gridview+'","_top");',500);
 
              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Descargado... !!");
+             $("#complete").html("Archivo Excel Generado... !!");
              setTimeout('$("#complete").css("display", "inline");', 1000);
              setTimeout('$("#loading").css("display", "none");', 1000); 
              setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
@@ -173,7 +173,7 @@ $(document).ready(function()
             {
  
              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Descargado... !!");
+             $("#complete").html("Archivo Excel Generado... !!");
              setTimeout('$("#complete").css("display", "inline");', 1000);
              setTimeout('$("#loading").css("display", "none");', 1000); 
              setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
