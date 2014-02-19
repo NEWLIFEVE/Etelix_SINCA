@@ -289,9 +289,8 @@ class SiteController extends Controller {
     public function actionSendEmail()
     {
 
-        //$html = balanceAdmin::reporte($_GET['ids']);
-        //$correo = Yii::app()->getModule('user')->user()->email;
-        $correo = 'pnfiuty.rramirez@gmail.com';
+        $correo = Yii::app()->getModule('user')->user()->email;
+        //$correo = 'pnfiuty.rramirez@gmail.com';
         $topic = $_GET['name'];
         
         $files=array();
