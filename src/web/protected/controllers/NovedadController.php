@@ -35,43 +35,41 @@ class NovedadController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(
-                                    'create',
-                                    'admin',
-                                    'view',
-                                    'enviarEmail',
-                                    'enviarNovedad'
-                                ),
+					'create',
+					'admin',
+					'view',
+					'enviarEmail',
+					'enviarNovedad'
+					),
 				'users'=>array_merge(Users::UsuariosPorTipo(1)),
 			),
-                    
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(
-                                    'index'
-                                ),
+					'index'
+					),
 				'users'=>array_merge(Users::UsuariosPorTipo(2)),
 			),
-                    
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array(
-                                    'index',
-                                    'create',
-                                    'update',
-                                    'admin',
-                                    'delete',
-                                    'view',
-                                    'enviarEmail',
-                                    'enviarNovedad'
-                                 ),
-				'users'=>  array_merge(Users::UsuariosPorTipo(3))
+					'index',
+					'create',
+					'update',
+					'admin',
+					'delete',
+					'view',
+					'enviarEmail',
+					'enviarNovedad'
+					),
+				'users'=>array_merge(Users::UsuariosPorTipo(3))
 			),                                     
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(
-                                    'index',
-                                    'admin',
-                                    'view',
-                                    'enviarEmail',
-                                    'enviarNovedad'
-                                 ),
+					'index',
+					'admin',
+					'view',
+					'enviarEmail',
+					'enviarNovedad'
+					),
 				'users'=>array_merge(Users::UsuariosPorTipo(5)),
 			),
 			array('deny',  // deny all users
@@ -95,18 +93,21 @@ class NovedadController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate() {
-        $model = new Novedad;    
+	public function actionCreate()
+	{
+		$model=new Novedad;    
 
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
                 
-        if (isset($_POST['Novedad'])) {
-            $model->attributes = $_POST['Novedad'];
-            $model->users_id = Yii::app()->user->id;
-            $model->Fecha = date("Y-m-d",time());
-            $model->Hora = date("H:i:s",time());
-            if ($model->save()){
+        if(isset($_POST['Novedad']))
+        {
+            $model->attributes=$_POST['Novedad'];
+            $model->users_id=Yii::app()->user->id;
+            $model->Fecha=date("Y-m-d",time());
+            $model->Hora=date("H:i:s",time());
+            if($model->save())
+            {
             	$html="<div style='padding:auto 10% auto 10%;'>".
                     "<h1 style='border: 0 none; font:150% Arial,Helvetica,sans-serif; margin: 0;".
                     "padding: 5; vertical-align: baseline;".
@@ -158,14 +159,11 @@ class NovedadController extends Controller
                     "</tr>".
                     "</table>".
                     "</div>";
-                    $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
-                    $_POST ['html']=$html;
+                $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
+                $_POST ['html']=$html;
+                $_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
 
-                    //$_POST ['correoUsuario']=Yii::app()->getModule('user')->user()->email;
-                    $_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
-                    //$_POST ['correoUsuario']="mark182182@gmail.com";
-
-                Yii::app()->enviarEmail->enviar($_POST);
+                Yii::app()->correo->sendEmail($html,$_POST ['correoUsuario'],$_POST['asunto']);
                 Yii::app()->user->setFlash('success', "*Su Observacion fue enviada satisfactoriamente, en breve le daremos una respuesta*");
                 $this->render('view', array('model' => $model,));
             }
@@ -240,18 +238,23 @@ class NovedadController extends Controller
 		));
 	}
 
-        public function actionEnviarEmail() {
-
-            Yii::app()->enviarEmail->enviar($_POST);
-            $this->redirect(Yii::app()->createUrl($_POST['vista']));
-            return;
-            
-        }
-        
-        public function actionEnviarNovedad()
-        {
-            Yii::app()->enviarEmail->enviar($_POST);
-        }
+	/**
+	 *
+	 */
+    public function actionEnviarEmail()
+    {
+        Yii::app()->enviarEmail->enviar($_POST);
+        $this->redirect(Yii::app()->createUrl($_POST['vista']));
+        return;   
+    }
+    
+    /**
+     *
+     */  
+    public function actionEnviarNovedad()
+    {
+        Yii::app()->enviarEmail->enviar($_POST);
+    }
         
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -280,45 +283,35 @@ class NovedadController extends Controller
 			Yii::app()->end();
 		}
 	}
-        
-          public static function controlAcceso($tipoUsuario){
-            
-            if($tipoUsuario==1){
-                
-                return array(
-                        array('label'=>'Reportar Novedad/Falla', 'url'=>array('create')),
-//                        array('label'=>'Listar Novedades', 'url'=>array('index')),
-                        array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
-
+    
+    /**
+     *
+     */
+  	public static function controlAcceso($tipoUsuario)
+  	{
+  		if($tipoUsuario==1)
+  		{
+  			return array(
+  				array('label'=>'Reportar Novedad/Falla', 'url'=>array('create')),
+                array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
                 );
-            }
-            if($tipoUsuario==2){
-                
-                return array(
-//                        array('label'=>'Reportar Novedad', 'url'=>array('create')),
-                      //  array('label'=>'Listar Novedades', 'url'=>array('index')),
-//                        array('label'=>'Administrar Novedades', 'url'=>array('admin')),
+  		}
+  		if($tipoUsuario==2)
+  		{
+  			return array();
+    	}
+    	if($tipoUsuario==3)
+    	{
+    		return array(
+                array('label'=>'Reportar Novedad/Falla', 'url'=>array('create')),
+                array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
                 );
-            }
-            if($tipoUsuario==3){
-                
-                return array(
-                        array('label'=>'Reportar Novedad/Falla', 'url'=>array('create')),
-                      //  array('label'=>'Listar Novedad', 'url'=>array('index')),
-                        array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
+    	}
+    	if($tipoUsuario==5)
+    	{
+    		return array(
+                array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
                 );
-                
-            }
-            
-            if($tipoUsuario==5){
-                
-                return array(
-//                        array('label'=>'Reportar Novedad', 'url'=>array('create')),
-                        //array('label'=>'Listar Novedades', 'url'=>array('index')),
-                        array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
-
-                );
-            }
-                
-            }
+    	}       
+    }
 }
