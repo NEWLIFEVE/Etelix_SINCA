@@ -85,7 +85,8 @@ return array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
             ),
 		'db'=>array(
-			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
+
+			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
                         'username'=>'root',
 			'password'=>'Nsusfd8263',
@@ -123,9 +124,6 @@ return array(
 				'decimalSeparator'=>'.',
 				'thousandSeparator'=>''
 				),
-			),
-		'enviarEmail'=>array(
-			'class'=>'application.components.EnviarEmail',
 			),
 		),
 		// application-level parameters that can be accessed

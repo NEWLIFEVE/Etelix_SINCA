@@ -973,7 +973,7 @@ class BalanceController extends Controller
     */
     public function actionEnviarEmail()
     {
-        Yii::app()->enviarEmail->enviar($_POST);
+        Yii::app()->correo->SendEmail($_POST['vista'],$_POST['correoUsuario'],$_POST['asunto']);
         $this->redirect($_POST['vista']);
     }
 
