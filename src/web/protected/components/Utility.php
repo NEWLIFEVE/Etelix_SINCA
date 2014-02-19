@@ -136,7 +136,7 @@ class Utility{
         list($year, $mon, $day) = explode('-',$date);
         setlocale(LC_TIME, 'spanish');
         $name=strftime("%B",mktime(0, 0, 0, $mon, $day, $year));
-        return $name;
+        return ucwords($name);
     }
    
    public static function cambiarFormatoFecha($fecha,$formato="d/m/Y"){

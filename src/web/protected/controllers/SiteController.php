@@ -298,6 +298,10 @@ class SiteController extends Controller
             $files['matriz']['name']='Matriz de Gastos';
             $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
         }
+        if($_GET['table']=='estadogasto-grid'){
+            $files['estadogasto']['name']=$_GET['name'];
+            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids']);
+        }
         
         foreach($files as $key => $file)
         {
@@ -310,7 +314,9 @@ class SiteController extends Controller
      */
     public function actionSendEmail()
     {
+
         $correo = Yii::app()->getModule('user')->user()->email;
+
         $topic = $_GET['name'];
         
         $files=array();
@@ -379,6 +385,14 @@ class SiteController extends Controller
         
                
         }
+        if($_GET['table']=='estadogasto-grid'){
+            
+            $files['estadogasto']['name']=$_GET['name'];
+            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids']);
+            $files['estadogasto']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadogasto']['name'].".xls";
+        
+               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -428,6 +442,9 @@ class SiteController extends Controller
         }
         if($_GET['table']=='tabla'){
             echo Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
+        }
+        if($_GET['table']=='estadogasto-grid'){
+            echo Yii::app()->reporte->estadoGasto($_GET['ids']);
         }
                
         
