@@ -19,7 +19,7 @@ return array(
 		'application.components.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
-                'application.components.reportes.*'
+		'application.components.reportes.*'
 		),
 	'modules'=>array(
 	// uncomment the following to enable the Gii tool
@@ -57,7 +57,7 @@ return array(
 		'reporte'=>array(
 			'class'=>'application.components.Reportes'
 			),
-                'correo'=>array(
+		'correo'=>array(
 			'class'=>'application.components.EnviarEmail'
 			),
 		'user'=>array(
@@ -112,9 +112,6 @@ return array(
 				'decimalSeparator'=>'.',
 				'thousandSeparator'=>''
 				),
-			),
-		'enviarEmail'=>array(
-			'class'=>'application.components.EnviarEmail',
 			),
 		),
 		// application-level parameters that can be accessed
