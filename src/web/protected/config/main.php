@@ -19,7 +19,7 @@ return array(
 		'application.components.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
-                'application.components.reportes.*'
+		'application.components.reportes.*'
 		),
 	'modules'=>array(
 	// uncomment the following to enable the Gii tool
@@ -57,7 +57,7 @@ return array(
 		'reporte'=>array(
 			'class'=>'application.components.Reportes'
 			),
-                'correo'=>array(
+		'correo'=>array(
 			'class'=>'application.components.EnviarEmail'
 			),
 		'user'=>array(
@@ -77,9 +77,6 @@ return array(
 				'<controller:\w+>/<action:\w+>/<compania:\w+>'=>'<controller>/<action>/view',
 				),
 			),
-		/*'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-			),*/
 		// uncomment the following to use a MySQL database
 		'importcsv'=>array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
@@ -88,17 +85,9 @@ return array(
 
 			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-                        'username'=>'root',
+            'username'=>'root',
 			'password'=>'Nsusfd8263',
-			'charset'=>'utf8',
-                        
-//                       'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
-//			'emulatePrepare'=>true,
-//                        'username'=>'ramonr',
-//			'password'=>'123',
-//			'charset'=>'utf8',
-                    
-                    
+			'charset'=>'utf8',       
 			),
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors

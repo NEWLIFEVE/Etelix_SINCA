@@ -2,12 +2,13 @@
 
 Yii::import('webroot.protected.modules.user.models.User');
 
-class SiteController extends Controller {
-
+class SiteController extends Controller
+{
     /**
      * Declares class-based actions.
      */
-    public function actions() {
+    public function actions()
+    {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
@@ -26,7 +27,8 @@ class SiteController extends Controller {
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         $this->render('index');
@@ -35,8 +37,10 @@ class SiteController extends Controller {
     /**
      * This is the action to handle external exceptions.
      */
-    public function actionError() {
-        if ($error = Yii::app()->errorHandler->error) {
+    public function actionError()
+    {
+        if($error = Yii::app()->errorHandler->error)
+        {
             if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
             else
@@ -44,23 +48,28 @@ class SiteController extends Controller {
         }
     }
 
-    public function actionSessionFinished() {
-
+    /**
+     *
+     */
+    public function actionSessionFinished()
+    {
         $this->render('sessionFinished', '');
-
     }
 
     /**
      * Displays the contact page
      */
-    public function actionContact() {
-        $model = new ContactForm;
-        if (isset($_POST['ContactForm'])) {
-            $model->attributes = $_POST['ContactForm'];
-            if ($model->validate()) {
-                $name = '=?UTF-8?B?' . base64_encode($model->name) . '?=';
-                $subject = '=?UTF-8?B?' . base64_encode($model->subject) . '?=';
-                $headers = "From: $name <{$model->email}>\r\n" .
+    public function actionContact()
+    {
+        $model=new ContactForm;
+        if(isset($_POST['ContactForm']))
+        {
+            $model->attributes=$_POST['ContactForm'];
+            if($model->validate())
+            {
+                $name='=?UTF-8?B?'.base64_encode($model->name).'?=';
+                $subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
+                $headers="From: $name <{$model->email}>\r\n" .
                         "Reply-To: {$model->email}\r\n" .
                         "MIME-Version: 1.0\r\n" .
                         "Content-type: text/plain; charset=UTF-8";
@@ -76,17 +85,20 @@ class SiteController extends Controller {
     /**
      * Displays the login page
      */
-    public function actionLogin() {
-        $model = new LoginForm;
+    public function actionLogin()
+    {
+        $model=new LoginForm;
 
         // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
+        if(isset($_POST['ajax']) && $_POST['ajax'] === 'login-form')
+        {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
 
         // collect user input data
-        if (isset($_POST['LoginForm'])) {
+        if(isset($_POST['LoginForm']))
+        {
             $model->attributes = $_POST['LoginForm'];
 
             // validate user input and redirect to the previous page if valid
@@ -100,21 +112,29 @@ class SiteController extends Controller {
     /**
      * Logs out the current user and redirect to homepage.
      */
-    public function actionLogout() {
+    public function actionLogout()
+    {
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
     }
 
-    public static function actionMail(){
-        $mailer = new EnviarEmail;
+    /**
+     *
+     */
+    public static function actionMail()
+    {
+        $mailer=new EnviarEmail;
     }
    
-    /* Esta funcion se encarga de devolver el arreglo con el Menu del sistema dependiendo del tipo de usuario */
-
-    public static function controlAcceso($tipoUsuario) {
-        $idUsuario = Yii::app()->user->id;
+    /**
+     * Esta funcion se encarga de devolver el arreglo con el Menu del sistema dependiendo del tipo de usuario 
+     */
+    public static function controlAcceso($tipoUsuario)
+    {
+        $idUsuario=Yii::app()->user->id;
         /* OPERADOR DE CABINA */
-        if ($tipoUsuario == 1) {
+        if($tipoUsuario==1)
+        {
             return array(
                 //array('label' => 'Home', 'url' => array('/site/index')),
                 array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
@@ -196,7 +216,11 @@ class SiteController extends Controller {
         }
     }
 
-    public static function mensajesConfirm($tipo) {
+    /**
+     *
+     */
+    public static function mensajesConfirm($tipo)
+    {
         switch ($tipo) {
             case 1:
                 return '¿Está Seguro de los Montos Declarados? (Esta declaración es irreversible)';
@@ -222,8 +246,9 @@ class SiteController extends Controller {
         }
     }
     
-    ////// ACCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR (LLAMAN A LAS FUNCIONES CORRESPONDIENTES)   
-    
+    /**
+     * ACCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR (LLAMAN A LAS FUNCIONES CORRESPONDIENTES)
+     */
     public function actionExcel()
     {  
 
@@ -282,15 +307,16 @@ class SiteController extends Controller {
         {
             $this->genExcel($file['name'],$file['body'],true);
         }
-
-
     }
     
+    /**
+     *
+     */
     public function actionSendEmail()
     {
 
         $correo = Yii::app()->getModule('user')->user()->email;
-        //$correo = 'pnfiuty.rramirez@gmail.com';
+
         $topic = $_GET['name'];
         
         $files=array();
@@ -377,30 +403,41 @@ class SiteController extends Controller {
 
     }
 
-    public function actionPrint(){
-        
-        if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta'){
+    /**
+     *
+     */
+    public function actionPrint()
+    { 
+        if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
+        {
             echo Yii::app()->reporte->balanceAdmin($_GET['ids']);
         }
-        if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta'){
+        if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
+        {
             echo Yii::app()->reporte->libroVenta($_GET['ids']);
         }
-        if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta'){
+        if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
+        {
             echo Yii::app()->reporte->depositoBancario($_GET['ids']);
         }
-        if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta'){
+        if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
+        {
             echo Yii::app()->reporte->brightstar($_GET['ids']);
         }
-        if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta'){
+        if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
+        {
             echo Yii::app()->reporte->captura($_GET['ids']);
         }
-        if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta'){
+        if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
+        {
             echo Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
         }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas'){
+        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        {
             echo Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
         }
-        if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta'){
+        if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
+        {
             echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
         }
         if($_GET['table']=='tabla'){
@@ -413,37 +450,35 @@ class SiteController extends Controller {
         
     }
     
-    ////// FUNCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR
-    
+    /**
+     * FUNCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR
+     */
     public function genExcel($name,$html,$salida=true)
-    {   
-        
+    {    
         if($salida)
-            {
-                header('Content-type: application/vnd.ms-excel');
-                header("Content-Disposition: attachment; filename={$name}.xls");
-                header("Pragma: cache");
-                header("Expires: 0");
-                echo $html;
-            }
-            else
-            {
-                $ruta=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR;
-                $fp=fopen($ruta."$name.xls","w+");
-                $cuerpo="
-                <!DOCTYPE html>
-                <html>
-                    <head>
-                        <meta charset='utf-8'>
-                        <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
-                    </head>
-                    <body>";
-                $cuerpo.=$html;
-                $cuerpo.="</body>
-                </html>";
-                fwrite($fp,$cuerpo);
-            }
-        
+        {
+            header('Content-type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment; filename={$name}.xls");
+            header("Pragma: cache");
+            header("Expires: 0");
+            echo $html;
+        }
+        else
+        {
+            $ruta=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR;
+            $fp=fopen($ruta."$name.xls","w+");
+            $cuerpo="
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset='utf-8'>
+                    <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
+                </head>
+                <body>";
+            $cuerpo.=$html;
+            $cuerpo.="</body>
+            </html>";
+            fwrite($fp,$cuerpo);
+        }
     }
- 
 }
