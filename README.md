@@ -2,6 +2,8 @@ Etelix_SINCA
 ============
 
 Sistema para control de Cabinas Telefonicas
+    - Correccion de urlManager, ya los usuarios pueden actualizar sus contrasenas y gii no se ve afectado
+    - Corregido error en estado de gastos
 Release 1.6.1
     - Correccion de envio de correo de novedades
 Release 1.6
