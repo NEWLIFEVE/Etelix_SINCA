@@ -138,7 +138,6 @@ class RecargasController extends Controller
 	*/
 	public function actionPronostico($compania)
 	{
-
 		$model=new Balance;
 		$idCompania=Compania::model()->find('nombre=:nombre',array(':nombre'=>$compania))->id;
 		$this->render('pronostico',array('model'=>$model,'compania'=>$compania, 'idCompania'=>$idCompania));
