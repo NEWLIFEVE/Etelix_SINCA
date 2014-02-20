@@ -352,6 +352,44 @@ $(document).ready(function()
                         setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
             }
         });  
+        
+        $('img.botonCorreoPanel').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
+        {    
+
+
+            var gridview = 'tablapanel';
+            //var mes = $('#dateMonth').val();
+            var name = genNameFile(gridview);
+            //alert(gridview);
+            var tabla = $("<div>").append($('#'+gridview).clone()).html();
+            //alert(tabla);
+            if(gridview != ''){
+            
+                                $.ajax({ 
+                                    type: "GET",   
+                                    url: '/site/sendemail?name='+name+"&table="+gridview+'&contenido='+tabla,   
+                                    async: false,
+                                    beforeSend: function () {
+                                            //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
+//                                            $("#nombreContenedor").css("display", "inline");
+//                                            $("#loading").css("display", "inline");
+                                    },
+                                    success:  function (response) {
+                                            $("#complete").html("Correo Enviado con Exito... !!");
+                                            $("#nombreContenedor").css("display", "inline");
+                                            $("#complete").css("display", "inline");
+                                            setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                            setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  });
+            }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+        });
     }
 
 //--- FUNCION PARA IMPIRMIR.
@@ -370,13 +408,14 @@ $(document).ready(function()
             //alert(ids);
             
             if(ids != ''){
+                
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
                                     url: "/site/print?ids="+ids+"&table="+gridview,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
-            var content = '<html lang="es"><meta charset="latin1">'+
+            var content = '<!DOCTYPE html><html><meta charset="es">'+
             '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
             '<body><h1 style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;">'+name+'</h1><br>'
             //Tabla con Formato
@@ -597,6 +636,9 @@ $(document).ready(function()
         }
         if(gridview=='tabla'){
             name = 'Matriz de Gastos';
+        }
+        if(gridview=='estadogasto-grid'){
+            name = 'Estado de Gastos';
         }
         
         return name;   

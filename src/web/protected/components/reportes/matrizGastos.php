@@ -93,7 +93,7 @@
                             if ($count>0){
                                 $opago.="<td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle, ENT_QUOTES,'UTF-8')."</h3></td><td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
                             //$aprobado.="<td border:  1px rgb(233, 224, 224) solid !important;  text-align: center;></td>";
@@ -106,7 +106,7 @@
                                 $opago.="<td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
                                 //$opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3  style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
-                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3  style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3  style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle, ENT_QUOTES,'UTF-8')."</h3></td><td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
                             //$pagado.="<td border:  1px rgb(233, 224, 224) solid !important;  text-align: center;></td>";
@@ -118,7 +118,7 @@
                                 //$aprobado.="<td border:  1px rgb(233, 224, 224) solid !important;  text-align: center;></td>";
                                 $opago.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle, ENT_QUOTES,'UTF-8')."</h3></td>";
                                 //$opago.="<td border:  1px rgb(233, 224, 224) solid !important;  text-align: center;></td>";
                                 //$aprobado.="<td border:  1px rgb(233, 224, 224) solid !important;  text-align: center;></td>";
                                 $opago.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
@@ -129,7 +129,7 @@
                     if ($count>0){
                         $opago.="<td border:  1px rgb(233, 224, 224) solid !important;  text-align: center;></td>";
                     }else{
-                        $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td><td></td>";
+                        $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle, ENT_QUOTES,'UTF-8')."</h3></td><td></td>";
                     }
                     
                     //$aprobado.="<td border:  1px rgb(233, 224, 224) solid !important;  text-align: center;></td>";

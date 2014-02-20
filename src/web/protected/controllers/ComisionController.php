@@ -24,7 +24,8 @@ class ComisionController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	 public function accessRules() {
+	 public function accessRules()
+	 {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array(
@@ -180,31 +181,40 @@ class ComisionController extends Controller
 			Yii::app()->end();
 		}
 	}
-        
-         public static function controlAcceso($tipoUsuario) {
 
-        if ($tipoUsuario == 1) {
-
+	/**
+	 *
+	 */
+	public static function controlAcceso($tipoUsuario)
+	{
+        if($tipoUsuario==1)
+        {
+            return array();
+        }
+        if($tipoUsuario==2)
+        {
+            return array();
+        }
+        if($tipoUsuario==3)
+        {
             return array(
+                array(
+                	'label'=>'Actualizar  Comision P.A.',
+                	'url'=>array('create')),
+                array(
+                	'label'=>'Administrar Comisiones P.A.',
+                	'url'=>array('admin')),
             );
         }
-        if ($tipoUsuario == 2) {
-
+        if($tipoUsuario==4)
+        {
             return array(
-            );
-        }
-        if ($tipoUsuario == 3) {
-
-            return array(
-                array('label' => 'Actualizar  Comision P.A.', 'url' => array('create')),
-                array('label' => 'Administrar Comisiones P.A.', 'url' => array('admin')),
-            );
-        }
-        if ($tipoUsuario == 4) {
-
-            return array(
-                array('label' => 'Declarar  P.A. Brightstar', 'url' => array('create')),
-                array('label' => 'Administrar P.A. Brightstar', 'url' => array('admin')),
+                array(
+                	'label'=>'Declarar  P.A. Brightstar',
+                	'url'=>array('create')),
+                array(
+                	'label'=>'Administrar P.A. Brightstar',
+                	'url'=>array('admin')),
             );
         }
     }

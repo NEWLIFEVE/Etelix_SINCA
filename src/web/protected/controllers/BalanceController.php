@@ -202,6 +202,9 @@ class BalanceController extends Controller
         ));
     }
 
+    /**
+     *
+     */
     public function actionViewall($id)
     {
         $this->render('viewall', array(
@@ -209,6 +212,9 @@ class BalanceController extends Controller
         ));
     }
 
+    /**
+     *
+     */
     public function actionViewReporteLibroVentas($id)
     {
         $this->render('viewreporteLibroVentas', array(
@@ -973,7 +979,7 @@ class BalanceController extends Controller
     */
     public function actionEnviarEmail()
     {
-        Yii::app()->enviarEmail->enviar($_POST);
+        Yii::app()->correo->SendEmail($_POST['vista'],$_POST['correoUsuario'],$_POST['asunto']);
         $this->redirect($_POST['vista']);
     }
 

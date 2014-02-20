@@ -38,6 +38,10 @@ class Detallegasto extends CActiveRecord
     public $vista;
     public $sum;
     public $Cabina;
+    public $Cuenta;
+    public $Tipogasto;
+    public $TSoles;
+    public $TDolares;
 
     /**
     *
@@ -132,7 +136,6 @@ class Detallegasto extends CActiveRecord
 		$criteria->compare('USERS_Id',$this->USERS_Id);
 		$criteria->compare('TIPOGASTO_Id',$this->TIPOGASTO_Id);
 		$criteria->compare('CABINA_Id',$this->CABINA_Id);
-		$criteria->compare('CUENTA_Id',$this->CABINA_Id);
         if($vista == 'estadoDeGastos')
         {
             if($cabina!=NULL)
