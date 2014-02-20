@@ -72,49 +72,55 @@ class RecargasController extends Controller
 			$model->attributes=$_POST['Recargas'];
                         
                         
-                        $cabina = $model->BALANCE_Id;
-                        $compania = $model->PABRIGHTSTAR_Id;
-                        $fecha = date("Y-m-d ", time());
-                        
-                        $modelBalance=  Balance::model()->find(array(
-						'condition'=>'CABINA_Id=:cabina_id and Fecha =:fecha',
-						'params'=>array(
-							':cabina_id'=>$cabina,
-                                                        ':fecha'=>$fecha
-							),
-						));
-                        $modelPAB= Pabrightstar::model()->find(array(
-						'condition'=>'Compania=:compania and Fecha =:fecha',
-						'params'=>array(
-							':compania'=>$compania,
-                                                        ':fecha'=>$fecha
-							),
-						));
-                        
-                        if($modelBalance!=NULL) {
-                            $model->BALANCE_Id = $modelBalance->Id;
-                        }
-                        else {
-                            $model->BALANCE_Id=0;
-                        }
-                        if($modelPAB!=NULL) {
-                            $model->PABRIGHTSTAR_Id = $modelPAB->Id;
-                        }
-                        else {
-                            $model->PABRIGHTSTAR_Id=0;
-                        }
-                        
-                        $model->FechaHora = date("Y-m-d H:i:s",time());
-                        
-                        //VALIDAR si existe BALANCE y PABRIGHTSTAR
-                        if($modelBalance!=NULL && $modelPAB!=NULL) {
-                            if($model->save())
-                                $this->redirect(array('view','id'=>$model->id));
-                        }
-                        else {
-                            Yii::app()->user->setFlash('error',"No existe balance para esta cabina para el día de hoy, comuniquese con el administrador del sistema");
-                            $model->unsetAttributes();
-                        }
+            $cabina = $model->BALANCE_Id;
+            $compania = $model->PABRIGHTSTAR_Id;
+            $fecha = date("Y-m-d ", time());
+            
+            $modelBalance=  Balance::model()->find(array(
+			'condition'=>'CABINA_Id=:cabina_id and Fecha =:fecha',
+			'params'=>array(
+				':cabina_id'=>$cabina,
+                                            ':fecha'=>$fecha
+				),
+			));
+            $modelPAB= Pabrightstar::model()->find(array(
+			'condition'=>'Compania=:compania and Fecha =:fecha',
+			'params'=>array(
+				':compania'=>$compania,
+                                            ':fecha'=>$fecha
+				),
+			));
+            
+            if($modelBalance!=NULL)
+            {
+                $model->BALANCE_Id = $modelBalance->Id;
+            }
+            else
+            {
+                $model->BALANCE_Id=0;
+            }
+            if($modelPAB!=NULL)
+            {
+                $model->PABRIGHTSTAR_Id = $modelPAB->Id;
+            }
+            else
+            {
+                $model->PABRIGHTSTAR_Id=0;
+            }
+            
+            $model->FechaHora = date("Y-m-d H:i:s",time());
+            
+            //VALIDAR si existe BALANCE y PABRIGHTSTAR
+            if($modelBalance!=NULL && $modelPAB!=NULL)
+            {
+                if($model->save())
+                    $this->redirect(array('view','id'=>$model->id));
+            }
+            else
+            {
+                Yii::app()->user->setFlash('error',"No existe balance para esta cabina para el día de hoy, comuniquese con el administrador del sistema");
+                $model->unsetAttributes();
+            }
 		}
 
 		$this->render('create',array(

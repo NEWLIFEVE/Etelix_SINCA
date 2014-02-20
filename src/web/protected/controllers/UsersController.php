@@ -143,12 +143,14 @@ class UsersController extends Controller
 		));
 	}
 
-        public function actionEnviarEmail() {
-
-            Yii::app()->enviarEmail->enviar($_POST);
-            $this->redirect(Yii::app()->createUrl('user/'.$_POST['vista']));
-            
-        }
+	/**
+	 *
+	 */
+    public function actionEnviarEmail()
+    {
+        Yii::app()->enviarEmail->enviar($_POST);
+        $this->redirect(Yii::app()->createUrl('user/'.$_POST['vista']));   
+    }
         
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

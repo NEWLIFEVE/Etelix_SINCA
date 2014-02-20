@@ -42,7 +42,8 @@ class ParidadController extends Controller
 					),
 				'users'=>Users::UsuariosPorTipo(5),
 				),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(
 					'index',
 					'view',
@@ -53,7 +54,8 @@ class ParidadController extends Controller
 					),
 				'users'=>Users::UsuariosPorTipo(3),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(
 					'index',
 					'view',
@@ -64,8 +66,8 @@ class ParidadController extends Controller
 					),
 				'users'=>Users::UsuariosPorTipo(4),
 			),
-			
-			array('deny',  // deny all users
+			array(
+				'deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
@@ -98,13 +100,13 @@ class ParidadController extends Controller
 			$model->attributes=$_POST['Paridad'];
                         $model->Fecha = date("Y-m-d",time());
 			if($model->save())
-				{
-					Yii::app()->user->setFlash('success',"Se registro el nuevo valor de Paridad Cambiaria con exito");
-				}
-				else
-				{
-					Yii::app()->user->setFlash('error',"No se pudo registrar el nuevo valor de Paridad Cambiaria, comunicarse con el administrador de sistema");
-				}
+			{
+				Yii::app()->user->setFlash('success',"Se registro el nuevo valor de Paridad Cambiaria con exito");
+			}
+			else
+			{
+				Yii::app()->user->setFlash('error',"No se pudo registrar el nuevo valor de Paridad Cambiaria, comunicarse con el administrador de sistema");
+			}
 		}
                 $model->Valor = "";
 		$this->render('create',array(
