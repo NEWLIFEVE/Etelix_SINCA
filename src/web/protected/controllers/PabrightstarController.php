@@ -24,10 +24,12 @@ class PabrightstarController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	 public function accessRules() {
+    public function accessRules()
+    {
         return array(
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array(
+            array(
+                'allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
                     'index',
                     'view',
                     'create',
@@ -36,10 +38,11 @@ class PabrightstarController extends Controller
                     'enviarEmail',
                     'delete'
                 ),
-                'users' => Users::UsuariosPorTipo(2),
+                'users'=>Users::UsuariosPorTipo(2),
             ),
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array(
+            array(
+                'allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
                     'index',
                     'view',
                     'create',
@@ -48,19 +51,21 @@ class PabrightstarController extends Controller
                     'enviarEmail',
                     'delete'
                 ),
-                'users' => Users::UsuariosPorTipo(3),
+                'users'=>Users::UsuariosPorTipo(3),
             ),
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array(
+            array(
+                'allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
                     'index',
                     'view',
                     'admin',
                     'enviarEmail'
                 ),
-                'users' => Users::UsuariosPorTipo(5),
+                'users'=>Users::UsuariosPorTipo(5),
             ),
-            array('deny', // deny all users
-                'users' => array_merge(Users::UsuariosPorTipo(1), Users::UsuariosPorTipo(4)),
+            array(
+                'deny', // deny all users
+                'users'=>array_merge(Users::UsuariosPorTipo(1), Users::UsuariosPorTipo(4)),
             ),
         );
     }
@@ -82,48 +87,48 @@ class PabrightstarController extends Controller
 	 */
 	public function actionCreate()
 	{
-            $model=new Pabrightstar;
+        $model=new Pabrightstar;
             // Uncomment the following line if AJAX validation is needed
-            $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
 
-            if (isset($_POST['Pabrightstar']))
-            {
-                $model->attributes  = $_POST['Pabrightstar'];
+        if(isset($_POST['Pabrightstar']))
+        {
+            $model->attributes=$_POST['Pabrightstar'];
 //                $fechaAux           = $model->Fecha;
 //                $list               = explode('/', $fechaAux);
 //                $model->Fecha       = $list[2] . "-" . $list[1] . "-" . $list[0];
-                $model->Fecha = date("Y-m-d");
-                $resultSet = Pabrightstar::model()->find('Fecha=:fecha AND Compania=:compania', array(':fecha'=>$model->Fecha,':compania'=>$model->Compania));
-                if($resultSet != null)
-                {
-                    if(is_null($resultSet->TransferenciaPA)){
-                       $comision=  Comision::getUltimaComision($_POST['Pabrightstar']['Compania']);
-                        $resultSet->ComisionPA = $_POST['Pabrightstar']['TransferenciaPA']*$comision;
-                        $resultSet->TransferenciaPA = $_POST['Pabrightstar']['TransferenciaPA'];
-                        if ($resultSet->save()){
-                            Yii::app()->user->setFlash('success',"Se registro la Transferencia del dia de hoy con exito!");
-                            $this->redirect(array('view', 'id' => $resultSet->Id));
-                        }
-                    }
-                    else
-                    {
-                        $comision=  Comision::getUltimaComision($_POST['Pabrightstar']['Compania']);
-                        $resultSet->ComisionPA = ($resultSet->TransferenciaPA + $_POST['Pabrightstar']['TransferenciaPA'])*$comision;
-                        $resultSet->TransferenciaPA = $resultSet->TransferenciaPA + $_POST['Pabrightstar']['TransferenciaPA'];
-                        if ($resultSet->save()){
-                            Yii::app()->user->setFlash('success',"Se registro la Transferencia del dia de hoy con exito!");
-                            $this->redirect(array('view', 'id' => $resultSet->Id));
-                        }
-                        /********************************/
-//                        Yii::app()->user->setFlash('error',"Ya existe un registro de Transferencia para esta Compañia en La Fecha indicada");
-//                        $model->unsetAttributes();
+            $model->Fecha=date("Y-m-d");
+            $resultSet = Pabrightstar::model()->find('Fecha=:fecha AND Compania=:compania', array(':fecha'=>$model->Fecha,':compania'=>$model->Compania));
+            if($resultSet != null)
+            {
+                if(is_null($resultSet->TransferenciaPA)){
+                   $comision=  Comision::getUltimaComision($_POST['Pabrightstar']['Compania']);
+                    $resultSet->ComisionPA = $_POST['Pabrightstar']['TransferenciaPA']*$comision;
+                    $resultSet->TransferenciaPA = $_POST['Pabrightstar']['TransferenciaPA'];
+                    if ($resultSet->save()){
+                        Yii::app()->user->setFlash('success',"Se registro la Transferencia del dia de hoy con exito!");
+                        $this->redirect(array('view', 'id' => $resultSet->Id));
                     }
                 }
                 else
                 {
-                    Yii::app()->user->setFlash('error',"No existe un registro para el dia de hoy, comuniquese con el administrador del sistema");
-                    $model->unsetAttributes();
+                    $comision=  Comision::getUltimaComision($_POST['Pabrightstar']['Compania']);
+                    $resultSet->ComisionPA = ($resultSet->TransferenciaPA + $_POST['Pabrightstar']['TransferenciaPA'])*$comision;
+                    $resultSet->TransferenciaPA = $resultSet->TransferenciaPA + $_POST['Pabrightstar']['TransferenciaPA'];
+                    if ($resultSet->save()){
+                        Yii::app()->user->setFlash('success',"Se registro la Transferencia del dia de hoy con exito!");
+                        $this->redirect(array('view', 'id' => $resultSet->Id));
+                    }
+                    /********************************/
+//                        Yii::app()->user->setFlash('error',"Ya existe un registro de Transferencia para esta Compañia en La Fecha indicada");
+//                        $model->unsetAttributes();
                 }
+            }
+            else
+            {
+                Yii::app()->user->setFlash('error',"No existe un registro para el dia de hoy, comuniquese con el administrador del sistema");
+                $model->unsetAttributes();
+            }
 
 //                    $comision=  Comision::getUltimaComision($model->Compania);
 //                    $model->ComisionPA = $model->TransferenciaPA*$comision;
@@ -178,10 +183,11 @@ class PabrightstarController extends Controller
 //                            //$model->unsetAttributes();
 //                            $this->redirect(array('view', 'id' => $post->Id));
 //                        }
-            }
-            $this->render('create',array(
-                    'model'=>$model,
-            ));
+        }
+        $this->render('create',array(
+                'model'=>$model,
+            )
+        );
 	}
 
 	/**
@@ -276,12 +282,18 @@ class PabrightstarController extends Controller
 		}
 	}
 
+    /**
+     *
+     */
     public function actionEnviarEmail()
     {
     	Yii::app()->enviarEmail->enviar($_POST);
         $this->redirect($_POST['vista']);
     }
-        
+    
+    /**
+     *
+     */
     public function actionUpload() 
     {
         Yii::import("ext.EAjaxUpload.qqFileUploader");

@@ -74,7 +74,7 @@ return array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>/<compania:\w+>'=>'<controller>/<action>/view',
+				'recargas/<action:\w+>/<compania:\w+>'=>'recargas/<action>/view',
 				),
 			),
 		// uncomment the following to use a MySQL database
@@ -83,10 +83,10 @@ return array(
             ),
 		'db'=>array(
 
-			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
+			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
             'username'=>'root',
-			'password'=>'Nsusfd8263',
+			'password'=>'1234',
 			'charset'=>'utf8',       
 			),
 		'errorHandler'=>array(

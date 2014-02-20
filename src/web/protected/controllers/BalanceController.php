@@ -202,6 +202,9 @@ class BalanceController extends Controller
         ));
     }
 
+    /**
+     *
+     */
     public function actionViewall($id)
     {
         $this->render('viewall', array(
@@ -209,6 +212,9 @@ class BalanceController extends Controller
         ));
     }
 
+    /**
+     *
+     */
     public function actionViewReporteLibroVentas($id)
     {
         $this->render('viewreporteLibroVentas', array(
