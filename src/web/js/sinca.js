@@ -15,6 +15,7 @@ $(document).ready(function()
     function newEC(){
         $('img.botonAgregar').on('click',function(event)
         {
+
             var id = $(this).attr('id');
 
                     $('#vista_'+id).css({display:'none'});
@@ -24,7 +25,23 @@ $(document).ready(function()
                     {
                         $('#vista_'+id).css({display:'inline'});
                         $('#oculta_'+id).css({display:'none'});
+                    });
+                    
 
+                    $( "#yw1" ).change(function(){
+                            
+                           var fecha_entrada = $( "#yw0" ).val();
+                           var fecha_salida =   $( "#yw1" ).val();
+                           
+                           if(fecha_salida <= fecha_entrada){
+                               $( "#yw1" ).val('');
+                               $("#Employee_employee_hours_end_em_").html("La Salida debe ser Mayor");
+                               $("#Employee_employee_hours_end_em_").css("display", "block");
+                           }else{
+                               $("#Employee_employee_hours_end_em_").html("");
+                               $("#Employee_employee_hours_end_em_").css("display", "none");
+                           }
+                            
                     });
 
                 
