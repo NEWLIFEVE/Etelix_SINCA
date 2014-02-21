@@ -16,35 +16,18 @@ $(document).ready(function()
         $('img.botonAgregar').on('click',function(event)
         {
 
-            var id = $(this).attr('id');
+                    var id = $(this).attr('id');
 
                     $('#vista_'+id).css({display:'none'});
                     $('#oculta_'+id).css({display:'inline'});
-
+                    
                     $('img#'+id+'2').on('click',function(event)
                     {
                         $('#vista_'+id).css({display:'inline'});
                         $('#oculta_'+id).css({display:'none'});
                     });
                     
-
-                    $( "#yw1" ).change(function(){
-                            
-                           var fecha_entrada = $( "#yw0" ).val();
-                           var fecha_salida =   $( "#yw1" ).val();
-                           
-                           if(fecha_salida <= fecha_entrada){
-                               $( "#yw1" ).val('');
-                               $("#Employee_employee_hours_end_em_").html("La Salida debe ser Mayor");
-                               $("#Employee_employee_hours_end_em_").css("display", "block");
-                           }else{
-                               $("#Employee_employee_hours_end_em_").html("");
-                               $("#Employee_employee_hours_end_em_").css("display", "none");
-                           }
-                            
-                    });
-
-                
+                    ValidateDate();
         });
     }
 
@@ -681,4 +664,63 @@ $(document).ready(function()
         }
         
         return name;   
+    }
+
+    function ValidateDate(){
+        
+     $( "#yw1" ).change(function(){
+                            
+           var fecha_entrada = $( "#yw0" ).val();
+           var fecha_salida =   $( "#yw1" ).val();
+
+           if(fecha_salida <= fecha_entrada && fecha_entrada!=''){
+               $( "#yw1" ).val('');
+
+               $("#yw1").css("background", "#FEE");
+               $("#yw1").css("border-color", "#C00");
+               $("#yw0").css("background", "#FEE");
+               $("#yw0").css("border-color", "#C00");
+
+               $("#Employee_employee_hours_end_em_").html("La Salida debe ser Mayor");
+               $("#Employee_employee_hours_end_em_").css("display", "block");
+           }else{
+
+               $("#yw1").css("background", "#E6EFC2");
+               $("#yw1").css("border-color", "#C6D880");
+               $("#yw0").css("background", "#E6EFC2");
+               $("#yw0").css("border-color", "#C6D880");
+
+               $("#Employee_employee_hours_end_em_").html("");
+               $("#Employee_employee_hours_end_em_").css("display", "none");
+           }
+
+    });
+
+    $( "#yw0" ).change(function(){
+
+           var fecha_entrada = $( "#yw0" ).val();
+           var fecha_salida =   $( "#yw1" ).val();
+
+           if(fecha_salida <= fecha_entrada && fecha_salida!=''){
+               //$( "#yw0" ).val('');
+
+               $("#yw1").css("background", "#FEE");
+               $("#yw1").css("border-color", "#C00");
+               $("#yw0").css("background", "#FEE");
+               $("#yw0").css("border-color", "#C00");
+
+               $("#Employee_employee_hours_start_em_").html("La Entrada debe ser Menor");
+               $("#Employee_employee_hours_start_em_").css("display", "block");
+           }else{
+
+               $("#yw1").css("background", "#E6EFC2");
+               $("#yw1").css("border-color", "#C6D880");
+               $("#yw0").css("background", "#E6EFC2");
+               $("#yw0").css("border-color", "#C6D880");
+
+               $("#Employee_employee_hours_start_em_").html("");
+               $("#Employee_employee_hours_start_em_").css("display", "none");
+           }
+
+    });
     }
