@@ -38,11 +38,12 @@ class LogController extends Controller
 					'admin',
 					'index',
 					'view',
-                                        'enviarEmail',
+					'enviarEmail',
 					),
 				'users'=>Users::UsuariosPorTipo(5),
 				),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(
 					'index',
 					'view',
@@ -50,16 +51,21 @@ class LogController extends Controller
 					'update',
 					'admin',
 					'delete',
-                                        'enviarEmail',
+					'enviarEmail',
 					),
 				'users'=>Users::UsuariosPorTipo(3),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('createInicioJornada','createFinJornada'),
+				),
+			array(
+				'allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array(
+					'createInicioJornada',
+					'createFinJornada'
+					),
 				'users'=>Users::UsuariosPorTipo(1),
 				//'users'=>array('admin','raul'),
 			),
-			array('deny',  // deny all users
+			array(
+				'deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
@@ -96,7 +102,9 @@ class LogController extends Controller
 		));
 	}
 
-        
+	/**
+	 *
+	 */ 
 	public function actionCreateInicioJornada()
 	{
 		$model=new Log();
@@ -148,11 +156,15 @@ class LogController extends Controller
 			)
 		);
 	}
-        
+
+	/**
+	 *
+	 */ 
 	public function actionCreateFinJornada()
 	{
 		$contador=1;
-		if(isset($_SESSION['contador'])){
+		if(isset($_SESSION['contador']))
+		{
 			$contador=$contador + $_SESSION['contador'];
 		}
 		$_SESSION['contador']=$contador;
@@ -214,7 +226,6 @@ class LogController extends Controller
 			)
 		);
 	}
-
 
 	/**
 	 * Updates a particular model.
@@ -280,12 +291,14 @@ class LogController extends Controller
 		));
 	}
 
-        public function actionEnviarEmail(){
-
-            Yii::app()->enviarEmail->enviar($_POST);
-            $this->redirect($_POST['vista']);
-
-        }
+	/**
+	 *
+	 */
+	public function actionEnviarEmail()
+	{
+        Yii::app()->enviarEmail->enviar($_POST);
+        $this->redirect($_POST['vista']);
+    }
         
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -314,29 +327,37 @@ class LogController extends Controller
 			Yii::app()->end();
 		}
 	}
-        
-           
-    public static function RegistrarLog($id,$fechaesp = NULL)
+
+	/**
+	 *
+	 */
+	public static function RegistrarLog($id,$fechaesp = NULL)
     {
-        if(!Yii::app()->user->isGuest){
+        if(!Yii::app()->user->isGuest)
+        {
             $model =new Log;
             $model->USERS_Id=Yii::app()->user->id;
             $model->ACCIONLOG_Id = $id;
             $model->Fecha=date("Y-m-d ",time());
             $model->Hora=date("H:i:s",time());
-            if (isset($fechaesp)){
+            if(isset($fechaesp))
+            {
                 $model->FechaEsp=$fechaesp;
             }
             $model->save();
         }
-        else{
+        else
+        {
             Yii::app()->request->redirect(Yii::app()->createUrl('site/sessionFinished'));
         }
     }
 
+    /**
+     *
+     */
     public function actionAutocompleteFinal()
     {
-    	if (isset($_GET['term']))
+    	if(isset($_GET['term']))
     	{
     		$criteria = new CDbCriteria;
     		$criteria->condition = "`users`.`username` like '%" . $_GET['term'] . "%'";
@@ -344,7 +365,7 @@ class LogController extends Controller
     		$criteria->limit = 30;
             $proveedores = Cabina::model()->findAll($criteria);
             $return_array = array();
-            foreach ($proveedores as $proveedor)
+            foreach($proveedores as $proveedor)
             {
             	$return_array[] = array(
                     'label' => $proveedor->username,

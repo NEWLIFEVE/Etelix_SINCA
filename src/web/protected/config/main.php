@@ -74,7 +74,9 @@ return array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+
 				//'<controller:\w+>/<action:\w+>/<compania:\w+>'=>'<controller>/<action>/view',
+
 				),
 			),
 		// uncomment the following to use a MySQL database
@@ -87,6 +89,7 @@ return array(
 			'emulatePrepare'=>true,
                         'username'=>'ramonr',
 			'password'=>'123',
+
 			'charset'=>'utf8',       
 			),
 		'errorHandler'=>array(

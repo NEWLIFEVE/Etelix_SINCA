@@ -1,5 +1,7 @@
 <?php
-
+/**
+ *
+ */
 class NovedadController extends Controller
 {
 	/**
@@ -16,7 +18,7 @@ class NovedadController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
-		);
+			);
 	}
 
 	/**
@@ -25,15 +27,17 @@ class NovedadController extends Controller
 	 * @return array access control rules
 	 */
 	public function accessRules()
-	{   
-                /* 1-Operador de Cabina
-                 * 2-Gerente de Operaciones
-                 * 3-Administrador
-                 * 4-Tesorero
-                 * 5-Socio
-                 */
+	{
+		/**
+		 * 1-Operador de Cabina
+		 * 2-Gerente de Operaciones
+		 * 3-Administrador
+		 * 4-Tesorero
+		 * 5-Socio
+		 */
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(
 					'create',
 					'admin',
@@ -42,14 +46,16 @@ class NovedadController extends Controller
 					'enviarNovedad'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(1)),
-			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+				),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(
 					'index'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(2)),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				),
+			array(
+				'allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array(
 					'index',
 					'create',
@@ -61,8 +67,9 @@ class NovedadController extends Controller
 					'enviarNovedad'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(3))
-			),                                     
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				),
+			array(
+				'allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(
 					'index',
 					'admin',
@@ -71,11 +78,12 @@ class NovedadController extends Controller
 					'enviarNovedad'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(5)),
-			),
-			array('deny',  // deny all users
+				),
+			array(
+				'deny',  // deny all users
 				'users'=>array('*'),
-			),
-		);
+				),
+			);
 	}
 
 	/**
