@@ -7,10 +7,32 @@ $(document).ready(function()
     genExcel();
     genEmail();
     genPrint();
+    newEC();
 
 });
 
-//--- FUNCION PARA CAPTURAR LOS IDs DEL GRIDVIEW 'BALANCE' Y LOS ENVIA A LA ActionExcel DEL CONTROLADOR 'SITE'.
+
+    function newEC(){
+        $('img.botonAgregar').on('click',function(event)
+        {
+            var id = $(this).attr('id');
+
+                    $('#vista_'+id).css({display:'none'});
+                    $('#oculta_'+id).css({display:'inline'});
+
+                    $('img#'+id+'2').on('click',function(event)
+                    {
+                        $('#vista_'+id).css({display:'inline'});
+                        $('#oculta_'+id).css({display:'none'});
+
+                    });
+
+                
+        });
+    }
+
+
+//--- FUNCION PARA CAPTURAR LOS IDs DEL GRIDVIEW Y LOS ENVIA A LA ActionExcel DEL CONTROLADOR 'SITE'.
 
     function genExcel()
     {

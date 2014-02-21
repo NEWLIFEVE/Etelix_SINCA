@@ -648,7 +648,8 @@ div.grid-view.ReporteCaptura#balanceReporteCaptura1 div.pager
 }
 #totalFecha, #balance-grid_c0, 
 #balanceReporteDepositos_c0, 
-#balanceCicloIngresosResumido_c0
+#balanceCicloIngresosResumido_c0,
+#employee-grid
 {
   min-width: 69px;
   text-align: center;
