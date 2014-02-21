@@ -29,7 +29,7 @@ class EmployeeHours extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, start_time, end_time', 'required'),
+			array('start_time, end_time', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -98,4 +98,26 @@ class EmployeeHours extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getId($start_time,$end_time){
+            
+		if($start_time != null && $end_time != null)
+		{
+			$model=self::model()->find('start_time=:start_time AND end_time=:end_time',array(':start_time'=>$start_time,':end_time'=>$end_time));
+			if($model == null)
+			{
+				$model=new EmployeeHours;
+				$model->start_time=$start_time;
+                                $model->end_time=$end_time;
+				if($model->save())
+				{
+					return $model->id;
+				}
+			}
+			else
+			{
+				return $model->id;
+			}
+		}
+        }
 }

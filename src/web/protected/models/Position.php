@@ -28,7 +28,7 @@ class Position extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name', 'required'),
+			array('name', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>400),
 			// The following rule is used by search().
@@ -96,4 +96,25 @@ class Position extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getId($nombre){
+            
+		if($nombre != null)
+		{
+			$model=self::model()->find('name=:nombre',array(':nombre'=>$nombre));
+			if($model == null)
+			{
+				$model=new Position;
+				$model->name=$nombre;
+				if($model->save())
+				{
+					return $model->id;
+				}
+			}
+			else
+			{
+				return $model->id;
+			}
+		}
+        }
 }

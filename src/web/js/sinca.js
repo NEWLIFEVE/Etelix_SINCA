@@ -16,89 +16,18 @@ $(document).ready(function()
         $('img.botonAgregar').on('click',function(event)
         {
             var id = $(this).attr('id');
-            switch(id){
-                case 'marital_status_id': 
-                    $('#Employee_'+id).css({display:'none'});
-                    $('input#Employee_'+id).css({display:'inline'});
-                    $('img#'+id).css({display:'none'});
-                    $('img#'+id+'2').css({display:'inline'});
-                    
-                    //Buscador de Codigo en BD.
-                    $('input#Employee_'+id).keyup(function(evento){
-                        alert('data');
-                    });
-                    
+
+                    $('#vista_'+id).css({display:'none'});
+                    $('#oculta_'+id).css({display:'inline'});
+
                     $('img#'+id+'2').on('click',function(event)
                     {
-                        $('#Employee_'+id).css({display:'inline'});
-                        $('input#Employee_'+id).css({display:'none'});
-                        $('img#'+id).css({display:'inline'});
-                        $('img#'+id+'2').css({display:'none'});
+                        $('#vista_'+id).css({display:'inline'});
+                        $('#oculta_'+id).css({display:'none'});
+
                     });
-                    
-                break;
-                case 'academic_level_id': 
-                    $('#Employee_'+id).css({display:'none'});
-                    $('input#Employee_'+id).css({display:'inline'});
-                    $('img#'+id).css({display:'none'});
-                    $('img#'+id+'2').css({display:'inline'});
-                    
-                    $('img#'+id+'2').on('click',function(event)
-                    {
-                        $('#Employee_'+id).css({display:'inline'});
-                        $('input#Employee_'+id).css({display:'none'});
-                        $('img#'+id).css({display:'inline'});
-                        $('img#'+id+'2').css({display:'none'});
-                    });
-                    
-                break;
-                case 'profession_id': 
-                    $('#Employee_'+id).css({display:'none'});
-                    $('input#Employee_'+id).css({display:'inline'});
-                    $('img#'+id).css({display:'none'});
-                    $('img#'+id+'2').css({display:'inline'});
-                    
-                    $('img#'+id+'2').on('click',function(event)
-                    {
-                        $('#Employee_'+id).css({display:'inline'});
-                        $('input#Employee_'+id).css({display:'none'});
-                        $('img#'+id).css({display:'inline'});
-                        $('img#'+id+'2').css({display:'none'});
-                    });
-                    
-                break;
-                case 'position_id': 
-                    $('#Employee_'+id).css({display:'none'});
-                    $('input#Employee_'+id).css({display:'inline'});
-                    $('img#'+id).css({display:'none'});
-                    $('img#'+id+'2').css({display:'inline'});
-                    
-                    $('img#'+id+'2').on('click',function(event)
-                    {
-                        $('#Employee_'+id).css({display:'inline'});
-                        $('input#Employee_'+id).css({display:'none'});
-                        $('img#'+id).css({display:'inline'});
-                        $('img#'+id+'2').css({display:'none'});
-                    });
-                    
-                break;
-                case 'employee_hours_id': 
-                    $('#Employee_'+id).css({display:'none'});
-                    $('input#Employee_'+id).css({display:'inline'});
-                    $('img#'+id).css({display:'none'});
-                    $('img#'+id+'2').css({display:'inline'});
-                    
-                    $('img#'+id+'2').on('click',function(event)
-                    {
-                        $('#Employee_'+id).css({display:'inline'});
-                        $('input#Employee_'+id).css({display:'none'});
-                        $('img#'+id).css({display:'inline'});
-                        $('img#'+id+'2').css({display:'none'});
-                    });
-                    
-                break;
+
                 
-            }
         });
     }
 

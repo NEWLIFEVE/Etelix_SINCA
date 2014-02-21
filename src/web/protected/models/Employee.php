@@ -35,9 +35,15 @@
  */
 class Employee extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+	public $marital_status_name;
+        public $academic_level_name;
+        public $profession_name;
+        public $position_name;
+        public $employee_hours_start;
+        public $employee_hours_end;
+
+        
+  
 	public function tableName()
 	{
 		return 'employee';
@@ -51,7 +57,7 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, code_employee, name, lastname, identification_number, gender, address, salary, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id', 'required'),
+			array('name, lastname, identification_number, gender, address, salary, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id, CABINA_Id,', 'required'),
 			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id', 'numerical', 'integerOnly'=>true),
 			array('salary', 'numerical'),
 			array('code_employee', 'length', 'max'=>4),
@@ -59,7 +65,7 @@ class Employee extends CActiveRecord
 			array('photo_path', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id', 'safe', 'on'=>'search'),
+			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, marital_status_name, employee_hours_id, position_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -102,10 +108,18 @@ class Employee extends CActiveRecord
 			'salary' => 'Salario',
 			'CABINA_Id' => 'Cabina',
 			'academic_level_id' => 'Nivel Academico',
+                        'academic_level_name' => 'Nivel Academico',
 			'profession_id' => 'Profesion',
+                        'profession_name' => 'Profesion',
 			'marital_status_id' => 'Estado Civil',
+                        'marital_status_name' => 'Estado Civil',
 			'employee_hours_id' => 'Horario',
+                        'employee_hours_start' => 'Hora Entrada',
+                        'employee_hours_end' => 'Hora Salida',
 			'position_id' => 'Cargo',
+                        'position_name' => 'Cargo',
+                        'status' => 'Estatus',
+                    
 		);
 	}
 
@@ -144,9 +158,12 @@ class Employee extends CActiveRecord
 		$criteria->compare('marital_status_id',$this->marital_status_id);
 		$criteria->compare('employee_hours_id',$this->employee_hours_id);
 		$criteria->compare('position_id',$this->position_id);
-
+                
+                $orden="code_employee ASC";
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
 		));
 	}
 
@@ -160,4 +177,20 @@ class Employee extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getCodigoEmpleado(){
+            
+			$model=self::model()->findBySql('SELECT MAX(code_employee) AS code_employee FROM employee');
+			if($model->code_employee == null)
+			{
+                                return '0001';
+			}
+			else
+			{
+				//return (+1);
+                                return str_pad(((int)$model->code_employee+1),4,"0",STR_PAD_LEFT);
+			}
+		
+        }
+        
 }
