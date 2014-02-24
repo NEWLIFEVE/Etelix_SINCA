@@ -94,6 +94,7 @@ $(document).ready(function()
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
             });
+            //alert(ids);
             if(ids != ''){
             var response = $.ajax({ type: "GET",   
                                     url: '/site/excel?ids='+ids+'&name='+name+"&table="+gridview,   
@@ -633,34 +634,34 @@ $(document).ready(function()
         
         var name = '';
         if(gridview=='balance-grid' || gridview=='balance-grid-oculta'){
-            name = 'Administrar Balance de Cabinas';
+            name = 'SINCA Administrar Balance de Cabinas';
         }
         if(gridview=='balanceLibroVentas' || gridview=='balanceLibroVentasOculta'){
-            name = 'Reporte Libro de Ventas';
+            name = 'SINCA Reporte Libro de Ventas';
         }
         if(gridview=='balanceReporteDepositos' || gridview=='balanceReporteDepositosOculta'){
-            name = 'Reporte de Depositos Bancarios';
+            name = 'SINCA Reporte de Depositos Bancarios';
         }
         if(gridview=='balanceReporteBrighstar' || gridview=='balanceReporteBrighstarOculta'){
-            name = 'Reporte de Ventas Recargas Brighstar';
+            name = 'SINCA Reporte de Ventas Recargas Brighstar';
         }
         if(gridview=='balanceReporteCaptura' || gridview=='balanceReporteCapturaOculta'){
-            name = 'Reporte de Trafico Captura';
+            name = 'SINCA Reporte de Trafico Captura';
         }
         if(gridview=='balanceCicloIngresosResumido' || gridview=='balanceCicloIngresosResumidoOculta'){
-            name = 'Ciclo de Ingresos Resumido';
+            name = 'SINCA Ciclo de Ingresos Resumido';
         }
         if(gridview=='balanceCicloIngresosCompletoActivas' || gridview=='balanceCicloIngresosCompletoInactivas'){
-            name = 'Ciclo de Ingresos Completo';
+            name = 'SINCA Ciclo de Ingresos Completo';
         }
         if(gridview=='balanceCicloIngresosTotalResumido' || gridview=='balanceCicloIngresosTotalResumidoOculta'){
-            name = 'Ciclo de Ingresos Total';
+            name = 'SINCA Ciclo de Ingresos Total';
         }
         if(gridview=='tabla'){
-            name = 'Matriz de Gastos';
+            name = 'SINCA Matriz de Gastos';
         }
         if(gridview=='estadogasto-grid'){
-            name = 'Estado de Gastos';
+            name = 'SINCA Estado de Gastos';
         }
         
         return name;   

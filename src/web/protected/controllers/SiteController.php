@@ -257,46 +257,46 @@ class SiteController extends Controller
         
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta'){
             
-               $files['balance']['name']='Administrar_Balance_de_Cabinas';
+               $files['balance']['name']='SINCA Administrar_Balance_de_Cabinas';
                $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids']);   
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta'){
             
-               $files['libroVentas']['name']='Reporte_Libro_de_Ventas';
+               $files['libroVentas']['name']='SINCA Reporte_Libro_de_Ventas';
                $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids']);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta'){
             
-               $files['depositoBancario']['name']='Reporte_de_Depositos_Bancarios';
+               $files['depositoBancario']['name']='SINCA Reporte_de_Depositos_Bancarios';
                $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids']);
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta'){
                  
-               $files['ventasbrighstar']['name']='Reporte_de_Ventas_Recargas_Brighstar';
+               $files['ventasbrighstar']['name']='SINCA Reporte_de_Ventas_Recargas_Brighstar';
                $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids']);
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta'){
                  
-               $files['traficocaptura']['name']='Reporte_de_Trafico_Captura';
+               $files['traficocaptura']['name']='SINCA Reporte_de_Trafico_Captura';
                $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids']);
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta'){
               
-               $files['cicloIngreso']['name']='Ciclo_de_Ingresos_Resumido';
+               $files['cicloIngreso']['name']='SINCA Ciclo_de_Ingresos_Resumido';
                $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);   
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas'){
               
-               $files['cicloIngresoC']['name']='Ciclo_de_Ingresos_Completo';
+               $files['cicloIngresoC']['name']='SINCA Ciclo_de_Ingresos_Completo';
                $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);  
         }
        if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta'){
               
-               $files['cicloIngresoT']['name']='Ciclo_de_Ingresos_Total';
+               $files['cicloIngresoT']['name']='SINCA Ciclo_de_Ingresos_Total';
                $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
         }
         if($_GET['table']=='tabla'){
-            $files['matriz']['name']='Matriz de Gastos';
+            $files['matriz']['name']='SINCA Matriz de Gastos';
             $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
         }
         if($_GET['table']=='estadogasto-grid'){

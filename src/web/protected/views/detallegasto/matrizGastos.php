@@ -7,7 +7,7 @@ $mes=NULL;
 
 if(isset($_POST["boton"]) && $_POST["boton"]== "Resetear Valores")
 {
-    Yii::app()->user->setState('mesSesion',NULL);
+    Yii::app()->user->setState('mesSesion',date("Y-m").'-01');
 }
 else
 {
@@ -21,9 +21,15 @@ else
         $mes = Yii::app()->user->getState('mesSesion');
     } 
 }
+
+$año = date("Y", strtotime($mes));
+$mes2 = date("m", strtotime($mes));
+        
 $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle
               FROM detallegasto d, tipogasto t 
-              WHERE d.FechaMes='$mes' AND d.TIPOGASTO_Id=t.id 
+              WHERE d.TIPOGASTO_Id=t.id 
+              AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+              AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
               GROUP BY t.Nombre;";
 $model = Detallegasto::model()->findAllBySql($sql);
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
@@ -78,6 +84,7 @@ if (count($model)> 1) { ?>
         <th><h3>Tarapoto</h3></th>
         <th><h3>Trujillo 01</h3></th>
         <th><h3>Trujillo 03</h3></th>
+        
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
@@ -95,9 +102,12 @@ if (count($model)> 1) { ?>
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
-                $sqlMontoGasto = "SELECT  SUM(d.Monto) as Monto, d.status 
+                $sqlMontoGasto = "SELECT  SUM(d.Monto) as Monto, d.status, d.moneda 
                                   FROM detallegasto d, cabina c, tipogasto t 
-                                  WHERE d.CABINA_Id=c.id AND d.FechaMes='$mes' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
+                                  WHERE d.CABINA_Id=c.id
+                                  AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                                  AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
+                                  AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
                                   GROUP BY d.status;";
                 $MontoGasto = Detallegasto::model()->findBySql($sqlMontoGasto);
                
@@ -106,37 +116,38 @@ if (count($model)> 1) { ?>
                     switch ($MontoGasto->status) {
                         case "1":
                             if ($count>0){
-                                $opago.="<td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td style='width: 200px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='3' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='width: 200px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
-                            //$aprobado.="<td></td>";
-                            //$pagado.="<td></td>";
+                            $aprobado.="<td></td>";
+                            $pagado.="<td></td>";
                             break;
                         case "2":
                             
                             if ($count>0){
-                                //$opago.="<td></td>";
-                                $opago.="<td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td></td>";
+                                $aprobado.="<td style='width: 200px;color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                //$opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
-                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td></td>";
+                                $aprobado.="<td style='width: 200px;color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
-                            //$pagado.="<td></td>";
+                            $pagado.="<td></td>";
                             break;
                         case "3":
                             
                             if ($count>0){
-                                //$opago.="<td ></td>";
-                                //$aprobado.="<td></td>";
-                                $opago.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td ></td>";
+                                $aprobado.="<td></td>";
+                                $pagado.="<td style='width: 200px;color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
-                                //$opago.="<td ></td>";
-                                //$aprobado.="<td></td>";
-                                $opago.="<td style='color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='3' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td ></td>";
+                                $aprobado.="<td></td>";
+                                $pagado.="<td style='width: 200px;color: #FFF; background: #00992B; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             break;
                     }
@@ -144,11 +155,11 @@ if (count($model)> 1) { ?>
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
+                        $opago.="<td rowspan='3' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
                     }
                     
-                    //$aprobado.="<td></td>";
-                    //$pagado.="<td></td>";
+                    $aprobado.="<td></td>";
+                    $pagado.="<td></td>";
                 }
                 $count++;
             }
@@ -156,14 +167,84 @@ if (count($model)> 1) { ?>
     
      $tr.="<tr id='ordenPago'> 
             $opago
-    </tr>
+    </tr>";
+    $tr.="<tr id='aprovada'> 
+            $aprobado
+    </tr>";
+    $tr.="<tr id='pagada'> 
+            $pagado
+    </tr>";
 
-    <tr style='height: em; background-color: #DADFE4;'>
+    $tr.="<tr style='height: em; background-color: #DADFE4;'>
         <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>";
      echo $tr;
+     
+     
     }
+    // TOTALES      
+    echo "<tr>
+        
+            <td rowspan='2' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales</h3></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+            <td style='padding:0;'><div style='float: left; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>S/.</div> <div style='float: right; width: 50%;color: #FFF; background: #1967B2;font-size:10px;'>USD$</div></td>
+
+            
+         </tr>
+         <tr>";
+         
+    $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre";
+            $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
+            $count = 0;
+            foreach ($cabinas as $key => $cabina) {
+                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1) 
+                                as MontoD,
+                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2) 
+                                as MontoS, d.moneda
+                                FROM detallegasto as d
+                                LIMIT 1;";       
+                
+                
+        $totales = Detallegasto::model()->findAllBySql($sqlTotales);
+        foreach ($totales as $key => $total) {
+ 
+        if($total->MontoD != null || $total->MontoS != null){
+            echo "<td style='padding:0;'>";
+
+                        echo"<div style='float: left; height: 40px; width: 50%;color: #000000; background: #DADFE4;font-size:9px;word-wrap: break-word; text-align: center'>".Detallegasto::montoGasto($total->MontoS)."</div>";
+                        echo"<div style='float: right; height: 40px; width: 50%;color: #000000; background: #FFFFFF;font-size:9px;word-wrap: break-word; text-align: center'>".Detallegasto::montoGasto($total->MontoD)."</div>";
+
+            echo "</td>";
+
+        }else{
+            echo "<td style='padding:0;'>";
+            echo"<div style='float: left; height: 40px; width: 50%;color: #000000; background: #DADFE4;font-size:10px;'>000.00</div>";
+            echo"<div style='float: right; height: 40px;  width: 50%;color: #000000; background: #FFFFFF;font-size:10px;'>000.00</div>"; 
+            echo "</td>";            
+        }
+
+
+        
+            
+        }
+            }
+       
+            echo "</tr>";
+    
+        
     ?>
+    
+    
 </tbody>
 </table>
 <?php }?>

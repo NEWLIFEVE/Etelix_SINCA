@@ -92,7 +92,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         'type'=>'text',
                         'htmlOptions'=>array(
                             'id'=>'CABINA_Id',
-                            'style'=>'text-align: center; width: 100px;',
+                            'style'=>'text-align: center; width: 80px;',
                           ),
                         'filter'=>  Cabina::getListCabina(),
                         ),
@@ -112,6 +112,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         'htmlOptions'=>array(
                             'id'=>'position_id',
                             'style'=>'text-align: center',
+                            'style'=>'text-align: center; width: 100px;',
                           ),
                         ),
                     'salary',
@@ -130,7 +131,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         'type'=>'text',
                         'htmlOptions'=>array(
                             'id'=>'immediate_supervisor',
-                            'style'=>'text-align: center; width: 80px;',
+                            'style'=>'text-align: center; width: 60px;',
                           ),
                         ),
 

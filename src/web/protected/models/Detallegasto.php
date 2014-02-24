@@ -42,6 +42,8 @@ class Detallegasto extends CActiveRecord
     public $Tipogasto;
     public $TSoles;
     public $TDolares;
+    public $MontoD;
+    public $MontoS;
 
     /**
     *
@@ -227,16 +229,31 @@ class Detallegasto extends CActiveRecord
     *
     */
     public static function monedaGasto($moneda)
-    {           
+    {     
+        $mon = '';
         switch($moneda)
         {    			
             case 1:
-                return 'USD$';
+                $mon = 'USD$';
                 break;
             case 2:
-                return 'S/.';
+                $mon =  'S/.';
                 break;
         }
+        
+        return $mon;
+    }
+    
+    public static function montoGasto($moneda)
+    {     
+        $mon;
+        if($moneda == null){
+            $mon = '00.00';
+        }else{
+            $mon = $moneda;
+        }
+        
+        return $mon;
     }
         
     /**
