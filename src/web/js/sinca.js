@@ -633,21 +633,21 @@ $(document).ready(function()
         
         var name = '';
         var fecha = new String($('#fecha').text());
-
+        //alert(fecha);
         if(gridview=='balance-grid' || gridview=='balance-grid-oculta'){
-            name = 'SINCA Administrar Balance de Cabinas';
+            name = 'SINCA Administrar Balance de Cabinas '+fecha;
         }
         if(gridview=='balanceLibroVentas' || gridview=='balanceLibroVentasOculta'){
-            name = 'SINCA Reporte Libro de Ventas';
+            name = 'SINCA Reporte Libro de Ventas '+fecha;
         }
         if(gridview=='balanceReporteDepositos' || gridview=='balanceReporteDepositosOculta'){
-            name = 'SINCA Reporte de Depositos Bancarios';
+            name = 'SINCA Reporte de Depositos Bancarios '+fecha;
         }
         if(gridview=='balanceReporteBrighstar' || gridview=='balanceReporteBrighstarOculta'){
-            name = 'SINCA Reporte de Ventas Recargas Brighstar';
+            name = 'SINCA Reporte de Ventas Recargas Brighstar '+fecha;
         }
         if(gridview=='balanceReporteCaptura' || gridview=='balanceReporteCapturaOculta'){
-            name = 'SINCA Reporte de Trafico Captura';
+            name = 'SINCA Reporte de Trafico Captura '+fecha;
         }
         if(gridview=='balanceCicloIngresosResumido' || gridview=='balanceCicloIngresosResumidoOculta'){
             name = 'SINCA Ciclo de Ingresos Resumido '+fecha;

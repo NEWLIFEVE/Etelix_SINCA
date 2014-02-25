@@ -27,7 +27,7 @@ $mes=date("Y-m").'-01';
 <div id="loading" class="ventana_flotante"></div>
 <div id="complete" class="ventana_flotante2"></div>
 <div id="error" class="ventana_flotante3"></div>
-<h1>Ciclo de Ingresos</h1>
+<h1>Ciclo de Ingresos <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?></h1>
 <div id="cicloingresosbotons">
     <div id="botonsExport">
     <ul>

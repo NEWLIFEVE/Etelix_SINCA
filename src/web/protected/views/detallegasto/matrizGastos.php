@@ -158,7 +158,7 @@ if (count($model)> 1) { ?>
                                 
                                 $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='1' style='width: 200px; background: #ff9900'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td rowspan='1' style='width: 200px; background: #EE7E7E'><h3>$gasto->nombreTipoDetalle</h3></td>";
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                 $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
@@ -169,7 +169,7 @@ if (count($model)> 1) { ?>
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td rowspan='1' style='width: 200px; background: #ff9900'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
+                        $opago.="<td rowspan='1' style='width: 200px; background: #EE7E7E'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
                     }
                     
 //                    $aprobado.="<td></td>";
@@ -199,7 +199,7 @@ if (count($model)> 1) { ?>
     // TOTALES SOLES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales S/.</h3></td>
+            <td rowspan='1' style='color: #FFF;width: 120px; background: #EE7E7E;font-size:10px;'><h3>Totales Soles</h3></td>
             ";
          
     $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
@@ -235,7 +235,7 @@ if (count($model)> 1) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales USD$</h3></td>
+            <td rowspan='1' style='color: #FFF;width: 120px; background: #EE7E7E;font-size:10px;'><h3>Totales Dolares</h3></td>
             ";
          
     $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
