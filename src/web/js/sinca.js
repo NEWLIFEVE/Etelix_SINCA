@@ -11,7 +11,6 @@ $(document).ready(function()
 
 });
 
-
     function newEC(){
         $('img.botonAgregar').on('click',function(event)
         {
@@ -633,6 +632,8 @@ $(document).ready(function()
     function genNameFile(gridview){
         
         var name = '';
+        var fecha = new String($('#fecha').text());
+
         if(gridview=='balance-grid' || gridview=='balance-grid-oculta'){
             name = 'SINCA Administrar Balance de Cabinas';
         }
@@ -649,19 +650,19 @@ $(document).ready(function()
             name = 'SINCA Reporte de Trafico Captura';
         }
         if(gridview=='balanceCicloIngresosResumido' || gridview=='balanceCicloIngresosResumidoOculta'){
-            name = 'SINCA Ciclo de Ingresos Resumido';
+            name = 'SINCA Ciclo de Ingresos Resumido '+fecha;
         }
         if(gridview=='balanceCicloIngresosCompletoActivas' || gridview=='balanceCicloIngresosCompletoInactivas'){
-            name = 'SINCA Ciclo de Ingresos Completo';
+            name = 'SINCA Ciclo de Ingresos Completo '+fecha;
         }
         if(gridview=='balanceCicloIngresosTotalResumido' || gridview=='balanceCicloIngresosTotalResumidoOculta'){
-            name = 'SINCA Ciclo de Ingresos Total';
+            name = 'SINCA Ciclo de Ingresos Total '+fecha;
         }
         if(gridview=='tabla'){
-            name = 'SINCA Matriz de Gastos';
+            name = 'SINCA Matriz de Gastos '+fecha;
         }
         if(gridview=='estadogasto-grid'){
-            name = 'SINCA Estado de Gastos';
+            name = 'SINCA Estado de Gastos '+fecha;
         }
         
         return name;   

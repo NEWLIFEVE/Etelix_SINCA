@@ -3,12 +3,12 @@
 * @var $this DetallegastoController
 * @var $model Detallegasto
 */
-$mes=NULL;
+$mes=date("Y-m").'-01';
 $cabina=NULL;
 $status=NULL;
 if(isset($_POST["boton"]) && $_POST["boton"]== "Resetear Valores")
 {
-    Yii::app()->user->setState('mesSesion',NULL);
+    Yii::app()->user->setState('mesSesion',date("Y-m").'-01');
     Yii::app()->user->setState('cabinaSesion',NULL);
     Yii::app()->user->setState('rbtnStatusSesion',NULL);
 }
@@ -136,6 +136,7 @@ $('.search-form form').submit(function(){
     </div>
 </form>
 <div style="display: block;">&nbsp;</div>
+<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
 <?php
 echo CHtml::beginForm(Yii::app()->createUrl('detallegasto/enviarEmail'), 'post', array('name' => 'FormularioCorreo', 'id' => 'FormularioCorreo', 'style' => 'display:none'));
 echo CHtml::textField('html', 'Hay Efectivo', array('id' => 'html', 'style' => 'display:none'));
