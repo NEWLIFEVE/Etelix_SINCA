@@ -85,12 +85,24 @@ return array(
             ),
 		'db'=>array(
                         'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
+//			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
+//			'emulatePrepare'=>true,
+//                        'username'=>'ramonr',
+//			'password'=>'123',
+//			'charset'=>'utf8',   
+                    
+			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
+<<<<<<< HEAD
                         'username'=>'ramonr',
 			'password'=>'123',
 
 			'charset'=>'utf8',       
+=======
+                        'username'=>'root',
+			'password'=>'Nsusfd8263',
+			'charset'=>'utf8',                       
+>>>>>>> plantilla_empleado
 			),
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors

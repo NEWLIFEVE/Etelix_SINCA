@@ -11,23 +11,22 @@ $(document).ready(function()
 
 });
 
-
     function newEC(){
         $('img.botonAgregar').on('click',function(event)
         {
-            var id = $(this).attr('id');
+
+                    var id = $(this).attr('id');
 
                     $('#vista_'+id).css({display:'none'});
                     $('#oculta_'+id).css({display:'inline'});
-
+                    
                     $('img#'+id+'2').on('click',function(event)
                     {
                         $('#vista_'+id).css({display:'inline'});
                         $('#oculta_'+id).css({display:'none'});
-
                     });
-
-                
+                    
+                    ValidateDate();
         });
     }
 
@@ -94,6 +93,7 @@ $(document).ready(function()
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
             });
+            //alert(ids);
             if(ids != ''){
             var response = $.ajax({ type: "GET",   
                                     url: '/site/excel?ids='+ids+'&name='+name+"&table="+gridview,   
@@ -632,36 +632,97 @@ $(document).ready(function()
     function genNameFile(gridview){
         
         var name = '';
+        var fecha = new String($('#fecha').text());
+        //alert(fecha);
         if(gridview=='balance-grid' || gridview=='balance-grid-oculta'){
-            name = 'Administrar Balance de Cabinas';
+            name = 'SINCA Administrar Balance de Cabinas '+fecha;
         }
         if(gridview=='balanceLibroVentas' || gridview=='balanceLibroVentasOculta'){
-            name = 'Reporte Libro de Ventas';
+            name = 'SINCA Reporte Libro de Ventas '+fecha;
         }
         if(gridview=='balanceReporteDepositos' || gridview=='balanceReporteDepositosOculta'){
-            name = 'Reporte de Depositos Bancarios';
+            name = 'SINCA Reporte de Depositos Bancarios '+fecha;
         }
         if(gridview=='balanceReporteBrighstar' || gridview=='balanceReporteBrighstarOculta'){
-            name = 'Reporte de Ventas Recargas Brighstar';
+            name = 'SINCA Reporte de Ventas Recargas Brighstar '+fecha;
         }
         if(gridview=='balanceReporteCaptura' || gridview=='balanceReporteCapturaOculta'){
-            name = 'Reporte de Trafico Captura';
+            name = 'SINCA Reporte de Trafico Captura '+fecha;
         }
         if(gridview=='balanceCicloIngresosResumido' || gridview=='balanceCicloIngresosResumidoOculta'){
-            name = 'Ciclo de Ingresos Resumido';
+            name = 'SINCA Ciclo de Ingresos Resumido '+fecha;
         }
         if(gridview=='balanceCicloIngresosCompletoActivas' || gridview=='balanceCicloIngresosCompletoInactivas'){
-            name = 'Ciclo de Ingresos Completo';
+            name = 'SINCA Ciclo de Ingresos Completo '+fecha;
         }
         if(gridview=='balanceCicloIngresosTotalResumido' || gridview=='balanceCicloIngresosTotalResumidoOculta'){
-            name = 'Ciclo de Ingresos Total';
+            name = 'SINCA Ciclo de Ingresos Total '+fecha;
         }
         if(gridview=='tabla'){
-            name = 'Matriz de Gastos';
+            name = 'SINCA Matriz de Gastos '+fecha;
         }
         if(gridview=='estadogasto-grid'){
-            name = 'Estado de Gastos';
+            name = 'SINCA Estado de Gastos '+fecha;
         }
         
         return name;   
+    }
+
+    function ValidateDate(){
+        
+     $( "#yw1" ).change(function(){
+                            
+           var fecha_entrada = $( "#yw0" ).val();
+           var fecha_salida =   $( "#yw1" ).val();
+
+           if(fecha_salida <= fecha_entrada && fecha_entrada!=''){
+               $( "#yw1" ).val('');
+
+               $("#yw1").css("background", "#FEE");
+               $("#yw1").css("border-color", "#C00");
+               $("#yw0").css("background", "#FEE");
+               $("#yw0").css("border-color", "#C00");
+
+               $("#Employee_employee_hours_end_em_").html("La Salida debe ser Mayor");
+               $("#Employee_employee_hours_end_em_").css("display", "block");
+           }else{
+
+               $("#yw1").css("background", "#E6EFC2");
+               $("#yw1").css("border-color", "#C6D880");
+               $("#yw0").css("background", "#E6EFC2");
+               $("#yw0").css("border-color", "#C6D880");
+
+               $("#Employee_employee_hours_end_em_").html("");
+               $("#Employee_employee_hours_end_em_").css("display", "none");
+           }
+
+    });
+
+    $( "#yw0" ).change(function(){
+
+           var fecha_entrada = $( "#yw0" ).val();
+           var fecha_salida =   $( "#yw1" ).val();
+
+           if(fecha_salida <= fecha_entrada && fecha_salida!=''){
+               //$( "#yw0" ).val('');
+
+               $("#yw1").css("background", "#FEE");
+               $("#yw1").css("border-color", "#C00");
+               $("#yw0").css("background", "#FEE");
+               $("#yw0").css("border-color", "#C00");
+
+               $("#Employee_employee_hours_start_em_").html("La Entrada debe ser Menor");
+               $("#Employee_employee_hours_start_em_").css("display", "block");
+           }else{
+
+               $("#yw1").css("background", "#E6EFC2");
+               $("#yw1").css("border-color", "#C6D880");
+               $("#yw0").css("background", "#E6EFC2");
+               $("#yw0").css("border-color", "#C6D880");
+
+               $("#Employee_employee_hours_start_em_").html("");
+               $("#Employee_employee_hours_start_em_").css("display", "none");
+           }
+
+    });
     }

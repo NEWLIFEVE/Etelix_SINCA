@@ -310,11 +310,11 @@ class Balance extends CActiveRecord
                 break;
         }
         //Cambio la condicion dependiendo de los valores
-        if(isset($post['formFecha']))
+        if(isset($post['formFecha']) && $post['formFecha'] != null)
         {
             $criteria->condition.=" AND Fecha<='".$post['formFecha']."-31' AND Fecha>='".$post['formFecha']."-01'";
         }
-        if(isset($post['formCabina']))
+        if(isset($post['formCabina']) && $post['formCabina'] != null)
         {
             $criteria->condition.=" AND CABINA_Id=".$post['formCabina'];
         }

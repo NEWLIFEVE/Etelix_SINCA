@@ -282,10 +282,10 @@ class Reportes extends CApplicationComponent
             if($type == null){
                 $field = '0.00';
             }else{
-                if((int)$number<0){
+                if((float)$number<0){
                     $field = '<font color="red">'.$type.'</font>';
                 }else{
-                    if((int)$number>0){
+                    if((float)$number>0){
                         $field = '<font color="green">'.$type.'</font>';
                     }
                     else{
@@ -305,10 +305,10 @@ class Reportes extends CApplicationComponent
             if($type == null){
                 $field = '0.00';
             }else{
-                if((int)$number<0){
+                if((float)$number<0){
                     $field = '<font color="red">'.$type.'</font>';
                 }else{
-                    if((int)$number>0){
+                    if((float)$number>0){
                         $field = '<font color="green">'.$type.'</font>';
                     }
                     else{
