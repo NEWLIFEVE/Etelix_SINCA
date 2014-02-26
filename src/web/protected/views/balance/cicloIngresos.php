@@ -4,6 +4,15 @@
 Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = BalanceController::controlAcceso($tipoUsuario);
+
+$mes=date("Y-m").'-01';
+
+
+    if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
+    {
+        $mes=$_POST["formFecha"]."-01";
+    }
+
 ?>
 
 <script>
@@ -18,7 +27,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
 <div id="loading" class="ventana_flotante"></div>
 <div id="complete" class="ventana_flotante2"></div>
 <div id="error" class="ventana_flotante3"></div>
-<h1>Ciclo de Ingresos</h1>
+<h1>Ciclo de Ingresos <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?></h1>
 <div id="cicloingresosbotons">
     <div id="botonsExport">
     <ul>
@@ -41,7 +50,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
         <li><button id="cambio">Inactivas</button></li>
     </ul>
     <div>
-        <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/reportecaptura') ?>">
+        <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/CicloIngresos') ?>">
             <label for="dateMonth">
                 Seleccione un mes:
             </label>
@@ -54,6 +63,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
     </div>
     </div>
 </div>
+<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
 <?php
 $this->widget('application.extensions.fancybox.EFancyBox',array(
     'target'=>'a[rel^="fancybox"]',

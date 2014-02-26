@@ -88,8 +88,7 @@ return array(
 			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
             'username'=>'manuelz',
-			'password'=>'123',
-			'charset'=>'utf8',       
+			'charset'=>'utf8',                       
 			),
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors
