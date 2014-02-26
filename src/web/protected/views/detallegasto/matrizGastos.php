@@ -7,18 +7,18 @@ $mes=date("Y-m").'-01';
 
 if(isset($_POST["boton"]) && $_POST["boton"]== "Resetear Valores")
 {
-    Yii::app()->user->setState('mesSesion',date("Y-m").'-01');
+    Yii::app()->user->setState('mesSesionM',date("Y-m").'-01');
 }
 else
 {
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
     {
-        Yii::app()->user->setState('mesSesion',$_POST["formFecha"]."-01");
-        $mes=Yii::app()->user->getState('mesSesion');
+        Yii::app()->user->setState('mesSesionM',$_POST["formFecha"]."-01");
+        $mes=Yii::app()->user->getState('mesSesionM');
     }
-    elseif(strlen(Yii::app()->user->getState('mesSesion')) && Yii::app()->user->getState('mesSesion')!="")
+    elseif(strlen(Yii::app()->user->getState('mesSesionM')) && Yii::app()->user->getState('mesSesionM')!="")
     {
-        $mes = Yii::app()->user->getState('mesSesion');
+        $mes = Yii::app()->user->getState('mesSesionM');
     } 
 }
 
@@ -158,7 +158,7 @@ if (count($model)> 1) { ?>
                                 
                                 $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td rowspan='1' style='width: 200px; background: #EE7E7E'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                 $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
@@ -169,7 +169,7 @@ if (count($model)> 1) { ?>
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td rowspan='1' style='width: 200px; background: #EE7E7E'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
+                        $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
                     }
                     
 //                    $aprobado.="<td></td>";
@@ -199,10 +199,10 @@ if (count($model)> 1) { ?>
     // TOTALES SOLES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #EE7E7E;font-size:10px;'><h3>Totales Soles</h3></td>
+            <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Soles</h3></td>
             ";
          
-    $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
+           $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
@@ -235,7 +235,7 @@ if (count($model)> 1) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #EE7E7E;font-size:10px;'><h3>Totales Dolares</h3></td>
+            <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Dolares</h3></td>
             ";
          
     $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";

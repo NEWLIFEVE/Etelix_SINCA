@@ -297,7 +297,7 @@ class SiteController extends Controller
         }
         if($_GET['table']=='tabla'){
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesionM'));
         }
         if($_GET['table']=='estadogasto-grid'){
             $files['estadogasto']['name']=$_GET['name'];
@@ -316,8 +316,7 @@ class SiteController extends Controller
     public function actionSendEmail()
     {
 
-        //$correo = Yii::app()->getModule('user')->user()->email;
-        $correo = 'pnfiuty.rramirez@gmail.com';
+        $correo = Yii::app()->getModule('user')->user()->email;
 
         $topic = $_GET['name'];
         
