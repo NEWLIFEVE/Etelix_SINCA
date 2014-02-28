@@ -74,8 +74,7 @@ return array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-
-				//'<controller:\w+>/<action:\w+>/<compania:\w+>'=>'<controller>/<action>/view',
+				'recargas/<action:\w+>/<compania:\w+>'=>'recargas/<action>/view',
 
 				),
 			),
@@ -85,9 +84,10 @@ return array(
             ),
 		'db'=>array(
             'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
+			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-            'username'=>'manuelz',
+            'username'=>'root',
+            'password'=>'Nsusfd8263',
 			'charset'=>'utf8',                       
 			),
 		'errorHandler'=>array(
