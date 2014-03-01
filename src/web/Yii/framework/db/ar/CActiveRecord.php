@@ -1229,7 +1229,6 @@ abstract class CActiveRecord extends CModel
 		else
 			throw new CDbException(Yii::t('yii','The active record cannot be deleted because it is new.'));
 	}
-
 	/**
 	 * Repopulates this active record with the latest data.
 	 * @return boolean whether the row still exists in the database. If true, the latest data will be populated to this active record.

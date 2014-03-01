@@ -123,23 +123,23 @@
                                             
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->MontoDeposito).'</td>
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->MontoBanco).'</td>
-                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DiferencialBancario,$registro->DiferencialBancario).'</td>
-                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$registro->ConciliacionBancaria).'</td>
+                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DiferencialBancario,$balanceTotals->DiferencialBancario).'</td>
+                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$balanceTotals->ConciliacionBancaria).'</td>
                                             
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->RecargaVentasMov).'</td>
-                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifMov,$registro->DifMov).'</td>
+                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->RecargaVentasClaro).'</td>
-                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifClaro,$registro->DifClaro).'</td>
+                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
 
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->TraficoCapturaDollar).'</td>
                                         <td '.Reportes::defineStyleTd(2).'>N/A</td>
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->CaptSoles).'</td>
-                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifSoles,$registro->DifSoles).'</td>   
-                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifDollar,$registro->DifDollar).'</td>      
+                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles).'</td>   
+                                        <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar).'</td>      
 
-                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::defineMonto($balanceTotals->Acumulado,$registro->Acumulado).'</td> 
-                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::defineMonto($balanceTotals->Sobrante,$registro->Sobrante).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::defineMonto($balanceTotals->SobranteAcum,$registro->SobranteAcum).'</td>      
+                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::defineTotals($balanceTotals->Acumulado,$balanceTotals->Acumulado).'</td> 
+                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::defineTotals($balanceTotals->Sobrante,$balanceTotals->Sobrante).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::defineTotals($balanceTotals->SobranteAcum,$balanceTotals->SobranteAcum).'</td>      
                                       </tr>
                                     </tbody>
                            </table>';
