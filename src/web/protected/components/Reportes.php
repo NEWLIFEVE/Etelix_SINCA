@@ -10,7 +10,8 @@ class Reportes extends CApplicationComponent
     }
 
     /**
-     * busca el reporte en componente "balanceAdmin" hace la consulta y extrae los atributos necesarios para luego formar el html y enviarlo por correo y/o exportarlo a excel
+     * busca el reporte en componente "balanceAdmin" hace la consulta y extrae 
+     * los atributos necesarios para luego formar el html y enviarlo por correo y/o exportarlo a excel
      * @param array $ids
      * @return string
      */
@@ -20,48 +21,72 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function libroVenta($ids)
     {
         $var= libroVenta::reporte($ids);
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function depositoBancario($ids)
     {
         $var= depositoBancario::reporte($ids);
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function brightstar($ids)
     {
         $var= brightstar::reporte($ids);
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function captura($ids)
     {
         $var= captura::reporte($ids);
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function cicloIngreso($ids,$complete)
     {
         $var= cicloIngreso::reporte($ids,$complete);
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function cicloIngresoTotal($ids,$complete)
     {
         $var= cicloIngresoTotal::reporte($ids,$complete);
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function estadoGasto($ids)
     {
         $var= estadoGasto::reporte($ids);
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function matrizGastos($ids)
     {
         if($ids == null){
@@ -72,14 +97,22 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    /**
+     * Documentacion va aqui
+     */
     public function matrizGastosEvolucion($mes, $cabina)
     {
         $var= matrizGastosEvolucion::reporte($mes, $cabina);    
         return $var;
     }
 
-    public static function defineStyleTd($type){
-        switch ($type) {
+    /**
+     * Documentacion va aqui
+     */
+    public static function defineStyleTd($type)
+    {
+        switch ($type)
+        {
             case ($type%2==0):
                 $style="style ='background: #E5F1F4; font-size: 12px; text-align: center; background-position: initial initial; background-repeat: initial initial;font-size: 11px;'";
                 break;
@@ -87,10 +120,14 @@ class Reportes extends CApplicationComponent
                 $style="style ='background: #F8F8F8; font-size: 12px; text-align: center; background-position: initial initial; background-repeat: initial initial;font-size: 11px;'";
                 break;
         }
-        
         return $style;
     }
-    public static function defineStyleHeader($type){
+
+    /**
+     * Documentacion va aqui
+     */
+    public static function defineStyleHeader($type)
+    {
         switch ($type){
             case "balance":
                 $style="style='background:#00992B;color:#FFF;border:0px solid black; font-size: 12px;'";
@@ -114,7 +151,11 @@ class Reportes extends CApplicationComponent
         return $style;
     }
     
-    public static function defineHeader($type){
+    /**
+     * Documentacion va aqui
+     */
+    public static function defineHeader($type)
+    {
         switch ($type) {
             case "balance":
                 $header='<thead>
@@ -280,41 +321,65 @@ class Reportes extends CApplicationComponent
         return $header;
     }
     
-    public static function defineMonto($type,$number=null){
-
-            if($type == null){
-                $field = '0.00';
-            }else{
-                if((float)$number<0){
-                    $field = '<font color="red">'.$type.'</font>';
-                }else{
-                    if((float)$number>0){
-                        $field = '<font color="green">'.$type.'</font>';
-                    }
-                    else{
-                        $field = $type;
-                    }    
-                }
+    /**
+     * Documentacion va aqui
+     */
+    public static function defineMonto($type,$number=null)
+    {
+        if($type == null)
+        {
+            $field = '0.00';
+        }
+        else
+        {
+            if((float)$number<0)
+            {
+                $field = '<font color="red">'.$type.'</font>';
             }
-        
+            else
+            {
+                if((float)$number>0)
+                {
+                    $field = '<font color="green">'.$type.'</font>';
+                }
+                else
+                {
+                    $field = $type;
+                }    
+            }
+        }
         return $field;
     }
     
-    public static function defineMonto2($type,$number=null){
-        if($type == '-1'){
+    /**
+     * Documentacion va aqui, cambiar nombre a esta funcion
+     */
+    public static function defineMonto2($type,$number=null)
+    {
+        if($type == '-1')
+        {
             $field = 'No Declarado';
         }
-        else{
-            if($type == null){
+        else
+        {
+            if($type == null)
+            {
                 $field = '0.00';
-            }else{
-                if((float)$number<0){
+            }
+            else
+            {
+                if((float)$number<0)
+                {
                     $field = '<font color="red">'.$type.'</font>';
-                }else{
-                    if((float)$number>0){
+                }
+                else
+                {
+                    if((float)$number>0)
+                    {
                         $field = '<font color="green">'.$type.'</font>';
                     }
-                    else{
+                    else
+                    {
                         $field = $type;
                     }    
                 }
@@ -323,41 +388,65 @@ class Reportes extends CApplicationComponent
         return $field;
     }
     
-    public static function defineTotals($type,$number=null){
-
-            if($type == null){
-                $field = '0.00';
-            }else{
-                if((float)$number<0){
-                    $field = '<font color="red">'.$type.'</font>';
-                }else{
-                    if((float)$number>0){
-                        $field = '<font color="green">'.$type.'</font>';
-                    }
-                    else{
-                        $field = $type;
-                    }    
-                }
+    /**
+     * Documentacion va aqui
+     */
+    public static function defineTotals($type,$number=null)
+    {
+        if($type == null)
+        {
+            $field = '0.00';
+        }
+        else
+        {
+            if((float)$number<0)
+            {
+                $field = '<font color="red">'.$type.'</font>';
             }
-        
+            else
+            {
+                if((float)$number>0)
+                {
+                    $field = '<font color="green">'.$type.'</font>';
+                }
+                else
+                {
+                    $field = $type;
+                }    
+            }
+        }
         return $field;
     }
     
-    public static function defineTotals2($type,$number=null){
-        if($type == '-1'){
+    /**
+     * Documentacion va aqui, cambiar nombre a esta funcion
+     */
+    public static function defineTotals2($type,$number=null)
+    {
+        if($type == '-1')
+        {
             $field = 'No Declarado';
         }
-        else{
-            if($type == null){
+        else
+        {
+            if($type == null)
+            {
                 $field = '0.00';
-            }else{
-                if((float)$number<0){
+            }
+            else
+            {
+                if((float)$number<0)
+                {
                     $field = '<font color="red">'.$type.'</font>';
-                }else{
-                    if((float)$number>0){
+                }
+                else
+                {
+                    if((float)$number>0)
+                    {
                         $field = '<font color="green">'.$type.'</font>';
                     }
-                    else{
+                    else
+                    {
                         $field = $type;
                     }    
                 }
@@ -366,15 +455,20 @@ class Reportes extends CApplicationComponent
         return $field;
     }
     
-    public static function definePago($type,$number=null){
-        if($number == 'Pagada'){
+    /**
+     * Documentacion va aqui
+     */
+    public static function definePago($type,$number=null)
+    {
+        if($number == 'Pagada')
+        {
             $field = $type;
         }
-        else{
+        else
+        {
             $field = 'N/A';
         }
         return $field;
     }
-    
 }
 ?>
