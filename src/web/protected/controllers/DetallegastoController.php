@@ -45,6 +45,7 @@ class DetallegastoController extends Controller {
                     'dynamicGastoAnterior',
                     'estadoGastos',
                     'matrizGastos',
+                    'matrizGastosEvolucion',
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
@@ -65,6 +66,7 @@ class DetallegastoController extends Controller {
                     'dynamicCuenta',
                     'dynamicGastoAnterior',
                     'matrizGastos',
+                    'matrizGastosEvolucion',
                     'estadoGastos',
                     'filtrarPorStatus',
                     'updateGasto',
@@ -86,6 +88,7 @@ class DetallegastoController extends Controller {
                     'dynamicGastoAnterior',
                     'estadoGastos',
                     'matrizGastos',
+                    'matrizGastosEvolucion',
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
@@ -236,6 +239,15 @@ class DetallegastoController extends Controller {
         }
         
     }
+    
+    public function actionMatrizGastosEvolucion() {
+        if(isset($_POST['formFecha'])){
+            $this->render('matrizGastosEvolucion', array('formFecha'=>$_POST['formFecha'],'formCabina'=>$_POST['formCabina']));
+        }else{
+           $this->render('matrizGastosEvolucion', array()); 
+        }
+        
+    }
 
     public function actionUpdateGasto() {
         $model = new Detallegasto;
@@ -369,6 +381,7 @@ class DetallegastoController extends Controller {
                // array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
                 array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                //array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
             );
         }
         /* ADMINISTRADOR */
@@ -379,6 +392,7 @@ class DetallegastoController extends Controller {
               //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
                 array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
             );
         }
         /* TESORERO */

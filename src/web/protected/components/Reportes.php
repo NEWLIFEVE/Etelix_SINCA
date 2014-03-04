@@ -71,6 +71,12 @@ class Reportes extends CApplicationComponent
         }
         return $var;
     }
+    
+    public function matrizGastosEvolucion($mes, $cabina)
+    {
+        $var= matrizGastosEvolucion::reporte($mes, $cabina);    
+        return $var;
+    }
 
     public static function defineStyleTd($type){
         switch ($type) {
@@ -275,6 +281,26 @@ class Reportes extends CApplicationComponent
     }
     
     public static function defineMonto($type,$number=null){
+
+            if($type == null){
+                $field = '0.00';
+            }else{
+                if((float)$number<0){
+                    $field = '<font color="red">'.$type.'</font>';
+                }else{
+                    if((float)$number>0){
+                        $field = '<font color="green">'.$type.'</font>';
+                    }
+                    else{
+                        $field = $type;
+                    }    
+                }
+            }
+        
+        return $field;
+    }
+    
+    public static function defineMonto2($type,$number=null){
         if($type == '-1'){
             $field = 'No Declarado';
         }
@@ -298,6 +324,26 @@ class Reportes extends CApplicationComponent
     }
     
     public static function defineTotals($type,$number=null){
+
+            if($type == null){
+                $field = '0.00';
+            }else{
+                if((float)$number<0){
+                    $field = '<font color="red">'.$type.'</font>';
+                }else{
+                    if((float)$number>0){
+                        $field = '<font color="green">'.$type.'</font>';
+                    }
+                    else{
+                        $field = $type;
+                    }    
+                }
+            }
+        
+        return $field;
+    }
+    
+    public static function defineTotals2($type,$number=null){
         if($type == '-1'){
             $field = 'No Declarado';
         }

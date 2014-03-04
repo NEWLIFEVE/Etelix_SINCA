@@ -297,7 +297,11 @@ class SiteController extends Controller
         }
         if($_GET['table']=='tabla'){
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes']);
+        }
+        if($_GET['table']=='tabla2'){
+            $files['matrizE']['name']=$_GET['name'];
+            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina']);
         }
         if($_GET['table']=='estadogasto-grid'){
             $files['estadogasto']['name']=$_GET['name'];
@@ -382,8 +386,16 @@ class SiteController extends Controller
         if($_GET['table']=='tabla'){
             
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes']);
             $files['matriz']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matriz']['name'].".xls";
+        
+               
+        }
+        if($_GET['table']=='tabla2'){
+            
+            $files['matrizE']['name']=$_GET['name'];
+            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina']);
+            $files['matrizE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizE']['name'].".xls";
         
                
         }
@@ -443,10 +455,13 @@ class SiteController extends Controller
             echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
         }
         if($_GET['table']=='tabla'){
-            echo Yii::app()->reporte->matrizGastos(Yii::app()->user->getState('mesSesion'));
+            echo Yii::app()->reporte->matrizGastos($_GET['mes']);
         }
         if($_GET['table']=='estadogasto-grid'){
             echo Yii::app()->reporte->estadoGasto($_GET['ids']);
+        }
+        if($_GET['table']=='tabla2'){
+            echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina']);
         }
                
         

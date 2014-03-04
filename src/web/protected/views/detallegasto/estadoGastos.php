@@ -59,7 +59,7 @@ else
         $estatus='(pagado)';
     }
 }
-
+$año = date("Y", strtotime($mes));
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 Yii::app()->clientScript->registerScript('search', "
@@ -83,7 +83,7 @@ $('.search-form form').submit(function(){
     <span class="enviar">
         Estado de Gastos 
         <?php echo $cabina != NULL ? " - ". Cabina::getNombreCabina2($cabina) : ""; ?>
-        <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?>
+        <?php echo $mes != NULL ?" - ". Utility::monthName($mes).' '.$año : ""; ?>
         <?php echo $status != NULL ? " - ".$estatus : ""; ?>
     </span>
     <span>

@@ -44,6 +44,8 @@ class Detallegasto extends CActiveRecord
     public $TDolares;
     public $MontoD;
     public $MontoS;
+    public $MontoDolares;
+    public $MontoSoles;
 
     /**
     *
@@ -237,6 +239,9 @@ class Detallegasto extends CActiveRecord
                 $mon = 'USD$';
                 break;
             case 2:
+                $mon =  'S/.';
+                break;
+            case null:
                 $mon =  'S/.';
                 break;
         }

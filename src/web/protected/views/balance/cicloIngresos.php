@@ -5,14 +5,14 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = BalanceController::controlAcceso($tipoUsuario);
 
-$mes=date("Y-m").'-01';
-
+$mes=date("Y-m");
 
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
     {
-        $mes=$_POST["formFecha"]."-01";
-    }
+        $mes=$_POST["formFecha"];
 
+    }
+$año = date("Y", strtotime($mes));  
 ?>
 
 <script>
@@ -27,7 +27,7 @@ $mes=date("Y-m").'-01';
 <div id="loading" class="ventana_flotante"></div>
 <div id="complete" class="ventana_flotante2"></div>
 <div id="error" class="ventana_flotante3"></div>
-<h1>Ciclo de Ingresos <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?></h1>
+<h1>Ciclo de Ingresos <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año  : ""; ?></h1>
 <div id="cicloingresosbotons">
     <div id="botonsExport">
     <ul>
@@ -140,7 +140,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         'rel'=>'total',
         'name'=>'vista',
         ),
-    'dataProvider'=>$model->search($_POST),
+    'dataProvider'=>$model->search($_POST,$mes),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
@@ -523,7 +523,7 @@ function reinstallDatePicker(id, data) {
 /*****************************************CICLO DE INGRESOS COMPLETO ACTIVAS******************************************************************/
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceCicloIngresosCompletoActivas',
-    'dataProvider'=>$model->search($_POST),
+    'dataProvider'=>$model->search($_POST,$mes),
     'filter'=>$model,
     'htmlOptions'=>array(
         'class'=>'grid-view balanceCicloIngresosCompleto oculta',

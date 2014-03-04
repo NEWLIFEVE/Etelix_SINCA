@@ -251,7 +251,7 @@ class Balance extends CActiveRecord
      * @access public
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search($post=null)
+	public function search($post=null,$mes=null)
 	{
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
@@ -310,13 +310,13 @@ class Balance extends CActiveRecord
                 break;
         }
         //Cambio la condicion dependiendo de los valores
-        if(isset($post['formFecha']) && $post['formFecha'] != null)
+        if(isset($mes) && $mes != null)
         {
-            $criteria->condition.=" AND Fecha<='".$post['formFecha']."-31' AND Fecha>='".$post['formFecha']."-01'";
+            $criteria->condition.=" AND Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'";
         }
-        if(isset($post['formCabina']) && $post['formCabina'] != null)
+        if(isset($post['balance']['formCabina']) && $post['balance']['formCabina'] != null)
         {
-            $criteria->condition.=" AND CABINA_Id=".$post['formCabina'];
+            $criteria->condition.=" AND CABINA_Id=".$post['balance']['formCabina'];
         }
         //la paginacion
         $pagina=Cabina::model()->count(array(
@@ -329,12 +329,12 @@ class Balance extends CActiveRecord
                 ));
         $orden="Fecha DESC, Nombre ASC";
         
-        if(isset($post['formFecha']) || isset($post['formCabina']))
+        if(isset($mes) || isset($post['formCabina']))
         {
             $condition="Id>0";
-            if($post['formFecha'])
+            if($mes)
             {
-                $condition.=" AND Fecha<='".$post['formFecha']."-31' AND Fecha>='".$post['formFecha']."-01'";
+                $condition.=" AND Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'";
             }
             if($post['formCabina'])
             {
@@ -477,8 +477,8 @@ class Balance extends CActiveRecord
 //            $criteriaAux->addCondition("Fecha='$fechaParametro'");
             $criteriaAux->addCondition(
                     array(
-                        "Fecha>=CONCAT('$fechaParametro','-','01')",
-                        "Fecha<=CONCAT('$fechaParametro','-','31')"
+                        "EXTRACT(YEAR FROM Fecha)='".date("Y",strtotime($fechaParametro))."'",
+                        "EXTRACT(MONTH FROM Fecha)='".date("m",strtotime($fechaParametro))."'",
                         )
                     );
             $criteriaAux->group = "Fecha";
