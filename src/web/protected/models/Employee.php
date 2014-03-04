@@ -96,7 +96,7 @@ class Employee extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'code_employee' => 'Codigo de Empleado',
+			'code_employee' => 'Codigo',
 			'name' => 'Nombre',
 			'lastname' => 'Apellido',
 			'identification_number' => 'Identificacion',
