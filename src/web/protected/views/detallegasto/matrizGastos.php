@@ -209,7 +209,11 @@ if (count($model)> 1) { ?>
                                     }
 
                             }else{
+<<<<<<< HEAD
                                 $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
+=======
+                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+>>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
