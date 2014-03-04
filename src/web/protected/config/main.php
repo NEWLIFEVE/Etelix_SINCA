@@ -83,7 +83,7 @@ return array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
             ),
 		'db'=>array(
-<<<<<<< HEAD
+
                         'class'=>'CDbConnection',
 //			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
 //			'emulatePrepare'=>true,
@@ -103,14 +103,7 @@ return array(
 			'password'=>'123',
 			'charset'=>'utf8',       
 
-=======
-            'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
-			'emulatePrepare'=>true,
-            'username'=>'root',
-            'password'=>'Nsusfd8263',
-			'charset'=>'utf8',                       
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
+
 			),
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors

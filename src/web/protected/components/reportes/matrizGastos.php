@@ -17,55 +17,12 @@ class matrizGastos extends Reportes
             $ruta=$_SERVER["SERVER_NAME"];
 
             $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle
-<<<<<<< HEAD
-              FROM detallegasto d, tipogasto t 
-              WHERE d.TIPOGASTO_Id=t.id 
-              AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-              AND EXTRACT(MONTH FROM d.FechaMes) = '$mes'
-              AND d.status = 3
-              GROUP BY t.Nombre;";
-             $model = Detallegasto::model()->findAllBySql($sql);
-            
-            if($model != false){
-            $tr = "<table border='1' style='border-collapse:collapse;width:auto;'>
-                        <tr>
-                            <td style='width: 100px; background: #DADFE4'><h3 style='font-size:10px; color:#000000; background: none; text-align: center;'> Colores </h3> </td>
-
-                            <td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Azul</h3> </td>
-
-                            <td style='width: 80px; background: #00992B'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Verde</h3> </td>
-                        </tr>
-                        <tr>
-                            <td style='width: 100px; background: #DADFE4'><h3 style='font-size:10px; color:#000000; background: none; text-align: center;'> Monedas </h3> </td>
-
-                            <td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Soles</h3> </td>
-
-                            <td style='width: 80px; background: #00992B'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Dolares</h3> </td>
-                        </tr>
-                    </table><br>
-                    <table id='tabla' class='matrizGastos' border='1' style='border-collapse:collapse;width:auto;'>
-                    <thead>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><center><img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' /></center></td>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Chimbote</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Etelix-Peru</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Huancayo</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 01</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 03</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Piura</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Pucallpa</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Surquillo</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Tarapoto</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 01</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 03</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Comun Cabina</h3></th>
-                </thead>
-=======
                   FROM detallegasto d, tipogasto t
                   WHERE d.TIPOGASTO_Id=t.id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.status = 3
                   GROUP BY t.Nombre;";
 
             $model=Detallegasto::model()->findAllBySql($sql);
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
+
 
             if($model!=false)
             {
