@@ -161,9 +161,9 @@ class matrizGastos extends Reportes
                 }
                 //TOTAL SOLES
                 $tr.="<tr>
-                        <td rowspan='1' style='color: #FFF;width: 80px; background: #1967B2;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales S/.</h3></td>";
+                        <td rowspan='1' style='color: #FFF;width: 80px; background: #1967B2;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales S/.</h3></td>
 
-<<<<<<< HEAD
+
                     </tr>";
     foreach ($model as $key => $gasto) {
         //$tr="";
@@ -273,35 +273,10 @@ class matrizGastos extends Reportes
                         $opago.="<td></td>";
                     }else{
                         $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
-=======
-                $sqlCabinas="SELECT * 
-                             FROM cabina 
-                             WHERE status=1  AND id !=18 
-                             ORDER BY nombre = 'COMUN CABINA', nombre";
-                $cabinas=Cabina::model()->findAllBySql($sqlCabinas);
-                $count=0;
-                foreach ($cabinas as $key => $cabina)
-                {
-                    $sqlTotales="SELECT (SELECT SUM(d.Monto) AS Monto 
-                                         FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN cabina AS c ON d.CABINA_Id=c.id WHERE d.CABINA_Id=$cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND d.status = 3) AS MontoD,
-                                        (SELECT SUM(d.Monto) AS Monto FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina AS c ON d.CABINA_Id = c.id WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND d.status = 3) AS MontoS, d.moneda
-                                 FROM detallegasto AS d
-                                 LIMIT 1";
-                    $totales=Detallegasto::model()->findAllBySql($sqlTotales);
-                    foreach ($totales as $key => $total)
-                    {
-                        if($total->MontoD != null || $total->MontoS != null)
-                        {
-                            $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;text-align: center;'>".Detallegasto::montoGasto($total->MontoS)."</td>";
-                        }
-                        else
-                        {
-                            $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;text-align: center;'>00.00</td>";
-                        }
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
+
                     }
                 }
-<<<<<<< HEAD
+
                 $count++;
             }
 //         
@@ -411,45 +386,6 @@ class matrizGastos extends Reportes
     return $tr;
             
             }else{
-=======
-                $tr.="</tr>";
-                // TOTALES DOLARES
-                $tr.= "<tr>
-                        <td rowspan='1' style='color: #FFF;width: 80px; background: #1967B2;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales USD$</h3></td>";
-         
-                $sqlCabinas="SELECT * 
-                             FROM cabina 
-                             WHERE status=1 AND id !=18 
-                             ORDER BY nombre";
-                $cabinas=Cabina::model()->findAllBySql($sqlCabinas);
-                $count=0;
-                foreach ($cabinas as $key => $cabina)
-                {
-                    $sqlTotales="SELECT (SELECT SUM(d.Monto) AS Monto 
-                                         FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN cabina AS c ON d.CABINA_Id=c.id 
-                                         WHERE d.CABINA_Id=$cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND d.status = 3) AS MontoD,
-                                        (SELECT SUM(d.Monto) AS Monto FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina AS c ON d.CABINA_Id = c.id WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND d.status = 3) AS MontoS, d.moneda
-                                 FROM detallegasto AS d
-                                 LIMIT 1";
-                    $totales=Detallegasto::model()->findAllBySql($sqlTotales);
-                    foreach ($totales as $key => $total)
-                    {
-                        if($total->MontoD != null || $total->MontoS != null)
-                        {
-                            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;text-align: center;'>".Detallegasto::montoGasto($total->MontoD)."</td>";
-                        }
-                        else
-                        {
-                            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;text-align: center;'>00.00</td>";
-                        }
-                    }
-                }
-                $tr.="</tr>";
-                return $tr;
-            }
-            else
-            {
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
                 return 'No Data';
             }
         }

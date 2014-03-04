@@ -52,7 +52,7 @@ $model = Detallegasto::model()->findAllBySql($sql);
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 ?>
-<<<<<<< HEAD
+
 <script>
     $(document).ready(function(){
 
@@ -61,8 +61,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
         });
     });
 </script>
-=======
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
+
 <div id="nombreContenedor" class="black_overlay"></div>
 <div id="loading" class="ventana_flotante"></div>
 <div id="complete" class="ventana_flotante2"></div>
@@ -103,7 +102,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
     </div>
 </form>
 <div style="display: block;">&nbsp;</div>
-<<<<<<< HEAD
+
 <br><br>
 <div id="mostrarFormulas">
     Leyenda
@@ -124,12 +123,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 <div id="fecha2" style="display: none;"><?php echo $mes;?></div>
 <div id="cabina" style="display: none;"><?php echo $cabina;?></div>
 <div id="cabina2" style="display: none;"><?php echo Cabina::getNombreCabina2($cabina);?></div>
-=======
 
-
-<br><br>
-<div id="fecha" style="display: block;">
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
     <?php 
 
     $mes_array = Array();
@@ -138,7 +132,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
         $mes_array[$i] = ucwords(strftime("%B", mktime(0, 0, 0, date('m',strtotime($mes))-$i)));
     } 
 
-<<<<<<< HEAD
+
     ?>
 
 
@@ -146,13 +140,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 
 if (count($model)> 1) { ?>
 <table id="tabla2" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
-=======
-    ?></div>
-<?php 
 
-if (count($model)> 1) { ?>
-<table id="tabla" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
     <thead>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></td>
         <th style="background-color: #ff9900;"><h3><?php echo $mes_array[11]; ?></h3></th>
@@ -259,11 +247,9 @@ if (count($model)> 1) { ?>
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                 if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-<<<<<<< HEAD
+
                                     $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table  style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
-=======
-                                    $opago.="<td style='width: 200px;color: #FFF; font-size:10px;'><div style='background: #1967B2;margin: auto;width: 100%;'>$MontoGasto->MontoSoles</div> <div style='display : block;background: #00992B;width: 100%;'>$MontoGasto->MontoDolares</div></td>";
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
+
                                 }else{
                                     $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                 }
@@ -274,11 +260,9 @@ if (count($model)> 1) { ?>
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-<<<<<<< HEAD
+
                                         $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table  style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
-=======
-                                        $opago.="<td style='width: 200px;color: #FFF; font-size:10px;'><div style='background: #1967B2;margin: auto;width: 100%;'>$MontoGasto->MontoSoles</div> <div style='display : block;background: #00992B;width: 100%;'>$MontoGasto->MontoDolares</div></td>";
->>>>>>> 93d48095a65b7d1c6c1fce96b8e406ab9c05db28
+
                                     }else{
                                         $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     }
