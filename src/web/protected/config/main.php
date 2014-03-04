@@ -101,13 +101,8 @@ return array(
 			'emulatePrepare'=>true,
                         'username'=>'root',
 			'password'=>'123',
-<<<<<<< HEAD
-
 			'charset'=>'utf8',       
-=======
-			'charset'=>'utf8',   
-                    
->>>>>>> plantilla_empleado
+
 			),
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors
