@@ -4,7 +4,7 @@
  */
 class matrizGastos extends Reportes
 {
-    public static function reporte($mes)
+    public static function reporte($mes,$nombre)
     {
 
         if($mes==NULL)
