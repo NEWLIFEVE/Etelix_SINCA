@@ -360,9 +360,7 @@ class SiteController extends Controller
      */
     public function actionSendEmail()
     {
-//        $correo = Yii::app()->getModule('user')->user()->email;
-        $correo = 'pnfiuty.rramirez@gmail.com';
-
+        $correo = Yii::app()->getModule('user')->user()->email;
         $topic = $_GET['name'];
         
         $files=array();
