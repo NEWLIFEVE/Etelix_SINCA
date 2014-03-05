@@ -99,16 +99,16 @@ class Cabina extends CActiveRecord
 
 	public static function getListCabina()
 	{
-		return CHtml::listData(Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'RESTO')), 'Id', 'Nombre');
+		return CHtml::listData(Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2 ORDER BY nombre = "COMUN CABINA", nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'RESTO')), 'Id', 'Nombre');
 	}
 	public static function getListCabinaResto()
 	{
-		return CHtml::listData(Cabina::model()->findAll('status=:status AND Nombre!=:nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA')), 'Id', 'Nombre');
+		return CHtml::listData(Cabina::model()->findAll('status=:status AND Nombre!=:nombre ORDER BY nombre = "COMUN CABINA", nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA')), 'Id', 'Nombre');
 	}
         
         public static function getListCabinaForFilterWithoutModel()
 	{
-		return CHtml::listData(Cabina::model()->findAllBySql("SELECT LPAD(Id+1,2,0) AS 'Id',Nombre FROM Cabina WHERE status=:status AND Nombre!=:nombre;",array(':status'=>'1', ':nombre'=>'ZPRUEBA')), 'Id', 'Nombre');
+		return CHtml::listData(Cabina::model()->findAllBySql("SELECT LPAD(Id+1,2,0) AS 'Id',Nombre FROM Cabina WHERE status=:status AND Nombre!=:nombre ORDER BY nombre = 'COMUN CABINA', nombre;",array(':status'=>'1', ':nombre'=>'ZPRUEBA')), 'Id', 'Nombre');
 	}
     
     public static function getNombreCabina($idCabina)
