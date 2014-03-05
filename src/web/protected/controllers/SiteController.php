@@ -337,11 +337,11 @@ class SiteController extends Controller
         if($_GET['table']=='tabla')
         {
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name']);
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],true);
         }
         if($_GET['table']=='tabla2'){
             $files['matrizE']['name']=$_GET['name'];
-            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name']);
+            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
         }
         if($_GET['table']=='estadogasto-grid')
         {
@@ -360,7 +360,8 @@ class SiteController extends Controller
      */
     public function actionSendEmail()
     {
-        $correo = Yii::app()->getModule('user')->user()->email;
+//        $correo = Yii::app()->getModule('user')->user()->email;
+        $correo = 'pnfiuty.rramirez@gmail.com';
 
         $topic = $_GET['name'];
         
@@ -370,76 +371,84 @@ class SiteController extends Controller
         {
             $files['balance']['name']=$_GET['name'];
             $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
+            $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
             $files['balance']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['balance']['name'].".xls";    
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
             $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids']);
+            $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['ids']);
             $files['libroVentas']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['libroVentas']['name'].".xls";        
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {         
             $files['depositoBancario']['name']=$_GET['name'];
             $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids']);
+            $files['depositoBancario']['excel']=Yii::app()->reporte->depositoBancario($_GET['ids']);
             $files['depositoBancario']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['depositoBancario']['name'].".xls";    
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
         {
             $files['ventasbrighstar']['name']=$_GET['name'];
             $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids']);
+            $files['ventasbrighstar']['excel']=Yii::app()->reporte->brightstar($_GET['ids']);
             $files['ventasbrighstar']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['ventasbrighstar']['name'].".xls";    
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
         {
             $files['traficocaptura']['name']=$_GET['name'];
             $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids']);
+            $files['traficocaptura']['excel']=Yii::app()->reporte->captura($_GET['ids']);
             $files['traficocaptura']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['traficocaptura']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
+            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
+            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {      
             $files['cicloIngresoT']['name']=$_GET['name'];
             $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+            $files['cicloIngresoT']['excel']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
             $files['cicloIngresoT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngresoT']['name'].".xls";    
         }
         if($_GET['table']=='tabla')
         {    
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name']);
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],false);
+            $files['matriz']['excel']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],true);
             $files['matriz']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matriz']['name'].".xls";
-        
-               
         }
         if($_GET['table']=='tabla2'){
             
             $files['matrizE']['name']=$_GET['name'];
-            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name']);
+            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
+            $files['matrizE']['excel']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
             $files['matrizE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizE']['name'].".xls";
-        
-               
+  
         }
         if($_GET['table']=='estadogasto-grid'){
             
             $files['estadogasto']['name']=$_GET['name'];
             $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids']);
+            $files['estadogasto']['excel']=Yii::app()->reporte->estadoGasto($_GET['ids']);
             $files['estadogasto']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadogasto']['name'].".xls";               
         }
         
         foreach($files as $key => $file)
         {   
-            $this->genExcel($file['name'],utf8_encode($file['body']),false);
+            $this->genExcel($file['name'],utf8_encode($file['excel']),false);
             Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
         }
     }
@@ -482,14 +491,14 @@ class SiteController extends Controller
             echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
         }
         if($_GET['table']=='tabla'){
-            echo Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name']);
+            echo Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],false);
         }
         if($_GET['table']=='estadogasto-grid'){
             echo Yii::app()->reporte->estadoGasto($_GET['ids']);
         }
 
         if($_GET['table']=='tabla2'){
-            echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name']);
+            echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
         }
                
     }
@@ -499,18 +508,14 @@ class SiteController extends Controller
      */
     public function genExcel($name,$html,$salida=true)
     {  
-        
-       $find = Array('S/.','USD$');
-       $htmlWithoutSimbol = str_replace($find,' ',$html);
-       $htmlWithoutPoint = str_replace('.',',',$htmlWithoutSimbol);
-            
+          
         if($salida)
         {
             header('Content-type: application/vnd.ms-excel');
             header("Content-Disposition: attachment; filename={$name}.xls");
             header("Pragma: cache");
             header("Expires: 0");
-            echo $htmlWithoutPoint;
+            echo $html;
         }
         else
         {
@@ -524,7 +529,7 @@ class SiteController extends Controller
                     <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
                 </head>
                 <body>";
-            $cuerpo.=$htmlWithoutPoint;
+            $cuerpo.=$html;
             $cuerpo.="</body>
             </html>";
             fwrite($fp,$cuerpo);
