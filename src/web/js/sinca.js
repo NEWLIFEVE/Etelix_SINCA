@@ -546,12 +546,12 @@ $(document).ready(function()
             var mes = $('div#fecha2').text();
             var cabina = $('div#cabina').text();
             var name = genNameFile(gridview);
-            //alert(mes);
+            //alert(name);
             
             
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
-                                    url: "/site/print?table="+gridview+"&mes="+mes+"&cabina="+cabina,   
+                                    url: "/site/print?table="+gridview+"&mes="+mes+"&name="+name+"&cabina="+cabina,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
@@ -559,7 +559,7 @@ $(document).ready(function()
             if($('table#'+gridview).length){
             var content = '<html lang="es"><meta charset="latin1">'+
             '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
-            '<body><h2 style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;">'+name+'</h2><br>'
+            '<body>'
             //Tabla con Formato
             +response+
 

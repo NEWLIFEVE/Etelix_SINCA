@@ -62,19 +62,15 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
-    public function matrizGastos($ids)
+    public function matrizGastos($ids,$nombre)
     {
-        if($ids == null){
-        $var= 'No Existen Datos - Debe Selecionar un Mes';
-        }else{
-        $var= matrizGastos::reporte($ids);    
-        }
+        $var= matrizGastos::reporte($ids,$nombre);    
         return $var;
     }
     
-    public function matrizGastosEvolucion($mes, $cabina)
+    public function matrizGastosEvolucion($mes, $cabina,$nombre)
     {
-        $var= matrizGastosEvolucion::reporte($mes, $cabina);    
+        $var= matrizGastosEvolucion::reporte($mes, $cabina,$nombre);    
         return $var;
     }
 
