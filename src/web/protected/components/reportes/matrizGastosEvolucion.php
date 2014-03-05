@@ -5,7 +5,7 @@
      */
     class matrizGastosEvolucion extends Reportes 
     {
-        public static function reporte($mes,$cabina) 
+        public static function reporte($mes,$cabina,$nombre) 
         {
             
             //Yii::app()->user->setState('mesSesion',$_POST["formFecha"]."-01");
@@ -40,7 +40,8 @@
             }
             
             if($model != false){
-            $tr = "<table border='1' style='border-collapse:collapse;width:auto;'>
+            $tr = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>$nombre</h2><br>
+                <table border='1' style='border-collapse:collapse;width:auto;'>
                         <tr>
                             <td style='width: 100px; background: #DADFE4'><h3 style='font-size:10px; color:#000000; background: none; text-align: center;'> Colores </h3> </td>
 
@@ -174,7 +175,7 @@
 //                                $opago.="<td></td>";
                                 
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoDolares USD$</td></tr></table></td>";
                                     }else{
                                         $opago.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     }
@@ -184,7 +185,7 @@
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoDolares USD$</td></tr></table></td>";
                                     }else{
                                         $opago.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     }
