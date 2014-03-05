@@ -2,7 +2,7 @@
 
     class brightstar extends Reportes 
     {
-        public static function reporte($ids) 
+        public static function reporte($ids,$type) 
         {
 //            $acumuladoSaldoApMov = 0;
 //            $acumuladoSaldoApClaro = 0;
@@ -22,10 +22,10 @@
                     $table.=   '<tr >
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaMovistar).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->DifMov,$registro->DifMov).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaClaro).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->DifClaro,$registro->DifClaro).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->RecargaMovistar), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifMov,$registro->DifMov), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->RecargaClaro), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifClaro,$registro->DifClaro), $type).'</td>
                                 </tr>
                                 ';
 
@@ -36,10 +36,10 @@
                                 .'<tr >
                                         <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->RecargaMovistar).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->RecargaClaro).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaMovistar), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::format(Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaClaro), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro), $type).'</td>
                                       </tr>
                                     </tbody>
                            </table>';

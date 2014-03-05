@@ -15,63 +15,63 @@ class Reportes extends CApplicationComponent
      * @param array $ids
      * @return string
      */
-    public function balanceAdmin($ids)
+    public function balanceAdmin($ids,$type)
     {
-        $var=  balanceAdmin::reporte($ids);
+        $var=  balanceAdmin::reporte($ids,$type);
         return $var;
     }
     
     /**
      * Documentacion va aqui
      */
-    public function libroVenta($ids)
+    public function libroVenta($ids,$type)
     {
-        $var= libroVenta::reporte($ids);
+        $var= libroVenta::reporte($ids,$type);
         return $var;
     }
     
     /**
      * Documentacion va aqui
      */
-    public function depositoBancario($ids)
+    public function depositoBancario($ids,$type)
     {
-        $var= depositoBancario::reporte($ids);
+        $var= depositoBancario::reporte($ids,$type);
         return $var;
     }
     
     /**
      * Documentacion va aqui
      */
-    public function brightstar($ids)
+    public function brightstar($ids,$type)
     {
-        $var= brightstar::reporte($ids);
+        $var= brightstar::reporte($ids,$type);
         return $var;
     }
     
     /**
      * Documentacion va aqui
      */
-    public function captura($ids)
+    public function captura($ids,$type)
     {
-        $var= captura::reporte($ids);
+        $var= captura::reporte($ids,$type);
         return $var;
     }
     
     /**
      * Documentacion va aqui
      */
-    public function cicloIngreso($ids,$complete)
+    public function cicloIngreso($ids,$complete,$type)
     {
-        $var= cicloIngreso::reporte($ids,$complete);
+        $var= cicloIngreso::reporte($ids,$complete,$type);
         return $var;
     }
     
     /**
      * Documentacion va aqui
      */
-    public function cicloIngresoTotal($ids,$complete)
+    public function cicloIngresoTotal($ids,$complete,$type)
     {
-        $var= cicloIngresoTotal::reporte($ids,$complete);
+        $var= cicloIngresoTotal::reporte($ids,$complete,$type);
         return $var;
     }
     
