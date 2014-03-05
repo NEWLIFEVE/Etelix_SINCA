@@ -5,13 +5,24 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = BalanceController::controlAcceso($tipoUsuario);
 
-$mes=date("Y-m").'-01';
+$mes=date("Y-m");
 
 
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
     {
-        $mes=$_POST["formFecha"]."-01";
+        $mes=$_POST["formFecha"];
     }
+    
+//    if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
+//    {
+//        Yii::app()->user->setState('fechaCicloIngresosTotal',$_POST["formFecha"]);
+//        $mes=Yii::app()->user->getState('fechaCicloIngresosTotal');
+//    }
+//    elseif(strlen(Yii::app()->user->getState('fechaCicloIngresosTotal')) && Yii::app()->user->getState('fechaCicloIngresosTotal')!="")
+//    {
+//        $mes = Yii::app()->user->getState('fechaCicloIngresosTotal');
+//    } 
+$año = date("Y", strtotime($mes));  
 ?>
 
 <script>
@@ -78,7 +89,7 @@ $mes=date("Y-m").'-01';
 <div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
-        Ciclo de Ingresos Total <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?>
+        Ciclo de Ingresos Total <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año : ""; ?>
     </span>
     <span style="display: none">
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
@@ -197,19 +208,6 @@ $this->widget('application.extensions.fancybox.EFancyBox',array(
 <div class="output" style="overflow: auto;">
 <div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>    
 <?php
-
-$mes=date("Y-m").'-01';
-
-
-    if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
-    {
-        Yii::app()->user->setState('fechaCicloIngresosTotal',$_POST["formFecha"]."-01");
-        $mes=Yii::app()->user->getState('fechaCicloIngresosTotal');
-    }
-    elseif(strlen(Yii::app()->user->getState('fechaCicloIngresosTotal')) && Yii::app()->user->getState('fechaCicloIngresosTotal')!="")
-    {
-        $mes = Yii::app()->user->getState('fechaCicloIngresosTotal');
-    } 
 
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceCicloIngresosTotalResumido',

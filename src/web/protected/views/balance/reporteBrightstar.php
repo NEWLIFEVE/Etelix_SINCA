@@ -5,13 +5,16 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 
-$mes=date("Y-m").'-01';
+$mes=date("Y-m");
 
 
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
     {
-        $mes=$_POST["formFecha"]."-01";
+        $mes=$_POST["formFecha"];
     }
+    
+    
+$año = date("Y", strtotime($mes));   
 ?>
 <div id="nombreContenedor" class="black_overlay"></div>
 <div id="loading" class="ventana_flotante"></div>
@@ -19,7 +22,7 @@ $mes=date("Y-m").'-01';
 <div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
-        Reporte de Ventas Recargas Brightstar <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?>
+        Reporte de Ventas Recargas Brightstar <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año : ""; ?>
     </span> 
     <span>
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
@@ -50,7 +53,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'rel'=>'total',
         'name'=>'vista',
         ),
-    'dataProvider'=>$model->search($_POST),
+    'dataProvider'=>$model->search($_POST,$mes),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(

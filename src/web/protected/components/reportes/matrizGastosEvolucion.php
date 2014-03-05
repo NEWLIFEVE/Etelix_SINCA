@@ -3,9 +3,9 @@
     /**
      * @package reportes
      */
-    class matrizGastos extends Reportes 
+    class matrizGastosEvolucion extends Reportes 
     {
-        public static function reporte($mes,$nombre,$type) 
+        public static function reporte($mes,$cabina,$nombre,$type) 
         {
             
             //Yii::app()->user->setState('mesSesion',$_POST["formFecha"]."-01");
@@ -18,18 +18,26 @@
             }else{
                 
            $año = date("Y", strtotime($mes));
-           $mes = date("m", strtotime($mes));
+           $mes2 = date("m", strtotime($mes));
            
            $ruta = $_SERVER["SERVER_NAME"];
                 
             $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle
-              FROM detallegasto d, tipogasto t 
-              WHERE d.TIPOGASTO_Id=t.id 
-              AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-              AND EXTRACT(MONTH FROM d.FechaMes) = '$mes'
-              AND d.status = 3
-              GROUP BY t.Nombre;";
-             $model = Detallegasto::model()->findAllBySql($sql);
+                    FROM detallegasto d, tipogasto t 
+                    WHERE d.TIPOGASTO_Id=t.id 
+                    AND EXTRACT(YEAR_MONTH FROM d.FechaMes) >= EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11 MONTH)) 
+                    AND EXTRACT(YEAR_MONTH FROM d.FechaMes) <= '".$año.$mes2."'
+                    AND d.status = 3
+                    AND d.CABINA_Id = $cabina
+                    GROUP BY t.Nombre
+                    ORDER BY t.Nombre ASC;";
+            $model = Detallegasto::model()->findAllBySql($sql);
+            setlocale(LC_TIME, 'spanish'); 
+            $mes_array = Array();
+            $fecha_consulta = Array();
+            for($i=0;$i<=11;$i++){
+                $mes_array[$i] = ucwords(strftime("%B", mktime(0, 0, 0, date('m',strtotime($mes))-$i)));
+            }
             
             if($model != false){
             $tr = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>$nombre</h2><br>
@@ -49,21 +57,21 @@
                             <td style='width: 80px; background: #00992B'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Dolares</h3> </td>
                         </tr>
                     </table><br>
-                    <table id='tabla' class='matrizGastos' border='1' style='border-collapse:collapse;width:auto;'>
+                <table id='tabla' class='matrizGastos' border='1' style='border-collapse:collapse;width:auto;'>
                     <thead>
                         <th style='width: 80px;background: #ff9900;text-align: center;'><center><img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' /></center></td>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Chimbote</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Etelix-Peru</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Huancayo</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 01</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 03</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Piura</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Pucallpa</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Surquillo</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Tarapoto</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 01</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 03</h3></th>
-                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Comun Cabina</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[11]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[10]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[9]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[8]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[7]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[6]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[5]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[4]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[3]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[2]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[1]</h3></th>
+                        <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[0]</h3></th>
                 </thead>
 
                 <tbody>
@@ -94,15 +102,14 @@
             $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
-            foreach ($cabinas as $key => $cabina) {
+            for($i=0;$i<=11;$i++){
                 $sqlMontoGasto = "SELECT  SUM(d.Monto) as Monto, d.status, d.moneda,
                                         (
                                         SELECT  d.Monto as Monto
                                         FROM detallegasto d, cabina c, tipogasto t 
                                         WHERE d.CABINA_Id=c.id
-                                        AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-                                        AND EXTRACT(MONTH FROM d.FechaMes) = '$mes'
-                                        AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
+                                        AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count." MONTH))
+                                        AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina
                                         AND d.status = 3
                                         AND d.moneda = 1
                                         GROUP BY d.moneda
@@ -112,9 +119,8 @@
                                         SELECT  d.Monto as Monto
                                         FROM detallegasto d, cabina c, tipogasto t 
                                         WHERE d.CABINA_Id=c.id
-                                        AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-                                        AND EXTRACT(MONTH FROM d.FechaMes) = '$mes'
-                                        AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
+                                        AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count." MONTH))
+                                        AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id  AND d.CABINA_Id = $cabina
                                         AND d.status = 3
                                         AND d.moneda = 2
                                         GROUP BY d.moneda
@@ -122,11 +128,11 @@
                                         
                                   FROM detallegasto d, cabina c, tipogasto t 
                                   WHERE d.CABINA_Id=c.id
-                                  AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-                                  AND EXTRACT(MONTH FROM d.FechaMes) = '$mes'
-                                  AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
+                                  AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count." MONTH)) 
+                                  AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id 
+                                  AND d.CABINA_Id = $cabina
                                   AND d.status = 3
-                                  GROUP BY d.status;";
+                                  GROUP BY d.moneda;";
                 $MontoGasto = Detallegasto::model()->findBySql($sqlMontoGasto);
                
                 if ($MontoGasto!=NULL){
@@ -136,7 +142,7 @@
                             if ($count>0){
                                 $opago.="<td style='width: 80px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
-                                $opago.="<td style='width: 80px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='width: 200px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='width: 200px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
                             
                             //$aprobado.="<td></td>";
@@ -190,7 +196,7 @@
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td style='height: em;width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
+                        $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
                     }
                     
 //                    $aprobado.="<td></td>";
@@ -200,7 +206,7 @@
             }
 //         
     
-     $tr.="<tr id='ordenPago' > 
+     $tr.="<tr id='ordenPago'> 
             $opago
     </tr>";
 //    $tr.="<tr id='aprovada'> 
@@ -231,18 +237,19 @@
     //TOTAL SOLES
         $tr.= "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3></td>";
+            <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3></td>
+            ";
          
            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
-            $count = 0;
-            foreach ($cabinas as $key => $cabina) {
-                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND d.status = 3) 
+            $count2 = 0;
+            for($i=0;$i<=11;$i++){
+                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count2." MONTH)) AND d.moneda = 1 AND d.status = 3) 
                                 as MontoD,
-                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND d.status = 3) 
+                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count2." MONTH)) AND (d.moneda = 2 OR d.moneda IS NULL) AND d.status = 3) 
                                 as MontoS, d.moneda
                                 FROM detallegasto as d
-                                LIMIT 1;";       
+                                LIMIT 1";       
                 
                 
         $totales = Detallegasto::model()->findAllBySql($sqlTotales);
@@ -259,7 +266,8 @@
         
             
         }
-            }
+            $count2++;
+        }
        
             $tr.= "</tr>";
  
@@ -271,14 +279,14 @@
          
     $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
-            $count = 0;
-            foreach ($cabinas as $key => $cabina) {
-                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND d.status = 3) 
+            $count3 = 0;
+            for($i=0;$i<=11;$i++){
+                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count3." MONTH)) AND d.moneda = 1 AND d.status = 3) 
                                 as MontoD,
-                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND d.status = 3) 
+                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count3." MONTH)) AND (d.moneda = 2 OR d.moneda IS NULL) AND d.status = 3) 
                                 as MontoS, d.moneda
                                 FROM detallegasto as d
-                                LIMIT 1;";       
+                                LIMIT 1";      
                 
                 
         $totales = Detallegasto::model()->findAllBySql($sqlTotales);
@@ -295,7 +303,9 @@
         
             
         }
-            }
+            $count3++;
+        
+        }
        
             $tr.= "</tr></tbody></table>";    
      

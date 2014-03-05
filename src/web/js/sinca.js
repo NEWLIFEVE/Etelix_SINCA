@@ -172,24 +172,25 @@ $(document).ready(function()
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
              
-            var gridview = 'tabla';
-            //var mes = $('#dateMonth').val();
+            var gridview = $('table.matrizGastos').attr('id');
+            var mes = $('div#fecha2').text();
+            var cabina = $('div#cabina').text();
             var name = genNameFile(gridview);
             
             //alert(mes);
             
             
             var response = $.ajax({ type: "GET",   
-                                    url: '/site/excel?name='+name+"&table="+gridview,   
+                                    url: '/site/excel?name='+name+"&table="+gridview+"&mes="+mes+"&cabina="+cabina,    
                                     async: false,
                                     succes: alert,
                                   }).responseText;
 
              //alert(response);
-             if(response != 'Error'){
+             if($('table#'+gridview).length){
              //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
              var win = false;
-             win = window.open("/site/excel?name="+name+"&table="+gridview,"_top");
+             win = window.open("/site/excel?name="+name+"&table="+gridview+"&mes="+mes+"&cabina="+cabina,"_top");
 
             if (win.closed == false)
             {
@@ -202,7 +203,7 @@ $(document).ready(function()
              setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
             }
              }else{
-                        $("#error").html("No se Muestran Datos... !!");
+                        $("#error").html("No Existen Datos... !!");
                         $("#loading").css("display", "none");
                         $("#nombreContenedor").css("display", "inline");
                         $("#error").css("display", "inline");
@@ -342,16 +343,16 @@ $(document).ready(function()
         {    
 
 
-            var gridview = 'tabla';
-            //var mes = $('#dateMonth').val();
+            var gridview = $('table.matrizGastos').attr('id');
+            var mes = $('div#fecha2').text();
+            var cabina = $('div#cabina').text();
             var name = genNameFile(gridview);
             //alert(mes);
             
-            if(gridview != ''){
-            
-                                $.ajax({ 
-                                    type: "GET",   
-                                    url: '/site/sendemail?name='+name+"&table="+gridview,   
+            if($('table#'+gridview).length){
+            //Creamos la variable que contiene la tabla generada.
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/sendemail?name="+name+"&table="+gridview+"&mes="+mes+"&cabina="+cabina,  
                                     async: false,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
@@ -375,43 +376,6 @@ $(document).ready(function()
             }
         });  
         
-        $('img.botonCorreoPanel').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
-        {    
-
-
-            var gridview = 'tablapanel';
-            //var mes = $('#dateMonth').val();
-            var name = genNameFile(gridview);
-            //alert(gridview);
-            var tabla = $("<div>").append($('#'+gridview).clone()).html();
-            //alert(tabla);
-            if(gridview != ''){
-            
-                                $.ajax({ 
-                                    type: "GET",   
-                                    url: '/site/sendemail?name='+name+"&table="+gridview+'&contenido='+tabla,   
-                                    async: false,
-                                    beforeSend: function () {
-                                            //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
-//                                            $("#nombreContenedor").css("display", "inline");
-//                                            $("#loading").css("display", "inline");
-                                    },
-                                    success:  function (response) {
-                                            $("#complete").html("Correo Enviado con Exito... !!");
-                                            $("#nombreContenedor").css("display", "inline");
-                                            $("#complete").css("display", "inline");
-                                            setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
-                                            setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
-                                    }
-                                  });
-            }else{
-                        $("#error").html("No Existen Datos... !!");
-                        $("#nombreContenedor").css("display", "inline");
-                        $("#error").css("display", "inline");
-                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
-                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
-            }
-        });
     }
 
 //--- FUNCION PARA IMPIRMIR.
@@ -578,23 +542,24 @@ $(document).ready(function()
         {    
 
            
-            var gridview = 'tabla';
-            //var mes = $('#dateMonth').val();
+            var gridview = $('table.matrizGastos').attr('id');
+            var mes = $('div#fecha2').text();
+            var cabina = $('div#cabina').text();
             var name = genNameFile(gridview);
-            //alert(mes);
+            //alert(name);
             
             
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
-                                    url: "/site/print?table="+gridview,   
+                                    url: "/site/print?table="+gridview+"&mes="+mes+"&name="+name+"&cabina="+cabina,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
             //alert(response);
-            if(response != 'No Data'){
+            if($('table#'+gridview).length){
             var content = '<html lang="es"><meta charset="latin1">'+
             '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
-            '<body><h1 style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;">'+name+'</h1><br>'
+            '<body>'
             //Tabla con Formato
             +response+
 
@@ -633,9 +598,10 @@ $(document).ready(function()
         
         var name = '';
         var fecha = new String($('#fecha').text());
+        var cabina = $('div#cabina2').text();
         //alert(fecha);
         if(gridview=='balance-grid' || gridview=='balance-grid-oculta'){
-            name = 'SINCA Administrar Balance de Cabinas '+fecha;
+            name = 'SINCA Administrar Balance de Cabinas';
         }
         if(gridview=='balanceLibroVentas' || gridview=='balanceLibroVentasOculta'){
             name = 'SINCA Reporte Libro de Ventas '+fecha;
@@ -660,6 +626,9 @@ $(document).ready(function()
         }
         if(gridview=='tabla'){
             name = 'SINCA Matriz de Gastos '+fecha;
+        }
+        if(gridview=='tabla2'){
+            name = 'SINCA Matriz de Gastos Evolucion '+cabina+' '+fecha;
         }
         if(gridview=='estadogasto-grid'){
             name = 'SINCA Estado de Gastos '+fecha;

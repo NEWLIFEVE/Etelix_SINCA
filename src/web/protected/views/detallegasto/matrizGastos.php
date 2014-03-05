@@ -36,6 +36,14 @@ $model = Detallegasto::model()->findAllBySql($sql);
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 ?>
+<script>
+    $(document).ready(function(){
+
+        $("#mostrarFormulas").click(function(){
+            $("#tablaFormulas").slideToggle("slow");
+        });
+    });
+</script>
 <div id="nombreContenedor" class="black_overlay"></div>
 <div id="loading" class="ventana_flotante"></div>
 <div id="complete" class="ventana_flotante2"></div>
@@ -43,7 +51,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 <h1>
     <span class="enviar">
         Matriz de Gastos
-        <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?>
+        <?php echo $mes != NULL ?" - ". Utility::monthName($mes).' '.$año : ""; ?>
     </span>
     <span>
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoMatriz" />
@@ -66,10 +74,25 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
     </div>
 </form>
 <div style="display: block;">&nbsp;</div>
+<div style="display: block;">&nbsp;</div>
+<br>
+<div id="mostrarFormulas">
+    Leyenda
+</div>
 
-
-<br><br>
+<div id="tablaFormulas" class="ocultar">
+<table>
+    <tr>
+        <td> Azul = Soles </td>
+    </tr>
+    <tr>
+        <td> Verde = Dolares </td>
+    </tr>
+</table>
+</div>
+<br>
 <div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
+<div id="fecha2" style="display: none;"><?php echo $mes;?></div>
 <?php 
 
 if (count($model)> 1) { ?>
@@ -106,7 +129,31 @@ if (count($model)> 1) { ?>
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
-                $sqlMontoGasto = "SELECT  SUM(d.Monto) as Monto, d.status, d.moneda 
+                $sqlMontoGasto = "SELECT  SUM(d.Monto) as Monto, d.status, d.moneda,
+                                        (
+                                        SELECT  d.Monto as Monto
+                                        FROM detallegasto d, cabina c, tipogasto t 
+                                        WHERE d.CABINA_Id=c.id
+                                        AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                                        AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
+                                        AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
+                                        AND d.status = 3
+                                        AND d.moneda = 1
+                                        GROUP BY d.moneda
+                                        ) as MontoDolares, 
+                                        
+                                        (
+                                        SELECT  d.Monto as Monto
+                                        FROM detallegasto d, cabina c, tipogasto t 
+                                        WHERE d.CABINA_Id=c.id
+                                        AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                                        AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
+                                        AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
+                                        AND d.status = 3
+                                        AND d.moneda = 2
+                                        GROUP BY d.moneda
+                                        )  as MontoSoles
+                                        
                                   FROM detallegasto d, cabina c, tipogasto t 
                                   WHERE d.CABINA_Id=c.id
                                   AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
@@ -155,13 +202,23 @@ if (count($model)> 1) { ?>
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                 
-                                
-                                $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                    if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
+                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                                    }else{
+                                        $opago.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                    }
+
                             }else{
-                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+
+                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
+
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
-                                $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                    if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
+                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                                    }else{
+                                        $opago.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                    }
                             }
                             break;
                     }
