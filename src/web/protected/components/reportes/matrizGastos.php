@@ -5,7 +5,7 @@
      */
     class matrizGastos extends Reportes 
     {
-        public static function reporte($mes,$nombre) 
+        public static function reporte($mes,$nombre,$type=true) 
         {
             
             //Yii::app()->user->setState('mesSesion',$_POST["formFecha"]."-01");
