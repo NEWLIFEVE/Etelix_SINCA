@@ -78,9 +78,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-    public function estadoGasto($ids)
+    public function estadoGasto($ids,$type)
     {
-        $var= estadoGasto::reporte($ids);
+        $var= estadoGasto::reporte($ids,$type);
         return $var;
     }
     

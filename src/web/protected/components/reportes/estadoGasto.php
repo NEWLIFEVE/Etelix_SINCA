@@ -5,7 +5,7 @@
      */
     class estadoGasto extends Reportes 
     {
-        public static function reporte($ids) 
+        public static function reporte($ids,$type) 
         {
 //            $acumuladoSaldoApMov = 0;
 //            $acumuladoSaldoApClaro = 0;
@@ -28,7 +28,7 @@
                                     <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Tipogasto, ENT_QUOTES,'UTF-8').'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Descripcion, ENT_QUOTES,'UTF-8').'</td>    
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->FechaVenc.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Monto.'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format($registro->Monto, $type).'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->moneda.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->beneficiario, ENT_QUOTES,'UTF-8').'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->status.'</td>
