@@ -4,6 +4,17 @@
 Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = BalanceController::controlAcceso($tipoUsuario);
+
+$mes=date("Y-m");
+
+
+    if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
+    {
+        $mes=$_POST["formFecha"];
+    }
+    
+    
+$año = date("Y", strtotime($mes));    
 ?>
 
 <div id="nombreContenedor" class="black_overlay"></div>
@@ -12,7 +23,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
 <div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
-        Reporte Libro de Ventas
+        Reporte Libro de Ventas <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año : ""; ?>
     </span>
     <span>
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
@@ -20,7 +31,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
         <button id="cambio">Inactivas</button>
         <div>
-            <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/reportecaptura') ?>">
+            <form method="post" name="balance" action="<?php Yii::app()->createAbsoluteUrl('balance/ReporteLibroVentas') ?>">
                 <label for="dateMonth">
                     Seleccione un mes:
                 </label>
@@ -33,7 +44,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
         </div>
     </span>
 </h1>
-
+<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balanceLibroVentas',
@@ -42,7 +53,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'rel'=>'total',
         'name'=>'vista',
     ),
-    'dataProvider'=>$model->search($_POST),
+    'dataProvider'=>$model->search($_POST,$mes),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(

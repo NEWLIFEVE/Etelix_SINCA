@@ -75,6 +75,7 @@ return array(
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 				'recargas/<action:\w+>/<compania:\w+>'=>'recargas/<action>/view',
+
 				),
 			),
 		// uncomment the following to use a MySQL database
@@ -82,7 +83,7 @@ return array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
             ),
 		'db'=>array(
-
+			'class'=>'CDbConnection',
 			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
             'username'=>'root',

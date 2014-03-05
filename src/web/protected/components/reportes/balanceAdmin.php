@@ -25,12 +25,12 @@
                     $table.=   '<tr >
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->SaldoApMov).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->SaldoApClaro).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->Trafico).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaMovistar).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaClaro).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->MontoDeposito).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto2($registro->SaldoApMov).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto2($registro->SaldoApClaro).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto2($registro->Trafico).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto2($registro->RecargaMovistar).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto2($registro->RecargaClaro).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto2($registro->MontoDeposito).'</td>
                                 </tr>
                                 ';
 
@@ -41,12 +41,12 @@
                                 .'<tr >
                                         <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->SaldoApMov).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->SaldoApClaro).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->Trafico).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->RecargaMovistar).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals($balanceTotals->RecargaClaro).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->MontoDeposito).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals2($balanceTotals->SaldoApMov).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals2($balanceTotals->SaldoApClaro).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals2($balanceTotals->Trafico).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals2($balanceTotals->RecargaMovistar).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals2($balanceTotals->RecargaClaro).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals2($balanceTotals->MontoDeposito).'</td>
                                       </tr>
                                     </tbody>
                            </table>';

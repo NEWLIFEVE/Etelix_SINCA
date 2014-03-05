@@ -3,12 +3,12 @@
 * @var $this DetallegastoController
 * @var $model Detallegasto
 */
-$mes=NULL;
+$mes=date("Y-m").'-01';
 $cabina=NULL;
 $status=NULL;
 if(isset($_POST["boton"]) && $_POST["boton"]== "Resetear Valores")
 {
-    Yii::app()->user->setState('mesSesion',NULL);
+    Yii::app()->user->setState('mesSesion',date("Y-m").'-01');
     Yii::app()->user->setState('cabinaSesion',NULL);
     Yii::app()->user->setState('rbtnStatusSesion',NULL);
 }
@@ -59,7 +59,7 @@ else
         $estatus='(pagado)';
     }
 }
-
+$año = date("Y", strtotime($mes));
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 Yii::app()->clientScript->registerScript('search', "
@@ -83,7 +83,7 @@ $('.search-form form').submit(function(){
     <span class="enviar">
         Estado de Gastos 
         <?php echo $cabina != NULL ? " - ". Cabina::getNombreCabina2($cabina) : ""; ?>
-        <?php echo $mes != NULL ?" - ". Utility::monthName($mes) : ""; ?>
+        <?php echo $mes != NULL ?" - ". Utility::monthName($mes).' '.$año : ""; ?>
         <?php echo $status != NULL ? " - ".$estatus : ""; ?>
     </span>
     <span>
@@ -136,6 +136,7 @@ $('.search-form form').submit(function(){
     </div>
 </form>
 <div style="display: block;">&nbsp;</div>
+<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
 <?php
 echo CHtml::beginForm(Yii::app()->createUrl('detallegasto/enviarEmail'), 'post', array('name' => 'FormularioCorreo', 'id' => 'FormularioCorreo', 'style' => 'display:none'));
 echo CHtml::textField('html', 'Hay Efectivo', array('id' => 'html', 'style' => 'display:none'));
