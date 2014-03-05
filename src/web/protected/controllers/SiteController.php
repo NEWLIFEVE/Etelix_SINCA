@@ -337,11 +337,11 @@ class SiteController extends Controller
         if($_GET['table']=='tabla')
         {
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes']);
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name']);
         }
         if($_GET['table']=='tabla2'){
             $files['matrizE']['name']=$_GET['name'];
-            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina']);
+            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name']);
         }
         if($_GET['table']=='estadogasto-grid')
         {
@@ -417,7 +417,7 @@ class SiteController extends Controller
         if($_GET['table']=='tabla')
         {    
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes']);
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name']);
             $files['matriz']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matriz']['name'].".xls";
         
                
@@ -425,7 +425,7 @@ class SiteController extends Controller
         if($_GET['table']=='tabla2'){
             
             $files['matrizE']['name']=$_GET['name'];
-            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina']);
+            $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name']);
             $files['matrizE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizE']['name'].".xls";
         
                
@@ -482,14 +482,14 @@ class SiteController extends Controller
             echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
         }
         if($_GET['table']=='tabla'){
-            echo Yii::app()->reporte->matrizGastos($_GET['mes']);
+            echo Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name']);
         }
         if($_GET['table']=='estadogasto-grid'){
             echo Yii::app()->reporte->estadoGasto($_GET['ids']);
         }
 
         if($_GET['table']=='tabla2'){
-            echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina']);
+            echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name']);
         }
                
     }
@@ -498,14 +498,19 @@ class SiteController extends Controller
      * FUNCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR
      */
     public function genExcel($name,$html,$salida=true)
-    {    
+    {  
+        
+       $find = Array('S/.','USD$');
+       $htmlWithoutSimbol = str_replace($find,' ',$html);
+       $htmlWithoutPoint = str_replace('.',',',$htmlWithoutSimbol);
+            
         if($salida)
         {
             header('Content-type: application/vnd.ms-excel');
             header("Content-Disposition: attachment; filename={$name}.xls");
             header("Pragma: cache");
             header("Expires: 0");
-            echo $html;
+            echo $htmlWithoutPoint;
         }
         else
         {
@@ -519,7 +524,7 @@ class SiteController extends Controller
                     <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
                 </head>
                 <body>";
-            $cuerpo.=$html;
+            $cuerpo.=$htmlWithoutPoint;
             $cuerpo.="</body>
             </html>";
             fwrite($fp,$cuerpo);
