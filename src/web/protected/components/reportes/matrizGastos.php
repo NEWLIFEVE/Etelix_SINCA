@@ -5,7 +5,7 @@
      */
     class matrizGastos extends Reportes 
     {
-        public static function reporte($mes,$nombre) 
+        public static function reporte($mes,$nombre,$type) 
         {
             
             //Yii::app()->user->setState('mesSesion',$_POST["formFecha"]."-01");
@@ -169,9 +169,9 @@
 //                                $opago.="<td></td>";
                                 
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." </td></tr></table></td>";
                                     }else{
-                                        $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                        $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
                                     }
 
                             }else{
@@ -179,9 +179,9 @@
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                                        $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." USD$</td></tr></table></td>";
                                     }else{
-                                        $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                        $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
                                     }
                             }
                             break;
@@ -249,7 +249,7 @@
         foreach ($totales as $key => $total) {
  
         if($total->MontoD != null || $total->MontoS != null){
-            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Detallegasto::montoGasto($total->MontoS)."</td>";
+            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoS), $type)."</td>";
 
         }else{
             $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";            
@@ -285,7 +285,7 @@
         foreach ($totales as $key => $total) {
  
         if($total->MontoD != null || $total->MontoS != null){
-            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Detallegasto::montoGasto($total->MontoD)."</td>";
+            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
 
         }else{
             $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";            

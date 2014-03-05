@@ -84,16 +84,16 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
-    public function matrizGastos($ids,$nombre)
+    public function matrizGastos($ids,$nombre,$type)
     {
-        $var= matrizGastos::reporte($ids,$nombre);    
+        $var= matrizGastos::reporte($ids,$nombre,$type);    
         return $var;
     }
     
 
-    public function matrizGastosEvolucion($mes, $cabina,$nombre)
+    public function matrizGastosEvolucion($mes,$cabina,$nombre,$type)
     {
-        $var= matrizGastosEvolucion::reporte($mes, $cabina,$nombre);    
+        $var= matrizGastosEvolucion::reporte($mes,$cabina,$nombre,$type);    
         return $var;
     }
 
@@ -461,5 +461,20 @@ class Reportes extends CApplicationComponent
         }
         return $field;
     }
+    
+    public static function format($monto,$type)
+    {
+        if($type == true)
+        {
+            $field = Utility::PuntoPorComa($monto);
+        }
+        else
+        {
+            $field = $monto;
+        }
+        return $field;
+    }
+    
+    
 }
 ?>
