@@ -58,6 +58,15 @@ class Utility{
             return $monto;
     	}
     }
+    
+        public static function PuntoPorComa($monto)
+        {
+           $find = Array('S/.','USD$');
+           $htmlWithoutSimbol = str_replace($find,' ',$monto);
+           $htmlWithoutPoint = str_replace('.',',',$htmlWithoutSimbol);
+           return $htmlWithoutPoint;
+            
+        }
     /*
     * funcion que valida la hora pasada como parametro
     */
