@@ -89,17 +89,17 @@ return array(
 //			'password'=>'123',
 //			'charset'=>'utf8',   
                     
-//			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
-//			'emulatePrepare'=>true,
-//                        'username'=>'root',
-//			'password'=>'Nsusfd8263',
-//			'charset'=>'utf8',    
-                    
-			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
+			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
                         'username'=>'root',
-			'password'=>'123',
-			'charset'=>'utf8',   
+			'password'=>'Nsusfd8263',
+			'charset'=>'utf8',    
+                    
+//			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
+//			'emulatePrepare'=>true,
+//                        'username'=>'root',
+//			'password'=>'123',
+//			'charset'=>'utf8',   
                     
 			),
 		'errorHandler'=>array(

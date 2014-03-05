@@ -320,8 +320,8 @@ class SiteController extends Controller
     public function actionSendEmail()
     {
 
-        $correo = Yii::app()->getModule('user')->user()->email;
-        //$correo = 'pnfiuty.rramirez@gmail.com';
+        //$correo = Yii::app()->getModule('user')->user()->email;
+        $correo = 'pnfiuty.rramirez@gmail.com';
 
         $topic = $_GET['name'];
         
@@ -471,14 +471,19 @@ class SiteController extends Controller
      * FUNCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR
      */
     public function genExcel($name,$html,$salida=true)
-    {    
+    {  
+        
+       $find = Array('S/.','USD$');
+       $htmlWithoutSimbol = str_replace($find,' ',$html);
+       $htmlWithoutPoint = str_replace('.',',',$htmlWithoutSimbol);
+            
         if($salida)
         {
             header('Content-type: application/vnd.ms-excel');
             header("Content-Disposition: attachment; filename={$name}.xls");
             header("Pragma: cache");
             header("Expires: 0");
-            echo $html;
+            echo $htmlWithoutPoint;
         }
         else
         {
@@ -492,7 +497,7 @@ class SiteController extends Controller
                     <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
                 </head>
                 <body>";
-            $cuerpo.=$html;
+            $cuerpo.=$htmlWithoutPoint;
             $cuerpo.="</body>
             </html>";
             fwrite($fp,$cuerpo);
