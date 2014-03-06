@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "tipogasto".
+ * This is the model class for table "category".
  *
- * The followings are the available columns in table 'tipogasto':
- * @property integer $Id
- * @property string $Nombre
- * @property integer $category_id
+ * The followings are the available columns in table 'category':
+ * @property integer $id
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property Detallegasto[] $detallegastos
- * @property Category $category
+ * @property Tipogasto[] $tipogastos
  */
-class Tipogasto extends CActiveRecord
+class Category extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
+        public $category_id;
+    
 	public function tableName()
 	{
-		return 'tipogasto';
+		return 'category';
 	}
 
 	/**
@@ -30,12 +30,11 @@ class Tipogasto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Nombre', 'required'),
-			array('category_id', 'numerical', 'integerOnly'=>true),
-			array('Nombre', 'length', 'max'=>145),
+			array('name', 'required'),
+			array('name', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('Id, Nombre, category_id', 'safe', 'on'=>'search'),
+			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,8 +46,7 @@ class Tipogasto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'detallegastos' => array(self::HAS_MANY, 'Detallegasto', 'TIPOGASTO_Id'),
-			'category' => array(self::BELONGS_TO, 'Category', 'category_id'),
+			'tipogastos' => array(self::HAS_MANY, 'Tipogasto', 'category_id'),
 		);
 	}
 
@@ -58,9 +56,8 @@ class Tipogasto extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'Id' => 'ID',
-			'Nombre' => 'Nombre',
-			'category_id' => 'Category',
+			'id' => 'ID',
+			'name' => 'Categoria',
 		);
 	}
 
@@ -82,9 +79,8 @@ class Tipogasto extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('Id',$this->Id);
-		$criteria->compare('Nombre',$this->Nombre,true);
-		$criteria->compare('category_id',$this->category_id);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -95,40 +91,14 @@ class Tipogasto extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Tipogasto the static model class
+	 * @return Category the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
         
-        public static function getIdGasto($nombre){
-            
-		if($nombre != null)
-		{
-			$model=self::model()->find('Nombre=:nombre',array(':nombre'=>$nombre));
-			if($model == null)
-			{
-				$model=new Tipogasto;
-				$model->Nombre=$nombre;
-				if($model->save())
-				{
-					return $model->Id;
-				}
-			}
-			else
-			{
-				return $model->Id;
-			}
-		}
+        public static function getListTipoCategoria(){
+            return CHtml::listData(Category::model()->findAll(), 'id', 'name');
         }
-     
-        public static function getListTipoGasto(){
-            return CHtml::listData(Tipogasto::model()->findAll(), 'Id', 'Nombre');
-        }
-        
-        public static function getListTipoGastoCategoria($tipo)
-	{
-            return CHtml::listData(Tipogasto::model()->findAll('category_id=:category_id',array(':category_id'=>$tipo)), 'Id', 'Nombre');
-	}
 }

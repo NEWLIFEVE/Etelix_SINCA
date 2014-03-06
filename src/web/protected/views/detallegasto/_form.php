@@ -58,7 +58,7 @@
             ));
     ?>
     <p class="note">Los campos con  <span class="required">*</span> son obligatorios.</p>
-<?php echo $form->errorSummary(array ($model, $model_cabina)); ?>
+<?php echo $form->errorSummary(array ($model, $model_cabina,$model_category)); ?>
     <table style="width: 70%;" border="1">
         <tr>
             <td>
@@ -69,7 +69,26 @@
                      <td style="width: 50%;">&nbsp;</td>
                 </tr>
                 <tr>
-                  <td><div class="row"> <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGasto(),array(
+                  <td>
+                        <div class="row"> 
+                                <?php echo $form->labelEx($model, 'category'); ?> 
+                                <?php echo $form->dropDownList($model, 'category',Category::getListTipoCategoria(), array('empty'=>'Seleccionar...'),array(
+                                                   
+                                    'ajax'=>array(
+                                        'type'=>'POST', //request type
+                                        'url'=>CController::createUrl('Detallegasto/DynamicCategoria'), //url to call.
+                                        'update'=>'#Detallegasto_TIPOGASTO_Id', //selector to update
+                                        ),
+                                    )
+                                ); 
+                                ?> 
+                                <?php echo $form->error($model, 'category'); ?> 
+                        </div>
+                  </td>
+                  <td>
+                      <div class="row"> 
+                          <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> 
+                          <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGasto(),array(
                                 'empty'=>array('Seleccionar..','Nuevo..'),
                                 'ajax'=>array(
                                     'type'=>'POST', //request type
@@ -78,15 +97,23 @@
                                     ),
                                 )
                             );
-                            ?> <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> </div></td>
-                    <td><div class="row"> <?php echo $form->labelEx($model, 'moneda'); ?> <?php echo $form->dropDownList($model, 'moneda', array('empty'=>'Seleccionar...','1'=>'Dollar (USD$)','2'=>'Soles (S/.)'),array(
-                                                                
-                                'ajax'=>array(
-                                    'type'=>'POST', //request type
-                                    'url'=>CController::createUrl('Detallegasto/DynamicCuenta'), //url to call.
-                                    'update'=>'#Detallegasto_CUENTA_Id', //selector to update
-                                    ),
-                            )); ?> <?php echo $form->error($model, 'moneda'); ?> </div></td>
+                            ?> 
+                          <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> 
+                      </div>
+                  </td>
+                    <td>
+                        <div class="row"> 
+                                <?php echo $form->labelEx($model, 'moneda'); ?> 
+                                <?php echo $form->dropDownList($model, 'moneda', array('empty'=>'Seleccionar...','1'=>'Dollar (USD$)','2'=>'Soles (S/.)'),array(               
+                                    'ajax'=>array(
+                                        'type'=>'POST', //request type
+                                        'url'=>CController::createUrl('Detallegasto/DynamicCuenta'), //url to call.
+                                        'update'=>'#Detallegasto_CUENTA_Id', //selector to update
+                                        ),
+                                )); ?> 
+                                <?php echo $form->error($model, 'moneda'); ?> 
+                        </div>
+                    </td>
                       <td style="width: 50%;"><div class="row"> 
                          <?php echo $form->labelEx($model, 'CUENTA_Id'); ?> 
                          <?php echo $form->dropDownList($model, 'CUENTA_Id',  Cuenta::getListCuenta());?> 

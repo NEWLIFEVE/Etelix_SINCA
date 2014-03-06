@@ -46,6 +46,8 @@ class Detallegasto extends CActiveRecord
     public $MontoS;
     public $MontoDolares;
     public $MontoSoles;
+    public $category;
+    //
 
     /**
     *
@@ -71,8 +73,8 @@ class Detallegasto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Monto, FechaMes, status,CABINA_Id,moneda, USERS_Id, TIPOGASTO_Id,CUENTA_Id,beneficiario', 'required'),
-			array('status, USERS_Id, TIPOGASTO_Id, CABINA_Id, moneda', 'numerical', 'integerOnly'=>true),
+			array('Monto, FechaMes, status,CABINA_Id,moneda,category, USERS_Id, TIPOGASTO_Id,CUENTA_Id,beneficiario', 'required'),
+			array('status, USERS_Id, TIPOGASTO_Id, CABINA_Id, moneda,category', 'numerical', 'integerOnly'=>true),
 			array('Monto', 'length', 'max'=>15),
 			array('Descripcion, TransferenciaPago, beneficiario', 'length', 'max'=>245),
 			array('FechaVenc', 'safe'),
@@ -119,6 +121,7 @@ class Detallegasto extends CActiveRecord
                         'TransferenciaPago' => 'Nro. Tranferencia',
                         'FechaTransf' => 'Fecha Tranferencia',
                         'beneficiario' => 'Beneficiario',
+                        'category' => 'Categoria',
 		);
 	}
 

@@ -32,6 +32,19 @@ $this->breadcrumbs=array(
                 $("#DetalleGasto textarea").val("");
             }
         });
+        
+        $("#Detallegasto_category").change(function () {
+            //alert($(this).val());
+            var dato = $(this).val();
+            var response = $.ajax({ type: "GET",   
+                                    url: '/Detallegasto/DynamicCategoria?category='+$(this).val(),   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+            //alert(response);                   
+            $("#Detallegasto_TIPOGASTO_Id").html(response);     
+            
+        });
     });
     
 </script>
@@ -48,4 +61,4 @@ $this->menu=  DetallegastoController::controlAcceso($tipoUsuario);
 
 <h1>Declarar Gasto</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model,'model_cabina'=>$model_cabina)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'model_cabina'=>$model_cabina,'model_category'=>$model_category)); ?>

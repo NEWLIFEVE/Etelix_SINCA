@@ -42,6 +42,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'estadoGastos',
                     'matrizGastos',
@@ -64,6 +65,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'matrizGastos',
                     'matrizGastosEvolucion',
@@ -85,6 +87,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'estadoGastos',
                     'matrizGastos',
@@ -119,7 +122,8 @@ class DetallegastoController extends Controller {
     public function actionCreate() {
         $model = new Detallegasto;
         $model_cabina = new Cabina;
-
+        $model_category = new Category;
+        //var_dump($_POST);
         // Uncomment the following line if AJAX validation is needed
          $this->performAjaxValidation($model);
 
@@ -149,6 +153,7 @@ class DetallegastoController extends Controller {
         $this->render('create', array(
             'model' => $model,
             'model_cabina' => $model_cabina,
+            'model_category'=>$model_category,
         ));
     }
 
@@ -183,7 +188,6 @@ class DetallegastoController extends Controller {
             'model_cabina' => $model_cabina,
         ));
     }
-
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -350,6 +354,19 @@ class DetallegastoController extends Controller {
         {
             echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
         }
+    }
+    
+    public function actionDynamicCategoria()
+    {
+        $dato = '<option value="empty">Seleccione uno</option>';
+//        echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
+        $data = Tipogasto::getListTipoGastoCategoria($_GET['category']);
+        foreach($data as $value=>$name)
+        {
+            $dato.= "<option value='$value'>".CHtml::encode($name)."</option>";
+//            echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+        }
+        echo $dato;
     }
     
     public function actionDynamicGastoAnterior()
