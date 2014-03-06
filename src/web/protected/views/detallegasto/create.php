@@ -8,7 +8,35 @@ $this->breadcrumbs=array(
 );
 ?>
 
-
+<script>
+    
+    $(document).ready(function(){
+        selectGasto();
+        
+        $("#Detallegasto_TIPOGASTO_Id").click(function(){
+            if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Seleccione uno"){
+                $("#DetalleGasto").slideUp("slow");
+                $("#DetalleGasto input").val("");
+                $("#DetalleGasto textarea").val("");
+            }
+            else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Nuevo.."){
+                $("#DetalleGasto").slideDown("slow");
+                $("#GastoMesAnterior").slideUp("slow");
+                $("#GastoNuevo").slideDown("slow");
+                $("#DetalleGasto input").val("");
+                $("#DetalleGasto textarea").val("");
+            }
+            else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()!="Seleccionar Categoria"){
+                $("#DetalleGasto").slideDown("slow");
+                $("#GastoMesAnterior").slideDown("slow");
+                $("#GastoNuevo").slideUp("slow");
+                $("#DetalleGasto input").val("");
+                $("#DetalleGasto textarea").val("");
+            }
+        });
+    });
+    
+</script>
 
 <?php
 //$this->menu=array(
@@ -22,4 +50,4 @@ $this->menu=  DetallegastoController::controlAcceso($tipoUsuario);
 
 <h1>Declarar Gasto</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model,'model_cabina'=>$model_cabina,'model_category'=>$model_category)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'model_cabina'=>$model_cabina)); ?>

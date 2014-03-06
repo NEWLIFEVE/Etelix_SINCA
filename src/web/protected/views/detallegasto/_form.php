@@ -58,7 +58,7 @@
             ));
     ?>
     <p class="note">Los campos con  <span class="required">*</span> son obligatorios.</p>
-<?php echo $form->errorSummary(array ($model, $model_cabina,$model_category)); ?>
+<?php echo $form->errorSummary(array ($model, $model_cabina)); ?>
     <table style="width: 70%;" border="1">
         <tr>
             <td>
@@ -88,15 +88,30 @@
                   <td>
                       <div class="row"> 
                           <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> 
-                          <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', array('empty'=>'Seleccionar Categoria'), array(
-                                
-                                'ajax'=>array(
-                                    'type'=>'POST', //request type
-                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
-                                    'update'=>'#GastoMesAnterior', //selector to update
-                                    ),
-                                )
-                            );
+                          <?php 
+                          
+       
+                         
+                            ($model->isNewRecord)
+                                  ? $tg = $form->dropDownList($model, 'TIPOGASTO_Id', array('empty'=>'Seleccionar Categoria'), array(
+                                                'ajax'=>array(
+                                                    'type'=>'POST', //request type
+                                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
+                                                    'update'=>'#GastoMesAnterior', //selector to update
+                                                    ),
+                                                )
+                                            )
+                                  : $tg = $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGastoCategoria($model->category),array(
+                                                'empty'=>array('Seleccionar..','Nuevo..'),
+                                                'ajax'=>array(
+                                                    'type'=>'POST', //request type
+                                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
+                                                    'update'=>'#GastoMesAnterior', //selector to update
+                                                    ),
+                                                )
+                                            );
+
+                            echo $tg;
                             ?> 
                           <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> 
                       </div>
@@ -116,7 +131,16 @@
                     </td>
                       <td style="width: 50%;"><div class="row"> 
                          <?php echo $form->labelEx($model, 'CUENTA_Id'); ?> 
-                         <?php echo $form->dropDownList($model, 'CUENTA_Id',  Cuenta::getListCuenta());?> 
+                              
+                         <?php 
+                         
+                         (!isset($model->CUENTA_Id)) 
+                               ? $mon = $form->dropDownList($model, 'CUENTA_Id', array('empty'=>'Seleccionar Moneda'))
+                               : $mon = $form->dropDownList($model, 'CUENTA_Id',  Cuenta::getListCuentaTipo($model->moneda));
+                         
+                         echo $mon;
+                         
+                         ?> 
                          <?php echo $form->error($model, 'CUENTA_Id'); ?> 
                         </div>
                     </td>

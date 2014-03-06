@@ -165,7 +165,7 @@ class DetallegastoController extends Controller {
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
         $model_cabina = new Cabina;
-
+        $model_category = new Category;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -186,6 +186,7 @@ class DetallegastoController extends Controller {
         $this->render('update', array(
             'model' => $model,
             'model_cabina' => $model_cabina,
+            'model_category'=>$model_category,
         ));
     }
     /**
@@ -320,7 +321,11 @@ class DetallegastoController extends Controller {
      * @throws CHttpException
      */
     public function loadModel($id) {
-        $model = Detallegasto::model()->findByPk($id);
+        $model = Detallegasto::model()->findBySql("SELECT detallegasto.*, category.id as category
+                                                    FROM detallegasto 
+                                                    INNER JOIN tipogasto ON tipogasto.Id = detallegasto.TIPOGASTO_Id 
+                                                    INNER JOIN category ON category.id = tipogasto.category_id
+                                                    WHERE detallegasto.Id = $id");
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -348,11 +353,15 @@ class DetallegastoController extends Controller {
     }
     public function actionDynamicCuenta()
     {
-        echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
-        $data = Cuenta::getListCuentaTipo($_POST['Detallegasto']['moneda']);
-        foreach($data as $value=>$name)
-        {
-            echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+        if($_POST['Detallegasto']['moneda'] != 'empty'){
+            echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
+            $data = Cuenta::getListCuentaTipo($_POST['Detallegasto']['moneda']);
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+            }
+        }else{
+            echo CHtml::tag('option',array('value'=>''),'Seleccionar Moneda',true);
         }
     }
     

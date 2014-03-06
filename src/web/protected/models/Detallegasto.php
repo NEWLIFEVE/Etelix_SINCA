@@ -74,7 +74,7 @@ class Detallegasto extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('Monto, FechaMes, status,CABINA_Id,moneda,category, USERS_Id, TIPOGASTO_Id,CUENTA_Id,beneficiario', 'required'),
-			array('status, USERS_Id, TIPOGASTO_Id, CABINA_Id, moneda,category', 'numerical', 'integerOnly'=>true),
+			array('status, USERS_Id, TIPOGASTO_Id, CABINA_Id, moneda,category,CUENTA_Id', 'numerical', 'integerOnly'=>true),
 			array('Monto', 'length', 'max'=>15),
 			array('Descripcion, TransferenciaPago, beneficiario', 'length', 'max'=>245),
 			array('FechaVenc', 'safe'),
