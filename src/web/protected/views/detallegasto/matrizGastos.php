@@ -25,9 +25,10 @@ else
 $año = date("Y", strtotime($mes));
 $mes2 = date("m", strtotime($mes));
         
-$sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle
-              FROM detallegasto d, tipogasto t 
+$sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle, a.name as name
+              FROM detallegasto d, tipogasto t, category a  
               WHERE d.TIPOGASTO_Id=t.id 
+              AND a.id=t.category_id
               AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
               AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
               AND d.status = 3
@@ -95,10 +96,11 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 <div id="fecha2" style="display: none;"><?php echo $mes;?></div>
 <?php 
 
-if (count($model)> 1) { ?>
+if (count($model)> 0) { ?>
 <table id="tabla" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
     <thead>
-        <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></td>
+        <th style="background: none;"><h3></h3></th>
+        <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>
         <th style="background-color: #ff9900;"><h3>Chimbote</h3></th>
         <th style="background-color: #ff9900;"><h3>Etelix-Peru</h3></th>
         <th style="background-color: #ff9900;"><h3>Huancayo</h3></th>
@@ -115,7 +117,7 @@ if (count($model)> 1) { ?>
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
  <?php    foreach ($model as $key => $gasto) {
         $tr="";
@@ -205,17 +207,17 @@ if (count($model)> 1) { ?>
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
                                         $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
                                     }else{
-                                        $opago.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                        $opago.="<td></td><td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     }
 
                             }else{
-                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->name</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
                                         $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
                                     }else{
-                                        $opago.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                                        $opago.="<td></td><td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     }
                             }
                             break;
@@ -224,7 +226,7 @@ if (count($model)> 1) { ?>
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
+                        $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->name</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
                     }
                     
 //                    $aprobado.="<td></td>";
@@ -237,15 +239,10 @@ if (count($model)> 1) { ?>
      $tr.="<tr id='ordenPago'> 
             $opago
     </tr>";
-//    $tr.="<tr id='aprovada'> 
-//            $aprobado
-//    </tr>";
-//    $tr.="<tr id='pagada'> 
-//            $pagado
-//    </tr>";
+
 
     $tr.="<tr style='height: em; background-color: #DADFE4;'>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>";
      echo $tr;
      
@@ -254,7 +251,7 @@ if (count($model)> 1) { ?>
     // TOTALES SOLES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Soles</h3></td>
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Soles</h3></td>
             ";
          
            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
@@ -290,7 +287,7 @@ if (count($model)> 1) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Dolares</h3></td>
+            <td style='border:  0px rgb(233, 224, 224) solid !important;'></td><td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Dolares</h3></td>
             ";
          
     $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";

@@ -133,7 +133,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 
 <?php 
 
-if (count($model)> 1) { ?>
+if (count($model)> 0) { ?>
 <table id="tabla2" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
     <thead>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></td>
