@@ -88,8 +88,8 @@
                   <td>
                       <div class="row"> 
                           <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> 
-                          <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGasto(),array(
-                                'empty'=>array('Seleccionar..','Nuevo..'),
+                          <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', array('empty'=>'Seleccionar Categoria'), array(
+                                
                                 'ajax'=>array(
                                     'type'=>'POST', //request type
                                     'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.

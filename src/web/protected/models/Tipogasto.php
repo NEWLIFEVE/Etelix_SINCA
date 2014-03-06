@@ -102,15 +102,16 @@ class Tipogasto extends CActiveRecord
 		return parent::model($className);
 	}
         
-        public static function getIdGasto($nombre){
+        public static function getIdGasto($nombre,$categoria){
             
-		if($nombre != null)
+		if($nombre != null || $categoria!= null)
 		{
 			$model=self::model()->find('Nombre=:nombre',array(':nombre'=>$nombre));
 			if($model == null)
 			{
 				$model=new Tipogasto;
 				$model->Nombre=$nombre;
+                                $model->category_id=$categoria;
 				if($model->save())
 				{
 					return $model->Id;

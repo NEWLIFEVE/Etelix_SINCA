@@ -8,6 +8,11 @@ $(document).ready(function()
     genEmail();
     genPrint();
     newEC();
+    NewGasto();
+    selectGasto();
+    $("#Detallegasto_category").change(function () {
+            selectGasto();
+    });
 
 });
 
@@ -694,4 +699,49 @@ $(document).ready(function()
            }
 
     });
+    }
+    
+    function NewGasto(){
+        $("#Detallegasto_TIPOGASTO_Id").click(function(){
+            if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Seleccione uno"){
+                $("#DetalleGasto").slideUp("slow");
+                $("#DetalleGasto input").val("");
+                $("#DetalleGasto textarea").val("");
+            }
+            else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Nuevo.."){
+                $("#DetalleGasto").slideDown("slow");
+                $("#GastoMesAnterior").slideUp("slow");
+                $("#GastoNuevo").slideDown("slow");
+                $("#DetalleGasto input").val("");
+                $("#DetalleGasto textarea").val("");
+            }
+            else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()!="Seleccionar Categoria"){
+                $("#DetalleGasto").slideDown("slow");
+                $("#GastoMesAnterior").slideDown("slow");
+                $("#GastoNuevo").slideUp("slow");
+                $("#DetalleGasto input").val("");
+                $("#DetalleGasto textarea").val("");
+            }
+        });
+    }
+    
+    function selectGasto(){
+        
+        var dato = $("#Detallegasto_category").val();
+        var seleccion = $("#Detallegasto_category option:selected").text();
+        if(seleccion != 'Seleccionar...'){
+            var response = $.ajax({ type: "GET",   
+                                    url: '/Detallegasto/DynamicCategoria?category='+dato,   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+            //alert(response);                   
+            $("#Detallegasto_TIPOGASTO_Id").html(response);    
+        }else{
+            $("#Detallegasto_TIPOGASTO_Id").html('<option value="empty">Seleccionar Categoria</option>');  
+            $("#DetalleGasto").slideUp("slow");
+            $("#DetalleGasto input").val("");
+            $("#DetalleGasto textarea").val("");
+        }
+
     }

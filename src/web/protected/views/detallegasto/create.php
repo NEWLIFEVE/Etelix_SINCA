@@ -8,46 +8,7 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<script>
-    
-    $(document).ready(function(){
-        $("#Detallegasto_TIPOGASTO_Id").click(function(){
-            if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Seleccione uno"){
-                $("#DetalleGasto").slideUp("slow");
-                $("#DetalleGasto input").val("");
-                $("#DetalleGasto textarea").val("");
-            }
-            else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Nuevo.."){
-                $("#DetalleGasto").slideDown("slow");
-                $("#GastoMesAnterior").slideUp("slow");
-                $("#GastoNuevo").slideDown("slow");
-                $("#DetalleGasto input").val("");
-                $("#DetalleGasto textarea").val("");
-            }
-            else{
-                $("#DetalleGasto").slideDown("slow");
-                $("#GastoMesAnterior").slideDown("slow");
-                $("#GastoNuevo").slideUp("slow");
-                $("#DetalleGasto input").val("");
-                $("#DetalleGasto textarea").val("");
-            }
-        });
-        
-        $("#Detallegasto_category").change(function () {
-            //alert($(this).val());
-            var dato = $(this).val();
-            var response = $.ajax({ type: "GET",   
-                                    url: '/Detallegasto/DynamicCategoria?category='+$(this).val(),   
-                                    async: false,
-                                    succes: alert,
-                                  }).responseText;
-            //alert(response);                   
-            $("#Detallegasto_TIPOGASTO_Id").html(response);     
-            
-        });
-    });
-    
-</script>
+
 
 <?php
 //$this->menu=array(

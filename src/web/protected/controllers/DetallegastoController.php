@@ -142,7 +142,7 @@ class DetallegastoController extends Controller {
             }        
 //            $model->USERS_Id=$_POST['USERS_Id'];
             if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= ""){
-                $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle']);
+                $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle'],$_POST['Detallegasto']['category']);
             }else{
                 $model->TIPOGASTO_Id=$_POST['Detallegasto']['TIPOGASTO_Id'];
             }
@@ -358,13 +358,12 @@ class DetallegastoController extends Controller {
     
     public function actionDynamicCategoria()
     {
-        $dato = '<option value="empty">Seleccione uno</option>';
-//        echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
+        $dato = '<option value="empty">Seleccione uno</option>
+                <option value="new">Nuevo..</option>';
         $data = Tipogasto::getListTipoGastoCategoria($_GET['category']);
         foreach($data as $value=>$name)
         {
             $dato.= "<option value='$value'>".CHtml::encode($name)."</option>";
-//            echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
         }
         echo $dato;
     }
