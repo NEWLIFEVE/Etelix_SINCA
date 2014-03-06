@@ -122,7 +122,6 @@ class DetallegastoController extends Controller {
     public function actionCreate() {
         $model = new Detallegasto;
         $model_cabina = new Cabina;
-        $model_category = new Category;
         //var_dump($_POST);
         // Uncomment the following line if AJAX validation is needed
          $this->performAjaxValidation($model);
@@ -153,7 +152,6 @@ class DetallegastoController extends Controller {
         $this->render('create', array(
             'model' => $model,
             'model_cabina' => $model_cabina,
-            'model_category'=>$model_category,
         ));
     }
 
@@ -165,7 +163,6 @@ class DetallegastoController extends Controller {
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
         $model_cabina = new Cabina;
-        $model_category = new Category;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -186,7 +183,6 @@ class DetallegastoController extends Controller {
         $this->render('update', array(
             'model' => $model,
             'model_cabina' => $model_cabina,
-            'model_category'=>$model_category,
         ));
     }
     /**
