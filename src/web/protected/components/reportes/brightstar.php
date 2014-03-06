@@ -1,84 +1,85 @@
 <?php
-
+/**
+ *
+ */
 class brightstar extends Reportes 
 {
     public static function reporte($ids) 
     {
-//            $acumuladoSaldoApMov = 0;
-//            $acumuladoSaldoApClaro = 0;
-//            $acumuladoTrafico = 0;
-//            $acumuladoRecargasMov = 0;
-//            $acumuladoRecargasClaro = 0;
-//            $acumuladoDepositos = 0;
+        /*$acumuladoSaldoApMov = 0;
+        $acumuladoSaldoApClaro = 0;
+        $acumuladoTrafico = 0;
+        $acumuladoRecargasMov = 0;
+        $acumuladoRecargasClaro = 0;
+        $acumuladoDepositos = 0;*/
         
-        $balance = brightstar::get_Model($ids);
-        if($balance != NULL){
-            
-            $table = '<table class="items">'.
-                    Reportes::defineHeader("brightstar")
-                    .'<tbody>';
-            foreach ($balance as $key => $registro) {
-
-                $table.=   '<tr >
-                                <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
-                                <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaMovistar).'</td>
-                                <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->DifMov,$registro->DifMov).'</td>
-                                <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaClaro).'</td>
-                                <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->DifClaro,$registro->DifClaro).'</td>
-                            </tr>
-                            ';
+        $balance=self::get_Model($ids);
+        if($balance != NULL)
+        {
+            $table='<table class="items">'.self::defineHeader("brightstar").'<tbody>';
+            foreach($balance as $key => $registro)
+            {
+                $table.='<tr>
+                            <td '.self::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::defineMonto($registro->RecargaMovistar).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::defineMonto($registro->DifMov,$registro->DifMov).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::defineMonto($registro->RecargaClaro).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::defineMonto($registro->DifClaro,$registro->DifClaro).'</td>
+                         </tr>';
 
             }
-            
-             $balanceTotals = brightstar::get_ModelTotal($ids);
-             $table.=  Reportes::defineHeader("brightstar")
-                            .'<tr >
-                                    <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
-                                    <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                    <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->RecargaMovistar).'</td>
-                                    <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
-                                    <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->RecargaClaro).'</td>
-                                    <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
-                                  </tr>
-                                </tbody>
-                       </table>';
-        }else{
+
+            $balanceTotals=self::get_ModelTotal($ids);
+            $table.=self::defineHeader("brightstar")
+                    .'<tr>
+                        <td '.self::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
+                        <td '.self::defineStyleTd(2).' id="todas">Todas</td>
+                        <td '.self::defineStyleTd(2).' id="vistaAdmin1">'.self::defineTotals($balanceTotals->RecargaMovistar).'</td>
+                        <td '.self::defineStyleTd(2).' id="vistaAdmin2">'.self::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
+                        <td '.self::defineStyleTd(2).' id="totalTrafico">'.self::defineTotals($balanceTotals->RecargaClaro).'</td>
+                        <td '.self::defineStyleTd(2).' id="totalRecargaMov">'.self::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
+                      </tr>
+                    </tbody>
+                    </table>';
+        }
+        else
+        {
             $table='Hubo un error';
         }
         return $table;
     }
-        
-     
-    public static function get_Model($ids) 
+
+    /**
+     * @access public
+     * @static
+     */
+    public static function get_Model($ids)
     {
-        $sql = "SELECT b.id as id, b.fecha as Fecha, c.nombre as cabina,
-                b.RecargaVentasMov as RecargaMovistar,
-                (IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0))) as DifMov,
-                b.RecargaVentasClaro as RecargaClaro, 
-                (IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0))) as DifClaro
-                FROM balance b
-                INNER JOIN cabina as c ON c.id = b.CABINA_Id
-                WHERE b.id IN ($ids) 
-                order by b.fecha desc, c.nombre asc;";
-        
-          return Balance::model()->findAllBySql($sql); 
-     
+        $sql="SELECT b.id AS id, b.fecha AS Fecha, c.nombre AS cabina, b.RecargaVentasMov AS RecargaMovistar,
+                     (IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0))) AS DifMov,
+                     b.RecargaVentasClaro AS RecargaClaro,
+                     (IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0))) AS DifClaro
+              FROM balance b INNER JOIN cabina AS c ON c.id = b.CABINA_Id
+              WHERE b.id IN ($ids)
+              ORDER BY b.fecha DESC, c.nombre ASC;";
+        return Balance::model()->findAllBySql($sql);    
     }
     
+    /**
+     * @access public
+     * @static
+     */
     public static function get_ModelTotal($ids) 
     {
-        $sql = "SELECT b.id as id, b.fecha as Fecha, c.nombre as cabina,
-                sum(b.RecargaVentasMov) as RecargaMovistar,
-                sum((IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)))) as DifMov,
-                sum(b.RecargaVentasClaro) as RecargaClaro, 
-                sum((IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)))) as DifClaro
-                FROM balance b
-                INNER JOIN cabina as c ON c.id = b.CABINA_Id
-                WHERE b.id IN ($ids) ";
-        
-          return Balance::model()->findBySql($sql); 
-     
+        $sql="SELECT b.id AS id, b.fecha AS Fecha, c.nombre AS cabina,
+                     SUM(b.RecargaVentasMov) AS RecargaMovistar,
+                     SUM((IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)))) AS DifMov,
+                     SUM(b.RecargaVentasClaro) AS RecargaClaro,
+                     SUM((IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)))) AS DifClaro
+              FROM balance b INNER JOIN cabina AS c ON c.id = b.CABINA_Id
+              WHERE b.id IN ($ids) ";
+        return Balance::model()->findBySql($sql); 
     }
 }
 ?>
