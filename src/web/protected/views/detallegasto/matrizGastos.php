@@ -122,7 +122,23 @@ if (count($model)> 0) { ?>
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td ></td><td></td><td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
     </tr>
  <?php    
  
@@ -476,9 +492,9 @@ if (count($model)> 0) { ?>
                 $count++;
             }
             
-            $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND d.status = 3) 
+            $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name = 'RECARGAS' AND d.status = 3) 
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND d.status = 3) 
+                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name = 'RECARGAS' AND d.status = 3) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
