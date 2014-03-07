@@ -47,7 +47,7 @@ class Detallegasto extends CActiveRecord
     public $MontoDolares;
     public $MontoSoles;
     public $category;
-    public $name;
+    public $categoria;
     //
 
     /**
@@ -264,6 +264,7 @@ class Detallegasto extends CActiveRecord
         
         return $mon;
     }
+
         
     /**
     *
