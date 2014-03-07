@@ -41,6 +41,7 @@ class Employee extends CActiveRecord
         public $position_name;
         public $employee_hours_start;
         public $employee_hours_end;
+        public $age;
 
         
   
@@ -119,6 +120,7 @@ class Employee extends CActiveRecord
 			'position_id' => 'Cargo',
                         'position_name' => 'Cargo',
                         'status' => 'Estatus',
+                        'age' => 'Hijo - Edad',
                     
 		);
 	}

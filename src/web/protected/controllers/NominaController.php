@@ -32,18 +32,20 @@ class NominaController extends Controller
 	{
             if($id!=null){
             $model = $this->loadModel($id);
+            $model_kid = $this->loadModelKids($id);
             }else{
             //var_dump($_POST);
             $model=new Employee;
+            $model_kid=new Kids;
             }
             
-            
-             $this->performAjaxValidation($model);
+            //var_dump($_POST);
+             $this->performAjaxValidation(array($model,$model_kid));
 
             if (isset($_POST['Employee'])) {
                 
                 $model->attributes = $_POST['Employee'];
-                
+                $model_kid->attributes = $_POST['Employee'];
                 //$model->id = $_POST['Employee']['id'];
                 if($id==null){
                 $model->code_employee = Employee::getCodigoEmpleado();
@@ -94,15 +96,27 @@ class NominaController extends Controller
                 if(isset($_POST['Employee']['status']) && $_POST['Employee']['status']!= ""){
                 $model->status = $_POST['Employee']['status'];
                 }
-
+                
+                //if(isset($_POST['Employee']['age']) && $_POST['Employee']['age']!= ""){
+                
+                //}
+                
+                
+                        
                 if ($model->save()){
-                    Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
-                    $this->redirect(array('viewEmpleado', 'id' => $model->id));
+                    
+                    $model_kid->age = $_POST['Employee']['age'];
+                    $model_kid->employee_id = $model->id;
+                    //var_dump($model->id);
+                    if ($model_kid->save(false)){
+                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
+                    }
                 }
 
             }
         
-        $this->render('CrearEmpleado',array('model'=>$model));
+        $this->render('CrearEmpleado',array('model'=>$model,'model_kid'=>$model_kid));
         
 	}
         
@@ -135,6 +149,13 @@ class NominaController extends Controller
         
         public function loadModel($id) {
             $model = Employee::model()->findByPk($id);
+            if ($model === null)
+                throw new CHttpException(404, 'The requested page does not exist.');
+            return $model;
+        }
+        
+        public function loadModelKids($id) {
+            $model = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id");
             if ($model === null)
                 throw new CHttpException(404, 'The requested page does not exist.');
             return $model;

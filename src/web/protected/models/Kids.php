@@ -56,8 +56,8 @@ class Kids extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'age' => 'Age',
-			'employee_id' => 'Employee',
+			'age' => 'Edad',
+			'employee_id' => 'Empleado',
 		);
 	}
 

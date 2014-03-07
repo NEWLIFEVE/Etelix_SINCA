@@ -42,13 +42,6 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
 	<p class="note">Los campos con  <span class="required">*</span> son obligatorios.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-        <!--
-	<div class="row">
-		<?php echo $form->labelEx($model,'id'); ?>
-		<?php echo $form->textField($model,'id'); ?>
-		<?php echo $form->error($model,'id'); ?>
-	</div>
-        -->
         
         <table id="datosEmpleado">
             <!-- Datos Personales del Empleado -->
@@ -273,6 +266,19 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 echo '</div>
                     </td>';
                 } ?>
+            </tr>
+            <!-- Hijos del Empleado -->
+            <tr id="DatosContacto">
+                <!-- Campo Edad -->
+                <td>
+                    <div class="row">
+                            <?php echo $form->labelEx($model_kid,'age'); ?>
+                            <?php echo $form->textField($model_kid,'age'); ?>
+                            <?php echo $form->error($model_kid,'age'); ?>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
 
