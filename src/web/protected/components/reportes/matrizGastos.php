@@ -19,6 +19,23 @@
                 
            $año = date("Y", strtotime($mes));
            $mes = date("m", strtotime($mes));
+           $row = "<td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style='background-color: #DADFE4;width: 20px;'></td>
+                            <td style=' background-color: #DADFE4;'></td>
+                            <td style=' background-color: #DADFE4;'></td>";
            
            $ruta = $_SERVER["SERVER_NAME"];
                 
@@ -54,7 +71,7 @@
                     </table><br>
                     <table id='tabla' class='matrizGastos' border='1' style='border-collapse:collapse;width:auto;'>
                     <thead>
-                        <th style='background: none;'><h3></h3></th>
+                        <th style='background: none;'></th>
                         <th style='width: 80px;background: #ff9900;text-align: center;'><center><img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' /></center></td>
                         <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Chimbote</h3></th>
                         <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Etelix-Peru</h3></th>
@@ -68,30 +85,14 @@
                         <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 01</h3></th>
                         <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 03</h3></th>
                         <th style='width: 80px;background: #ff9900;text-align: center;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Comun Cabina</h3></th>
-                        <th style='background: #DADFE4;width: 0px;'></th>
+                        <th style='background: #DADFE4;width: 20px;'></th>
                         <th style='background-color: #ff9900;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Soles</h3></th>
                         <th style='background-color: #ff9900;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Dolares</h3></th>
                 </thead>
 
                 <tbody>
                         <tr >
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
-                            <td style='height: em; background-color: #DADFE4;'></td>
+                            $row
 
                     </tr>";
     foreach ($model as $key => $gasto) {
@@ -207,7 +208,7 @@
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->categoria</h3></td><td style='height: em;width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
+                        $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->categoria</h3></td><td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
                     }
                     
 //                    $aprobado.="<td></td>";
@@ -258,23 +259,7 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
     }
     
     $tr.="<tr >
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
+        $row
     </tr>";
     //TOTAL SOLES
         $tr.= "<tr>
@@ -320,7 +305,7 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
             $MTS = $montS->MontoS;
         }    
        
-            $tr.= "<td style='height: em; background-color: #DADFE4;'></td>";
+            $tr.= "<td style=' background-color: #DADFE4;'></td>";
             if($MTS!=null){
                  $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>". Reportes::format($MTS, $type)."</td>";
              }else{
@@ -375,7 +360,7 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
         }    
        
             
-            $tr.= "<td style='height: em; background-color: #DADFE4;'></td><td></td>";
+            $tr.= "<td style=' background-color: #DADFE4;'></td><td></td>";
             
             if($MTD!=null){
                  $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>". Reportes::format($MTD, $type)."</td>";
@@ -386,23 +371,7 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
              $tr.= "</tr>";
             
      $tr.="<tr >
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
-        <td style='height: em; background-color: #DADFE4;'></td>
+        $row
     </tr>";       
      
      //RECARGAS
@@ -500,7 +469,7 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->categoria</h3></td><td style='height: em;width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
+                        $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->categoria</h3></td><td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
                     }
 
                 }

@@ -275,13 +275,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 } ?>
             </tr>
         </table>
-        <!--
-	<div class="row">
-		<?php echo $form->labelEx($model,'photo_path'); ?>
-		<?php echo $form->textField($model,'photo_path'); ?>
-		<?php echo $form->error($model,'photo_path'); ?>
-	</div>
-        -->
+
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Registrar' : 'Guardar'); ?>
