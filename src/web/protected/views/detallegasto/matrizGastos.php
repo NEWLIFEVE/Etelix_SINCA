@@ -335,10 +335,15 @@ if (count($model)> 0) { ?>
             $MTS = $montS->MontoS;
         }    
        
-            echo "<td style='height: em; background-color: #DADFE4;'></td>
-                  <td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>$MTS</td>
-                  <td></td>
-            </tr>";
+            echo "<td style='height: em; background-color: #DADFE4;'></td>";
+            
+            if($MTS!=null){
+                 echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>$MTS</td><td></td>";
+             }else{
+                 echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'>$MTS</td><td></td>";
+             }
+                  
+            echo "</tr>";
  
     // TOTALES DOLARES         
     echo "<tr>
@@ -384,10 +389,15 @@ if (count($model)> 0) { ?>
             $MTD = $montS->MontoD;
         }    
        
-            echo "<td style='height: em; background-color: #DADFE4;'></td>
-                  <td></td>
-                  <td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>$MTD</td>
-            </tr>";      
+            echo "<td style='height: em; background-color: #DADFE4;'></td><td></td>";
+            
+            if($MTD!=null){
+                 echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>$MTD</td>";
+             }else{
+                 echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'>$MTD</td>";
+             }
+                  
+            echo "</tr>";     
             
            echo $row;
         //SECCION DE RECARGAS      

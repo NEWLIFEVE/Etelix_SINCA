@@ -320,10 +320,14 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
             $MTS = $montS->MontoS;
         }    
        
-            $tr.= "<td style='height: em; background-color: #DADFE4;'></td>
-                  <td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>". Reportes::format($MTS, $type)."</td>
-                  <td></td>
-            </tr>";
+            $tr.= "<td style='height: em; background-color: #DADFE4;'></td>";
+            if($MTS!=null){
+                 $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>". Reportes::format($MTS, $type)."</td>";
+             }else{
+                 $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'>". Reportes::format($MTS, $type)."</td>";
+             }
+             
+             $tr.= "<td></td></tr>";
  
     // TOTALES DOLARES         
     $tr.= "<tr>
@@ -370,11 +374,16 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
             $MTD = $montS->MontoD;
         }    
        
-            $tr.= "<td style='height: em; background-color: #DADFE4;'></td>
-                  <td></td>
-                  <td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>". Reportes::format($MTD, $type)."</td>
-            </tr>";   
-     
+            
+            $tr.= "<td style='height: em; background-color: #DADFE4;'></td><td></td>";
+            
+            if($MTD!=null){
+                 $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>". Reportes::format($MTD, $type)."</td>";
+             }else{
+                 $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'>". Reportes::format($MTD, $type)."</td>";
+             }
+             
+             $tr.= "</tr>";
             
      $tr.="<tr >
         <td style='height: em; background-color: #DADFE4;'></td>
