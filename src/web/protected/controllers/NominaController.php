@@ -39,7 +39,6 @@ class NominaController extends Controller
             $model_kid=new Kids;
             }
             
-            //var_dump($_POST);
              $this->performAjaxValidation(array($model,$model_kid));
 
             if (isset($_POST['Employee'])) {
@@ -97,17 +96,16 @@ class NominaController extends Controller
                 $model->status = $_POST['Employee']['status'];
                 }
                 
-                //if(isset($_POST['Employee']['age']) && $_POST['Employee']['age']!= ""){
-                
-                //}
+                $model->admission_date = Yii::app()->format->formatDate($_POST['Employee']['admission_date'],'post');
+                $model->record_date = date("Y-m-d");
                 
                 
                         
                 if ($model->save()){
                     
-                    $model_kid->age = $_POST['Employee']['age'];
+                    $model_kid->age = $_POST['Kids']['age'];
                     $model_kid->employee_id = $model->id;
-                    //var_dump($model->id);
+                    
                     if ($model_kid->save(false)){
                         Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
                         $this->redirect(array('viewEmpleado', 'id' => $model->id));
@@ -155,10 +153,8 @@ class NominaController extends Controller
         }
         
         public function loadModelKids($id) {
-            $model = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id");
-            if ($model === null)
-                throw new CHttpException(404, 'The requested page does not exist.');
-            return $model;
+            $model_kid = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id");
+            return $model_kid;
         }
         
         public static function controlAcceso($tipoUsuario)

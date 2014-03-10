@@ -29,7 +29,7 @@ class Kids extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, age, employee_id', 'required'),
+			array('id, employee_id', 'required'),
 			array('id, age, employee_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -56,7 +56,7 @@ class Kids extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'age' => 'Edad',
+			'age' => 'Edad del Hijo',
 			'employee_id' => 'Empleado',
 		);
 	}

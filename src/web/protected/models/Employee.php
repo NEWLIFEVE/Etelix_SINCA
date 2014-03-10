@@ -41,7 +41,7 @@ class Employee extends CActiveRecord
         public $position_name;
         public $employee_hours_start;
         public $employee_hours_end;
-        public $age;
+        //public $age;
 
         
   
@@ -120,7 +120,8 @@ class Employee extends CActiveRecord
 			'position_id' => 'Cargo',
                         'position_name' => 'Cargo',
                         'status' => 'Estatus',
-                        'age' => 'Hijo - Edad',
+                        //'age' => 'Hijo - Edad',
+                        'admission_date' => 'Fecha de Ingreso',
                     
 		);
 	}
@@ -160,6 +161,8 @@ class Employee extends CActiveRecord
 		$criteria->compare('marital_status_id',$this->marital_status_id);
 		$criteria->compare('employee_hours_id',$this->employee_hours_id);
 		$criteria->compare('position_id',$this->position_id);
+                $criteria->compare('admission_date',$this->admission_date);
+                $criteria->compare('record_date',$this->record_date);
                 
                 $orden="code_employee ASC";
                 

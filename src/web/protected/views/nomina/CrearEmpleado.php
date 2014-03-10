@@ -1,3 +1,4 @@
+
 <?php
 
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
@@ -113,6 +114,14 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
             </tr>
             <!-- Datos de Contacto del Empleado -->
             <tr id="DatosContacto">
+                <!-- Campo Cabina -->
+                <td>
+                    <div class="row">
+                            <?php echo $form->labelEx($model,'CABINA_Id'); ?>
+                            <?php echo $form->dropDownList($model,'CABINA_Id',CHtml::listData(Cabina::model()->findAllBySql("SELECT Id,Nombre FROM Cabina WHERE status=:status AND Nombre!=:nombre;",array(':status'=>'1', ':nombre'=>'ZPRUEBA')),'Id','Nombre'),array('empty'=>'Seleccionar..')); ?>
+                            <?php echo $form->error($model,'CABINA_Id'); ?>
+                    </div>
+                </td>
                 <!-- Campo Direccion -->
                 <td>
                     <div class="row">
@@ -179,6 +188,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
             </tr>
             <!-- Datos de Contratacion del Empleado -->
             <tr id="DatosContratacion">
+                
                 <!-- Campo Cargo -->
                 <td id="vista_position_id">
                     <div class="row">
@@ -198,6 +208,31 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         
                         <img id="position_id2" title="Cancelar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonAgregar2" style="position: relative; top: 5px; display: inline;" />
                         
+                    </div>
+                </td>
+                <!-- Campo Fecha de Ingreso -->
+                <td>
+                    <div class="row">
+                            <?php echo $form->labelEx($model, 'admission_date'); ?>
+                            <?php 
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker', 
+                                            array(
+                                            'language' => 'es', 
+                                            'model' => $model,
+                                            'attribute'=>'admission_date', 'options' => array(
+                                            'changeMonth' => 'true',//para poder cambiar mes
+                                            'changeYear' => 'true',//para poder cambiar año
+                                            'showButtonPanel' => 'false', 
+                                            'constrainInput' => 'false',
+                                            'showAnim' => 'show',
+                                            //'minDate'=>'-30D', //fecha minima
+                                            //'maxDate'=> "+30D", //fecha maxima
+                                             ),
+                                                'htmlOptions'=>array('readonly'=>'readonly'),
+                                        )); 
+                                            echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
+                                        ?>
+                            <?php echo $form->error($model, 'admission_date'); ?>
                     </div>
                 </td>
                 <!-- Campo Horario -->
@@ -225,14 +260,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         
                     </div>
                 </td>
-                <!-- Campo Cabina -->
-                <td>
-                    <div class="row">
-                            <?php echo $form->labelEx($model,'CABINA_Id'); ?>
-                            <?php echo $form->dropDownList($model,'CABINA_Id',CHtml::listData(Cabina::model()->findAllBySql("SELECT Id,Nombre FROM Cabina WHERE status=:status AND Nombre!=:nombre;",array(':status'=>'1', ':nombre'=>'ZPRUEBA')),'Id','Nombre'),array('empty'=>'Seleccionar..')); ?>
-                            <?php echo $form->error($model,'CABINA_Id'); ?>
-                    </div>
-                </td>
+                
                 <!-- Campo Supervisor -->
                 <td>
                     <div class="row">
@@ -268,7 +296,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 } ?>
             </tr>
             <!-- Hijos del Empleado -->
-            <tr id="DatosContacto">
+            <tr id="DatosHijos">
                 <!-- Campo Edad -->
                 <td>
                     <div class="row">
