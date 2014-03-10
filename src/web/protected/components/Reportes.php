@@ -24,11 +24,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-<<<<<<< HEAD
-    public function libroVenta($ids)
-=======
+
     public function libroVenta($ids,$type)
->>>>>>> categoria_gasto
+
     {
         $var= libroVenta::reporte($ids,$type);
         return $var;
@@ -37,11 +35,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-<<<<<<< HEAD
-    public function depositoBancario($ids)
-=======
+
     public function depositoBancario($ids,$type)
->>>>>>> categoria_gasto
+
     {
         $var= depositoBancario::reporte($ids,$type);
         return $var;
@@ -50,11 +46,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-<<<<<<< HEAD
-    public function brightstar($ids)
-=======
+
     public function brightstar($ids,$type)
->>>>>>> categoria_gasto
+
     {
         $var= brightstar::reporte($ids,$type);
         return $var;
@@ -63,11 +57,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-<<<<<<< HEAD
-    public function captura($ids)
-=======
+
     public function captura($ids,$type)
->>>>>>> categoria_gasto
+
     {
         $var= captura::reporte($ids,$type);
         return $var;
@@ -76,11 +68,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-<<<<<<< HEAD
-    public function cicloIngreso($ids,$complete)
-=======
+
     public function cicloIngreso($ids,$complete,$type)
->>>>>>> categoria_gasto
+
     {
         $var= cicloIngreso::reporte($ids,$complete,$type);
         return $var;
@@ -89,11 +79,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-<<<<<<< HEAD
-    public function cicloIngresoTotal($ids,$complete)
-=======
+
     public function cicloIngresoTotal($ids,$complete,$type)
->>>>>>> categoria_gasto
+
     {
         $var= cicloIngresoTotal::reporte($ids,$complete,$type);
         return $var;
@@ -102,11 +90,9 @@ class Reportes extends CApplicationComponent
     /**
      * Documentacion va aqui
      */
-<<<<<<< HEAD
-    public function estadoGasto($ids)
-=======
+
     public function estadoGasto($ids,$type)
->>>>>>> categoria_gasto
+
     {
         $var= estadoGasto::reporte($ids,$type);
         return $var;

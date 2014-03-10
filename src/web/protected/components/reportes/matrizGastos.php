@@ -193,11 +193,7 @@
                                     }
 
                             }else{
-<<<<<<< HEAD
-                                $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td>";
-=======
                                 $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->categoria</h3></td><td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td>";
->>>>>>> categoria_gasto
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
@@ -268,11 +264,7 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
     //TOTAL SOLES
         $tr.= "<tr>
         
-<<<<<<< HEAD
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3></td>";
-=======
             <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3></td>";
->>>>>>> categoria_gasto
          
            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
@@ -289,13 +281,8 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
         $totales = Detallegasto::model()->findAllBySql($sqlTotales);
         foreach ($totales as $key => $total) {
  
-<<<<<<< HEAD
-        if($total->MontoD != null || $total->MontoS != null){
-            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoS), $type)."</td>";
-=======
         if($total->MontoS != null){
             $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>".Reportes::format(Detallegasto::montoGasto($total->MontoS), $type)."</td>";
->>>>>>> categoria_gasto
 
         }else{
             $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";            
@@ -348,13 +335,8 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
         $totales = Detallegasto::model()->findAllBySql($sqlTotales);
         foreach ($totales as $key => $total) {
  
-<<<<<<< HEAD
-        if($total->MontoD != null || $total->MontoS != null){
-            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
-=======
         if($total->MontoD != null){
             $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
->>>>>>> categoria_gasto
 
         }else{
             $tr.= "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";            
@@ -366,10 +348,6 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
         }
             }
        
-<<<<<<< HEAD
-            $tr.= "</tr></tbody></table>";    
-     
-=======
         $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND a.name != 'RECARGAS' AND d.status = 3) 
                     as MontoD,
                     (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE  EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND a.name != 'RECARGAS' AND d.status = 3) 
@@ -395,7 +373,6 @@ $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN
      $tr.="<tr >
         $row
     </tr>";       
->>>>>>> categoria_gasto
      
      //RECARGAS
      $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle, a.name as categoria

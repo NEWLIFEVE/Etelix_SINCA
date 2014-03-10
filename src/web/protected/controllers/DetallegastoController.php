@@ -122,18 +122,12 @@ class DetallegastoController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-<<<<<<< HEAD
-    public function actionCreate()
-    {
-        $model=new Detallegasto;
-        $model_cabina=new Cabina;
 
-=======
     public function actionCreate() {
         $model = new Detallegasto;
         $model_cabina = new Cabina;
         //var_dump($_POST);
->>>>>>> categoria_gasto
+
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
 
@@ -155,18 +149,11 @@ class DetallegastoController extends Controller {
                 $model->FechaVenc=NULL;
             }        
 //            $model->USERS_Id=$_POST['USERS_Id'];
-<<<<<<< HEAD
-            if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= "")
-            {
-                $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle']);
-            }
-            else
-            {
-=======
+
             if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= ""){
                 $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle'],$_POST['Detallegasto']['category']);
             }else{
->>>>>>> categoria_gasto
+
                 $model->TIPOGASTO_Id=$_POST['Detallegasto']['TIPOGASTO_Id'];
             }
             if($model->save())
@@ -374,18 +361,14 @@ class DetallegastoController extends Controller {
      * @return Detallegasto the loaded model
      * @throws CHttpException
      */
-<<<<<<< HEAD
-    public function loadModel($id)
-    {
-        $model = Detallegasto::model()->findByPk($id);
-=======
+
     public function loadModel($id) {
         $model = Detallegasto::model()->findBySql("SELECT detallegasto.*, category.id as category
                                                     FROM detallegasto 
                                                     INNER JOIN tipogasto ON tipogasto.Id = detallegasto.TIPOGASTO_Id 
                                                     INNER JOIN category ON category.id = tipogasto.category_id
                                                     WHERE detallegasto.Id = $id");
->>>>>>> categoria_gasto
+
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
