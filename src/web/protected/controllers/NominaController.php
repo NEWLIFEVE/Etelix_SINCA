@@ -28,11 +28,61 @@ class NominaController extends Controller
             ));
         }
         
+        public function actionadminEvento() {
+            $model = new EmployeeEvent('search');
+            $model->unsetAttributes();  // clear any default values
+            if (isset($_GET['EmployeeEvent']))
+                $model->attributes = $_GET['EmployeeEvent'];
+
+            $this->render('adminEvento', array(
+                'model' => $model,
+            ));
+        }
+        
+        public function actionEventoEmpleado($employee_id=null,$event_id=null) {
+            
+            if($employee_id!=null && $event_id!=null){
+            $model = $this->loadModelEvent($employee_id,$event_id);
+            }else{
+            //var_dump($_POST);
+            $model=new EmployeeEvent;
+            }
+            
+            $this->performAjaxValidation($model);
+
+            if (isset($_POST['EmployeeEvent'])) {
+                
+            $model->attributes = $_POST['EmployeeEvent'];
+                
+            $model->employee_id = $_POST['EmployeeEvent']['employee_id'];
+            $model->event_id = $_POST['EmployeeEvent']['event_id'];
+            $model->concurrency_date = Yii::app()->format->formatDate($_POST['EmployeeEvent']['concurrency_date'],'post');
+            $model->record_date = date("Y-m-d");
+            
+            if ($model->save()){
+                    
+                Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+                $this->redirect(array('viewEventoEmpleado', array('employee_id' => $model->employee_id,'event_id' => $model->event_id)));
+                    
+            }
+            
+            }
+
+            $this->render('EventoEmpleado', array(
+                'model' => $model,
+            ));
+            
+           
+        }
+        
         public function actionCrearEmpleado($id=null)
 	{
             if($id!=null){
             $model = $this->loadModel($id);
             $model_kid = $this->loadModelKids($id);
+                if($model_kid == null){
+                    $model_kid=new Kids;
+                }
             }else{
             //var_dump($_POST);
             $model=new Employee;
@@ -152,6 +202,13 @@ class NominaController extends Controller
             return $model;
         }
         
+        public function loadModelEvent($employee,$event) {
+            $model = EmployeeEvent::model()->findBySql("SELECT * FROM employee_event WHERE employee_id = $employee AND event_id = $event");
+            if ($model === null)
+                throw new CHttpException(404, 'The requested page does not exist.');
+            return $model;
+        }
+        
         public function loadModelKids($id) {
             $model_kid = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id");
             return $model_kid;
@@ -166,6 +223,8 @@ class NominaController extends Controller
                 return array(
                     array('label' => 'Administrar Empleados', 'url' => array('adminEmpleado')),
                     array('label' => 'Crear Empleado', 'url' => array('CrearEmpleado')),
+                    array('label' => 'Administrar Evento', 'url' => array('adminEvento')),
+                    array('label' => 'Registrar Evento', 'url' => array('EventoEmpleado')),
 
                 );
             }

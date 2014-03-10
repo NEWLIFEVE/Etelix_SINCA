@@ -41,7 +41,7 @@ class Employee extends CActiveRecord
         public $position_name;
         public $employee_hours_start;
         public $employee_hours_end;
-        //public $age;
+        public $age;
 
         
   
@@ -58,7 +58,7 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, lastname, identification_number, gender, address, salary, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id, CABINA_Id,', 'required'),
+			array('name, lastname, identification_number, admission_date, gender, address, salary, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id, CABINA_Id,', 'required'),
 			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id', 'numerical', 'integerOnly'=>true),
 			array('salary', 'numerical'),
 			array('code_employee', 'length', 'max'=>4),
@@ -120,7 +120,7 @@ class Employee extends CActiveRecord
 			'position_id' => 'Cargo',
                         'position_name' => 'Cargo',
                         'status' => 'Estatus',
-                        //'age' => 'Hijo - Edad',
+                        'age' => 'Edad del Hijo',
                         'admission_date' => 'Fecha de Ingreso',
                     
 		);

@@ -301,7 +301,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td>
                     <div class="row">
                             <?php echo $form->labelEx($model_kid,'age'); ?>
-                            <?php echo $form->textField($model_kid,'age'); ?>
+                            <?php echo $form->numberField($model_kid,'age'); ?>
                             <?php echo $form->error($model_kid,'age'); ?>
                     </div>
                 </td>
