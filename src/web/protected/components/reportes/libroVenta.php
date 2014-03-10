@@ -5,7 +5,7 @@
      */
     class libroVenta extends Reportes 
     {
-        public static function reporte($ids) 
+        public static function reporte($ids,$type) 
         {
 //            $acumuladoSaldoApMov = 0;
 //            $acumuladoSaldoApClaro = 0;
@@ -25,11 +25,11 @@
                     $table.=   '<tr >
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->Trafico).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaMovistar).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaClaro).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->OtrosServicios).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->TotalVentas).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->Trafico), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->RecargaMovistar), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->RecargaClaro), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->OtrosServicios), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->TotalVentas), $type).'</td>
                                 </tr>
                                 ';
 
@@ -40,11 +40,11 @@
                                 .'<tr >
                                         <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->Trafico).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->RecargaMovistar).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals($balanceTotals->RecargaClaro).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::defineTotals($balanceTotals->OtrosServicios).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::defineTotals($balanceTotals->TotalVentas).'</td>    
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($balanceTotals->Trafico), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaMovistar), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaClaro), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::format(Reportes::defineTotals($balanceTotals->OtrosServicios), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::format(Reportes::defineTotals($balanceTotals->TotalVentas), $type).'</td>    
                                       </tr>
                                     </tbody>
                            </table>';

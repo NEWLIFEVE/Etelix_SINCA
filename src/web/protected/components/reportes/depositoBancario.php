@@ -5,7 +5,7 @@
      */
     class depositoBancario extends Reportes 
     {
-        public static function reporte($ids) 
+        public static function reporte($ids,$type) 
         {
 //            $acumuladoSaldoApMov = 0;
 //            $acumuladoSaldoApClaro = 0;
@@ -25,12 +25,12 @@
                     $table.=   '<tr >
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->TotalVentas).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->MontoDeposito).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->TotalVentas), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->MontoDeposito), $type).'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->NumRefDeposito).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->MontoBanco).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->DiferencialBancario,$registro->DiferencialBancario).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->ConciliacionBancaria,$registro->ConciliacionBancaria).'</td>    
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->MontoBanco), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DiferencialBancario,$registro->DiferencialBancario), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->ConciliacionBancaria,$registro->ConciliacionBancaria), $type).'</td>    
                                     
                                 </tr>
                                 ';
@@ -42,12 +42,12 @@
                                 .'<tr >
                                         <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->TotalVentas).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->MontoDeposito).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($balanceTotals->TotalVentas), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->MontoDeposito), $type).'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">N/A</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::defineTotals($balanceTotals->MontoBanco).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::defineTotals($balanceTotals->DiferencialBancario,$balanceTotals->DiferencialBancario).'</td> 
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$balanceTotals->ConciliacionBancaria).'</td>     
+                                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::format(Reportes::defineTotals($balanceTotals->MontoBanco), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::format(Reportes::defineTotals($balanceTotals->DiferencialBancario,$balanceTotals->DiferencialBancario), $type).'</td> 
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::format(Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$balanceTotals->ConciliacionBancaria), $type).'</td>     
                                       </tr>
                                     </tbody>
                            </table>';

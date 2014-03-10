@@ -134,6 +134,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             'style'=>'text-align: center; width: 60px;',
                           ),
                         ),
+                     array(
+                        'name'=>'admission_date',
+                        'value'=>'$data->admission_date',
+                        'type'=>'text',
+                        'htmlOptions'=>array(
+                            'id'=>'admission_date',
+                            'style'=>'text-align: center; width: 60px;',
+                          ),
+                        ),
 
                     array(
                             'header' => 'Detalle',

@@ -2,7 +2,7 @@
 
     class captura extends Reportes 
     {
-        public static function reporte($ids) 
+        public static function reporte($ids,$type) 
         {
 //            $acumuladoSaldoApMov = 0;
 //            $acumuladoSaldoApClaro = 0;
@@ -22,12 +22,12 @@
                     $table.=   '<tr >
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->MinutosCaptura).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->TraficoCapturaDollar).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->MinutosCaptura), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->TraficoCapturaDollar), $type).'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->Paridad).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->CaptSoles).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->DifSoles,$registro->DifSoles).'</td>   
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->DifDollar,$registro->DifDollar).'</td>       
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->CaptSoles), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifSoles,$registro->DifSoles), $type).'</td>   
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifDollar,$registro->DifDollar), $type).'</td>       
                                 </tr>
                                 ';
 
@@ -38,12 +38,12 @@
                                 .'<tr >
                                         <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->MinutosCaptura).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->TraficoCapturaDollar).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::format(Reportes::defineTotals($balanceTotals->MinutosCaptura), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::format(Reportes::defineTotals($balanceTotals->TraficoCapturaDollar), $type).'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="totalTrafico">N/A</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->CaptSoles).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar).'</td>      
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->CaptSoles), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar), $type).'</td>      
                                       </tr>
                                     </tbody>
                            </table>';
