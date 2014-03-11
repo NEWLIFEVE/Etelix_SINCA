@@ -8,6 +8,9 @@ $(document).ready(function()
     genEmail();
     genPrint();
     newEC();
+    $("#Detallegasto_category").change(function () {
+            selectGasto();
+    });
 
 });
 
@@ -694,4 +697,24 @@ $(document).ready(function()
            }
 
     });
+    }
+    
+    
+    function selectGasto(){
+        
+        var dato = $("#Detallegasto_category").val();
+        var seleccion = $("#Detallegasto_category option:selected").text();
+        if(seleccion != 'Seleccionar...'){
+            var response = $.ajax({ type: "GET",   
+                                    url: '/Detallegasto/DynamicCategoria?category='+dato,   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+            //alert(response);                   
+            $("#Detallegasto_TIPOGASTO_Id").html(response);    
+        }else{
+            $("#Detallegasto_TIPOGASTO_Id").html('<option value="">Seleccionar Categoria</option>');  
+            $("#DetalleGasto").slideUp("slow");
+        }
+
     }

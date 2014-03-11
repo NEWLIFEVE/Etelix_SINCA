@@ -262,77 +262,86 @@ class SiteController extends Controller
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta'){
             
                $files['balance']['name']=$_GET['name'];
-               $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids']);   
+               $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],true);   
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta'){
             
                $files['libroVentas']['name']=$_GET['name'];
-               $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids']);
+               $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta'){
             
                $files['depositoBancario']['name']=$_GET['name'];
-               $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids']);
+               $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta'){
                  
                $files['ventasbrighstar']['name']=$_GET['name'];
-               $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids']);
+               $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta'){
                  
                $files['traficocaptura']['name']=$_GET['name'];
-               $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids']);
+               $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids'],true);
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta'){
               
                $files['cicloIngreso']['name']=$_GET['name'];
-               $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);   
+               $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);   
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas'){
               
                $files['cicloIngresoC']['name']=$_GET['name'];
-               $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);  
+               $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);  
         }
        if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta'){
               
                $files['cicloIngresoT']['name']=$_GET['name'];
-               $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+               $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,true);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids']);
+
+            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {
             $files['depositoBancario']['name']=$_GET['name'];
-            $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids']);
+
+            $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
         {
             $files['ventasbrighstar']['name']=$_GET['name'];
-            $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids']);
+
+            $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
         {
             $files['traficocaptura']['name']=$_GET['name'];
-            $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids']);
+
+            $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids'],true);
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {
             $files['cicloIngreso']['name']=$_GET['name'];
-            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);   
+
+            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);   
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
         {
             $files['cicloIngresoC']['name']=$_GET['name'];
-            $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);  
+
+            $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);  
+
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {
             $files['cicloIngresoT']['name']=$_GET['name'];
-            $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+
+            $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,true);
+
         }
         if($_GET['table']=='tabla')
         {
@@ -346,7 +355,7 @@ class SiteController extends Controller
         if($_GET['table']=='estadogasto-grid')
         {
             $files['estadogasto']['name']=$_GET['name'];
-            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids']);
+            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids'],true);
         }
         
         foreach($files as $key => $file)
@@ -361,7 +370,6 @@ class SiteController extends Controller
     public function actionSendEmail()
     {
         $correo = Yii::app()->getModule('user')->user()->email;
-
         $topic = $_GET['name'];
         
         $files=array();
@@ -369,57 +377,72 @@ class SiteController extends Controller
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
             $files['balance']['name']=$_GET['name'];
-            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
-            $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['ids']);
+
+            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],false);
+            $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['ids'],true);
+
             $files['balance']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['balance']['name'].".xls";    
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids']);
-            $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['ids']);
+
+            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],false);
+            $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['ids'],true);
+
             $files['libroVentas']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['libroVentas']['name'].".xls";        
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {         
             $files['depositoBancario']['name']=$_GET['name'];
-            $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids']);
-            $files['depositoBancario']['excel']=Yii::app()->reporte->depositoBancario($_GET['ids']);
+
+            $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids'],false);
+            $files['depositoBancario']['excel']=Yii::app()->reporte->depositoBancario($_GET['ids'],true);
+
             $files['depositoBancario']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['depositoBancario']['name'].".xls";    
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
         {
             $files['ventasbrighstar']['name']=$_GET['name'];
-            $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids']);
-            $files['ventasbrighstar']['excel']=Yii::app()->reporte->brightstar($_GET['ids']);
+
+            $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids'],false);
+            $files['ventasbrighstar']['excel']=Yii::app()->reporte->brightstar($_GET['ids'],true);
+
             $files['ventasbrighstar']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['ventasbrighstar']['name'].".xls";    
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
         {
             $files['traficocaptura']['name']=$_GET['name'];
-            $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids']);
-            $files['traficocaptura']['excel']=Yii::app()->reporte->captura($_GET['ids']);
+
+            $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids'],false);
+            $files['traficocaptura']['excel']=Yii::app()->reporte->captura($_GET['ids'],true);
             $files['traficocaptura']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['traficocaptura']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
-            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
-            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
+
+            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,false);
+            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);
+
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
-            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
-            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
+
+            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,false);
+            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);
+
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {      
             $files['cicloIngresoT']['name']=$_GET['name'];
-            $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
-            $files['cicloIngresoT']['excel']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+
+            $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,false);
+            $files['cicloIngresoT']['excel']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,true);
+
             $files['cicloIngresoT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngresoT']['name'].".xls";    
         }
         if($_GET['table']=='tabla')
@@ -440,8 +463,10 @@ class SiteController extends Controller
         if($_GET['table']=='estadogasto-grid'){
             
             $files['estadogasto']['name']=$_GET['name'];
-            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids']);
-            $files['estadogasto']['excel']=Yii::app()->reporte->estadoGasto($_GET['ids']);
+
+            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids'],false);
+            $files['estadogasto']['excel']=Yii::app()->reporte->estadoGasto($_GET['ids'],true);
+
             $files['estadogasto']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadogasto']['name'].".xls";               
         }
         
@@ -459,41 +484,41 @@ class SiteController extends Controller
     { 
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
-            echo Yii::app()->reporte->balanceAdmin($_GET['ids']);
+            echo Yii::app()->reporte->balanceAdmin($_GET['ids'],false);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
-            echo Yii::app()->reporte->libroVenta($_GET['ids']);
+            echo Yii::app()->reporte->libroVenta($_GET['ids'],false);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {
-            echo Yii::app()->reporte->depositoBancario($_GET['ids']);
+            echo Yii::app()->reporte->depositoBancario($_GET['ids'],false);
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
         {
-            echo Yii::app()->reporte->brightstar($_GET['ids']);
+            echo Yii::app()->reporte->brightstar($_GET['ids'],false);
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
         {
-            echo Yii::app()->reporte->captura($_GET['ids']);
+            echo Yii::app()->reporte->captura($_GET['ids'],false);
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {
-            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],false);
+            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],false,false);
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
         {
-            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],true);
+            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],true,false);
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {
-            echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false);
+            echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,false);
         }
         if($_GET['table']=='tabla'){
             echo Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],false);
         }
         if($_GET['table']=='estadogasto-grid'){
-            echo Yii::app()->reporte->estadoGasto($_GET['ids']);
+            echo Yii::app()->reporte->estadoGasto($_GET['ids'],false);
         }
 
         if($_GET['table']=='tabla2'){

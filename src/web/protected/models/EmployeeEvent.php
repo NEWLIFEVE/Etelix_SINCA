@@ -1,24 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "kids".
+ * This is the model class for table "employee_event".
  *
- * The followings are the available columns in table 'kids':
- * @property integer $id
- * @property integer $age
+ * The followings are the available columns in table 'employee_event':
  * @property integer $employee_id
- *
- * The followings are the available model relations:
- * @property Employee $employee
+ * @property integer $event_id
+ * @property string $record_date
+ * @property string $concurrency_date
  */
-class Kids extends CActiveRecord
+class EmployeeEvent extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'kids';
+		return 'employee_event';
 	}
 
 	/**
@@ -29,11 +27,11 @@ class Kids extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id,employee_id', 'required'),
-			array('id, age, employee_id', 'numerical', 'integerOnly'=>true),
+			array('employee_id, event_id, record_date, concurrency_date', 'required'),
+			array('employee_id, event_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, age, employee_id', 'safe', 'on'=>'search'),
+			array('employee_id, event_id, record_date, concurrency_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,6 +44,7 @@ class Kids extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'employee' => array(self::BELONGS_TO, 'Employee', 'employee_id'),
+                        'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
 		);
 	}
 
@@ -55,9 +54,10 @@ class Kids extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'age' => 'Edad del Hijo',
 			'employee_id' => 'Empleado',
+			'event_id' => 'Evento',
+			'record_date' => 'Record Date',
+			'concurrency_date' => 'Fecha de Ocurrencia',
 		);
 	}
 
@@ -79,9 +79,10 @@ class Kids extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('age',$this->age);
 		$criteria->compare('employee_id',$this->employee_id);
+		$criteria->compare('event_id',$this->event_id);
+		$criteria->compare('record_date',$this->record_date,true);
+		$criteria->compare('concurrency_date',$this->concurrency_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,7 +93,7 @@ class Kids extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Kids the static model class
+	 * @return EmployeeEvent the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
