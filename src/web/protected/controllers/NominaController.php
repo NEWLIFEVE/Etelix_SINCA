@@ -83,18 +83,22 @@ class NominaController extends Controller
                 if($model_kid == null){
                     $model_kid=new Kids;
                 }
+            $model_hour = $this->loadModelEmployeeHours($id);  
+            //print_r($model_kid);
             }else{
-            //var_dump($_POST);
+            
             $model=new Employee;
             $model_kid=new Kids;
+            $model_hour=new EmployeeHours;
             }
             
-             $this->performAjaxValidation(array($model,$model_kid));
-
+             $this->performAjaxValidation(array($model,$model_kid,$model_hour));
+            
             if (isset($_POST['Employee'])) {
-                
+                //var_dump($_POST);
                 $model->attributes = $_POST['Employee'];
-                $model_kid->attributes = $_POST['Employee'];
+//                $model_kid->attributes = $_POST['Kids'];
+//                $model_hour->attributes = $_POST['Employee'];
                 //$model->id = $_POST['Employee']['id'];
                 if($id==null){
                 $model->code_employee = Employee::getCodigoEmpleado();
@@ -130,11 +134,11 @@ class NominaController extends Controller
                     $model->position_id = $_POST['Employee']['position_id'];
                 }
                 
-                if((isset($_POST['Employee']['employee_hours_start']) && $_POST['Employee']['employee_hours_start']!= "") && (isset($_POST['Employee']['employee_hours_end']) && $_POST['Employee']['employee_hours_end']!= "")){
-                    $model->employee_hours_id = EmployeeHours::getId($_POST['Employee']['employee_hours_start'],$_POST['Employee']['employee_hours_end']);
-                }else{
-                    $model->employee_hours_id = $_POST['Employee']['employee_hours_id'];
-                }
+//                if((isset($_POST['Employee']['employee_hours_start']) && $_POST['Employee']['employee_hours_start']!= "") && (isset($_POST['Employee']['employee_hours_end']) && $_POST['Employee']['employee_hours_end']!= "")){
+//                    $model->employee_hours_id = EmployeeHours::getId($_POST['Employee']['employee_hours_start'],$_POST['Employee']['employee_hours_end']);
+//                }else{
+//                    $model->employee_hours_id = $_POST['Employee']['employee_hours_id'];
+//                }
 
                 $model->address = $_POST['Employee']['address'];
                 $model->phone_number = $_POST['Employee']['phone_number'];
@@ -151,20 +155,28 @@ class NominaController extends Controller
                 
                 
                         
-                if ($model->save()){
-                    
-                    $model_kid->age = $_POST['Kids']['age'];
-                    $model_kid->employee_id = $model->id;
-                    
-                    if ($model_kid->save(false)){
-                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
-                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
-                    }
-                }
+//                if ($model->save()){
+//                    
+//                    $model_kid->age = $_POST['Kids']['age'];
+//                    $model_kid->employee_id = $model->id;
+//                    
+//                    if ($model_kid->save(false)){
+//                        
+//                        $model_hour->start_time = $_POST['EmployeeHours']['employee_hours_start'];
+//                        $model_hour->end_time = $_POST['EmployeeHours']['employee_hours_end'];
+//                        $model_hour->day = $_POST['EmployeeHours']['day'];
+//                        $model_hour->employee_id = $model->id;
+//                        
+//                        if ($model_hour->save(false)){
+//                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+//                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
+//                        }
+//                    }
+//                }
 
             }
         
-        $this->render('CrearEmpleado',array('model'=>$model,'model_kid'=>$model_kid));
+        $this->render('CrearEmpleado',array('model'=>$model,'model_kid'=>$model_kid,'model_hour'=>$model_hour));
         
 	}
         
@@ -210,7 +222,12 @@ class NominaController extends Controller
         }
         
         public function loadModelKids($id) {
-            $model_kid = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id");
+            $model_kid = Kids::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id");
+            return $model_kid;
+        }
+        
+        public function loadModelEmployeeHours($id) {
+            $model_kid = EmployeeHours::model()->findBySql("SELECT * FROM employee_hours WHERE employee_id = $id");
             return $model_kid;
         }
         
@@ -251,6 +268,33 @@ class NominaController extends Controller
 			),
 		);
 	}
-	*/   
+	*/  
+        
+        public function actionGetSalary()
+        {
+            $dato = null;
+            $sql = "SELECT salary FROM employee WHERE id = ".$_GET['id'];
+            $model = Employee::model()->findBySql($sql);
+            echo $model->salary;
+        }
+        
+        public function actionGetCurrency()
+        {
+            $dato = null;
+            $sql = "SELECT currency_id FROM employee WHERE id = ".$_GET['id'];
+            $model = Employee::model()->findBySql($sql);
+            echo $model->currency_id;
+        }
+        
+        public function actionDynamicEmployee()
+        {
+            $dato = '<option value="empty">Seleccione uno</option>';
+            $data = Employee::getListEmpleyee($_GET['cabina']);
+            foreach($data as $value=>$name)
+            {
+                $dato.= "<option value='$value'>".CHtml::encode($name)."</option>";
+            }
+            echo $dato;
+        }
         
 }

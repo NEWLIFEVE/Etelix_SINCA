@@ -13,9 +13,9 @@
  */
 class EmployeeHours extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+	public $employee_hours_start;
+        public $employee_hours_end;
+        
 	public function tableName()
 	{
 		return 'employee_hours';
@@ -29,11 +29,11 @@ class EmployeeHours extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('start_time, end_time', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
+			array('start_time, end_time,employee_id,day', 'required'),
+			array('id,employee_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id, start_time, end_time, employee_id,day', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +45,7 @@ class EmployeeHours extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'employees' => array(self::HAS_MANY, 'Employee', 'employee_hours_id'),
+			'employees' => array(self::BELONGS_TO, 'Employee', 'employee_id'),
 		);
 	}
 
@@ -56,8 +56,12 @@ class EmployeeHours extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'start_time' => 'Start Time',
+			'start_time' => 'Hora de Inicio',
 			'end_time' => 'End Time',
+                        'employee_id' => 'Empleado',
+                        'day' => 'Horario',
+                        'employee_hours_start' => 'Hora de Entrada',
+                        'employee_hours_end' => 'Hora de Salida',
 		);
 	}
 
@@ -82,6 +86,8 @@ class EmployeeHours extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('start_time',$this->start_time,true);
 		$criteria->compare('end_time',$this->end_time,true);
+                $criteria->compare('employee_id',$this->employee_id);
+                $criteria->compare('day',$this->day);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -96,15 +96,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                           ),
                         'filter'=>  Cabina::getListCabina(),
                         ),
-                    array(
-                        'name'=>'employee_hours_id',
-                        'value'=>'date("h:i A",strtotime($data->employeeHours->start_time))." - ".date("h:i A",strtotime($data->employeeHours->end_time))',
-                        'type'=>'text',
-                        'htmlOptions'=>array(
-                            'id'=>'employee_hours_id',
-                            'style'=>'text-align: center; width: 120px;',
-                          ),
-                        ),
+//                    array(
+//                        'name'=>'employee_hours_id',
+//                        'value'=>'date("h:i A",strtotime($data->employeeHours->start_time))." - ".date("h:i A",strtotime($data->employeeHours->end_time))',
+//                        'type'=>'text',
+//                        'htmlOptions'=>array(
+//                            'id'=>'employee_hours_id',
+//                            'style'=>'text-align: center; width: 120px;',
+//                          ),
+//                        ),
                     array(
                         'name'=>'position_id',
                         'value'=>'$data->position->name',

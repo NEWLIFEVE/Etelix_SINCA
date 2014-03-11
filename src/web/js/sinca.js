@@ -8,6 +8,9 @@ $(document).ready(function()
     genEmail();
     genPrint();
     newEC();
+    addKid();
+    deleteKid();
+    getListEmployee();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
@@ -718,3 +721,119 @@ $(document).ready(function()
         }
 
     }
+    
+
+    function addKid() {
+        
+        $("[name=yt0]").on('click', function(){
+         
+            var clickID = parseInt($("#DatosHijos td#col div.row").length);
+            var newID = (clickID+1);
+            
+            //alert(newID);
+ 
+            var newInput = $("#DatosHijos td#col div#row1").clone();
+            newInput.attr("id",'row'+newID);
+            newInput.find('input').attr('name', 'Kids[age' +(newID-1)+']');
+            newInput.find('label').text('Edad del Hijo #'+newID);
+            newInput.find('input').attr('id', 'Kids_age' +(newID-1));
+            newInput.find('img').attr('id', 'row'+newID);
+            newInput.appendTo("#datosEmpleado tr#DatosHijos td#col");
+            
+            //alert(newInput);
+
+        });
+
+    }
+    
+    function deleteKid() {
+        
+        $("img.botonQuitar").on('click', function(){
+         
+            var parent = $(this).attr("id");
+            alert(parent);
+	    //$(parent).remove();
+    
+        });
+
+    }
+    
+    function getListEmployee() {
+        
+        $("select#Detallegasto_beneficiario").css('display','none');
+        //Capturar Seleccion de la Categoria
+        $("#Detallegasto_category").change(function () {
+            var selc_nomina = $("#Detallegasto_category option:selected").text();
+            
+            if(selc_nomina == 'NOMINA'){
+                //Capturar Seleccion del Tipo de Gasto
+                $("#Detallegasto_TIPOGASTO_Id").change(function () {
+                var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
+                
+                    if(selc_tipo_gasto == 'Pago a Empleado'){
+                        //Capturar Seleccion de la Cabina
+                        $("#Detallegasto_CABINA_Id").change(function () {
+                            
+                        $("#Detallegasto_Monto").val('');     
+                        $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
+                        
+                        var selc_cabina = $("#Detallegasto_CABINA_Id option:selected").val();
+                        
+                        var response = $.ajax({ type: "GET",   
+                                    url: '/Nomina/DynamicEmployee?cabina='+selc_cabina,   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+                        //alert(response);                   
+                        $("#Detallegasto_beneficiario").val('');
+                        $("#Detallegasto_beneficiario").css('display','none');
+                        $("select#Detallegasto_beneficiario").css('display','inline');
+                        $("select#Detallegasto_beneficiario").html(response);   
+                            //Capturar Seleccion del Empleado
+                            $("select#Detallegasto_beneficiario").change(function () {
+                                var selc_empleado = $("select#Detallegasto_beneficiario option:selected").val();
+
+                                  //Obtener el Salario del empleado Seleccionado
+                                  var salary = $.ajax({ type: "GET",   
+                                    url: '/Nomina/GetSalary?id='+selc_empleado,   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+                                  
+                                  //Obtener la Moneda del empleado Seleccionado
+                                  var currency = $.ajax({ type: "GET",   
+                                    url: '/Nomina/GetCurrency?id='+selc_empleado,   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+                                  
+                                  //Solo Asignar Valores  Cuando se Selecciones a un Empleado
+                                  if(selc_empleado!='empty'){
+                                    $("#Detallegasto_Monto").val(salary);
+                                    $("#Detallegasto_moneda option[value='"+currency+"']").attr("selected", "selected");
+                                  }else{
+                                    $("#Detallegasto_Monto").val('');  
+                                    $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
+                                  }
+
+                                  
+                            });
+                        
+                        });
+                    }
+                
+                
+                });
+            }else{
+                $("#Detallegasto_Monto").val(''); 
+                $("#Detallegasto_beneficiario").css('display','inline');
+                $("select#Detallegasto_beneficiario").css('display','none');
+                $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
+            }
+            
+            
+    
+        });
+
+    }
+    

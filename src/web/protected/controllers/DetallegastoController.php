@@ -439,5 +439,7 @@ class DetallegastoController extends Controller {
             );
         }
     }
+    
+    
 
 }
