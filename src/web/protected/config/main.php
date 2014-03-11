@@ -84,7 +84,7 @@ return array(
             ),
 		'db'=>array(
 			'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host=localhost;port=3306;dbname=dev_sinca',
+			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
             'username'=>'root',
 			'password'=>'Nsusfd8263',
