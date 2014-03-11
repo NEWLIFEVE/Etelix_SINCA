@@ -1,91 +1,90 @@
- <?php
+<?php
+/**
+ * @package reportes
+ */
+class libroVenta extends Reportes
+{
+    /**
+     * @access public
+     * @static
+     */
+    public static function reporte($ids,$type)
+    {
+        $balance=self::get_Model($ids);
+        if($balance!=NULL)
+        {
+            $table='<table class="items">'.
+                        self::defineHeader("libroV")
+                        .'<tbody>';
+            foreach ($balance as $key => $registro)
+            {
+                $table.='<tr>
+                            <td '.self::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->Trafico), $type).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->RecargaMovistar), $type).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->RecargaClaro), $type).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->OtrosServicios), $type).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->TotalVentas), $type).'</td>
+                        </tr>';
+            }
+
+            $balanceTotals=self::get_ModelTotal($ids);
+            $table.=self::defineHeader("libroV")
+                    .'<tr>
+                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($balanceTotals->Trafico), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaMovistar), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaClaro), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::format(Reportes::defineTotals($balanceTotals->OtrosServicios), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::format(Reportes::defineTotals($balanceTotals->TotalVentas), $type).'</td>    
+                    </tr>
+                </tbody>
+            </table>';
+        }
+        else
+        {
+            $table='Hubo un error';
+        }
+        return $table;
+    }
 
     /**
-     * @package reportes
+     * @access public
+     * @static
+     * @return array
      */
-    class libroVenta extends Reportes 
+    public static function get_Model($ids)
     {
-        public static function reporte($ids) 
-        {
-//            $acumuladoSaldoApMov = 0;
-//            $acumuladoSaldoApClaro = 0;
-//            $acumuladoTrafico = 0;
-//            $acumuladoRecargasMov = 0;
-//            $acumuladoRecargasClaro = 0;
-//            $acumuladoDepositos = 0;
-            
-            $balance = libroVenta::get_Model($ids);
-            if($balance != NULL){
-                
-                $table = '<table class="items">'.
-                        Reportes::defineHeader("libroV")
-                        .'<tbody>';
-                foreach ($balance as $key => $registro) {
-
-                    $table.=   '<tr >
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->Trafico).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaMovistar).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->RecargaClaro).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->OtrosServicios).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->TotalVentas).'</td>
-                                </tr>
-                                ';
-
-                }
-                
-                 $balanceTotals = libroVenta::get_ModelTotal($ids);
-                 $table.=  Reportes::defineHeader("libroV")
-                                .'<tr >
-                                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->Trafico).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->RecargaMovistar).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals($balanceTotals->RecargaClaro).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::defineTotals($balanceTotals->OtrosServicios).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::defineTotals($balanceTotals->TotalVentas).'</td>    
-                                      </tr>
-                                    </tbody>
-                           </table>';
-            }else{
-                $table='Hubo un error';
-            }
-            return $table;
-        }
-            
-         
-        public static function get_Model($ids) 
-        {
-            $sql = "SELECT b.id as id, b.fecha as Fecha, c.nombre as cabina, 
-                    (b.FijoLocal+b.FijoProvincia+b.FijoLima+b.Rural+b.Celular+b.LDI) as Trafico, 
-                    (b.RecargaCelularMov+b.RecargaFonoYaMov) as RecargaMovistar,
-                    (b.RecargaCelularClaro+b.RecargaFonoClaro) as RecargaClaro,
-                    b.OtrosServicios as OtrosServicios,  
-                    (IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0)) as TotalVentas  
-                    FROM balance b
-                    INNER JOIN cabina as c ON c.id = b.CABINA_Id
-                    WHERE b.id IN ($ids) 
-                    order by b.fecha desc, c.nombre asc;";
-            
-              return Balance::model()->findAllBySql($sql); 
-         
-        }
-        
-        public static function get_ModelTotal($ids) 
-        {
-            $sql = "SELECT b.id as id, b.fecha as Fecha, c.nombre as cabina, 
-                    sum((b.FijoLocal+b.FijoProvincia+b.FijoLima+b.Rural+b.Celular+b.LDI)) as Trafico, 
-                    sum((b.RecargaCelularMov+b.RecargaFonoYaMov)) as RecargaMovistar,
-                    sum((b.RecargaCelularClaro+b.RecargaFonoClaro)) as RecargaClaro,
-                    sum(b.OtrosServicios) as OtrosServicios,  
-                    sum((b.FijoLocal+b.FijoProvincia+b.FijoLima+b.Rural+b.Celular+b.LDI+b.RecargaCelularMov+b.RecargaFonoYaMov+b.RecargaCelularClaro+b.RecargaFonoClaro+b.OtrosServicios)) as TotalVentas  
-                    FROM balance b
-                    INNER JOIN cabina as c ON c.id = b.CABINA_Id
-                    WHERE b.id IN ($ids)";
-            
-              return Balance::model()->findBySql($sql); 
-         
-        }
+        $sql="SELECT b.id AS id, b.fecha AS Fecha, c.nombre AS cabina, 
+                    (b.FijoLocal+b.FijoProvincia+b.FijoLima+b.Rural+b.Celular+b.LDI) AS Trafico, 
+                    (b.RecargaCelularMov+b.RecargaFonoYaMov) AS RecargaMovistar,
+                    (b.RecargaCelularClaro+b.RecargaFonoClaro) AS RecargaClaro,
+                    b.OtrosServicios AS OtrosServicios,  
+                    (IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0)) AS TotalVentas  
+              FROM balance b INNER JOIN cabina AS c ON c.id=b.CABINA_Id
+              WHERE b.id IN ($ids)
+              ORDER BY b.fecha DESC, c.nombre ASC";
+        return Balance::model()->findAllBySql($sql);
     }
-    ?>
+
+    /**
+     * @access public
+     * @static
+     * @return object
+     */
+    public static function get_ModelTotal($ids)
+    {
+        $sql="SELECT b.id AS id, b.fecha AS Fecha, c.nombre AS cabina,
+                     SUM((b.FijoLocal+b.FijoProvincia+b.FijoLima+b.Rural+b.Celular+b.LDI)) AS Trafico,
+                     SUM((b.RecargaCelularMov+b.RecargaFonoYaMov)) AS RecargaMovistar,
+                     SUM((b.RecargaCelularClaro+b.RecargaFonoClaro)) AS RecargaClaro,
+                     SUM(b.OtrosServicios) AS OtrosServicios,
+                     SUM((b.FijoLocal+b.FijoProvincia+b.FijoLima+b.Rural+b.Celular+b.LDI+b.RecargaCelularMov+b.RecargaFonoYaMov+b.RecargaCelularClaro+b.RecargaFonoClaro+b.OtrosServicios)) AS TotalVentas
+              FROM balance b INNER JOIN cabina AS c ON c.id=b.CABINA_Id
+              WHERE b.id IN ($ids)";
+        return Balance::model()->findBySql($sql);
+    }
+}
+?>

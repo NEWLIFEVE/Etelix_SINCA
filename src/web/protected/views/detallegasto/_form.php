@@ -69,27 +69,78 @@
                      <td style="width: 50%;">&nbsp;</td>
                 </tr>
                 <tr>
-                  <td><div class="row"> <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGasto(),array(
-                                'empty'=>array('Seleccionar..','Nuevo..'),
-                                'ajax'=>array(
-                                    'type'=>'POST', //request type
-                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
-                                    'update'=>'#GastoMesAnterior', //selector to update
-                                    ),
-                                )
-                            );
-                            ?> <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> </div></td>
-                    <td><div class="row"> <?php echo $form->labelEx($model, 'moneda'); ?> <?php echo $form->dropDownList($model, 'moneda', array('empty'=>'Seleccionar...','1'=>'Dollar (USD$)','2'=>'Soles (S/.)'),array(
-                                                                
-                                'ajax'=>array(
-                                    'type'=>'POST', //request type
-                                    'url'=>CController::createUrl('Detallegasto/DynamicCuenta'), //url to call.
-                                    'update'=>'#Detallegasto_CUENTA_Id', //selector to update
-                                    ),
-                            )); ?> <?php echo $form->error($model, 'moneda'); ?> </div></td>
+                  <td>
+                        <div class="row"> 
+                                <?php echo $form->labelEx($model, 'category'); ?> 
+                                <?php echo $form->dropDownList($model, 'category',Category::getListTipoCategoria(), array('empty'=>'Seleccionar...'),array(
+                                                   
+                                    'ajax'=>array(
+                                        'type'=>'POST', //request type
+                                        'url'=>CController::createUrl('Detallegasto/DynamicCategoria'), //url to call.
+                                        'update'=>'#Detallegasto_TIPOGASTO_Id', //selector to update
+                                        ),
+                                    )
+                                ); 
+                                ?> 
+                                <?php echo $form->error($model, 'category'); ?> 
+                        </div>
+                  </td>
+                  <td>
+                      <div class="row"> 
+                          <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> 
+                          <?php 
+                          
+       
+                         
+                            ($model->isNewRecord)
+                                  ? $tg = $form->dropDownList($model, 'TIPOGASTO_Id', array('empty'=>'Seleccionar Categoria'), array(
+                                                'ajax'=>array(
+                                                    'type'=>'POST', //request type
+                                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
+                                                    'update'=>'#GastoMesAnterior', //selector to update
+                                                    ),
+                                                )
+                                            )
+                                  : $tg = $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGastoCategoria($model->category),array(
+                                                'empty'=>array('Seleccionar..','Nuevo..'),
+                                                'ajax'=>array(
+                                                    'type'=>'POST', //request type
+                                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
+                                                    'update'=>'#GastoMesAnterior', //selector to update
+                                                    ),
+                                                )
+                                            );
+
+                            echo $tg;
+                            ?> 
+                          <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> 
+                      </div>
+                  </td>
+                    <td>
+                        <div class="row"> 
+                                <?php echo $form->labelEx($model, 'moneda'); ?> 
+                                <?php echo $form->dropDownList($model, 'moneda', array('empty'=>'Seleccionar...','1'=>'Dollar (USD$)','2'=>'Soles (S/.)'),array(               
+                                    'ajax'=>array(
+                                        'type'=>'POST', //request type
+                                        'url'=>CController::createUrl('Detallegasto/DynamicCuenta'), //url to call.
+                                        'update'=>'#Detallegasto_CUENTA_Id', //selector to update
+                                        ),
+                                )); ?> 
+                                <?php echo $form->error($model, 'moneda'); ?> 
+                        </div>
+                    </td>
                       <td style="width: 50%;"><div class="row"> 
                          <?php echo $form->labelEx($model, 'CUENTA_Id'); ?> 
-                         <?php echo $form->dropDownList($model, 'CUENTA_Id',  Cuenta::getListCuenta());?> 
+                              
+                         <?php 
+                         
+                         (!isset($model->CUENTA_Id)) 
+                               ? $mon = $form->dropDownList($model, 'CUENTA_Id', array('empty'=>'Seleccionar Moneda'))
+                               : $mon = $form->dropDownList($model, 'CUENTA_Id',  Cuenta::getListCuentaTipo($model->moneda));
+                         
+                         echo $mon;
+                         
+                         ?> 
                          <?php echo $form->error($model, 'CUENTA_Id'); ?> 
                         </div>
                     </td>

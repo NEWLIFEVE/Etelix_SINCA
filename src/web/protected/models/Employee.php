@@ -41,6 +41,7 @@ class Employee extends CActiveRecord
         public $position_name;
         public $employee_hours_start;
         public $employee_hours_end;
+        public $age;
 
         
   
@@ -57,7 +58,7 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, lastname, identification_number, gender, address, salary, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id, CABINA_Id,', 'required'),
+			array('name, lastname, identification_number, admission_date, gender, address, salary, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id, CABINA_Id,', 'required'),
 			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id', 'numerical', 'integerOnly'=>true),
 			array('salary', 'numerical'),
 			array('code_employee', 'length', 'max'=>4),
@@ -119,6 +120,8 @@ class Employee extends CActiveRecord
 			'position_id' => 'Cargo',
                         'position_name' => 'Cargo',
                         'status' => 'Estatus',
+                        'age' => 'Edad del Hijo',
+                        'admission_date' => 'Fecha de Ingreso',
                     
 		);
 	}
@@ -158,6 +161,8 @@ class Employee extends CActiveRecord
 		$criteria->compare('marital_status_id',$this->marital_status_id);
 		$criteria->compare('employee_hours_id',$this->employee_hours_id);
 		$criteria->compare('position_id',$this->position_id);
+                $criteria->compare('admission_date',$this->admission_date);
+                $criteria->compare('record_date',$this->record_date);
                 
                 $orden="code_employee ASC";
                 

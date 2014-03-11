@@ -11,6 +11,8 @@ $this->breadcrumbs=array(
 <script>
     
     $(document).ready(function(){
+        selectGasto();
+        
         $("#Detallegasto_TIPOGASTO_Id").click(function(){
             if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Seleccione uno"){
                 $("#DetalleGasto").slideUp("slow");
@@ -24,7 +26,7 @@ $this->breadcrumbs=array(
                 $("#DetalleGasto input").val("");
                 $("#DetalleGasto textarea").val("");
             }
-            else{
+            else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()!="Seleccionar Categoria"){
                 $("#DetalleGasto").slideDown("slow");
                 $("#GastoMesAnterior").slideDown("slow");
                 $("#GastoNuevo").slideUp("slow");

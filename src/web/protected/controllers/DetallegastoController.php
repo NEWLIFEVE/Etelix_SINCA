@@ -44,6 +44,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'estadoGastos',
                     'matrizGastos',
@@ -66,6 +67,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'matrizGastos',
                     'matrizGastosEvolucion',
@@ -87,6 +89,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'estadoGastos',
                     'matrizGastos',
@@ -119,10 +122,11 @@ class DetallegastoController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate()
-    {
-        $model=new Detallegasto;
-        $model_cabina=new Cabina;
+
+    public function actionCreate() {
+        $model = new Detallegasto;
+        $model_cabina = new Cabina;
+        //var_dump($_POST);
 
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
@@ -145,12 +149,11 @@ class DetallegastoController extends Controller {
                 $model->FechaVenc=NULL;
             }        
 //            $model->USERS_Id=$_POST['USERS_Id'];
-            if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= "")
-            {
-                $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle']);
-            }
-            else
-            {
+
+            if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= ""){
+                $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle'],$_POST['Detallegasto']['category']);
+            }else{
+
                 $model->TIPOGASTO_Id=$_POST['Detallegasto']['TIPOGASTO_Id'];
             }
             if($model->save())
@@ -172,7 +175,6 @@ class DetallegastoController extends Controller {
     {
         $model=$this->loadModel($id);
         $model_cabina = new Cabina;
-
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -199,7 +201,6 @@ class DetallegastoController extends Controller {
             'model_cabina'=>$model_cabina,
         ));
     }
-
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -360,9 +361,14 @@ class DetallegastoController extends Controller {
      * @return Detallegasto the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id)
-    {
-        $model = Detallegasto::model()->findByPk($id);
+
+    public function loadModel($id) {
+        $model = Detallegasto::model()->findBySql("SELECT detallegasto.*, category.id as category
+                                                    FROM detallegasto 
+                                                    INNER JOIN tipogasto ON tipogasto.Id = detallegasto.TIPOGASTO_Id 
+                                                    INNER JOIN category ON category.id = tipogasto.category_id
+                                                    WHERE detallegasto.Id = $id");
+
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -399,12 +405,28 @@ class DetallegastoController extends Controller {
      */
     public function actionDynamicCuenta()
     {
-        echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
-        $data = Cuenta::getListCuentaTipo($_POST['Detallegasto']['moneda']);
+        if($_POST['Detallegasto']['moneda'] != 'empty'){
+            echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
+            $data = Cuenta::getListCuentaTipo($_POST['Detallegasto']['moneda']);
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+            }
+        }else{
+            echo CHtml::tag('option',array('value'=>''),'Seleccionar Moneda',true);
+        }
+    }
+    
+    public function actionDynamicCategoria()
+    {
+        $dato = '<option value="empty">Seleccione uno</option>
+                <option value="new">Nuevo..</option>';
+        $data = Tipogasto::getListTipoGastoCategoria($_GET['category']);
         foreach($data as $value=>$name)
         {
-            echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+            $dato.= "<option value='$value'>".CHtml::encode($name)."</option>";
         }
+        echo $dato;
     }
 
     /**

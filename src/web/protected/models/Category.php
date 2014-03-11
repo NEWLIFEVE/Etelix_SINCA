@@ -1,24 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "kids".
+ * This is the model class for table "category".
  *
- * The followings are the available columns in table 'kids':
+ * The followings are the available columns in table 'category':
  * @property integer $id
- * @property integer $age
- * @property integer $employee_id
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property Employee $employee
+ * @property Tipogasto[] $tipogastos
  */
-class Kids extends CActiveRecord
+class Category extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
+        public $category_id;
+    
 	public function tableName()
 	{
-		return 'kids';
+		return 'category';
 	}
 
 	/**
@@ -29,11 +30,11 @@ class Kids extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id,employee_id', 'required'),
-			array('id, age, employee_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'required'),
+			array('name', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, age, employee_id', 'safe', 'on'=>'search'),
+			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +46,7 @@ class Kids extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'employee' => array(self::BELONGS_TO, 'Employee', 'employee_id'),
+			'tipogastos' => array(self::HAS_MANY, 'Tipogasto', 'category_id'),
 		);
 	}
 
@@ -56,8 +57,7 @@ class Kids extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'age' => 'Edad del Hijo',
-			'employee_id' => 'Empleado',
+			'name' => 'Categoria',
 		);
 	}
 
@@ -80,8 +80,7 @@ class Kids extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('age',$this->age);
-		$criteria->compare('employee_id',$this->employee_id);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,10 +91,14 @@ class Kids extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Kids the static model class
+	 * @return Category the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+        
+        public static function getListTipoCategoria(){
+            return CHtml::listData(Category::model()->findAll(), 'id', 'name');
+        }
 }
