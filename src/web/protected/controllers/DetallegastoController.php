@@ -179,7 +179,7 @@ class DetallegastoController extends Controller {
             $model->attributes = $_POST['Detallegasto'];
             $model->FechaMes=$_POST['Detallegasto']['FechaMes']."-01";  
 
-            $model->beneficiario=$_POST['Detallegasto']['beneficiario'];
+            //$model->beneficiario=$_POST['Detallegasto']['beneficiario'];
 
             
             if(isset($_POST['Detallegasto']['FechaVenc']) && $_POST['Detallegasto']['FechaVenc']!= "" && strstr($_POST['Detallegasto']['FechaVenc'], '-')==FALSE){
