@@ -155,24 +155,24 @@ class NominaController extends Controller
                 
                 
                         
-//                if ($model->save()){
-//                    
-//                    $model_kid->age = $_POST['Kids']['age'];
-//                    $model_kid->employee_id = $model->id;
-//                    
-//                    if ($model_kid->save(false)){
-//                        
+                if ($model->save()){
+                    
+                    $model_kid->age = $_POST['Kids']['age'];
+                    $model_kid->employee_id = $model->id;
+                    
+                    if ($model_kid->save(false)){
+                        
 //                        $model_hour->start_time = $_POST['EmployeeHours']['employee_hours_start'];
 //                        $model_hour->end_time = $_POST['EmployeeHours']['employee_hours_end'];
 //                        $model_hour->day = $_POST['EmployeeHours']['day'];
 //                        $model_hour->employee_id = $model->id;
 //                        
 //                        if ($model_hour->save(false)){
-//                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
-//                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
+                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
 //                        }
-//                    }
-//                }
+                    }
+                }
 
             }
         
@@ -208,7 +208,7 @@ class NominaController extends Controller
         }
         
         public function loadModel($id) {
-            $model = Employee::model()->findByPk($id);
+            $model = Employee::model()->findBySql("SELECT *, DATE_FORMAT(admission_date,'%d/%m/%Y') as admission_date FROM employee WHERE id = $id");
             if ($model === null)
                 throw new CHttpException(404, 'The requested page does not exist.');
             return $model;
@@ -222,7 +222,7 @@ class NominaController extends Controller
         }
         
         public function loadModelKids($id) {
-            $model_kid = Kids::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id");
+            $model_kid = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id");
             return $model_kid;
         }
         
@@ -240,8 +240,8 @@ class NominaController extends Controller
                 return array(
                     array('label' => 'Administrar Empleados', 'url' => array('adminEmpleado')),
                     array('label' => 'Crear Empleado', 'url' => array('CrearEmpleado')),
-                    array('label' => 'Administrar Evento', 'url' => array('adminEvento')),
-                    array('label' => 'Registrar Evento', 'url' => array('EventoEmpleado')),
+//                    array('label' => 'Administrar Evento', 'url' => array('adminEvento')),
+//                    array('label' => 'Registrar Evento', 'url' => array('EventoEmpleado')),
 
                 );
             }

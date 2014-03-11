@@ -735,6 +735,7 @@ $(document).ready(function()
             var newInput = $("#DatosHijos td#col div#row1").clone();
             newInput.attr("id",'row'+newID);
             newInput.find('input').attr('name', 'Kids[age' +(newID-1)+']');
+            newInput.find('input').val('');
             newInput.find('label').text('Edad del Hijo #'+newID);
             newInput.find('input').attr('id', 'Kids_age' +(newID-1));
             newInput.find('img').attr('id', 'row'+newID);
@@ -823,30 +824,40 @@ $(document).ready(function()
                                     $("#Detallegasto_beneficiario").val(selc_empleado_name);
                                     
                                   }else{
-                                    $("#Detallegasto_Monto").val('');  
-                                    $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
-                                    $("#Detallegasto_CUENTA_Id option[value='empty']").attr("selected", "selected");
-                                    $("#Detallegasto_CUENTA_Id").html('<option value="empty">Seleccionar Moneda</option>');
+                                    resetField(true);
                                   }
 
                                   
                             });
                         
                         });
+                    }else{
+                        resetField(false);
                     }
                 
                 
                 });
             }else{
-                $("#Detallegasto_Monto").val(''); 
-                $("#beneficiario2").css('display','inline');
-                $("select#beneficiario2").css('display','none');
-                $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
+                resetField(false);
             }
             
             
     
         });
 
+    }
+    
+    function resetField(beneficiario){
+        $("#Detallegasto_Monto").val(''); 
+        $("#Detallegasto_beneficiario").val('');
+        
+        if(beneficiario != true){
+        $("#Detallegasto_beneficiario").css('display','inline');
+        $("select#beneficiario2").css('display','none');
+        }
+        
+        $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
+        $("#Detallegasto_CUENTA_Id option[value='empty']").attr("selected", "selected");
+        $("#Detallegasto_CUENTA_Id").html('<option value="empty">Seleccionar Moneda</option>');
     }
     

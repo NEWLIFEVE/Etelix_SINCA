@@ -222,8 +222,11 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                                             $this->widget('zii.widgets.jui.CJuiDatePicker', 
                                             array(
                                             'language' => 'es', 
-                                            'model' => $model,
-                                            'attribute'=>'admission_date', 'options' => array(
+                                            'model' =>$model,
+                                            //'value' =>date('d/m/Y',strtotime($model->admission_date)),
+                                            'attribute'=>'admission_date', 
+                                            'options' => array(
+                                            //'dateFormat'=>'mm/dd/yy',
                                             'changeMonth' => 'true',//para poder cambiar mes
                                             'changeYear' => 'true',//para poder cambiar año
                                             'showButtonPanel' => 'false', 
@@ -232,7 +235,9 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                                             //'minDate'=>'-30D', //fecha minima
                                             //'maxDate'=> "+30D", //fecha maxima
                                              ),
-                                                'htmlOptions'=>array('readonly'=>'readonly'),
+                                                'htmlOptions'=>array(
+                                                    'readonly'=>'readonly',
+                                                    ),
                                         )); 
                                             echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
                                         ?>
@@ -400,14 +405,35 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <!-- Campo Edad -->
                 
                 <td id="col">
-                    <?php foreach ($model_kid as $key => $value) {?>
+                    <?php 
+                    if(!$model->isNewRecord){
+                    //foreach ($model_kid as $key => $value) {
+                    
+                    ?>
                     <div class="row" id="row1">
-                            <?php echo $form->labelEx($value,'age'); ?>
-                            <?php echo $form->numberField($value,'age'); ?>
-                            <?php echo $form->error($value,'age'); ?>
+                            <?php echo $form->labelEx($model_kid,'age'); ?>
+                            <?php echo $form->numberField($model_kid,'age'); ?>
+                            <?php echo $form->error($model_kid,'age'); ?>
                             <img id="row" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: inline;" />
                     </div>
-                    <?php }?>
+                    <?php 
+                    
+                    //}
+                    }else{
+
+                    
+                    ?>
+                    <div class="row" id="row1">
+                            <?php echo $form->labelEx($model_kid,'age'); ?>
+                            <?php echo $form->numberField($model_kid,'age'); ?>
+                            <?php echo $form->error($model_kid,'age'); ?>
+                            <img id="row" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: inline;" />
+                    </div>
+                    <?php
+                    
+                    }
+                    
+                    ?>
                 </td>
                 <td style="position: absolute;">
                     <div class="row buttons">
