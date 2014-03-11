@@ -201,6 +201,13 @@ class Employee extends CActiveRecord
           return CHtml::listData(Employee::model()->findAllBySql("SELECT id, CONCAT(name, ' ',lastname) as name FROM employee WHERE CABINA_Id=$cabina"), 'id', 'name');	
 
         }
+
+        public static function getNameEmployee($id){
+            
+	  $model=self::model()->findBySql("SELECT CONCAT(name,' ',lastname) AS name FROM employee WHERE id = $id");
+          return $model->name ;
+		
+        }
         
         
         

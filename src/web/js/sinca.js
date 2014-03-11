@@ -758,9 +758,10 @@ $(document).ready(function()
 
     }
     
+    //Asigna los Valores de la NOmina por Empleado Registrado
     function getListEmployee() {
         
-        $("select#Detallegasto_beneficiario").css('display','none');
+        $("select#beneficiario2").css('display','none');
         //Capturar Seleccion de la Categoria
         $("#Detallegasto_category").change(function () {
             var selc_nomina = $("#Detallegasto_category option:selected").text();
@@ -787,11 +788,12 @@ $(document).ready(function()
                         //alert(response);                   
                         $("#Detallegasto_beneficiario").val('');
                         $("#Detallegasto_beneficiario").css('display','none');
-                        $("select#Detallegasto_beneficiario").css('display','inline');
-                        $("select#Detallegasto_beneficiario").html(response);   
+                        $("select#beneficiario2").css('display','inline');
+                        $("select#beneficiario2").html(response);   
                             //Capturar Seleccion del Empleado
-                            $("select#Detallegasto_beneficiario").change(function () {
-                                var selc_empleado = $("select#Detallegasto_beneficiario option:selected").val();
+                            $("select#beneficiario2").change(function () {
+                                var selc_empleado = $("select#beneficiario2 option:selected").val();
+                                var selc_empleado_name = $("select#beneficiario2 option:selected").text();
 
                                   //Obtener el Salario del empleado Seleccionado
                                   var salary = $.ajax({ type: "GET",   
@@ -807,13 +809,24 @@ $(document).ready(function()
                                     succes: alert,
                                   }).responseText;
                                   
+                                  var cuenta = $.ajax({ type: "GET",   
+                                    url: '/Detallegasto/DynamicCuentaEmployee?moneda='+currency,   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+
                                   //Solo Asignar Valores  Cuando se Selecciones a un Empleado
                                   if(selc_empleado!='empty'){
                                     $("#Detallegasto_Monto").val(salary);
                                     $("#Detallegasto_moneda option[value='"+currency+"']").attr("selected", "selected");
+                                    $("#Detallegasto_CUENTA_Id").html(cuenta); 
+                                    $("#Detallegasto_beneficiario").val(selc_empleado_name);
+                                    
                                   }else{
                                     $("#Detallegasto_Monto").val('');  
                                     $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
+                                    $("#Detallegasto_CUENTA_Id option[value='empty']").attr("selected", "selected");
+                                    $("#Detallegasto_CUENTA_Id").html('<option value="empty">Seleccionar Moneda</option>');
                                   }
 
                                   
@@ -826,8 +839,8 @@ $(document).ready(function()
                 });
             }else{
                 $("#Detallegasto_Monto").val(''); 
-                $("#Detallegasto_beneficiario").css('display','inline');
-                $("select#Detallegasto_beneficiario").css('display','none');
+                $("#beneficiario2").css('display','inline');
+                $("select#beneficiario2").css('display','none');
                 $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
             }
             

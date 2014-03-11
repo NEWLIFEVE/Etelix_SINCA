@@ -297,4 +297,5 @@ class NominaController extends Controller
             echo $dato;
         }
         
+        
 }
