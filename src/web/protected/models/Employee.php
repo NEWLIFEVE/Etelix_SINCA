@@ -42,6 +42,7 @@ class Employee extends CActiveRecord
         public $employee_hours_start;
         public $employee_hours_end;
         public $age;
+        public $kids;
 
         
   

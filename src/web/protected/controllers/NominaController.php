@@ -84,7 +84,7 @@ class NominaController extends Controller
                     $model_kid=new Kids;
                 }
             $model_hour = $this->loadModelEmployeeHours($id);  
-            //print_r($model_kid);
+            //var_dump($model_kid);
             }else{
             
             $model=new Employee;
@@ -156,11 +156,14 @@ class NominaController extends Controller
                 
                         
                 if ($model->save()){
-                    
-                    $model_kid->age = $_POST['Kids']['age'];
-                    $model_kid->employee_id = $model->id;
-                    
-                    if ($model_kid->save(false)){
+                    $array = explode(",", $_POST['Employee']['kids']);
+                    //var_dump($array);
+                    $this->deleteKids($id);
+                    for($i =0;$i<count($array);$i++){
+                    $this->sevaKids($id,$array[$i]);
+                    }
+
+//                    if ($model_kid->save(false)){
                         
 //                        $model_hour->start_time = $_POST['EmployeeHours']['employee_hours_start'];
 //                        $model_hour->end_time = $_POST['EmployeeHours']['employee_hours_end'];
@@ -170,8 +173,8 @@ class NominaController extends Controller
 //                        if ($model_hour->save(false)){
                         Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
                         $this->redirect(array('viewEmpleado', 'id' => $model->id));
-//                        }
-                    }
+////                        }
+                    
                 }
 
             }
@@ -222,8 +225,28 @@ class NominaController extends Controller
         }
         
         public function loadModelKids($id) {
-            $model_kid = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id");
+            $model_kid = Kids::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id");
             return $model_kid;
+        }
+        
+        public function sevaKids($id,$age) {
+            
+            $model = Kids::model()->findBySql("SELECT * FROM kids WHERE employee_id = $id AND age = $age");
+            if(!$model){
+                
+            $model_kids = new Kids;
+            $model_kids->age = $age;
+            $model_kids->employee_id = $id;
+            $model_kids->save(false);
+
+            }
+            
+        }
+        
+        public function deleteKids($id) {
+            $model = Kids::model()->findBySql("SELECT * FROM kids WHERE employee_id = $id");
+            if($model)
+            $model->delete();
         }
         
         public function loadModelEmployeeHours($id) {

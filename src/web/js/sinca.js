@@ -11,6 +11,7 @@ $(document).ready(function()
     addKid();
     deleteKid();
     getListEmployee();
+    setKids();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
@@ -734,11 +735,12 @@ $(document).ready(function()
  
             var newInput = $("#DatosHijos td#col div#row1").clone();
             newInput.attr("id",'row'+newID);
-            newInput.find('input').attr('name', 'Kids[age' +(newID-1)+']');
+            //newInput.find('input').attr('id','age'+newID);
+            newInput.find('input').attr('name', 'Kids[age' +newID+']');
             newInput.find('input').val('');
             newInput.find('label').text('Edad del Hijo #'+newID);
-            newInput.find('input').attr('id', 'Kids_age' +(newID-1));
-            newInput.find('img').attr('id', 'row'+newID);
+            newInput.find('input').attr('id', 'age'+newID);
+            newInput.find('img.botonQuitar').attr('id', 'row'+newID);
             newInput.appendTo("#datosEmpleado tr#DatosHijos td#col");
             
             //alert(newInput);
@@ -859,5 +861,21 @@ $(document).ready(function()
         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
         $("#Detallegasto_CUENTA_Id option[value='empty']").attr("selected", "selected");
         $("#Detallegasto_CUENTA_Id").html('<option value="empty">Seleccionar Moneda</option>');
+    }
+    
+    function setKids(){
+        $('input[type=submit]').on('click',function(event)
+        {
+            var clickID = parseInt($("#DatosHijos td#col div.row").length);
+            
+            //alert(clickID);
+            var kids = new Array();
+            var i = 0;
+            for(i= 0;i<clickID;i++){
+                kids[i] = $("#DatosHijos td#col div#row"+(i+1)+" input#age"+(i+1)).val();
+            }
+            
+            $('#Employee_kids').val(kids);
+        });
     }
     

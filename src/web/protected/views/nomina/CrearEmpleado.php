@@ -405,20 +405,23 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <!-- Campo Edad -->
                 
                 <td id="col">
+                    <div style="display: none;">
+                    <?php echo $form->textField($model,'kids'); ?>
+                    </div>    
                     <?php 
                     if(!$model->isNewRecord){
-                    //foreach ($model_kid as $key => $value) {
+                    foreach ($model_kid as $key => $value) {
                     
                     ?>
-                    <div class="row" id="row1">
-                            <?php echo $form->labelEx($model_kid,'age'); ?>
-                            <?php echo $form->numberField($model_kid,'age'); ?>
-                            <?php echo $form->error($model_kid,'age'); ?>
+                    <div class="row" id="row<?php echo ($key+1);?>">
+                            <?php echo $form->labelEx($value,'Edad del Hijo #'.($key+1)); ?>
+                            <?php echo $form->numberField($value,'age',array('id'=>'age'.($key+1))); ?>
+                            <?php echo $form->error($value,'age'); ?>
                             <img id="row" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: inline;" />
                     </div>
                     <?php 
                     
-                    //}
+                    }
                     }else{
 
                     
