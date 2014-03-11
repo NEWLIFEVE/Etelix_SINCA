@@ -91,7 +91,7 @@
             <!-- main -->
             <footer id="footer">
                 <nav id="footermenu">
-                    <h5 style="color:#FFF ">S I N C A - v1.6.3.1</h5>
+                    <h5 style="color:#FFF ">S I N C A - v1.6.4</h5>
                     <?php //  $this->widget('zii.widgets.CMenu',array('items'=>$menuItems)); ?>
                 </nav>
                 <div class="content">

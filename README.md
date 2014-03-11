@@ -2,7 +2,9 @@ Etelix_SINCA
 ============
 
 Sistema para control de Cabinas Telefonicas
-
+Release 1.6.4
+    - Agregada a matriz de gastos las categorias
+    - Agregada las categorias de los gastos
 Release 1.6.3.1
     - Correciones: Generar excel, enviar mail, imprimir de matriz de gastos.
     - Correciones: Generar excel, enviar mail, imprimir de matriz de gastos evolucion.
