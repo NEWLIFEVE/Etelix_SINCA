@@ -407,7 +407,8 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td id="col">
                     <div style="display: none;">
                     <?php echo $form->textField($model,'kids'); ?>
-                    </div>    
+                    </div>
+                    
                     <?php 
                     if(!$model->isNewRecord){
                     foreach ($model_kid as $key => $value) {
@@ -417,7 +418,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             <?php echo $form->labelEx($value,'Edad del Hijo #'.($key+1)); ?>
                             <?php echo $form->numberField($value,'age',array('id'=>'age'.($key+1))); ?>
                             <?php echo $form->error($value,'age'); ?>
-                            <img id="row" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: inline;" />
+                            <img id="row<?php echo ($key+1);?>" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: inline;" />
                     </div>
                     <?php 
                     

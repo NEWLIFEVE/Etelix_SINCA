@@ -157,7 +157,7 @@ class NominaController extends Controller
                         
                 if ($model->save()){
                     $array = explode(",", $_POST['Employee']['kids']);
-                    //var_dump($array);
+                    var_dump($array);
                     $this->deleteKids($id);
                     for($i =0;$i<count($array);$i++){
                     $this->sevaKids($id,$array[$i]);
@@ -171,8 +171,8 @@ class NominaController extends Controller
 //                        $model_hour->employee_id = $model->id;
 //                        
 //                        if ($model_hour->save(false)){
-                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
-                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
+//                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+//                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
 ////                        }
                     
                 }
@@ -225,7 +225,7 @@ class NominaController extends Controller
         }
         
         public function loadModelKids($id) {
-            $model_kid = Kids::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id");
+            $model_kid = Kids::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id ORDER BY age DESC");
             return $model_kid;
         }
         

@@ -733,7 +733,7 @@ $(document).ready(function()
             
             //alert(newID);
  
-            var newInput = $("#DatosHijos td#col div#row1").clone();
+            var newInput = $("#DatosHijos td#col div#row0").clone();
             newInput.attr("id",'row'+newID);
             //newInput.find('input').attr('id','age'+newID);
             newInput.find('input').attr('name', 'Kids[age' +newID+']');
@@ -754,8 +754,8 @@ $(document).ready(function()
         $("img.botonQuitar").on('click', function(){
          
             var parent = $(this).attr("id");
-            alert(parent);
-	    //$(parent).remove();
+            //alert(parent);
+	    $('div#'+parent).remove();
     
         });
 
@@ -874,7 +874,7 @@ $(document).ready(function()
             for(i= 0;i<clickID;i++){
                 kids[i] = $("#DatosHijos td#col div#row"+(i+1)+" input#age"+(i+1)).val();
             }
-            
+            alert(kids);
             $('#Employee_kids').val(kids);
         });
     }
