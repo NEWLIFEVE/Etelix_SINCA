@@ -7,7 +7,7 @@ $(document).ready(function()
     genExcel();
     genEmail();
     genPrint();
-    newEC();
+    ValidateDate();
     addKid();
     deleteKid();
     getListEmployee();
@@ -33,7 +33,7 @@ $(document).ready(function()
                         $('#oculta_'+id).css({display:'none'});
                     });
                     
-                    ValidateDate();
+                    
         });
     }
 
@@ -731,9 +731,10 @@ $(document).ready(function()
             var clickID = parseInt($("#DatosHijos td#col div.row").length);
             var newID = (clickID+1);
             
+            
             //alert(newID);
  
-            var newInput = $("#DatosHijos td#col div#row0").clone();
+            var newInput = $("#DatosHijos td#col div#row"+clickID).clone();
             newInput.attr("id",'row'+newID);
             //newInput.find('input').attr('id','age'+newID);
             newInput.find('input').attr('name', 'Kids[age' +newID+']');
@@ -741,6 +742,11 @@ $(document).ready(function()
             newInput.find('label').text('Edad del Hijo #'+newID);
             newInput.find('input').attr('id', 'age'+newID);
             newInput.find('img.botonQuitar').attr('id', 'row'+newID);
+            if(clickID > 1){
+              $("#DatosHijos td#col div#row1 img.botonQuitar").css('display', 'none');  
+              $("#DatosHijos td#col div#row"+(newID-1)+" img.botonQuitar").css('display', 'none');
+            }
+            
             newInput.appendTo("#datosEmpleado tr#DatosHijos td#col");
             
             //alert(newInput);
@@ -751,10 +757,10 @@ $(document).ready(function()
     
     function deleteKid() {
         
-        $("img.botonQuitar").on('click', function(){
-         
+        $("div.row img.botonQuitar").on('click', function(){
+
             var parent = $(this).attr("id");
-            //alert(parent);
+            alert(parent);
 	    $('div#'+parent).remove();
     
         });
@@ -874,7 +880,7 @@ $(document).ready(function()
             for(i= 0;i<clickID;i++){
                 kids[i] = $("#DatosHijos td#col div#row"+(i+1)+" input#age"+(i+1)).val();
             }
-            alert(kids);
+            //alert(kids);
             $('#Employee_kids').val(kids);
         });
     }

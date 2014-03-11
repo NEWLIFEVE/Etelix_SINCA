@@ -80,9 +80,7 @@ class NominaController extends Controller
             if($id!=null){
             $model = $this->loadModel($id);
             $model_kid = $this->loadModelKids($id);
-                if($model_kid == null){
-                    $model_kid=new Kids;
-                }
+
             $model_hour = $this->loadModelEmployeeHours($id);  
             //var_dump($model_kid);
             }else{
@@ -155,27 +153,27 @@ class NominaController extends Controller
                 
                 
                         
-                if ($model->save()){
-                    $array = explode(",", $_POST['Employee']['kids']);
-                    var_dump($array);
-                    $this->deleteKids($id);
-                    for($i =0;$i<count($array);$i++){
-                    $this->sevaKids($id,$array[$i]);
-                    }
-
-//                    if ($model_kid->save(false)){
-                        
-//                        $model_hour->start_time = $_POST['EmployeeHours']['employee_hours_start'];
-//                        $model_hour->end_time = $_POST['EmployeeHours']['employee_hours_end'];
-//                        $model_hour->day = $_POST['EmployeeHours']['day'];
-//                        $model_hour->employee_id = $model->id;
+//                if ($model->save()){
+//                    $array = explode(",", $_POST['Employee']['kids']);
+//                    //var_dump($array);
+//                    $this->deleteKids($id);
+//                    for($i =0;$i<count($array);$i++){
+//                    $this->sevaKids($id,$array[$i]);
+//                    }
+//
+////                    if ($model_kid->save(false)){
 //                        
-//                        if ($model_hour->save(false)){
-//                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
-//                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
-////                        }
-                    
-                }
+////                        $model_hour->start_time = $_POST['EmployeeHours']['employee_hours_start'];
+////                        $model_hour->end_time = $_POST['EmployeeHours']['employee_hours_end'];
+////                        $model_hour->day = $_POST['EmployeeHours']['day'];
+////                        $model_hour->employee_id = $model->id;
+////                        
+////                        if ($model_hour->save(false)){
+////                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+////                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
+//////                        }
+//                    
+//                }
 
             }
         
