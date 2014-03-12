@@ -7,11 +7,15 @@ $(document).ready(function()
     genExcel();
     genEmail();
     genPrint();
-    ValidateDate();
+    newEC();
+    ValidateDate('yw0','yw1');
+    ValidateDate('yw2','yw3');
+    ValidateDate('yw4','yw5');
     addKid();
     deleteKid();
     getListEmployee();
     setKids();
+    removeImg();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
@@ -644,60 +648,60 @@ $(document).ready(function()
         return name;   
     }
 
-    function ValidateDate(){
+    function ValidateDate(entrada,salida){
         
-     $( "#yw1" ).change(function(){
+     $( "#"+salida ).change(function(){
                             
-           var fecha_entrada = $( "#yw0" ).val();
-           var fecha_salida =   $( "#yw1" ).val();
+           var fecha_entrada = $( "#"+entrada ).val();
+           var fecha_salida =   $( "#"+salida ).val();
 
            if(fecha_salida <= fecha_entrada && fecha_entrada!=''){
-               $( "#yw1" ).val('');
+               $( "#"+salida ).val('');
 
-               $("#yw1").css("background", "#FEE");
-               $("#yw1").css("border-color", "#C00");
-               $("#yw0").css("background", "#FEE");
-               $("#yw0").css("border-color", "#C00");
+               $("#"+salida).css("background", "#FEE");
+               $("#"+salida).css("border-color", "#C00");
+               $("#"+entrada).css("background", "#FEE");
+               $("#"+entrada).css("border-color", "#C00");
 
-               $("#Employee_employee_hours_end_em_").html("La Salida debe ser Mayor");
-               $("#Employee_employee_hours_end_em_").css("display", "block");
+//               $("#EmployeeHours_end_time_em_").html("La Salida debe ser Mayor");
+//               $("#EmployeeHours_end_time_em_").css("display", "block");
            }else{
 
-               $("#yw1").css("background", "#E6EFC2");
-               $("#yw1").css("border-color", "#C6D880");
-               $("#yw0").css("background", "#E6EFC2");
-               $("#yw0").css("border-color", "#C6D880");
+               $("#"+salida).css("background", "#E6EFC2");
+               $("#"+salida).css("border-color", "#C6D880");
+               $("#"+entrada).css("background", "#E6EFC2");
+               $("#"+entrada).css("border-color", "#C6D880");
 
-               $("#Employee_employee_hours_end_em_").html("");
-               $("#Employee_employee_hours_end_em_").css("display", "none");
+//               $("#EmployeeHours_end_time_em_").html("");
+//               $("#EmployeeHours_end_time_em_").css("display", "none");
            }
 
     });
 
-    $( "#yw0" ).change(function(){
+    $( "#"+entrada ).change(function(){
 
-           var fecha_entrada = $( "#yw0" ).val();
-           var fecha_salida =   $( "#yw1" ).val();
+           var fecha_entrada = $( "#"+entrada ).val();
+           var fecha_salida =   $( "#"+salida ).val();
 
            if(fecha_salida <= fecha_entrada && fecha_salida!=''){
                //$( "#yw0" ).val('');
 
-               $("#yw1").css("background", "#FEE");
-               $("#yw1").css("border-color", "#C00");
-               $("#yw0").css("background", "#FEE");
-               $("#yw0").css("border-color", "#C00");
+               $("#"+salida).css("background", "#FEE");
+               $("#"+salida).css("border-color", "#C00");
+               $("#"+entrada).css("background", "#FEE");
+               $("#"+entrada).css("border-color", "#C00");
 
-               $("#Employee_employee_hours_start_em_").html("La Entrada debe ser Menor");
-               $("#Employee_employee_hours_start_em_").css("display", "block");
+//               $("#EmployeeHours_start_time_em_").html("La Entrada debe ser Menor");
+//               $("#EmployeeHours_start_time_em_").css("display", "block");
            }else{
 
-               $("#yw1").css("background", "#E6EFC2");
-               $("#yw1").css("border-color", "#C6D880");
-               $("#yw0").css("background", "#E6EFC2");
-               $("#yw0").css("border-color", "#C6D880");
+               $("#"+salida).css("background", "#E6EFC2");
+               $("#"+salida).css("border-color", "#C6D880");
+               $("#"+entrada).css("background", "#E6EFC2");
+               $("#"+entrada).css("border-color", "#C6D880");
 
-               $("#Employee_employee_hours_start_em_").html("");
-               $("#Employee_employee_hours_start_em_").css("display", "none");
+//               $("#EmployeeHours_start_time_em_").html("");
+//               $("#EmployeeHours_start_time_em_").css("display", "none");
            }
 
     });
@@ -726,13 +730,15 @@ $(document).ready(function()
 
     function addKid() {
         
-        $("[name=yt0]").on('click', function(){
-         
+        
+        $('img.botonAdd').on('click',function(event)
+        {
+
             var clickID = parseInt($("#DatosHijos td#col div.row").length);
             var newID = (clickID+1);
             
             
-            //alert(newID);
+            //alert(clickID);
  
             var newInput = $("#DatosHijos td#col div#row"+clickID).clone();
             newInput.attr("id",'row'+newID);
@@ -742,25 +748,53 @@ $(document).ready(function()
             newInput.find('label').text('Edad del Hijo #'+newID);
             newInput.find('input').attr('id', 'age'+newID);
             newInput.find('img.botonQuitar').attr('id', 'row'+newID);
+            newInput.find('img.botonAdd').attr('id', 'row'+newID);
             if(clickID > 1){
-              $("#DatosHijos td#col div#row1 img.botonQuitar").css('display', 'none');  
-              $("#DatosHijos td#col div#row"+(newID-1)+" img.botonQuitar").css('display', 'none');
+              $("#DatosHijos td#col div#row"+(newID)+" img.botonQuitar").css('display', 'inline');
+              $("#DatosHijos td#col div#row"+(newID)+" img.botonAdd").css('display', 'inline');
+              
+              $("#DatosHijos td#col div#row"+(clickID)+" img.botonQuitar").css('display', 'none');
+              $("#DatosHijos td#col div#row"+(clickID)+" img.botonAdd").css('display', 'none');
+            }else{
+              $("#DatosHijos td#col div#row"+(clickID)+" img.botonQuitar").css('display', 'none');
+              $("#DatosHijos td#col div#row"+(clickID)+" img.botonAdd").css('display', 'none');  
             }
-            
+            newInput.find('img.botonAdd').css('display', 'inline');
             newInput.appendTo("#datosEmpleado tr#DatosHijos td#col");
-            
-            //alert(newInput);
-
+                    
+                    
         });
+
+
+    }
+    
+    function removeImg() {
+        
+         
+            var clickID = parseInt($("#DatosHijos td#col div.row").length);
+            var newID = (clickID+1);
+            
+            //alert(clickID);
+            if(clickID > 1){
+              //$("#DatosHijos td#col div#row1 img.botonQuitar").css('display', 'none');  
+              $("#DatosHijos td#col div#row"+(newID-1)+" img.botonQuitar").css('display', 'inline');
+              $("#DatosHijos td#col div#row"+(newID-1)+" img.botonAdd").css('display', 'inline');
+              
+              $("#DatosHijos td#col div#row"+(clickID-1)+" img.botonQuitar").css('display', 'none');
+              $("#DatosHijos td#col div#row"+(clickID-1)+" img.botonAdd").css('display', 'none');
+            }else{
+              $("#DatosHijos td#col div#row"+(clickID)+" img.botonQuitar").css('display', 'inline');
+              $("#DatosHijos td#col div#row"+(clickID)+" img.botonAdd").css('display', 'inline');  
+            }
 
     }
     
     function deleteKid() {
         
-        $("div.row img.botonQuitar").on('click', function(){
+        $('img.botonQuitar').on('click',function(event){    
 
             var parent = $(this).attr("id");
-            alert(parent);
+            //alert(parent);
 	    $('div#'+parent).remove();
     
         });
@@ -880,8 +914,24 @@ $(document).ready(function()
             for(i= 0;i<clickID;i++){
                 kids[i] = $("#DatosHijos td#col div#row"+(i+1)+" input#age"+(i+1)).val();
             }
-            //alert(kids);
-            $('#Employee_kids').val(kids);
+            
+            if(cleanArray(kids) != null){
+            $('#Employee_kids').val(cleanArray(kids));
+            }else{
+            $('#Employee_kids').val('');    
+            }
+            
+            //alert($('#Employee_kids').val());
         });
     }
+    
+    function cleanArray( actual ){
+        var newArray = new Array();
+        for( var i = 0, j = actual.length; i < j; i++ ){
+            if ( actual[ i ] ){
+              newArray.push( actual[ i ] );
+          }
+        }
+        return newArray;
+      }
     

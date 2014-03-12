@@ -13,8 +13,17 @@
  */
 class EmployeeHours extends CActiveRecord
 {
-	public $employee_hours_start;
-        public $employee_hours_end;
+	public $day_1;
+        public $hours_start_1;
+        public $hours_end_1;
+        
+        public $day_2;
+        public $hours_start_2;
+        public $hours_end_2;
+        
+        public $day_3;
+        public $hours_start_3;
+        public $hours_end_3;
         
 	public function tableName()
 	{
@@ -56,8 +65,8 @@ class EmployeeHours extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'start_time' => 'Hora de Inicio',
-			'end_time' => 'End Time',
+			'start_time' => 'Hora de Entrada',
+			'end_time' => 'Hora de Salida',
                         'employee_id' => 'Empleado',
                         'day' => 'Horario',
                         'employee_hours_start' => 'Hora de Entrada',

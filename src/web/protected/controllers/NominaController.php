@@ -79,25 +79,29 @@ class NominaController extends Controller
 	{
             if($id!=null){
             $model = $this->loadModel($id);
+            
             $model_kid = $this->loadModelKids($id);
-
-            $model_hour = $this->loadModelEmployeeHours($id);  
-            //var_dump($model_kid);
+                
+            $model_hour_day_1 = $this->loadModelEmployeeHoursDay1($id); 
+            $model_hour_day_2= $this->loadModelEmployeeHoursDay2($id); 
+            $model_hour_day_3= $this->loadModelEmployeeHoursDay3($id); 
+            
             }else{
             
             $model=new Employee;
             $model_kid=new Kids;
-            $model_hour=new EmployeeHours;
-            }
+            $model_hour_day_1 = new EmployeeHours;
+            $model_hour_day_2= new EmployeeHours; 
+            $model_hour_day_3= new EmployeeHours;
             
-             $this->performAjaxValidation(array($model,$model_kid,$model_hour));
+            }
+            //var_dump($_POST);
+             $this->performAjaxValidation(array($model,$model_kid));
             
             if (isset($_POST['Employee'])) {
-                //var_dump($_POST);
+                
                 $model->attributes = $_POST['Employee'];
-//                $model_kid->attributes = $_POST['Kids'];
-//                $model_hour->attributes = $_POST['Employee'];
-                //$model->id = $_POST['Employee']['id'];
+
                 if($id==null){
                 $model->code_employee = Employee::getCodigoEmpleado();
                 }
@@ -132,12 +136,6 @@ class NominaController extends Controller
                     $model->position_id = $_POST['Employee']['position_id'];
                 }
                 
-//                if((isset($_POST['Employee']['employee_hours_start']) && $_POST['Employee']['employee_hours_start']!= "") && (isset($_POST['Employee']['employee_hours_end']) && $_POST['Employee']['employee_hours_end']!= "")){
-//                    $model->employee_hours_id = EmployeeHours::getId($_POST['Employee']['employee_hours_start'],$_POST['Employee']['employee_hours_end']);
-//                }else{
-//                    $model->employee_hours_id = $_POST['Employee']['employee_hours_id'];
-//                }
-
                 $model->address = $_POST['Employee']['address'];
                 $model->phone_number = $_POST['Employee']['phone_number'];
                 $model->CABINA_Id = $_POST['Employee']['CABINA_Id'];
@@ -152,32 +150,60 @@ class NominaController extends Controller
                 $model->record_date = date("Y-m-d");
                 
                 
-                        
-//                if ($model->save()){
-//                    $array = explode(",", $_POST['Employee']['kids']);
-//                    //var_dump($array);
-//                    $this->deleteKids($id);
-//                    for($i =0;$i<count($array);$i++){
-//                    $this->sevaKids($id,$array[$i]);
-//                    }
-//
-////                    if ($model_kid->save(false)){
-//                        
-////                        $model_hour->start_time = $_POST['EmployeeHours']['employee_hours_start'];
-////                        $model_hour->end_time = $_POST['EmployeeHours']['employee_hours_end'];
-////                        $model_hour->day = $_POST['EmployeeHours']['day'];
-////                        $model_hour->employee_id = $model->id;
-////                        
-////                        if ($model_hour->save(false)){
-////                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
-////                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
-//////                        }
-//                    
-//                }
+                  
+                if ($model->save()){
+
+                    if($id == false){
+                        $id = $model->id;
+                    }
+                    
+                    if($_POST['EmployeeHours']['day_1'] == 1){
+                        $model_hour_day_1->start_time = $_POST['EmployeeHours']['hours_start_1'];
+                        $model_hour_day_1->end_time = $_POST['EmployeeHours']['hours_end_1'];
+                        $model_hour_day_1->employee_id = $id;
+                        $model_hour_day_1->day = 1;
+                        $model_hour_day_1->save(false);
+                    }else{
+                        $this->deleteEmployeeHours($id,1);
+                    }
+                    
+                    if($_POST['EmployeeHours']['day_2'] == 1){
+                        $model_hour_day_2->start_time = $_POST['EmployeeHours']['hours_start_2'];
+                        $model_hour_day_2->end_time = $_POST['EmployeeHours']['hours_end_2'];
+                        $model_hour_day_2->employee_id = $id;
+                        $model_hour_day_2->day = 2;
+                        $model_hour_day_2->save(false);
+                    }else{
+                        $this->deleteEmployeeHours($id,2);
+                    }
+                    
+                    if($_POST['EmployeeHours']['day_3'] == 1){
+                        $model_hour_day_3->start_time = $_POST['EmployeeHours']['hours_start_3'];
+                        $model_hour_day_3->end_time = $_POST['EmployeeHours']['hours_end_3'];
+                        $model_hour_day_3->employee_id = $id;
+                        $model_hour_day_3->day = 3;
+                        $model_hour_day_3->save(false);
+                    }else{
+                        $this->deleteEmployeeHours($id,3);
+                    }
+                    
+                    $this->setKids($id,$_POST['Employee']['kids']);
+
+                    Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+                    $this->redirect(array('viewEmpleado', 'id' => $model->id));
+                    
+                }
 
             }
         
-        $this->render('CrearEmpleado',array('model'=>$model,'model_kid'=>$model_kid,'model_hour'=>$model_hour));
+        $this->render('CrearEmpleado',
+                array(
+                    'model'=>$model,
+                    'model_kid'=>$model_kid,
+                    'model_hour_day_1'=>$model_hour_day_1,
+                    'model_hour_day_2'=>$model_hour_day_2,
+                    'model_hour_day_3'=>$model_hour_day_3
+                ));
         
 	}
         
@@ -224,32 +250,77 @@ class NominaController extends Controller
         
         public function loadModelKids($id) {
             $model_kid = Kids::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id ORDER BY age DESC");
+            if(count($model_kid) <2){
+            $model_kid = Kids::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id ORDER BY age DESC");
+                if($model_kid == null){
+                    $model_kid= new Kids;
+                }
+            }
             return $model_kid;
         }
         
-        public function sevaKids($id,$age) {
-            
-            $model = Kids::model()->findBySql("SELECT * FROM kids WHERE employee_id = $id AND age = $age");
-            if(!$model){
-                
+        public function saveKids($id,$age) {
+
             $model_kids = new Kids;
             $model_kids->age = $age;
             $model_kids->employee_id = $id;
             $model_kids->save(false);
 
+        }
+        
+        public function setKids($id,$age) {
+
+            $array_age = explode(",", $age);
+            $this->deleteKids($id);
+
+            if(!empty($array_age) && $array_age[0]!=''){
+            for($i =0;$i<count($array_age);$i++){
+            $this->saveKids($id,$array_age[$i]);
             }
-            
+            }
         }
         
         public function deleteKids($id) {
-            $model = Kids::model()->findBySql("SELECT * FROM kids WHERE employee_id = $id");
-            if($model)
-            $model->delete();
+            if($id !=null){
+            $model = Kids::model()->findAllBySql("SELECT * FROM kids WHERE employee_id = $id");
+            foreach ($model as $key => $value) {
+                
+                   $value->delete(); 
+                }
+                
+            }
         }
         
-        public function loadModelEmployeeHours($id) {
-            $model_kid = EmployeeHours::model()->findBySql("SELECT * FROM employee_hours WHERE employee_id = $id");
-            return $model_kid;
+        public function deleteEmployeeHours($Employee_id,$day) {
+            if($Employee_id !=null && $day !=null){
+            $model = EmployeeHours::model()->findBySql("SELECT * FROM employee_hours WHERE employee_id = $Employee_id AND day = $day");
+            if ($model != null) {
+                
+                   $model->delete(); 
+                }
+                
+            }
+        }
+        
+        public function loadModelEmployeeHoursDay1($id) {
+            $model_h = EmployeeHours::model()->findBySql("SELECT employee_id, start_time as hours_start_1, end_time as hours_end_1, day as day_1 FROM employee_hours WHERE employee_id = $id AND day = 1");
+            if($model_h == null)
+                 $model_h = new EmployeeHours;
+            return $model_h;
+        }
+        
+        public function loadModelEmployeeHoursDay2($id) {
+            $model_h = EmployeeHours::model()->findBySql("SELECT employee_id, start_time as hours_start_2, end_time as hours_end_2, CASE day WHEN 2 THEN 1 END as day_2 FROM employee_hours WHERE employee_id = $id AND day = 2");
+            if($model_h == null)
+                 $model_h = new EmployeeHours;
+            return $model_h;
+        }
+        
+        public function loadModelEmployeeHoursDay3($id) {
+            $model_h = EmployeeHours::model()->findBySql("SELECT employee_id, start_time as hours_start_3, end_time as hours_end_3, CASE day WHEN 3 THEN 1 END as day_3 FROM employee_hours WHERE employee_id = $id AND day = 3");
+            if($model_h == null)
+                 $model_h = new EmployeeHours;
+            return $model_h;
         }
         
         public static function controlAcceso($tipoUsuario)

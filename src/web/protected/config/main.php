@@ -88,7 +88,7 @@ return array(
                         'username'=>'ramonr',
 			'password'=>'123',
 			'charset'=>'utf8',   
-                    
+//                    
 //			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
 //			'emulatePrepare'=>true,
 //                        'username'=>'root',
@@ -98,7 +98,7 @@ return array(
 //			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 //			'emulatePrepare'=>true,
 //                        'username'=>'root',
-//			'password'=>'',
+//			'password'=>'123',
 //			'charset'=>'utf8',   
                     
 			),

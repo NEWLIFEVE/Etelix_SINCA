@@ -291,24 +291,24 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 
                 <td>
                 <div class="row">
-                    <?php echo $form->labelEx($model_hour,'Lunes a Viernes'); ?>
-                    <?php echo $form->checkBox($model_hour,'day'); ?>
-                    <?php echo $form->error($model_hour,'day'); ?>
+                    <?php echo $form->labelEx($model_hour_day_1,'Lunes a Viernes'); ?>
+                    <?php echo $form->checkBox($model_hour_day_1,'day_1'); ?>
+                    <?php echo $form->error($model_hour_day_1,'day_1'); ?>
                 </div>
                 </td>
                 <!-- Campo Horario -->
                 <td id="oculta_employee_id">
                     <div class="row">
-                            <?php echo $form->labelEx($model_hour,'employee_hours_start'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour,'name'=>'employee_hours_start','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour,'employee_hours_start'); ?>
+                            <?php echo $form->labelEx($model_hour_day_1,'Hora de Entrada'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'hours_start_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_1,'hours_start_1'); ?>
                     </div>
                 </td>
                 <td id="oculta_employee_id">
                     <div class="row">
-                            <?php echo $form->labelEx($model_hour,'employee_hours_end'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour,'name'=>'employee_hours_end','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour,'employee_hours_end'); ?>
+                            <?php echo $form->labelEx($model_hour_day_1,'Hora de Salida'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'hours_end_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_1,'hours_end_1'); ?>
                     </div>
                 </td>
             </tr>
@@ -316,24 +316,24 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
             <tr>
                 <td>
                 <div class="row">
-                    <?php echo $form->labelEx($model_hour,'Sabado'); ?>
-                    <?php echo $form->checkBox($model_hour,'day'); ?>
-                    <?php echo $form->error($model_hour,'day'); ?>
+                    <?php echo $form->labelEx($model_hour_day_2,'Sabado'); ?>
+                    <?php echo $form->checkBox($model_hour_day_2,'day_2'); ?>
+                    <?php echo $form->error($model_hour_day_2,'day_2'); ?>
                 </div>
                 </td>
                 <!-- Campo Horario -->
                 <td id="oculta_employee_id">
                     <div class="row">
-                            <?php echo $form->labelEx($model_hour,'employee_hours_start'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour,'name'=>'employee_hours_start','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour,'employee_hours_start'); ?>
+                            <?php echo $form->labelEx($model_hour_day_2,'Hora de Entrada'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_2,'name'=>'hours_start_2','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_2,'hours_start_2'); ?>
                     </div>
                 </td>
                 <td id="oculta_employee_id">
                     <div class="row">
-                            <?php echo $form->labelEx($model_hour,'employee_hours_end'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour,'name'=>'employee_hours_end','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour,'employee_hours_end'); ?>
+                            <?php echo $form->labelEx($model_hour_day_2,'Hora de Salida'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_2,'name'=>'hours_end_2','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_2,'hours_end_2'); ?>
                     </div>
                 </td>
             </tr>
@@ -341,24 +341,24 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
             <tr>
                 <td>
                 <div class="row">
-                    <?php echo $form->labelEx($model_hour,'Domingo'); ?>
-                    <?php echo $form->checkBox($model_hour,'day'); ?>
-                    <?php echo $form->error($model_hour,'day'); ?>
+                    <?php echo $form->labelEx($model_hour_day_3,'Domingo'); ?>
+                    <?php echo $form->checkBox($model_hour_day_3,'day_3'); ?>
+                    <?php echo $form->error($model_hour_day_3,'day_3'); ?>
                 </div>
                 </td>
                 <!-- Campo Horario -->
                 <td id="oculta_employee_id">
                     <div class="row">
-                            <?php echo $form->labelEx($model_hour,'employee_hours_start'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour,'name'=>'employee_hours_start','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour,'employee_hours_start'); ?>
+                            <?php echo $form->labelEx($model_hour_day_3,'Hora de Entrada'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_3,'name'=>'hours_start_3','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_3,'hours_start_3'); ?>
                     </div>
                 </td>
                 <td id="oculta_employee_id">
                     <div class="row">
-                            <?php echo $form->labelEx($model_hour,'employee_hours_end'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour,'name'=>'employee_hours_end','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour,'employee_hours_end'); ?>
+                            <?php echo $form->labelEx($model_hour_day_3,'Hora de Salida'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_3,'name'=>'hours_end_3','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_3,'hours_end_3'); ?>
                     </div>
                 </td>
             </tr>
@@ -373,14 +373,14 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
             <!-- Hijos del Empleado -->
             <tr id="DatosHijos">
                 <!-- Campo Edad -->
-                
                 <td id="col">
                     <div style="display: none;">
                     <?php echo $form->textField($model,'kids'); ?>
                     </div>
+
                     
                     <?php 
-                    
+                    if(count($model_kid)>1){
                     foreach ($model_kid as $key => $value) {
                     
                     ?>
@@ -388,20 +388,29 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             <?php echo $form->labelEx($value,'Edad del Hijo #'.($key+1)); ?>
                             <?php echo $form->numberField($value,'age',array('id'=>'age'.($key+1))); ?>
                             <?php echo $form->error($value,'age'); ?>
-                            <img id="row<?php echo ($key+1);?>" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: inline;" />
+                            <img id="row<?php echo ($key+1);?>" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: none;" />
+                            <img id="row<?php echo ($key+1);?>" title="Agregar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAdd" style="position: relative; top: 5px; display: none;" />
                     </div>
                     <?php 
                     
                     }
-                    
+                    }else{
                     
                     ?>
-                </td>
-                <td style="position: absolute;">
-                    <div class="row buttons">
-                        <?php echo CHtml::Button('Agregar Hijo'); ?>
+                    <div class="row" id="row1">
+                            <?php echo $form->labelEx($model_kid,'Edad del Hijo #1'); ?>
+                            <?php echo $form->numberField($model_kid,'age',array('id'=>'age1')); ?>
+                            <?php echo $form->error($model_kid,'age'); ?>
+                            <img id="row1" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: none;" />
+                            <img id="row1" title="Agregar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAdd" style="position: relative; top: 5px; display: none;" />
                     </div>
+                    <?php }?>
                 </td>
+<!--                <td style="position: absolute;">
+                    <div class="row buttons">
+                        <?php // echo CHtml::Button('Agregar Hijo'); ?>
+                    </div>
+                </td>-->
                 
             </tr>
             
