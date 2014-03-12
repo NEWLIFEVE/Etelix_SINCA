@@ -147,7 +147,9 @@ class NominaController extends Controller
                 $model->status = $_POST['Employee']['status'];
                 }
                 
+                if(isset($_POST['Employee']['admission_date']) && $_POST['Employee']['admission_date']!= ""){
                 $model->admission_date = Yii::app()->format->formatDate($_POST['Employee']['admission_date'],'post');
+                }
                 $model->record_date = date("Y-m-d");
                 
                 

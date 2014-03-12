@@ -731,7 +731,7 @@ $(document).ready(function()
     function addKid() {
         
         
-        $('img.botonAdd').on('click',function(event)
+        $('img.botonAdd').on('click',function()
         {
 
             var clickID = parseInt($("#DatosHijos td#col div.row").length);

@@ -3,7 +3,10 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
-
+    - Asignacion de Categoria de Gatos (Declaracion de Gasto y Matriz).
+    - Carga Automatica de los Datos de Nomina por Empleado (Declaracion de Gasto).
+    - Creacion del Modulo de Nomina.
+    - Creacion de la Matriz de Gastos Evolucion.
 
 Release 1.6.1
     - Correccion de envio de correo de novedades
