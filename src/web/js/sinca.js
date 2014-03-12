@@ -762,7 +762,7 @@ $(document).ready(function()
             }
             newInput.find('img.botonAdd').css('display', 'inline');
             newInput.appendTo("#datosEmpleado tr#DatosHijos td#col");
-            newInput= null;
+            newInput = '';
             addKid();        
             deleteKid();        
         });

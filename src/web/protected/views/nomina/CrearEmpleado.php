@@ -388,8 +388,8 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             <?php echo $form->labelEx($value,'Edad del Hijo #'.($key+1)); ?>
                             <?php echo $form->numberField($value,'age',array('id'=>'age'.($key+1))); ?>
                             <?php echo $form->error($value,'age'); ?>
-                            <img id="row<?php echo ($key+1);?>" title="Quitar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: none;" />
-                            <img id="row<?php echo ($key+1);?>" title="Agregar" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAdd" style="position: relative; top: 5px; display: none;" />
+                            <img id="row<?php echo ($key+1);?>" title="Quitar Hijo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/close.png" class="botonQuitar" style="position: relative; top: 5px; display: none;" />
+                            <img id="row<?php echo ($key+1);?>" title="Agregar Hijo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAdd" style="position: relative; top: 5px; display: none;" />
                     </div>
                     <?php 
                     
