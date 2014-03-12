@@ -8,9 +8,9 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 ?>
 
 <div id="nombreContenedor" class="black_overlay"></div>
-<div id="loading" class="ventana_flotante">Generando Excel...</div>
-
-
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 <h1>
   <span class="enviar">
     Administrar Balances
@@ -31,22 +31,11 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 </h1>
 
 <?php
-  echo CHtml::beginForm(Yii::app()->createUrl('balance/enviarEmail/'),'post',array('name'=>'FormularioCorreo','id'=>'FormularioCorreo','style'=>'display:none'));
-  echo CHtml::textField('html','',array('id'=>'html','style'=>'display:none'));
-  echo CHtml::textField('vista','admin',array('id'=>'vista','style'=>'display:none'));
-  echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
-  echo CHtml::textField('asunto','Reporte de Administrar Balances Solicitado',array('id'=>'asunto','style'=>'display:none'));
-  echo CHtml::endForm();
-  
+
   /*
-  echo "<form action='";?><?php echo Yii::app()->request->baseUrl; ?><?php echo"/ficheroExcel.php?nombre=Balances%20Cabinas' method='post' target='_blank' id='FormularioExportacion'>
-          <input type='hidden' id='datos_a_enviar' name='datos_a_enviar' />
-        </form>";
-  
+  GridView del Balance
   */
-  
-  
-  
+ 
   $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid',
     'htmlOptions'=>array(
@@ -61,11 +50,13 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         'name'=>'Id',
         'value'=>'$data->Id',
         'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
         'htmlOptions'=>array(
             'id'=>'ids',
-            //'style'=>'visibility: collapse;',
-            'width'=>'1px',
+            'style'=>'display:none',
+
           ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
         ),
       array(
         'name'=>'Fecha',
@@ -102,6 +93,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         'filter'=>Cabina::getListCabina(),
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
+            'id'=>'cabina',
           ),
         ),
       array(
@@ -149,7 +141,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         ),
       array(
         'name'=>'MontoDepositoOp',
-        'value'=>'$data->MontoDeposito',
+        'value'=>'Yii::app()->format->formatDecimal($data->MontoDeposito)',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'montoDeposito',
@@ -163,6 +155,8 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
       ),
     )
   );
+  
+  
   $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid-oculta',
     'htmlOptions'=>array(
@@ -174,6 +168,17 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+      array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),  
       array(
         'name'=>'Fecha',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(

@@ -23,11 +23,14 @@
   <script>window.jQuery || document.write(unescape('%3Cscript src="<?php echo Yii::app()->baseUrl; ?>/js/jquery-ui-1.10.3/ui/jquery-ui.js"%3E%3C/script%3E'))</script>
   
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/modernizr.js"></script>
-  <!--<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/sinca.js"></script>-->
+  <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/sinca.js"></script>
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/views.js"></script>
   <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/estadoGastos.js"></script>
-  
-  
+ 
+  <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-1.10.1.min.js"></script>
+  <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.fancybox.js?v=2.1.5"></script>
+  <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+        
   <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -88,7 +91,7 @@
   
   <footer id="footer">
     <nav id="footermenu">
-                <h5 style="color:#FFF ">S I N C A - v1.5.3</h5>
+                <h5 style="color:#FFF ">S I N C A - v1.6.1</h5>
         <?php //  $this->widget('zii.widgets.CMenu',array('items'=>$menuItems)); ?>
     </nav>
     <div class="content">

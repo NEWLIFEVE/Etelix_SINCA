@@ -38,6 +38,17 @@ class Detallegasto extends CActiveRecord
     public $vista;
     public $sum;
     public $Cabina;
+    public $Cuenta;
+    public $Tipogasto;
+    public $TSoles;
+    public $TDolares;
+    public $MontoD;
+    public $MontoS;
+    public $MontoDolares;
+    public $MontoSoles;
+    public $category;
+    public $categoria;
+    //
 
     /**
     *
@@ -63,8 +74,8 @@ class Detallegasto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Monto, FechaMes, status,CABINA_Id,moneda, USERS_Id, TIPOGASTO_Id,CUENTA_Id,beneficiario', 'required'),
-			array('status, USERS_Id, TIPOGASTO_Id, CABINA_Id, moneda', 'numerical', 'integerOnly'=>true),
+			array('Monto, FechaMes, status,CABINA_Id,moneda,category, USERS_Id, TIPOGASTO_Id,CUENTA_Id,beneficiario', 'required'),
+			array('status, USERS_Id, TIPOGASTO_Id, CABINA_Id, moneda,category,CUENTA_Id', 'numerical', 'integerOnly'=>true),
 			array('Monto', 'length', 'max'=>15),
 			array('Descripcion, TransferenciaPago, beneficiario', 'length', 'max'=>245),
 			array('FechaVenc', 'safe'),
@@ -111,6 +122,7 @@ class Detallegasto extends CActiveRecord
                         'TransferenciaPago' => 'Nro. Tranferencia',
                         'FechaTransf' => 'Fecha Tranferencia',
                         'beneficiario' => 'Beneficiario',
+                        'category' => 'Categoria',
 		);
 	}
 
@@ -132,7 +144,6 @@ class Detallegasto extends CActiveRecord
 		$criteria->compare('USERS_Id',$this->USERS_Id);
 		$criteria->compare('TIPOGASTO_Id',$this->TIPOGASTO_Id);
 		$criteria->compare('CABINA_Id',$this->CABINA_Id);
-		$criteria->compare('CUENTA_Id',$this->CABINA_Id);
         if($vista == 'estadoDeGastos')
         {
             if($cabina!=NULL)
@@ -224,17 +235,36 @@ class Detallegasto extends CActiveRecord
     *
     */
     public static function monedaGasto($moneda)
-    {           
+    {     
+        $mon = '';
         switch($moneda)
         {    			
             case 1:
-                return 'USD$';
+                $mon = 'USD$';
                 break;
             case 2:
-                return 'S/.';
+                $mon =  'S/.';
+                break;
+            case null:
+                $mon =  'S/.';
                 break;
         }
+        
+        return $mon;
     }
+    
+    public static function montoGasto($moneda)
+    {     
+        $mon;
+        if($moneda == null){
+            $mon = '00.00';
+        }else{
+            $mon = $moneda;
+        }
+        
+        return $mon;
+    }
+
         
     /**
     *

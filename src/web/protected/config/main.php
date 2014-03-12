@@ -19,7 +19,7 @@ return array(
 		'application.components.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
-                'application.components.reportes.*'
+		'application.components.reportes.*'
 		),
 	'modules'=>array(
 	// uncomment the following to enable the Gii tool
@@ -57,6 +57,9 @@ return array(
 		'reporte'=>array(
 			'class'=>'application.components.Reportes'
 			),
+		'correo'=>array(
+			'class'=>'application.components.EnviarEmail'
+			),
 		'user'=>array(
 			'class'=>'WebUser',
 			// enable cookie-based authentication
@@ -71,17 +74,16 @@ return array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>/<compania:\w+>'=>'<controller>/<action>/view',
+				'recargas/<action:\w+>/<compania:\w+>'=>'recargas/<action>/view',
+
 				),
 			),
-		/*'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-			),*/
 		// uncomment the following to use a MySQL database
 		'importcsv'=>array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
             ),
 		'db'=>array(
+
 			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
 			'username'=>'edmaku',
@@ -114,14 +116,11 @@ return array(
 				'thousandSeparator'=>''
 				),
 			),
-		'enviarEmail'=>array(
-			'class'=>'application.components.EnviarEmail',
-			),
 		),
 		// application-level parameters that can be accessed
 		// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'manuel@newlifeve.com',
+		'adminEmail'=>'manuelz@sacet.biz',
 	),
 );

@@ -2,12 +2,15 @@
 /**
  * Funciones para implementar en toda la aplicacion.
  */
-class Utility{
-	/*
-	* Encargada de cambiar la hora desde la intefaz grafica para ser almacenada en base de datos
-	*/
-	public static function ChangeTime($hora)
-	{
+class Utility
+{
+	/**
+     * Encargada de cambiar la hora desde la intefaz grafica para ser almacenada en base de datos
+     * @access public
+     * @static
+     */
+    public static function ChangeTime($hora)
+    {
 		$doce = 12;
 		if($hora[1] == ':')
 		{
@@ -44,10 +47,13 @@ class Utility{
 		}
 		return $horaMod;
 	}
-	/*
-	* Encargada de cambiar las comas recibidas por un punto.
-	*/
-	public static function ComaPorPunto($monto)
+
+	/**
+	 * Encargada de cambiar las comas recibidas por un punto.
+     * @access public
+     * @static
+     */
+    public static function ComaPorPunto($monto)
 	{
 		for ($i = 0; $i < strlen($monto); $i++)
 		{
@@ -58,9 +64,24 @@ class Utility{
             return $monto;
     	}
     }
-    /*
-    * funcion que valida la hora pasada como parametro
-    */
+
+    /**
+     * @access public
+     * @static
+     */
+    public static function PuntoPorComa($monto)
+    {
+        $find = Array('S/.','USD$');
+        $htmlWithoutSimbol = str_replace($find,' ',$monto);
+        $htmlWithoutPoint = str_replace('.',',',$htmlWithoutSimbol);
+        return $htmlWithoutPoint;
+    }
+
+    /**
+     * funcion que valida la hora pasada como parametro
+     * @access public
+     * @static
+     */
     public static function hora($hora=null,$var=true)
     {
     	if(isset($hora) && isset($var))
@@ -89,6 +110,11 @@ class Utility{
     		}
     	}
     }
+
+    /**
+     * @access public
+     * @static
+     */
     public static function ver($tipo)
     {
     	if($tipo == 1 || $tipo == 5)
@@ -100,6 +126,11 @@ class Utility{
     		return '{view}{update}';
     	}
     }
+
+    /**
+     * @access public
+     * @static
+     */
     public static function notNull($dato)
     {
     	if($dato == NULL)
@@ -136,16 +167,23 @@ class Utility{
         list($year, $mon, $day) = explode('-',$date);
         setlocale(LC_TIME, 'spanish');
         $name=strftime("%B",mktime(0, 0, 0, $mon, $day, $year));
-        return $name;
+        return ucwords($name);
     }
-   
-   public static function cambiarFormatoFecha($fecha,$formato="d/m/Y"){
-        if(isset($fecha) && $fecha!=""){
+
+    /**
+     * @access public
+     * @static
+     */
+    public static function cambiarFormatoFecha($fecha,$formato="d/m/Y")
+    {
+        if(isset($fecha) && $fecha!="")
+        {
             list($year, $mon, $day) = explode('-',"$fecha");
             return date($formato,mktime(0, 0, 0,$mon, $day, $year));
         }
-        else return;
-   }
+        return;
+    }
+
     /**
     * Funcion que retorna no declarado
     * @param int valor

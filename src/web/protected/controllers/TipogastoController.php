@@ -142,6 +142,16 @@ class TipogastoController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionDynamicCategoria()
+        {
+            echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
+            $data = Tipogasto::getListTipoGastoCategoria($_POST['Detallegasto']['category_id']);
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+            }
+        }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

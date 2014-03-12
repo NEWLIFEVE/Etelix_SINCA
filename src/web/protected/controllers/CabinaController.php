@@ -263,7 +263,10 @@ class CabinaController extends Controller
     			);
     	}
     }
-            
+    
+    /**
+     *
+     */     
     public static function getNombreCabina($idCabina)
     {
     	$criteria = new CDbCriteria;

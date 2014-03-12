@@ -4,6 +4,15 @@
 Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = BalanceController::controlAcceso($tipoUsuario);
+
+$mes=date("Y-m");
+
+    if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
+    {
+        $mes=$_POST["formFecha"];
+
+    }
+$año = date("Y", strtotime($mes));  
 ?>
 
 <script>
@@ -14,27 +23,34 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
         });
     });
 </script>
-
-<h1>Ciclo de Ingresos</h1>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
+<h1>Ciclo de Ingresos <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año  : ""; ?></h1>
 <div id="cicloingresosbotons">
     <div id="botonsExport">
     <ul>
-        <li>
+        <li style="width: 200px;">
             <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Resumido" method="post" target="_blank" id="FormularioExportacion">
-            Resumido<img title="Exportar Resumido a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
+            Resumido      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
+                    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
+                    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton'/>
             <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
             </form>
         </li>
-        <li>
+        <li style="width: 200px;">
             <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Completo" method="post" target="_blank" id="FormularioExportacionCompleto">
-                Completo<img title="Exportar a Excel COMPLETO" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelCompleto" />
+                Completo      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoComplete" />
+                        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelComplete" />
+                        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonComplete'/>
                 <input type="hidden" id="datos_a_enviar_completo" name="datos_a_enviar" />
             </form>
         </li>
         <li><button id="cambio">Inactivas</button></li>
     </ul>
     <div>
-        <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/reportecaptura') ?>">
+        <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/CicloIngresos') ?>">
             <label for="dateMonth">
                 Seleccione un mes:
             </label>
@@ -47,6 +63,7 @@ $this->menu = BalanceController::controlAcceso($tipoUsuario);
     </div>
     </div>
 </div>
+<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
 <?php
 $this->widget('application.extensions.fancybox.EFancyBox',array(
     'target'=>'a[rel^="fancybox"]',
@@ -123,10 +140,21 @@ $this->widget('zii.widgets.grid.CGridView',array(
         'rel'=>'total',
         'name'=>'vista',
         ),
-    'dataProvider'=>$model->search($_POST),
+    'dataProvider'=>$model->search($_POST,$mes),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
         array(
             'name'=>'Fecha',
             'htmlOptions'=>array(
@@ -242,6 +270,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         ),
         array('name'=>'Acumulado',
+            'value'=>'$data->Acumulado',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -261,6 +290,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'SobranteAcum',
+            'value'=>'$data->SobranteAcum',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -285,6 +315,17 @@ $this->widget('zii.widgets.grid.CGridView',array(
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
         array(
             'name'=>'Fecha',
             'htmlOptions'=>array(
@@ -482,7 +523,7 @@ function reinstallDatePicker(id, data) {
 /*****************************************CICLO DE INGRESOS COMPLETO ACTIVAS******************************************************************/
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceCicloIngresosCompletoActivas',
-    'dataProvider'=>$model->search($_POST),
+    'dataProvider'=>$model->search($_POST,$mes),
     'filter'=>$model,
     'htmlOptions'=>array(
         'class'=>'grid-view balanceCicloIngresosCompleto oculta',
@@ -490,6 +531,17 @@ $this->widget('zii.widgets.grid.CGridView',array(
         'name'=>'vistaoculta',
         ),
     'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
         array(
             'name'=>'Fecha',
             'value'=>'$data->Fecha',
@@ -701,6 +753,17 @@ $this->widget('zii.widgets.grid.CGridView',array(
         'name'=>'ocultaoculta',
         ),
     'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
         array(
             'name'=>'Fecha',
             'value'=>'$data->Fecha',
