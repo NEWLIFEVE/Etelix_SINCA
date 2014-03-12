@@ -8,9 +8,9 @@ $(document).ready(function()
     genEmail();
     genPrint();
     newEC();
-    ValidateDate('yw0','yw1');
-    ValidateDate('yw2','yw3');
-    ValidateDate('yw4','yw5');
+    ValidateDate('yw0','yw1',1);
+    ValidateDate('yw2','yw3',2);
+    ValidateDate('yw4','yw5',3);
     addKid();
     deleteKid();
     getListEmployee();
@@ -648,7 +648,7 @@ $(document).ready(function()
         return name;   
     }
 
-    function ValidateDate(entrada,salida){
+    function ValidateDate(entrada,salida,day){
         
      $( "#"+salida ).change(function(){
                             
@@ -656,15 +656,15 @@ $(document).ready(function()
            var fecha_salida =   $( "#"+salida ).val();
 
            if(fecha_salida <= fecha_entrada && fecha_entrada!=''){
-               $( "#"+salida ).val('');
+               //$( "#"+salida ).val('');
 
                $("#"+salida).css("background", "#FEE");
                $("#"+salida).css("border-color", "#C00");
                $("#"+entrada).css("background", "#FEE");
                $("#"+entrada).css("border-color", "#C00");
 
-//               $("#EmployeeHours_end_time_em_").html("La Salida debe ser Mayor");
-//               $("#EmployeeHours_end_time_em_").css("display", "block");
+               $("#EmployeeHours_hours_end_"+day+"_em_").html("La Salida debe ser Mayor");
+               $("#EmployeeHours_hours_end_"+day+"_em_").css("display", "block");
            }else{
 
                $("#"+salida).css("background", "#E6EFC2");
@@ -672,8 +672,8 @@ $(document).ready(function()
                $("#"+entrada).css("background", "#E6EFC2");
                $("#"+entrada).css("border-color", "#C6D880");
 
-//               $("#EmployeeHours_end_time_em_").html("");
-//               $("#EmployeeHours_end_time_em_").css("display", "none");
+               $("#EmployeeHours_hours_end_"+day+"_em_").html("");
+               $("#EmployeeHours_hours_end_"+day+"_em_").css("display", "none");
            }
 
     });
@@ -691,8 +691,8 @@ $(document).ready(function()
                $("#"+entrada).css("background", "#FEE");
                $("#"+entrada).css("border-color", "#C00");
 
-//               $("#EmployeeHours_start_time_em_").html("La Entrada debe ser Menor");
-//               $("#EmployeeHours_start_time_em_").css("display", "block");
+               $("#EmployeeHours_hours_start_"+day+"_em_").html("La Entrada debe ser Menor");
+               $("#EmployeeHours_hours_start_"+day+"_em_").css("display", "block");
            }else{
 
                $("#"+salida).css("background", "#E6EFC2");
@@ -700,8 +700,8 @@ $(document).ready(function()
                $("#"+entrada).css("background", "#E6EFC2");
                $("#"+entrada).css("border-color", "#C6D880");
 
-//               $("#EmployeeHours_start_time_em_").html("");
-//               $("#EmployeeHours_start_time_em_").css("display", "none");
+               $("#EmployeeHours_hours_start_"+day+"_em_").html("");
+               $("#EmployeeHours_hours_start_"+day+"_em_").css("display", "none");
            }
 
     });
@@ -748,6 +748,7 @@ $(document).ready(function()
             newInput.find('label').text('Edad del Hijo #'+newID);
             newInput.find('input').attr('id', 'age'+newID);
             newInput.find('img.botonQuitar').attr('id', 'row'+newID);
+            newInput.find('img.botonQuitar').css('display', 'inline');
             newInput.find('img.botonAdd').attr('id', 'row'+newID);
             if(clickID > 1){
               $("#DatosHijos td#col div#row"+(newID)+" img.botonQuitar").css('display', 'inline');
@@ -761,8 +762,9 @@ $(document).ready(function()
             }
             newInput.find('img.botonAdd').css('display', 'inline');
             newInput.appendTo("#datosEmpleado tr#DatosHijos td#col");
-                    
-                    
+            newInput= null;
+            addKid();        
+            deleteKid();        
         });
 
 
@@ -783,9 +785,10 @@ $(document).ready(function()
               $("#DatosHijos td#col div#row"+(clickID-1)+" img.botonQuitar").css('display', 'none');
               $("#DatosHijos td#col div#row"+(clickID-1)+" img.botonAdd").css('display', 'none');
             }else{
-              $("#DatosHijos td#col div#row"+(clickID)+" img.botonQuitar").css('display', 'inline');
+              $("#DatosHijos td#col div#row"+(clickID)+" img.botonQuitar").css('display', 'none');
               $("#DatosHijos td#col div#row"+(clickID)+" img.botonAdd").css('display', 'inline');  
             }
+           
 
     }
     
@@ -794,10 +797,20 @@ $(document).ready(function()
         $('img.botonQuitar').on('click',function(event){    
 
             var parent = $(this).attr("id");
-            //alert(parent);
+            //alert(parent.substring(3,4));
 	    $('div#'+parent).remove();
-    
+            
+            $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'inline');
+            $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonAdd").css('display', 'inline');
+            
+            if(parent.substring(3,4) == 2){
+                $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'none');
+            }else{
+                $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'inline');
+            }
+            
         });
+        
 
     }
     

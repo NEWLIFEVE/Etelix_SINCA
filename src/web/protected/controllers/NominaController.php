@@ -95,7 +95,7 @@ class NominaController extends Controller
             $model_hour_day_3= new EmployeeHours;
             
             }
-            //var_dump($_POST);
+             //var_dump($model_hour_day_2->hours_start_2);
              $this->performAjaxValidation(array($model,$model_kid));
             
             if (isset($_POST['Employee'])) {
