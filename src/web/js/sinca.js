@@ -738,7 +738,7 @@ $(document).ready(function()
             var newID = (clickID+1);
             
             
-            //alert(clickID);
+            alert(clickID);
  
             var newInput = $("#DatosHijos td#col div#row"+clickID).clone();
             newInput.attr("id",'row'+newID);
@@ -761,10 +761,11 @@ $(document).ready(function()
               $("#DatosHijos td#col div#row"+(clickID)+" img.botonAdd").css('display', 'none');  
             }
             newInput.find('img.botonAdd').css('display', 'inline');
-            newInput.appendTo("#datosEmpleado tr#DatosHijos td#col");
-            newInput = '';
-            addKid();        
-            deleteKid();        
+            newInput.appendTo("#datosEmpleado tr#DatosHijos td#col"); 
+                   
+            deleteKid(); 
+            addKid(); 
+            
         });
 
 
