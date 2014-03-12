@@ -97,4 +97,17 @@ class Kids extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getEmployeeKids($id){
+            
+	  $model_kid = self::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id ORDER BY age DESC");
+            if(count($model_kid) <2){
+            $model_kid = self::model()->findBySql("SELECT age FROM kids WHERE employee_id = $id ORDER BY age DESC");
+                if($model_kid == null){
+                    $model_kid= new Kids;
+                }
+            }
+           return $model_kid;	
+		
+        }
 }

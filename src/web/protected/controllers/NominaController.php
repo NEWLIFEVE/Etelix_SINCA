@@ -96,12 +96,12 @@ class NominaController extends Controller
             
             }
              //var_dump($model_hour_day_2->hours_start_2);
-             $this->performAjaxValidation(array($model,$model_kid,$model_hour_day_1,$model_hour_day_2,$model_hour_day_3));
+             $this->performAjaxValidation(array($model,$model_kid));
             
             if (isset($_POST['Employee'])) {
                 
                 $model->attributes = $_POST['Employee'];
-                $model_hour_day_3->attributes = $_POST['EmployeeHours'];
+                //$model_hour_day_3->attributes = $_POST['EmployeeHours'];
 
                 if($id==null){
                 $model->code_employee = Employee::getCodigoEmpleado();

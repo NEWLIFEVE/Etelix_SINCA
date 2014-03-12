@@ -1,6 +1,7 @@
 <?php
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=  NominaController::controlAcceso($tipoUsuario);
+$kids = Kids::getEmployeeKids($model->id);
 ?>
 
 
@@ -58,10 +59,6 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     'name'=>'position_id',
                     'value'=>$model->position->name,
                 ),
-//            array(
-//                    'name'=>'Lunes a Viernes',
-//                    'value'=>date('h:i A',strtotime($model_hour_day_1->start_time)).' - '.date('h:i A',strtotime($model_hour_day_1->end_time)),
-//                ),
             array(
                     'name'=>'immediate_supervisor',
                     'value'=>($model->immediate_supervisor == null) ? 'Sin Supervisor' : $model->immediateSupervisor->name,
@@ -74,6 +71,37 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     'name'=>'status',
                     'value'=>($model->status == 1) ? 'Activo' : 'Inactivo',
                 ),
- 
+            //MUESTRA EL HORARIO DEL EMPLEADO
+            array(
+                    'type'=>'raw',
+                    'name'=>'Horario',
+                    'value'=>'Entrada - Salida',
+                    'cssClass'=>'resaltado',
+                ),
+            array(
+                    'name'=>'Lunes a Viernes',
+                    'value'=>  EmployeeHours::getEmployeeHoursDay1($model->id),
+                ),
+            array(
+                    'name'=>'Sabado',
+                    'value'=>  EmployeeHours::getEmployeeHoursDay2($model->id),
+                ),
+            array(
+                    'name'=>'Domingo',
+                    'value'=>  EmployeeHours::getEmployeeHoursDay3($model->id),
+                ),
+            //MUESTRA LOS HIJOS DEL EMPLEADO
+//            array(
+//                    'name'=>'Hijos',
+//                    'value'=>'De Mayor a Menor',
+//                    'cssClass'=>'resaltado',
+//                )
+//           
+//            array(
+//                    'name'=>'Hijo #'.$key,
+//                    'value'=> $value->age,
+//                ),
+
+                
 	),
 )); ?>

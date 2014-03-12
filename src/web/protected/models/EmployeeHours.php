@@ -135,4 +135,36 @@ class EmployeeHours extends CActiveRecord
 			}
 		}
         }
+        
+        public static function getEmployeeHoursDay1($id){
+            
+	  $model=self::model()->findBySql("SELECT CONCAT(DATE_FORMAT(start_time,'%h:%i %p'), ' - ', DATE_FORMAT(end_time,'%h:%i %p')) AS day FROM employee_hours WHERE employee_id = $id AND day = 1");
+            if($model == null){
+                return $model = 'No Asignado';
+            }else{       
+                return $model->day ;
+            }	
+        }
+        
+        public static function getEmployeeHoursDay2($id){
+            
+	  $model=self::model()->findBySql("SELECT CONCAT(DATE_FORMAT(start_time,'%h:%i %p'), ' - ', DATE_FORMAT(end_time,'%h:%i %p')) AS day FROM employee_hours WHERE employee_id = $id AND day = 2");
+          if($model == null){
+                return $model = 'No Asignado';
+            }else{        
+                return $model->day ;
+            }	
+		
+        }
+        
+        public static function getEmployeeHoursDay3($id){
+            
+	  $model=self::model()->findBySql("SELECT CONCAT(DATE_FORMAT(start_time,'%h:%i %p'), ' - ', DATE_FORMAT(end_time,'%h:%i %p')) AS day FROM employee_hours WHERE employee_id = $id AND day = 3");
+          if($model == null){
+                return $model = 'No Asignado';
+            }else{        
+                return $model->day ;
+            }	
+		
+        }
 }
