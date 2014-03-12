@@ -7,18 +7,18 @@ $mes=NULL;
 
 if(isset($_POST["boton"]) && $_POST["boton"]== "Resetear Valores")
 {
-    Yii::app()->user->setState('mesSesion',NULL);
+    Yii::app()->user->setState('mesMatrizSesion',NULL);
 }
 else
 {
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
     {
-        Yii::app()->user->setState('mesSesion',$_POST["formFecha"]."-01");
-        $mes=Yii::app()->user->getState('mesSesion');
+        Yii::app()->user->setState('mesMatrizSesion',$_POST["formFecha"]."-01");
+        $mes=Yii::app()->user->getState('mesMatrizSesion');
     }
-    elseif(strlen(Yii::app()->user->getState('mesSesion')) && Yii::app()->user->getState('mesSesion')!="")
+    elseif(strlen(Yii::app()->user->getState('mesMatrizSesion')) && Yii::app()->user->getState('mesMatrizSesion')!="")
     {
-        $mes = Yii::app()->user->getState('mesSesion');
+        $mes = Yii::app()->user->getState('mesMatrizSesion');
     } 
 }
 $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle
@@ -120,16 +120,17 @@ if (count($model)> 1) { ?>
                      $moneda = Detallegasto::monedaGasto($MontoGasto->moneda);
                     switch ($MontoGasto->status) {
                         case "1":
+//                            var_dump($gasto->nombreTipoDetalle);
                             if ($count>0){
                                 $opago.="<td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }else{
                                 $opago.="<td rowspan='3' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                             }
-                            
                             $aprobado.="<td></td>";
                             $pagado.="<td></td>";
                             break;
                         case "2":
+//                            var_dump($gasto->nombreTipoDetalle);
                             $opago.="<td></td>";
                             if ($count>0){
                                 $aprobado.="<td style='color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
@@ -140,6 +141,7 @@ if (count($model)> 1) { ?>
                             $pagado.="<td></td>";
                             break;
                         case "3":
+//                            var_dump($gasto->nombreTipoDetalle);
                             $opago.="<td></td>";
                             $aprobado.="<td></td>";
                             if ($count>0){
@@ -150,6 +152,7 @@ if (count($model)> 1) { ?>
                             break;
                     }
                 }  else {
+//                    var_dump($gasto->nombreTipoDetalle);
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
@@ -172,7 +175,7 @@ if (count($model)> 1) { ?>
     <tr id='pagado'> 
             $pagado
     </tr>
-    <tr style='height: em; background-color: #DADFE4;'>
+    <tr style='height: em; background-color: #DADFE4; border=0 px white solid;'>
         <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>";
      echo $tr;
