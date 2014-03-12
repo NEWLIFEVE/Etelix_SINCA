@@ -59,8 +59,8 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     'value'=>$model->position->name,
                 ),
 //            array(
-//                    'name'=>'employee_hours_id',
-//                    'value'=>date('h:i A',strtotime($model->employeeHours->start_time)).' - '.date('h:i A',strtotime($model->employeeHours->end_time)),
+//                    'name'=>'Lunes a Viernes',
+//                    'value'=>date('h:i A',strtotime($model_hour_day_1->start_time)).' - '.date('h:i A',strtotime($model_hour_day_1->end_time)),
 //                ),
             array(
                     'name'=>'immediate_supervisor',

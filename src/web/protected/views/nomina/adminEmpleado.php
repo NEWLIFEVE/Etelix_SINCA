@@ -147,6 +147,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     array(
                             'header' => 'Detalle',
                             'class'=>'CButtonColumn',
+                            'deleteConfirmation'=>"js:'Desea Desactivar este Empleado ?'",
                             //'template' => Utility::ver(Yii::app()->getModule('user')->user()->tipo),
                             'buttons'=>array
                             (
@@ -164,7 +165,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                                 (
                                     'label'=>'Desactivar Empleado',
                                     'url'=>'Yii::app()->createUrl("nomina/DesactivarEmpleado", array("id"=>$data->id))',
-                                    'deleteConfirmation'=>'Colocar Inactivo ?', 
+                                     
                                 ),
                             ),
                     ),

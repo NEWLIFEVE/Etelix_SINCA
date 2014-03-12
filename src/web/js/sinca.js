@@ -19,7 +19,7 @@ $(document).ready(function()
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
-
+    
 });
 
     function newEC(){
