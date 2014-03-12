@@ -738,7 +738,7 @@ $(document).ready(function()
             var newID = (clickID+1);
             
             
-            alert(clickID);
+            //alert(clickID);
  
             var newInput = $("#DatosHijos td#col div#row"+clickID).clone();
             newInput.attr("id",'row'+newID);
