@@ -245,7 +245,7 @@ class matrizGastosEvolucion extends Reportes
                 }
     //TOTAL SOLES
                 $tr.= "<tr>
-                        <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'>
+                        <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3>
                         </td>";
                 $sqlCabinas="SELECT * 
@@ -282,7 +282,7 @@ class matrizGastosEvolucion extends Reportes
                 $tr.="</tr>";
                 // TOTALES DOLARES
                 $tr.="<tr>
-                        <td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'>
+                        <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Dolares</h3>
                         </td>";
                 $sqlCabinas="SELECT * 

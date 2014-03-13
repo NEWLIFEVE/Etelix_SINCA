@@ -90,7 +90,7 @@ $(document).ready(function()
             $("#loading").css("display", "inline");
              
             var ids = new Array();//Creamos un Array como contenedor de los ids.
-            var gridview = $('div[rel="completa"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             //alert(gridview);
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
@@ -125,7 +125,7 @@ $(document).ready(function()
             }
         }); 
         
-        $('img.botonExcelT').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
+        $('img.botonExcelTotal').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
             $("#loading").html("Generando Excel... !!");
@@ -267,7 +267,7 @@ $(document).ready(function()
 
 
             var ids = new Array();//Creamos un Array como contenedor de los ids.
-            var gridview = $('div[rel="completa"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
@@ -446,7 +446,7 @@ $(document).ready(function()
         {    
             
             var ids = new Array();//Creamos un Array como contenedor de los ids.
-            var gridview = $('div[rel="completa"]').filter(function(){return $(this).css('display') == "none" }).attr('id');
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
