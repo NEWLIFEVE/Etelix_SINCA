@@ -87,7 +87,6 @@ return array(
 			'emulatePrepare'=>true,
 			'username'=>'edmaku',
 			'password'=>'123',
-
 			'charset'=>'utf8',
 			),
 		'errorHandler'=>array(

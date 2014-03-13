@@ -91,7 +91,7 @@ $(document).ready(function()
              
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
-            var name = genNameFile(gridview);
+            var name = genNameFile('balanceCicloIngresosCompleto');
             //alert(gridview);
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
@@ -99,7 +99,7 @@ $(document).ready(function()
             //alert(ids);
             if(ids != ''){
             var response = $.ajax({ type: "GET",   
-                                    url: '/site/excel?ids='+ids+'&name='+name+"&table="+gridview,   
+                                    url: '/site/excel?ids='+ids+'&name='+name+"&table=balanceCicloIngresosCompleto",   
                                     async: false,
                                     succes: alert,
                                   }).responseText;
@@ -107,7 +107,7 @@ $(document).ready(function()
              
 
              //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-             setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table="+gridview+"','_top');",500);
+             setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table=balanceCicloIngresosCompleto','_top');",500);
 
              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
              $("#complete").html("Archivo Excel Generado... !!");
@@ -268,7 +268,7 @@ $(document).ready(function()
 
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
-            var name = genNameFile(gridview);
+            var name = genNameFile('balanceCicloIngresosCompleto');
             
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
@@ -278,7 +278,7 @@ $(document).ready(function()
             
                                 $.ajax({ 
                                     type: "GET",   
-                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,   
+                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table=balanceCicloIngresosCompleto",   
                                     async: false,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
@@ -447,7 +447,7 @@ $(document).ready(function()
             
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
-            var name = genNameFile(gridview);
+            var name = genNameFile('balanceCicloIngresosCompleto');
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
             });
@@ -455,7 +455,7 @@ $(document).ready(function()
             if(ids != ''){
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
-                                    url: "/site/print?ids="+ids+"&table="+gridview,   
+                                    url: "/site/print?ids="+ids+"&table=balanceCicloIngresosCompleto",   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
@@ -601,40 +601,45 @@ $(document).ready(function()
         
         var name = '';
         var fecha = new String($('#fecha').text());
+        if(fecha == '')
+            fecha = '';
+        else
+            fecha = new String(' '+$('#fecha').text());
+        
         var cabina = $('div#cabina2').text();
         //alert(fecha);
         if(gridview=='balance-grid' || gridview=='balance-grid-oculta'){
             name = 'SINCA Administrar Balance de Cabinas';
         }
         if(gridview=='balanceLibroVentas' || gridview=='balanceLibroVentasOculta'){
-            name = 'SINCA Reporte Libro de Ventas '+fecha;
+            name = 'SINCA Reporte Libro de Ventas'+fecha;
         }
         if(gridview=='balanceReporteDepositos' || gridview=='balanceReporteDepositosOculta'){
-            name = 'SINCA Reporte de Depositos Bancarios '+fecha;
+            name = 'SINCA Reporte de Depositos Bancarios'+fecha;
         }
         if(gridview=='balanceReporteBrighstar' || gridview=='balanceReporteBrighstarOculta'){
-            name = 'SINCA Reporte de Ventas Recargas Brighstar '+fecha;
+            name = 'SINCA Reporte de Ventas Recargas Brighstar'+fecha;
         }
         if(gridview=='balanceReporteCaptura' || gridview=='balanceReporteCapturaOculta'){
-            name = 'SINCA Reporte de Trafico Captura '+fecha;
+            name = 'SINCA Reporte de Trafico Captura'+fecha;
         }
         if(gridview=='balanceCicloIngresosResumido' || gridview=='balanceCicloIngresosResumidoOculta'){
-            name = 'SINCA Ciclo de Ingresos Resumido '+fecha;
+            name = 'SINCA Ciclo de Ingresos Resumido'+fecha;
         }
-        if(gridview=='balanceCicloIngresosCompletoActivas' || gridview=='balanceCicloIngresosCompletoInactivas'){
-            name = 'SINCA Ciclo de Ingresos Completo '+fecha;
+        if(gridview=='balanceCicloIngresosCompleto'){
+            name = 'SINCA Ciclo de Ingresos Completo'+fecha;
         }
         if(gridview=='balanceCicloIngresosTotalResumido' || gridview=='balanceCicloIngresosTotalResumidoOculta'){
-            name = 'SINCA Ciclo de Ingresos Total '+fecha;
+            name = 'SINCA Ciclo de Ingresos Total'+fecha;
         }
         if(gridview=='tabla'){
             name = 'SINCA Matriz de Gastos '+fecha;
         }
         if(gridview=='tabla2'){
-            name = 'SINCA Matriz de Gastos Evolucion '+cabina+' '+fecha;
+            name = 'SINCA Matriz de Gastos Evolucion'+cabina+' '+fecha;
         }
         if(gridview=='estadogasto-grid'){
-            name = 'SINCA Estado de Gastos '+fecha;
+            name = 'SINCA Estado de Gastos'+fecha;
         }
         
         return name;   

@@ -251,7 +251,7 @@ class Balance extends CActiveRecord
      * @access public
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search($post=null,$mes=null)
+	public function search($post=null,$mes=null,$cabina=null)
 	{
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
@@ -314,9 +314,9 @@ class Balance extends CActiveRecord
         {
             $criteria->condition.=" AND Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'";
         }
-        if(isset($post['balance']['formCabina']) && $post['balance']['formCabina'] != null)
+        if(isset($cabina) && $cabina != null)
         {
-            $criteria->condition.=" AND CABINA_Id=".$post['balance']['formCabina'];
+            $criteria->condition.=" AND CABINA_Id=".$cabina;
         }
         //la paginacion
         $pagina=Cabina::model()->count(array(
@@ -329,16 +329,16 @@ class Balance extends CActiveRecord
                 ));
         $orden="Fecha DESC, Nombre ASC";
         
-        if(isset($mes) || isset($post['formCabina']))
+        if(isset($mes) || isset($cabina))
         {
             $condition="Id>0";
             if($mes)
             {
                 $condition.=" AND Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'";
             }
-            if($post['formCabina'])
+            if($cabina)
             {
-                $condition.=" AND CABINA_Id=".$post['formCabina'];
+                $condition.=" AND CABINA_Id=".$cabina;
             }
             $pagina=Balance::model()->count($condition);
             $orden="Fecha ASC";

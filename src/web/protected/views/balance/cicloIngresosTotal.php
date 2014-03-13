@@ -211,7 +211,7 @@ $this->widget('application.extensions.fancybox.EFancyBox',array(
 </div>
 </div>
 <div class="output" style="overflow: auto;">
-<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>    
+<div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)): "";?></div>   
 <?php
 
 $this->widget('zii.widgets.grid.CGridView',array(

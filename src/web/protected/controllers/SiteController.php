@@ -329,7 +329,7 @@ class SiteController extends Controller
 
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);   
         }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        if($_GET['table']=='balanceCicloIngresosCompleto')
         {
             $files['cicloIngresoC']['name']=$_GET['name'];
 
@@ -427,7 +427,7 @@ class SiteController extends Controller
 
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        if($_GET['table']=='balanceCicloIngresosCompleto')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
 
@@ -506,7 +506,7 @@ class SiteController extends Controller
         {
             echo Yii::app()->reporte->cicloIngreso($_GET['ids'],false,false);
         }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        if($_GET['table']=='balanceCicloIngresosCompleto')
         {
             echo Yii::app()->reporte->cicloIngreso($_GET['ids'],true,false);
         }
