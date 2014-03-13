@@ -14,16 +14,16 @@
 class EmployeeHours extends CActiveRecord
 {
 	public $day_1;
-        public $hours_start_1;
-        public $hours_end_1;
+        public $start_time_1;
+        public $end_time_1;
         
         public $day_2;
-        public $hours_start_2;
-        public $hours_end_2;
+        public $start_time_2;
+        public $end_time_2;
         
         public $day_3;
-        public $hours_start_3;
-        public $hours_end_3;
+        public $start_time_3;
+        public $end_time_3;
         
 	public function tableName()
 	{

@@ -49,7 +49,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td>
                 <br>    
                 <h3>
-                    <span class="enviar" style="position: relative;">Datos del Empleado</span>
+                    <span class="enviar" style="position: relative;">Datos Personales</span>
                 </h3>    
                 </td>
             </tr>
@@ -67,7 +67,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 </td>
                 -->
                 <!-- Campo Nombre -->
-                <td>
+                <td style="width:5%;">
                     <div class="row">
                             <?php echo $form->labelEx($model,'name'); ?>
                             <?php echo $form->textField($model,'name'); ?>
@@ -75,7 +75,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     </div>                    
                 </td>
                 <!-- Campo Apellido -->
-                <td>
+                <td style="width:20%;">
                     <div class="row">
                             <?php echo $form->labelEx($model,'lastname'); ?>
                             <?php echo $form->textField($model,'lastname'); ?>
@@ -83,7 +83,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     </div>                    
                 </td>
                 <!-- Campo Numero de Identificacion -->
-                <td>
+                <td style="width:15%;">
                     <div class="row">
                             <?php echo $form->labelEx($model,'identification_number'); ?>
                             <?php echo $form->textField($model,'identification_number'); ?>
@@ -91,7 +91,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     </div>
                 </td>
                 <!-- Campo Sexo -->
-                <td>
+                <td style="width:15%;">
                     <div class="row">
                             <?php echo $form->labelEx($model,'gender'); ?>
                             <?php echo $form->dropDownList($model,'gender',array('1'=>'Femenino','2'=>'Masculino'),array('empty'=>'Seleccionar..')); ?>
@@ -99,8 +99,8 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     </div>
                 </td>
                 <!-- Campo Estado Civil -->
-                <td id="vista_marital_status_id">
-                    <div class="row">
+                <td style="width:25%;">
+                    <div class="row" id="vista_marital_status_id">
                             <?php echo $form->labelEx($model,'marital_status_id'); ?>
                             <?php echo $form->dropDownList($model,'marital_status_id',CHtml::listData(MaritalStatus::model()->findAll(),'id','name'),array('empty'=>'Seleccionar..')); ?>
                             <?php echo $form->error($model,'marital_status_id'); ?>
@@ -108,9 +108,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         <img id="marital_status_id" title="Agregar Nuevo Estado Civil" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAgregar" style="position: relative; top: 5px;" />
                         
                     </div>
-                </td>
-                <td id="oculta_marital_status_id" style="display: none;">
-                    <div class="row">
+                    <div class="row" id="oculta_marital_status_id" style="display: none;">
                             <?php echo $form->labelEx($model,'marital_status_name'); ?>
                             <?php echo $form->textField($model,'marital_status_name'); ?>
                             <?php echo $form->error($model,'marital_status_name'); ?>
@@ -147,8 +145,8 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     </div>
                 </td>
                 <!-- Campo Nivel Academico -->
-                <td id="vista_academic_level_id">
-                    <div class="row">
+                <td style="width:20%;">
+                    <div class="row" id="vista_academic_level_id">
                             <?php echo $form->labelEx($model,'academic_level_id'); ?>
                             <?php echo $form->dropDownList($model,'academic_level_id',CHtml::listData(AcademicLevel::model()->findAll(),'id','name'),array('empty'=>'Seleccionar..')); ?>
                             <?php //echo $form->textField($model,'academic_level_id',array('style'=>'display:none;width:101px')); ?>
@@ -156,9 +154,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         
                         <img id="academic_level_id" title="Agregar Nuevo Nivel Academico" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAgregar" style="position: relative; top: 5px;" />
                     </div>
-                </td>
-                <td id="oculta_academic_level_id" style="display: none;">
-                    <div class="row">
+                    <div class="row" id="oculta_academic_level_id" style="display: none;">
                             <?php echo $form->labelEx($model,'academic_level_name'); ?>
                             <?php echo $form->textField($model,'academic_level_name'); ?>
                             <?php echo $form->error($model,'academic_level_name'); ?>
@@ -168,8 +164,8 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     </div>
                 </td>
                 <!-- Campo Profesion -->
-                <td id="vista_profession_id">
-                    <div class="row">
+                <td style="width:15%;">
+                    <div class="row" id="vista_profession_id">
                             <?php echo $form->labelEx($model,'profession_id'); ?>
                             <?php echo $form->dropDownList($model,'profession_id',CHtml::listData(Profession::model()->findAll(),'id','name'),array('empty'=>'Seleccionar..')); ?>
                             <?php //echo $form->textField($model,'profession_id',array('style'=>'display:none;width:101px')); ?>
@@ -177,9 +173,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         
                         <img id="profession_id" title="Agregar Nueva Profesion" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAgregar" style="position: relative; top: 5px;" />
                     </div>
-                </td>
-                <td id="oculta_profession_id" style="display: none;">
-                    <div class="row">
+                    <div class="row" id="oculta_profession_id" style="display: none;">
                             <?php echo $form->labelEx($model,'profession_name'); ?>
                             <?php echo $form->textField($model,'profession_name'); ?>
                             <?php echo $form->error($model,'profession_name'); ?>
@@ -194,8 +188,8 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
             <tr id="DatosContratacion">
                 
                 <!-- Campo Cargo -->
-                <td id="vista_position_id">
-                    <div class="row">
+                <td style="width:22%;">
+                    <div class="row" id="vista_position_id">
                             <?php echo $form->labelEx($model,'position_id'); ?>
                             <?php echo $form->dropDownList($model,'position_id',CHtml::listData(Position::model()->findAll(),'id','name'),array('empty'=>'Seleccionar..')); ?>
                             <?php //echo $form->textField($model,'position_id',array('style'=>'display:none;width:101px')); ?>
@@ -203,9 +197,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                         
                         <img id="position_id" title="Agregar Nuevo Cargo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/add.png" class="botonAgregar" style="position: relative; top: 5px;" />
                     </div>
-                </td>
-                <td id="oculta_position_id" style="display: none;">
-                    <div class="row">
+                    <div class="row" id="oculta_position_id" style="display: none;">
                             <?php echo $form->labelEx($model,'position_name'); ?>
                             <?php echo $form->textField($model,'position_name'); ?>
                             <?php echo $form->error($model,'position_name'); ?>
@@ -246,7 +238,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 </td>
                 <!-- Campo Supervisor -->
                 <td>
-                    <div class="row">
+                    <div class="row" style="width:25%;">
                             <?php echo $form->labelEx($model,'immediate_supervisor'); ?>
                             <?php 
                             if($model->id != null){
@@ -282,7 +274,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td>
                 <br>    
                 <h3>
-                    <span class="enviar" style="position: relative;">Horario del Empleado</span>
+                    <span class="enviar" style="position: relative;">Horario de Trabajo</span>
                 </h3>    
                 </td>
             </tr>
@@ -300,15 +292,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td id="oculta_employee_id">
                     <div class="row">
                             <?php echo $form->labelEx($model_hour_day_1,'Hora de Entrada'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'hours_start_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour_day_1,'hours_start_1'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'start_time_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_1,'start_time_1'); ?>
                     </div>
                 </td>
                 <td id="oculta_employee_id">
                     <div class="row">
                             <?php echo $form->labelEx($model_hour_day_1,'Hora de Salida'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'hours_end_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour_day_1,'hours_end_1'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'end_time_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_1,'end_time_1'); ?>
                     </div>
                 </td>
             </tr>
@@ -325,15 +317,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td id="oculta_employee_id">
                     <div class="row">
                             <?php echo $form->labelEx($model_hour_day_2,'Hora de Entrada'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_2,'name'=>'hours_start_2','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour_day_2,'hours_start_2'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_2,'name'=>'start_time_2','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_2,'start_time_2'); ?>
                     </div>
                 </td>
                 <td id="oculta_employee_id">
                     <div class="row">
                             <?php echo $form->labelEx($model_hour_day_2,'Hora de Salida'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_2,'name'=>'hours_end_2','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour_day_2,'hours_end_2'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_2,'name'=>'end_time_2','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_2,'end_time_2'); ?>
                     </div>
                 </td>
             </tr>
@@ -350,15 +342,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td id="oculta_employee_id">
                     <div class="row">
                             <?php echo $form->labelEx($model_hour_day_3,'Hora de Entrada'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_3,'name'=>'hours_start_3','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour_day_3,'hours_start_3'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_3,'name'=>'start_time_3','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_3,'start_time_3'); ?>
                     </div>
                 </td>
                 <td id="oculta_employee_id">
                     <div class="row">
                             <?php echo $form->labelEx($model_hour_day_3,'Hora de Salida'); ?>
-                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_3,'name'=>'hours_end_3','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
-                            <?php echo $form->error($model_hour_day_3,'hours_end_3'); ?>
+                            <?php $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_3,'name'=>'end_time_3','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); ?>  
+                            <?php echo $form->error($model_hour_day_3,'end_time_3'); ?>
                     </div>
                 </td>
             </tr>
@@ -366,11 +358,13 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td>
                 <br>    
                 <h3>
-                    <span class="enviar" style="position: relative;">Hijos del Empleado</span>
+                    <span class="enviar" style="position: relative;">Edades de los Hijos</span>
                 </h3>    
                 </td>
             </tr>
+        </table>
             <!-- Hijos del Empleado -->
+            <table>    
             <tr id="DatosHijos">
                 <!-- Campo Edad -->
                 <td id="col">
@@ -384,7 +378,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     foreach ($model_kid as $key => $value) {
                     
                     ?>
-                    <div class="row" id="row<?php echo ($key+1);?>">
+                    <div class="row" id="row<?php echo ($key+1);?>" style="float:left;">
                             <?php echo $form->labelEx($value,'Edad del Hijo #'.($key+1)); ?>
                             <?php echo $form->numberField($value,'age',array('id'=>'age'.($key+1))); ?>
                             <?php echo $form->error($value,'age'); ?>
@@ -397,7 +391,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     }else{
                     
                     ?>
-                    <div class="row" id="row1">
+                    <div class="row" id="row1" style="float:left;">
                             <?php echo $form->labelEx($model_kid,'Edad del Hijo #1'); ?>
                             <?php echo $form->numberField($model_kid,'age',array('id'=>'age1')); ?>
                             <?php echo $form->error($model_kid,'age'); ?>

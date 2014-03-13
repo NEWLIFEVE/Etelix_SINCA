@@ -105,7 +105,7 @@ class Employee extends CActiveRecord
 			'gender' => 'Sexo',
 			'photo_path' => 'Ruta de Foto',
 			'address' => 'Direccion',
-			'immediate_supervisor' => 'Supervisor Inmediato',
+			'immediate_supervisor' => 'Supervisor',
 			'phone_number' => 'Telefono',
 			'salary' => 'Remuneracion',
 			'CABINA_Id' => 'Cabina',

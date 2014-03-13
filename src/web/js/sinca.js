@@ -2,6 +2,7 @@
 //--- ALBERGA LAS FUNCIONALIDADES DE CADA PANTALLA DEL MISMO.
 
 //--- FUNCIONES ESTABLECIDAS PARA EL INICIO DEL DOCUMENTO (COLOCAR LAS FUNCIONES QUE SEAN CREADAS PARA LAS VISTAS).
+
 $(document).ready(function()
 {
     genExcel();
@@ -19,7 +20,6 @@ $(document).ready(function()
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
-    
 });
 
     function newEC(){
@@ -250,8 +250,8 @@ $(document).ready(function()
                                     async: false,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
-//                                            $("#nombreContenedor").css("display", "inline");
-//                                            $("#loading").css("display", "inline");
+                                            $("#nombreContenedor").css("display", "inline");
+                                            $("#loading").css("display", "inline");
                                     },
                                     success:  function (response) {
                                             $("#complete").html("Correo Enviado con Exito... !!");
@@ -730,17 +730,22 @@ $(document).ready(function()
 
     function addKid() {
         
-        
         $('img.botonAdd').on('click',function()
         {
-
-            var clickID = parseInt($("#DatosHijos td#col div.row").length);
-            var newID = (clickID+1);
+            
+            
+            //console.dir('Antes',clickID,newID,newInput);
+            var clickID = null;
+            var newID = null;
+            var newInput = null;
+            
+            clickID = parseInt($("#DatosHijos td#col div.row").length);
+            newID = (clickID+1);
             
             
             //alert(clickID);
  
-            var newInput = $("#DatosHijos td#col div#row"+clickID).clone();
+            newInput = $("#DatosHijos td#col div#row"+clickID).clone();
             newInput.attr("id",'row'+newID);
             //newInput.find('input').attr('id','age'+newID);
             newInput.find('input').attr('name', 'Kids[age' +newID+']');
@@ -761,14 +766,13 @@ $(document).ready(function()
               $("#DatosHijos td#col div#row"+(clickID)+" img.botonAdd").css('display', 'none');  
             }
             newInput.find('img.botonAdd').css('display', 'inline');
-            newInput.appendTo("#datosEmpleado tr#DatosHijos td#col"); 
-                   
+            newInput.appendTo("tr#DatosHijos td#col"); 
+    
+            addKid();       
             deleteKid(); 
-            addKid(); 
+            
             
         });
-
-
     }
     
     function removeImg() {
@@ -795,9 +799,9 @@ $(document).ready(function()
     
     function deleteKid() {
         
-        $('img.botonQuitar').on('click',function(event){    
-
-            var parent = $(this).attr("id");
+        $('img.botonQuitar').on('click',function(){    
+            var parent=null;
+            parent = $(this).attr("id");
             //alert(parent.substring(3,4));
 	    $('div#'+parent).remove();
             
@@ -818,20 +822,25 @@ $(document).ready(function()
     //Asigna los Valores de la NOmina por Empleado Registrado
     function getListEmployee() {
         
+        $("#Detallegasto_category").change(function () {
+              resetField(false);
+        });
+        
         $("select#beneficiario2").css('display','none');
         //Capturar Seleccion de la Categoria
-        $("#Detallegasto_category").change(function () {
-            var selc_nomina = $("#Detallegasto_category option:selected").text();
-            
-            if(selc_nomina == 'NOMINA'){
+
                 //Capturar Seleccion del Tipo de Gasto
                 $("#Detallegasto_TIPOGASTO_Id").change(function () {
                 var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
                 
-                    if(selc_tipo_gasto == 'Pago a Empleado'){
+                    if(selc_tipo_gasto != 'Seleccione uno'){
                         //Capturar Seleccion de la Cabina
                         $("#Detallegasto_CABINA_Id").change(function () {
-                            
+                        
+                        var selc_cabina = $("#Detallegasto_CABINA_Id option:selected").text();
+                        var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
+                        
+                        if(selc_cabina != 'Seleccionar..' && selc_tipo_gasto == 'Pago a Empleado'){     
                         $("#Detallegasto_Monto").val('');     
                         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
                         
@@ -885,21 +894,18 @@ $(document).ready(function()
 
                                   
                             });
+                        }
                         
                         });
-                    }else{
-                        resetField(false);
                     }
                 
                 
                 });
-            }else{
-                resetField(false);
-            }
+
             
             
     
-        });
+   
 
     }
     
@@ -915,6 +921,8 @@ $(document).ready(function()
         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
         $("#Detallegasto_CUENTA_Id option[value='empty']").attr("selected", "selected");
         $("#Detallegasto_CUENTA_Id").html('<option value="empty">Seleccionar Moneda</option>');
+        $("select#Detallegasto_TIPOGASTO_Id").prop('selectedIndex', 0);
+        $("select#Detallegasto_CABINA_Id").prop('selectedIndex', 0);
     }
     
     function setKids(){

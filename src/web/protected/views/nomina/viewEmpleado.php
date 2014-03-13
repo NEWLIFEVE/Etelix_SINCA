@@ -10,15 +10,13 @@ $kids = Kids::getEmployeeKids($model->id);
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
-            array(
-                    'name'=>'CABINA_Id',
-                    'value'=>$model->cABINA->Nombre,
-                ),
+//		'id',
+            
              array(
                     'name'=>'code_employee',
                     'value'=>$model->code_employee,
                 ),
+            
              array(
                     'name'=>'name',
                     'value'=>$model->name,
@@ -38,6 +36,10 @@ $kids = Kids::getEmployeeKids($model->id);
             array(
                     'name'=>'marital_status_id',
                     'value'=>$model->maritalStatus->name,
+                ),
+            array(
+                    'name'=>'CABINA_Id',
+                    'value'=>$model->cABINA->Nombre,
                 ),
             array(
                     'name'=>'address',
