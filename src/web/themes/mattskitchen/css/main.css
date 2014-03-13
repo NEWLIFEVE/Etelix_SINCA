@@ -470,7 +470,9 @@ margin-right: 38px;
   color: #fff;
 } 
 
-.botonCorreo:hover, .botonCorreoPanel:hover, .botonExcel:hover, .botonExcelCompleto:hover, .printButton:hover
+.botonCorreo:hover, .botonCorreoPanel:hover, .botonExcel:hover, .botonExcelCompleto:hover, 
+.printButton:hover, .botonExcelTotal:hover, .botonCorreoTotal:hover, .printButtonTotal:hover,
+.botonExcelMatriz:hover, .printButtonMatriz:hover, .botonCorreoMatriz:hover
 {
     opacity: 0.5;
 }
@@ -513,10 +515,14 @@ margin-right: 38px;
 div.grid-view.detalleCuenta table.items tbody tr th,
 .ReporteDepositos table.items th,
 .ReportePABrighstar table.items th#reportePaBrightstar_c3,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c3,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c4,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c3,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c5,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c4,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c5,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c4,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c5,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c4,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c5,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c7,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c8,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c9,
@@ -573,6 +579,10 @@ div.grid-view.detalleCuenta table.items tbody tr th,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c1,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c0,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c1,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c0,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c1,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c0,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c1,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c0,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c1,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoInactivas_c0,
@@ -582,8 +592,10 @@ div.grid-view.detalleCuenta table.items tbody tr th,
 }
 .ReportePABrighstar table.items th#reportePaBrightstar_c4,
 .ReportePABrighstar table.items th#reportePaBrightstar_c5,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c2,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c2,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c3,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c3,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c3,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c3,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c2,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c3,
 .balanceCicloIngresosCompleto table.items th#balanceCicloIngresosCompletoActivas_c4,
@@ -597,30 +609,46 @@ div.grid-view.detalleCuenta table.items tbody tr th,
 {
   background: rgba(255,187,0,1) !important;
 }
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c5,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c6,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c5,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c6
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c6,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c6,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c6,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c7
 {
   background: rgba(255,153,51,1) !important;
 }
 .ReportePABrighstar table.items th#reportePaBrightstar_c7,
 .ReportePABrighstar table.items th#reportePaBrightstar_c8,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c7,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c8,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c9,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c10,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c11,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c8,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c9,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c10
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c10,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c11,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c8,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c9,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c10,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c11,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c8,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c9,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c10,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c11
 {
   background: rgba(204,153,204,1) !important;
 }
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c11,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c12,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c11,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c12
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c13,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c12,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c13,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c12,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c13,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c12,
+.CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumidoOculta_c13
 {
   background: rgba(46,135,255,1) !important;
 }
@@ -651,7 +679,7 @@ div.grid-view.ReporteCaptura#balanceReporteCaptura1 div.pager
 #balanceCicloIngresosResumido_c0,
 #employee-grid
 {
-  min-width: 69px;
+  /*min-width: 69px;*/
   text-align: center;
 }
 #todas
@@ -833,7 +861,7 @@ div#totalesPronostico.grid-view
 
 div#cicloingresosbotons
 {
-    margin-left: 190px;
+    margin-left: 118px;
 }
 div#botonsExport
 {
@@ -1032,4 +1060,9 @@ table.matrizGastos th
 img
 {
     cursor: pointer;
+}
+
+.fancyboxLinks 
+{
+    margin-left: 16em !important ;
 }

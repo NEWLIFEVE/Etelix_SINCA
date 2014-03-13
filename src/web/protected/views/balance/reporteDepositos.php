@@ -5,7 +5,7 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 
-$mes=date("Y-m");
+$mes=null;
 
 
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")

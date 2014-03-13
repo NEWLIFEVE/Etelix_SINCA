@@ -256,7 +256,7 @@ class Balance extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
         $criteria=new CDbCriteria;
-        $criteria->condition="status=1 AND Nombre!='ZPRUEBA' AND Nombre!='RESTO'";
+        $criteria->condition="status=1 AND Nombre!='ZPRUEBA' AND Nombre!='COMUN CABINA'";
         $criteria->compare('Id',$this->Id);
         $criteria->compare('Fecha',$this->Fecha,true);
         $criteria->compare('SaldoApMov',$this->SaldoApMov,true);		
@@ -356,7 +356,7 @@ class Balance extends CActiveRecord
 	public function searchEs($vista=null,$idBalancesActualizados=NULL)
 	{
         $criteria=new CDbCriteria;
-        $criteria->condition = "status=1 AND Nombre!='ZPRUEBA' AND Nombre!='RESTO'";
+        $criteria->condition = "status=1 AND Nombre!='ZPRUEBA' AND Nombre!='COMUN CABINA'";
         $criteria->compare('Fecha',$this->Fecha,true);
         $criteria->compare('SaldoApMov',$this->SaldoApMov,true);		
         $criteria->compare('SaldoApClaro',$this->SaldoApClaro,true);
@@ -404,7 +404,7 @@ class Balance extends CActiveRecord
             'params'=>array(
             ':status'=>1,
             ':nombre'=>'ZPRUEBA',
-            ':nombre2'=>'RESTO',
+            ':nombre2'=>'COMUN CABINA',
             ),
         ));
 
@@ -558,7 +558,7 @@ class Balance extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
         $criteria=new CDbCriteria;
-        $criteria->condition="status=0 AND Nombre!='ZPRUEBA' AND Nombre!='RESTO'";
+        $criteria->condition="status=0 AND Nombre!='ZPRUEBA' AND Nombre!='COMUN CABINA'";
         $criteria->compare('Id',$this->Id);
         $criteria->compare('Fecha',$this->Fecha,true);
         $criteria->compare('SaldoApMov',$this->SaldoApMov,true);		
@@ -602,7 +602,7 @@ class Balance extends CActiveRecord
             'params'=>array(
                 ':status'=>0,
                 ':nombre'=>'ZPRUEBA',
-                ':nombre2'=>'RESTO',
+                ':nombre2'=>'COMUN CABINA',
                 ),
             ));
 
