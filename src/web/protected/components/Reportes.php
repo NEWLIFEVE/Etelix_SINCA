@@ -260,8 +260,8 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Total Ventas (S/.)</th>
                                     
-                                <th '.self::defineStyleHeader("depositos").' id="b alance-grid_c6">Fecha en el que se hizo el Deposito</th>
-                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Hora en el que se hizo el Deposito</th>
+                                <th '.self::defineStyleHeader("depositos").' id="b alance-grid_c6">Fecha del Deposito</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Hora del Deposito</th>
                                     
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c6">Monto Deposito (S/.)</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Monto Banco (S/.)</th>

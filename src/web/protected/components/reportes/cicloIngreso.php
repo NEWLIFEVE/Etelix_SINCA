@@ -80,8 +80,8 @@
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->OtrosServicios), $type).'</td>
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->TotalVentas), $type).'</td>
                                             
-                                        <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->FechaDep).'</td>
-                                        <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->HoraDep).'</td>
+                                        <td '.Reportes::defineStyleTd($key+2).'>'.$registro->FechaDep.'</td>
+                                        <td '.Reportes::defineStyleTd($key+2).'>'.$registro->HoraDep.'</td>
                                             
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->MontoDeposito), $type).'</td>
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->MontoBanco), $type).'</td>
