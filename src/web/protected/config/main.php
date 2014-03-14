@@ -84,10 +84,10 @@ return array(
             ),
 		'db'=>array(
 
-			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
+			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-			'username'=>'root',
-			'password'=>'Nsusfd8263',
+			'username'=>'edmaku',
+			'password'=>'123',
 			'charset'=>'utf8',
 			),
 		'errorHandler'=>array(

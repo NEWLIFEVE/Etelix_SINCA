@@ -254,8 +254,8 @@ $(document).ready(function()
                                     async: false,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
-                                            $("#nombreContenedor").css("display", "inline");
-                                            $("#loading").css("display", "inline");
+//                                            $("#nombreContenedor").css("display", "inline");
+//                                            $("#loading").css("display", "inline");
                                     },
                                     success:  function (response) {
                                             $("#complete").html("Correo Enviado con Exito... !!");
@@ -800,15 +800,15 @@ $(document).ready(function()
                 //Capturar Seleccion del Tipo de Gasto
                 $("#Detallegasto_TIPOGASTO_Id").change(function () {
                 var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
-                
-                    if(selc_tipo_gasto != 'Seleccione uno'){
+                $("select#Detallegasto_CABINA_Id").prop('selectedIndex', 0);
+                    if(selc_tipo_gasto == 'Pago a Empleado'){
                         //Capturar Seleccion de la Cabina
                         $("#Detallegasto_CABINA_Id").change(function () {
                         
                         var selc_cabina = $("#Detallegasto_CABINA_Id option:selected").text();
                         var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
                         
-                        if(selc_cabina != 'Seleccionar..' && selc_tipo_gasto != 'Seleccione uno'){     
+                        if(selc_cabina != 'Seleccionar..' && selc_tipo_gasto != 'Seleccione uno' && selc_tipo_gasto == 'Pago a Empleado'){     
                         $("#Detallegasto_Monto").val('');     
                         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
                         
