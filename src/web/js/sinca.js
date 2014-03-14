@@ -412,13 +412,13 @@ $(document).ready(function()
                 
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
-                                    url: "/site/print?ids="+ids+"&table="+gridview,   
+                                    url: "/site/print?ids="+ids+"&table="+gridview+"&name="+name,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
             var content = '<!DOCTYPE html><html><meta charset="es">'+
             '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
-            '<body><h1 style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;">'+name+'</h1><br>'
+            '<body>'
             //Tabla con Formato
             +response+
 
@@ -467,13 +467,13 @@ $(document).ready(function()
             if(ids != ''){
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
-                                    url: "/site/print?ids="+ids+"&table=balanceCicloIngresosCompleto",   
+                                    url: "/site/print?ids="+ids+"&table=balanceCicloIngresosCompleto&name="+name,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
             var content = '<html lang="es"><meta charset="latin1">'+
             '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
-            '<body><h1 style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;">'+name+'</h1><br>'
+            '<body>'
             //Tabla con Formato
             +response+
 
@@ -517,13 +517,13 @@ $(document).ready(function()
             if(ids != ''){
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
-                                    url: "/site/print?ids="+ids+"&table="+gridview,   
+                                    url: "/site/print?ids="+ids+"&table="+gridview+"&name="+name,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
             var content = '<html lang="es"><meta charset="latin1">'+
             '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
-            '<body><h1 style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;">'+name+'</h1><br>'
+            '<body>'
             //Tabla con Formato
             +response+
 
