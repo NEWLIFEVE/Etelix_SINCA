@@ -42,6 +42,7 @@ class Employee extends CActiveRecord
         public $employee_hours_start;
         public $employee_hours_end;
         public $age;
+        public $kids;
 
         
   
@@ -58,15 +59,15 @@ class Employee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, lastname, identification_number, admission_date, gender, address, salary, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id, CABINA_Id,', 'required'),
-			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, employee_hours_id, position_id', 'numerical', 'integerOnly'=>true),
+			array('name, lastname, identification_number, admission_date, gender, address, salary, academic_level_id, profession_id, marital_status_id, position_id, CABINA_Id,', 'required'),
+			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, position_id', 'numerical', 'integerOnly'=>true),
 			array('salary', 'numerical'),
 			array('code_employee', 'length', 'max'=>4),
 			array('name, lastname, identification_number, phone_number', 'length', 'max'=>45),
 			array('photo_path', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, marital_status_name, employee_hours_id, position_id', 'safe', 'on'=>'search'),
+			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, marital_status_name, position_id, currency_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,12 +82,13 @@ class Employee extends CActiveRecord
 			'position' => array(self::BELONGS_TO, 'Position', 'position_id'),
 			'academicLevel' => array(self::BELONGS_TO, 'AcademicLevel', 'academic_level_id'),
 			'cABINA' => array(self::BELONGS_TO, 'Cabina', 'CABINA_Id'),
-			'employeeHours' => array(self::BELONGS_TO, 'EmployeeHours', 'employee_hours_id'),
+                        'employeeHours' => array(self::HAS_MANY, 'EmployeeHours', 'employee_id'),
 			'maritalStatus' => array(self::BELONGS_TO, 'MaritalStatus', 'marital_status_id'),
 			'profession' => array(self::BELONGS_TO, 'Profession', 'profession_id'),
 			'immediateSupervisor' => array(self::BELONGS_TO, 'Employee', 'immediate_supervisor'),
 			'employees' => array(self::HAS_MANY, 'Employee', 'immediate_supervisor'),
 			'kids' => array(self::HAS_MANY, 'Kids', 'employee_id'),
+                        'currency' => array(self::BELONGS_TO,'Currency', 'currency_id'),
 		);
 	}
 
@@ -104,9 +106,9 @@ class Employee extends CActiveRecord
 			'gender' => 'Sexo',
 			'photo_path' => 'Ruta de Foto',
 			'address' => 'Direccion',
-			'immediate_supervisor' => 'Supervisor Inmediato',
+			'immediate_supervisor' => 'Supervisor',
 			'phone_number' => 'Telefono',
-			'salary' => 'Salario',
+			'salary' => 'Remuneracion',
 			'CABINA_Id' => 'Cabina',
 			'academic_level_id' => 'Nivel Academico',
                         'academic_level_name' => 'Nivel Academico',
@@ -114,7 +116,6 @@ class Employee extends CActiveRecord
                         'profession_name' => 'Profesion',
 			'marital_status_id' => 'Estado Civil',
                         'marital_status_name' => 'Estado Civil',
-			'employee_hours_id' => 'Horario',
                         'employee_hours_start' => 'Hora Entrada',
                         'employee_hours_end' => 'Hora Salida',
 			'position_id' => 'Cargo',
@@ -122,6 +123,7 @@ class Employee extends CActiveRecord
                         'status' => 'Estatus',
                         'age' => 'Edad del Hijo',
                         'admission_date' => 'Fecha de Ingreso',
+                        'currency_id' => 'Moneda',
                     
 		);
 	}
@@ -159,12 +161,12 @@ class Employee extends CActiveRecord
 		$criteria->compare('academic_level_id',$this->academic_level_id);
 		$criteria->compare('profession_id',$this->profession_id);
 		$criteria->compare('marital_status_id',$this->marital_status_id);
-		$criteria->compare('employee_hours_id',$this->employee_hours_id);
 		$criteria->compare('position_id',$this->position_id);
                 $criteria->compare('admission_date',$this->admission_date);
                 $criteria->compare('record_date',$this->record_date);
+                $criteria->compare('currency_id',$this->currency_id);
                 
-                $orden="code_employee ASC";
+                $orden="status ASC";
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -197,5 +199,31 @@ class Employee extends CActiveRecord
 			}
 		
         }
+        
+        public static function getListEmpleyee($cabina)
+        {
+          return CHtml::listData(Employee::model()->findAllBySql("SELECT id, CONCAT(name, ' ',lastname) as name FROM employee WHERE CABINA_Id=$cabina"), 'id', 'name');	
+
+        }
+
+        public static function getNameEmployee($id){
+            
+	  $model=self::model()->findBySql("SELECT CONCAT(name,' ',lastname) AS name FROM employee WHERE id = $id");
+          return $model->name ;
+		
+        }
+        
+        public function setImage($status)
+        {
+            if($status == 1){
+                $dir = Yii::app()->request->baseUrl."/themes/mattskitchen/img/diable2.png";
+            }else{
+                $dir= Yii::app()->request->baseUrl."/themes/mattskitchen/img/diable3.png";
+            }
+            
+            return $dir;
+        }
+        
+        
         
 }

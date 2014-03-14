@@ -13,6 +13,7 @@ $this->breadcrumbs=array(
     $(document).ready(function(){
         $("#ocultarEnUpdate").addClass("ocultar");
         $("#Detallegasto_category").attr('disabled','disabled');
+        $("#Detallegasto_beneficiario").attr('disabled','disabled');
         $("#Detallegasto_TIPOGASTO_Id").attr('disabled','disabled');
         $("#DetalleGasto").slideDown("slow");
         $("#Detallegasto_TIPOGASTO_Id").click(function(){

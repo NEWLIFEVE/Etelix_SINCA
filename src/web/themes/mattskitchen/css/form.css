@@ -208,3 +208,28 @@ input.loginButton
 {
     margin-left: 35%;
 }
+
+select, input[type=text]{
+    width: 140px;
+    
+}
+
+select{
+    height: 26px;
+}
+
+input[type=number]{
+    width: 110px;
+}
+
+input[type=checkbox]{
+    width: 15px;
+    height: 15px;
+}
+
+td#col div.row{
+    margin-right: 3%;
+}
+td#col div.row{
+    margin-right: 3%;
+}

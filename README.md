@@ -2,6 +2,12 @@ Etelix_SINCA
 ============
 
 Sistema para control de Cabinas Telefonicas
+
+    - Asignacion de Categoria de Gatos (Declaracion de Gasto y Matriz).
+    - Carga Automatica de los Datos de Nomina por Empleado (Declaracion de Gasto).
+    - Creacion del Modulo de Nomina.
+    - Creacion de la Matriz de Gastos Evolucion.
+
 Release 1.6.4
     - Agregada a matriz de gastos las categorias
     - Agregada las categorias de los gastos
@@ -16,8 +22,10 @@ Release 1.6.2
     - Correccion de urlManager, ya los usuarios pueden actualizar sus contrasenas y gii no se ve afectado
     - Corregido error en estado de gastos, no permitia declarar las aprobados y cuentas y fechas
     - Corregido error en estado de gastos
+
 Release 1.6.1
     - Correccion de envio de correo de novedades
+
 Release 1.6
     - Cambio de look and feel de la interfaz en general.
     - Mejora en el proceso de Exportacion a Excel (Balances).

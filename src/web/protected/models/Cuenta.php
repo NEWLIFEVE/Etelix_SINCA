@@ -101,7 +101,7 @@ class Cuenta extends CActiveRecord
 	/**
 	*
 	*/
-    public static function getListCuentaTipo($tipo)
+        public static function getListCuentaTipo($tipo)
 	{
 		return CHtml::listData(Cuenta::model()->findAll('moneda=:moneda',array(':moneda'=>$tipo)), 'Id', 'Nombre');
 	}
