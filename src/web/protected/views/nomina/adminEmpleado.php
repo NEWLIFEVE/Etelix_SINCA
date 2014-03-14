@@ -23,7 +23,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
 
 <?php 
         //GridView del Empleado
-
+        
         $this->widget('zii.widgets.grid.CGridView', array(
             'id'=>'employee-grid',
             'dataProvider'=>$model->search(),
@@ -77,15 +77,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             'style'=>'text-align: center',
                           ),
                         ), 
-                    array(
-                        'name'=>'gender',
-                        'value'=>'$data->gender == 1 ? "Femenino" : "Masculino"',
-                        'type'=>'text',
-                        'htmlOptions'=>array(
-                            'id'=>'gender',
-                            'style'=>'text-align: center',
-                          ),
-                        ),
+//                    array(
+//                        'name'=>'gender',
+//                        'value'=>'$data->gender == 1 ? "Femenino" : "Masculino"',
+//                        'type'=>'text',
+//                        'htmlOptions'=>array(
+//                            'id'=>'gender',
+//                            'style'=>'text-align: center',
+//                          ),
+//                        ),
                     array(
                         'name'=>'CABINA_Id',
                         'value'=>'$data->cABINA->Nombre',
@@ -96,15 +96,6 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                           ),
                         'filter'=>  Cabina::getListCabina(),
                         ),
-//                    array(
-//                        'name'=>'employee_hours_id',
-//                        'value'=>'date("h:i A",strtotime($data->employeeHours->start_time))." - ".date("h:i A",strtotime($data->employeeHours->end_time))',
-//                        'type'=>'text',
-//                        'htmlOptions'=>array(
-//                            'id'=>'employee_hours_id',
-//                            'style'=>'text-align: center; width: 120px;',
-//                          ),
-//                        ),
                     array(
                         'name'=>'position_id',
                         'value'=>'$data->position->name',
@@ -149,24 +140,29 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             'header' => 'Detalle',
                             'class'=>'CButtonColumn',
                             'deleteConfirmation'=>"js:'Desea pasar este Empleado a Inactivo?'",
-                            //'template' => Utility::ver(Yii::app()->getModule('user')->user()->tipo),
                             'buttons'=>array
                             (
                                 'view' => array
                                 (
                                     'label'=>'Ver Empleado',
                                     'url'=>'Yii::app()->createUrl("nomina/viewEmpleado", array("id"=>$data->id))',
+                                    'imageUrl'=>Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png",
                                 ),
                                 'update' => array
                                 (
                                     'label'=>'Actualizar Empleado',
                                     'url'=>'Yii::app()->createUrl("nomina/CrearEmpleado", array("id"=>$data->id))',
-                                ),
+                                    'imageUrl'=>Yii::app()->request->baseUrl."/themes/mattskitchen/img/update.png",
+                                ), 
                                 'delete' => array
                                 (
                                     'label'=>'Desactivar Empleado',
                                     'url'=>'Yii::app()->createUrl("nomina/DesactivarEmpleado", array("id"=>$data->id))',
-                                     
+                                    'imageUrl'=> Yii::app()->request->baseUrl."/themes/mattskitchen/img/disabled.png",
+                                    'visible'=>'($data->status==1)?true:false',
+//                                    'options'=>array(
+//                                        'style'=> '($data->status==1)? "" : opacity: 0.3',
+//                                      ),
                                 ),
                             ),
                     ),

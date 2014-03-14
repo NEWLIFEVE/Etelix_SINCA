@@ -67,7 +67,7 @@ class Employee extends CActiveRecord
 			array('photo_path', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, marital_status_name, position_id', 'safe', 'on'=>'search'),
+			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, marital_status_name, position_id, currency_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -88,6 +88,7 @@ class Employee extends CActiveRecord
 			'immediateSupervisor' => array(self::BELONGS_TO, 'Employee', 'immediate_supervisor'),
 			'employees' => array(self::HAS_MANY, 'Employee', 'immediate_supervisor'),
 			'kids' => array(self::HAS_MANY, 'Kids', 'employee_id'),
+                        'currency' => array(self::BELONGS_TO,'Currency', 'currency_id'),
 		);
 	}
 
@@ -122,6 +123,7 @@ class Employee extends CActiveRecord
                         'status' => 'Estatus',
                         'age' => 'Edad del Hijo',
                         'admission_date' => 'Fecha de Ingreso',
+                        'currency_id' => 'Moneda',
                     
 		);
 	}
@@ -162,8 +164,9 @@ class Employee extends CActiveRecord
 		$criteria->compare('position_id',$this->position_id);
                 $criteria->compare('admission_date',$this->admission_date);
                 $criteria->compare('record_date',$this->record_date);
+                $criteria->compare('currency_id',$this->currency_id);
                 
-                $orden="code_employee ASC";
+                $orden="status ASC";
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -208,6 +211,17 @@ class Employee extends CActiveRecord
 	  $model=self::model()->findBySql("SELECT CONCAT(name,' ',lastname) AS name FROM employee WHERE id = $id");
           return $model->name ;
 		
+        }
+        
+        public function setImage($status)
+        {
+            if($status == 1){
+                $dir = Yii::app()->request->baseUrl."/themes/mattskitchen/img/diable2.png";
+            }else{
+                $dir= Yii::app()->request->baseUrl."/themes/mattskitchen/img/diable3.png";
+            }
+            
+            return $dir;
         }
         
         

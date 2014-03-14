@@ -1052,3 +1052,6 @@ input[type=checkbox]{
     height: 15px;
 }
 
+td#col div.row{
+    margin-right: 3%;
+}

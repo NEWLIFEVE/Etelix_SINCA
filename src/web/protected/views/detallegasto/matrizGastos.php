@@ -215,14 +215,12 @@ if (count($model)> 0) { ?>
                
                 if ($MontoGasto!=NULL){
                      $moneda = Detallegasto::monedaGasto($MontoGasto->moneda);
-                            
                                 $fondo = '';
                                 if($moneda == 'S/.'){
                                     $fondo = 'background: #1967B2;';
                                 }else{
                                     $fondo = 'background: #00992B;';
                                 }
-                                
                             if ($count>0){
                                 
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
@@ -240,14 +238,12 @@ if (count($model)> 0) { ?>
                                         $content.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     }
                             }
-                          
                 }  else {
                     if ($count>0){
                         $content.="<td></td>";
                     }else{
                         $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->categoria</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
                     }
-
                 }
                 $count++;
             }
@@ -262,8 +258,7 @@ if (count($model)> 0) { ?>
             foreach ($monts as $key => $mont) {
                 $MS = $mont->MontoS;
                 $MD = $mont->MontoD;
-            }
-//         
+            }       
     
      $tr.="<tr id='ordenPago'> 
          
@@ -280,24 +275,18 @@ if (count($model)> 0) { ?>
                  $tr.="<td style='width: 80px;color: #FFF; background: #00992B; font-size:10px;'>$MD</td>";
              }else{
                  $tr.="<td style='width: 80px;color: #FFF; background: none; font-size:10px;'>$MD</td>";
-             }
-             
-                 
-             
+             }          
                  
            $tr.="</tr>";
-
-
-    
+ 
      echo $tr;
-     
-     
+         
     }
     echo $row;
     // TOTALES SOLES         
     echo "<tr>
         
-            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Soles</h3></td>";
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Soles</h3></td>";
          
            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
@@ -348,7 +337,7 @@ if (count($model)> 0) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td style='border:  0px rgb(233, 224, 224) solid !important;'></td><td rowspan='1' style='color: #FFF;width: 120px; background: #1967B2;font-size:10px;'><h3>Totales Dolares</h3></td>";
+            <td style='border:  0px rgb(233, 224, 224) solid !important;'></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Dolares</h3></td>";
          
             $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre = 'COMUN CABINA', nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
@@ -371,9 +360,6 @@ if (count($model)> 0) { ?>
         }else{
             echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";            
         }
-
-
-        
             
         }
             }
@@ -472,7 +458,6 @@ if (count($model)> 0) { ?>
                                 }else{
                                     $fondo = 'background: #00992B;';
                                 }
-                                
                             if ($count>0){
                                 
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
@@ -492,6 +477,7 @@ if (count($model)> 0) { ?>
                             }
                           
                 }  else {
+//                    var_dump($gasto->nombreTipoDetalle);
                     if ($count>0){
                         $content.="<td></td>";
                     }else{
@@ -516,6 +502,7 @@ if (count($model)> 0) { ?>
 //         
     
      $tr.="<tr id='ordenPago'> 
+
          
              $content <td style='background: #DADFE4;'></td>";
                  
@@ -531,14 +518,9 @@ if (count($model)> 0) { ?>
              }else{
                  $tr.="<td style='width: 80px;color: #FFF; background: none; font-size:10px;'>$MD</td>";
              }
-             
-                 
-             
                  
            $tr.="</tr>";
 
-
-    
      echo $tr;
      
      

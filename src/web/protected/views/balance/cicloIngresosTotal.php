@@ -90,35 +90,26 @@ $año = date("Y", strtotime($mes));
 <h1>
     <span class="enviar">
         Ciclo de Ingresos Total <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año : ""; ?>
-    </span>
-    <span style="display: none">
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
-        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonCompleteTotal' />
+    </span> 
+    <span>
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoTotal" />
+        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelTotal" />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonTotal'/>
+        <div style="margin-top: 8px;">  
+            <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/cicloIngresosTotal') ?>">
+                <label for="datepicker">
+                    Seleccione un mes:
+                </label>
+                <input type="text" id="datepicker" name="formFecha" size="30" readonly/>
+                <span class="buttons">
+                <input type="submit" value="Actualizar"/>
+                </span>
+            </form>
+        </div>
     </span>
 </h1>
-<div>
 <div id="cicloingresosbotons">
-    <div id="botonsExport">
-    <ul>
-        <li style="width: 200px;">
-            Resumido      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoTotal" />
-                    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelT" />
-                    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonTotal'/>
-
-        </li>
-        <li style="width: 200px;display:none;">
-            <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Completo" method="post" target="_blank" id="FormularioExportacionCompleto">
-                Completo      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoComplete" />
-                        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelComplete" />
-                        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonComplete'/>
-                <input type="hidden" id="datos_a_enviar_completo" name="datos_a_enviar" />
-            </form>
-        </li>
-
-    </div>
-</div>
-    <div style="float: left;width: 60%;padding-top: 2%;" >
+<!--        <div style="float: left;width: 50%;" >
         <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/cicloIngresosTotal') ?>">
             <label for="datepicker">
                 Seleccione un mes:
@@ -128,10 +119,25 @@ $año = date("Y", strtotime($mes));
             <input type="submit" value="Actualizar"/>
             </span>
         </form>
+    </div>-->
+    <div id="botonsExport">
+    <ul>
+        <li style="display:none;">
+            Resumido      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoTotal" />
+                    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelTotal" />
+                    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonTotal'/>
+
+        </li>
+        <li style="display:none;">
+            <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Completo" method="post" target="_blank" id="FormularioExportacionCompleto">
+                Completo      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoComplete" />
+                        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelComplete" />
+                        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonComplete'/>
+                <input type="hidden" id="datos_a_enviar_completo" name="datos_a_enviar" />
+            </form>
+        </li>
     </div>
-    <div style="display: block;">&nbsp;</div>
 </div>
-    <div style="display: block;">&nbsp;</div>
 <button id="cambio" style="display: none">Inactivas</button>
 
 <?php
@@ -153,7 +159,6 @@ $this->widget('application.extensions.fancybox.EFancyBox',array(
     </thead>
 </table>
 <div>
-<div style="display: block;">&nbsp;</div>
 <div id="mostrarFormulas">
     F&oacute;rmulas
 </div>
@@ -206,7 +211,7 @@ $this->widget('application.extensions.fancybox.EFancyBox',array(
 </div>
 </div>
 <div class="output" style="overflow: auto;">
-<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>    
+<div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)): "";?></div>   
 <?php
 
 $this->widget('zii.widgets.grid.CGridView',array(
@@ -574,455 +579,6 @@ function reinstallDatePicker(id, data) {
 </table>
 </div>
 <?php
-$this->widget('zii.widgets.grid.CGridView',array(
-    'id'=>'balanceCicloIngresosCompletoActivas',
-    'dataProvider'=>$model->searchEs('cicloIngresoTotal'),
-    'filter'=>$model,
-    'htmlOptions'=>array(
-        'class'=>'grid-view balanceCicloIngresosCompleto oculta',
-        'rel'=>'completa',
-        'name'=>'vistaoculta',
-        ),
-    'columns'=>array(
-        array(
-        'name'=>'Id',
-        'value'=>'$data->Id',
-        'type'=>'text',
-        'headerHtmlOptions' => array('style' => 'display:none'),
-        'htmlOptions'=>array(
-            'id'=>'ids',
-            'style'=>'display:none',
-          ),
-          'filterHtmlOptions' => array('style' => 'display:none'),
-        ),
-        array(
-            'name'=>'Fecha',
-            'value'=>'$data->Fecha',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'CABINA_Id',
-            'value'=>'$data->cABINA->Nombre',
-            'type'=>'text',
-            'filter'=>Cabina::getListCabina(),
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'Trafico',
-            'value'=>'$data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'RecargaMovistar',
-            'value'=>'$data->RecargaCelularMov+$data->RecargaFonoYaMov',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'RecargaClaro',
-            'value'=>'$data->RecargaCelularClaro+$data->RecargaFonoClaro',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'OtrosServicios',
-            'value'=>'$data->OtrosServicios',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'Total',
-            'value'=>'$data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;  width:150px;'
-                ),
-            ),
-        'FechaDep',
-        array(
-            'name'=>'FechaDep',
-            'value'=>'$data->FechaDep',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'HoraDep',
-            'value'=>'$data->HoraDep',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'MontoDeposito',
-            'value'=>'$data->MontoDeposito',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'MontoBanco',
-            'value'=>'$data->MontoBanco',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'DifBancoCI',
-            'value'=>'$data->MontoBanco-($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                ),
-            ),
-        array(
-            'name'=>'ConciliacionBancaria',
-            'value'=>'$data->MontoBanco-$data->MontoDeposito',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        'RecargaVentasMov',
-        array(
-            'name'=>'DifMov',
-            'value'=>'$data->RecargaVentasMov-($data->RecargaCelularMov+$data->RecargaFonoYaMov)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        'RecargaVentasClaro',
-        array(
-            'name'=>'DifClaro',
-            'value'=>'$data->RecargaVentasClaro-($data->RecargaCelularClaro+$data->RecargaFonoClaro)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        'TraficoCapturaDollar',
-        array(
-            'name'=>'TraficoCapturaDollar',
-            'value'=>'$data->TraficoCapturaDollar',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'Paridad',
-            'value'=>'Balance::paridadCambiaria($data->Fecha)',
-            'type'=>'text',
-        ),
-        array(
-            'name'=>'CaptSoles',
-            'value'=>'$data->TraficoCapturaDollar*(Balance::paridadCambiaria($data->Fecha))',
-            'type'=>'text',
-        ),
-        array(
-            'name'=>'DifSoles',
-            'value'=>'($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)-($data->TraficoCapturaDollar*(Balance::paridadCambiaria($data->Fecha)))',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        array(
-            'name'=>'DifDollar',
-            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI-$data->TraficoCapturaDollar*2.64)/2.64)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        array('name'=>'Acumulado',
-            'value'=>'Balance::acumuladoTotal($data->Fecha)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'Acumulado',
-                ),
-            ),
-        array('name'=>'Sobrante',
-            'value'=>'Balance::sobranteTotal($data->Fecha)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'Sobrante',
-                ),
-            ),
-        array('name'=>'SobranteAcum',
-            'value'=>'Balance::sobranteAcumTotal($data->Fecha)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'SobranteAcum',
-                ),
-            ),
-    ),
-));
-$this->widget('zii.widgets.grid.CGridView',array(
-    'id'=>'balanceCicloIngresosCompletoInactivas',
-    'dataProvider'=>$model->disable(),
-    'filter'=>$model,
-    'htmlOptions'=>array(
-        'class'=>'grid-view balanceCicloIngresosCompleto oculta',
-        'rel'=>'completa',
-        'name'=>'ocultaoculta',
-        ),
-    'columns'=>array(
-        array(
-        'name'=>'Id',
-        'value'=>'$data->Id',
-        'type'=>'text',
-        'headerHtmlOptions' => array('style' => 'display:none'),
-        'htmlOptions'=>array(
-            'id'=>'ids',
-            'style'=>'display:none',
-          ),
-          'filterHtmlOptions' => array('style' => 'display:none'),
-        ),
-        array(
-            'name'=>'Fecha',
-            'value'=>'$data->Fecha',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'CABINA_Id',
-            'value'=>'$data->cABINA->Nombre',
-            'type'=>'text',
-            'filter'=>Cabina::getListCabina(),
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'Trafico',
-            'value'=>'$data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'RecargaMovistar',
-            'value'=>'$data->RecargaCelularMov+$data->RecargaFonoYaMov',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'RecargaClaro',
-            'value'=>'$data->RecargaCelularClaro+$data->RecargaFonoClaro',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'OtrosServicios',
-            'value'=>'$data->OtrosServicios',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'Total',
-            'value'=>'$data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;  width:150px;'
-                ),
-            ),
-        'FechaDep',
-        array(
-            'name'=>'FechaDep',
-            'value'=>'$data->FechaDep',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'HoraDep',
-            'value'=>'$data->HoraDep',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'MontoDeposito',
-            'value'=>'$data->MontoDeposito',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'MontoBanco',
-            'value'=>'$data->MontoBanco',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'DifBancoCI',
-            'value'=>'$data->MontoBanco-($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                ),
-            ),
-        array(
-            'name'=>'ConciliacionBancaria',
-            'value'=>'$data->MontoBanco-$data->MontoDeposito',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        'RecargaVentasMov',
-        array(
-            'name'=>'DifMov',
-            'value'=>'$data->RecargaVentasMov-($data->RecargaCelularMov+$data->RecargaFonoYaMov)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        'RecargaVentasClaro',
-        array(
-            'name'=>'DifClaro',
-            'value'=>'$data->RecargaVentasClaro-($data->RecargaCelularClaro+$data->RecargaFonoClaro)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        'TraficoCapturaDollar',
-        array(
-            'name'=>'TraficoCapturaDollar',
-            'value'=>'$data->TraficoCapturaDollar',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;'
-                )
-            ),
-        array(
-            'name'=>'Paridad',
-            'value'=>'2.64',
-            'type'=>'text',
-        ),
-        array(
-            'name'=>'CaptSoles',
-            'value'=>'$data->TraficoCapturaDollar*2.64',
-            'type'=>'text',
-        ),
-        array(
-            'name'=>'DifSoles',
-            'value'=>'($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)-($data->TraficoCapturaDollar*2.64)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        array(
-            'name'=>'DifDollar',
-            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI-$data->TraficoCapturaDollar*2.64)/2.64)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-            ),
-        ),
-        array('name'=>'Acumulado',
-            'value'=>'Balance::acumuladoTotal($data->Fecha)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'Acumulado',
-                ),
-            ),
-        array('name'=>'Sobrante',
-            'value'=>'Balance::sobranteTotal($data->Fecha)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'Sobrante',
-                ),
-            ),
-        array('name'=>'SobranteAcum',
-            'value'=>'Balance::sobranteAcumTotal($data->Fecha)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'SobranteAcum',
-                ),
-            ),
-    ),
-));
-
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();

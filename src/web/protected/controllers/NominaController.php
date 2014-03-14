@@ -60,11 +60,14 @@ class NominaController extends Controller
             
             }
 
-             $this->performAjaxValidation(array($model,$model_kid));
+             $this->performAjaxValidation(array($model,$model_kid,$model_hour_day_1,$model_hour_day_2,$model_hour_day_3));
             
             if (isset($_POST['Employee'])) {
                 
                 $model->attributes = $_POST['Employee'];
+                $model_hour_day_1->attributes = $_POST['EmployeeHours'];
+                $model_hour_day_3->attributes = $_POST['EmployeeHours'];
+                $model_hour_day_1->attributes = $_POST['EmployeeHours'];
      
                 if($id==null)
                     $model->code_employee = Employee::getCodigoEmpleado();
@@ -103,7 +106,7 @@ class NominaController extends Controller
                     $model->admission_date = Yii::app()->format->formatDate($_POST['Employee']['admission_date'],'post');
                  
                     $model->record_date = date("Y-m-d");
-                
+                    $model->currency_id = $_POST['Employee']['currency_id'];
                 
                 
                 if ($model->save()){
@@ -195,17 +198,20 @@ class NominaController extends Controller
         }
         
         public function saveEmployeeHours($id,$day) {
-            //var_dump($day['hours_start_1']);
+            //var_dump($day);
             for($i=1;$i<4;$i++){
                 if($day['day_'.$i] == 1){
                     
                     $model_hour_day = "model_hour_day_".$i;
                     $$model_hour_day = $this->loadModelEmployeeHoursDay($id,$i);
-                    $$model_hour_day->start_time = $day['start_time_'.$i];
-                    $$model_hour_day->end_time = $day['end_time_'.$i];
+                    $$model_hour_day->start_time = Utility::ChangeTime($day['start_time_'.$i]);
+                    $$model_hour_day->end_time = Utility::ChangeTime($day['end_time_'.$i]);
                     $$model_hour_day->employee_id = $id;
                     $$model_hour_day->day = $i;
-                    $$model_hour_day->save(false);
+                    if($$model_hour_day->isNewRecord)
+                      $$model_hour_day->save(false);  
+                    else
+                      $$model_hour_day->updateByPk($$model_hour_day->id,array('start_time'=>Utility::ChangeTime($day['start_time_'.$i]),'end_time'=>Utility::ChangeTime($day['end_time_'.$i])));    
                 }else{
                     $this->deleteEmployeeHours($id,$i);
                 }
@@ -248,7 +254,7 @@ class NominaController extends Controller
         }
         
         public function loadModelEmployeeHoursDay($id,$day) {
-            $model_h = EmployeeHours::model()->findBySql("SELECT employee_id, start_time as start_time_$day, end_time as end_time_$day,  CASE day WHEN $day THEN 1 END as day_$day FROM employee_hours WHERE employee_id = $id AND day = $day");
+            $model_h = EmployeeHours::model()->findBySql("SELECT id, employee_id, DATE_FORMAT(start_time,'%h:%i %p') as start_time_$day, DATE_FORMAT(end_time,'%h:%i %p') as end_time_$day,  CASE day WHEN $day THEN 1 END as day_$day FROM employee_hours WHERE employee_id = $id AND day = $day");
             if($model_h == null)
                  $model_h = new EmployeeHours;
             return $model_h;
@@ -319,6 +325,8 @@ class NominaController extends Controller
             }
             echo $dato;
         }
+        
+        
         
         
 }

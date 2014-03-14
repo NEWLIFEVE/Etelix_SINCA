@@ -67,7 +67,11 @@ $kids = Kids::getEmployeeKids($model->id);
                 ),
             array(
                     'name'=>'salary',
-                    'value'=>$model->salary,
+                    'value'=>$model->salary.' '.$model->currency->name,
+                ),
+            array(
+                    'name'=>'admission_date',
+                    'value'=>$model->admission_date,
                 ),
             array(
                     'name'=>'status',
@@ -82,15 +86,15 @@ $kids = Kids::getEmployeeKids($model->id);
                 ),
             array(
                     'name'=>'Lunes a Viernes',
-                    'value'=>  EmployeeHours::getEmployeeHoursDay1($model->id),
+                    'value'=>  EmployeeHours::getEmployeeHoursDay($model->id,1),
                 ),
             array(
                     'name'=>'Sabado',
-                    'value'=>  EmployeeHours::getEmployeeHoursDay2($model->id),
+                    'value'=>  EmployeeHours::getEmployeeHoursDay($model->id,2),
                 ),
             array(
                     'name'=>'Domingo',
-                    'value'=>  EmployeeHours::getEmployeeHoursDay3($model->id),
+                    'value'=>  EmployeeHours::getEmployeeHoursDay($model->id,3),
                 ),
             //MUESTRA LOS HIJOS DEL EMPLEADO
 //            array(
