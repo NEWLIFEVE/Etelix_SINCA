@@ -36,7 +36,7 @@ $año = date("Y", strtotime($mes));
     <div id="botonsExport">
     <ul>
         <li style="width: 200px;">
-            <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Resumido" method="post" target="_blank" id="FormularioExportacion">
+            <form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Ciclo_Ingresos_Resumido" method="post" target="_blank" id="FormularioExportacion" style="margin-left: 2em;">
             Resumido      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
                     <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
                     <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton'/>
@@ -51,7 +51,7 @@ $año = date("Y", strtotime($mes));
                 <input type="hidden" id="datos_a_enviar_completo" name="datos_a_enviar" />
             </form>
         </li>
-        <li><button id="cambio">Inactivas</button></li>
+        <li><button id="cambio" style="margin-left: -2em;">Inactivas</button></li>
     </ul>
     <div>
         <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/CicloIngresos') ?>">
