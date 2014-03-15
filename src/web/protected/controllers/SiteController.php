@@ -1,31 +1,34 @@
 <?php
-
 Yii::import('webroot.protected.modules.user.models.User');
-
+/**
+ *
+ */
 class SiteController extends Controller
 {
     /**
      * Declares class-based actions.
+     * @access public
      */
     public function actions()
     {
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
-            'captcha' => array(
-                'class' => 'CCaptchaAction',
-                'backColor' => 0xFFFFFF,
-            ),
-            // page action renders "static" pages stored under 'protected/views/site/pages'
-            // They can be accessed via: index.php?r=site/page&view=FileName
-            'page' => array(
-                'class' => 'CViewAction',
-            ),
-        );
+            'captcha'=>array(
+                'class'=>'CCaptchaAction',
+                'backColor'=>0xFFFFFF,
+                ),
+                // page action renders "static" pages stored under 'protected/views/site/pages'
+                // They can be accessed via: index.php?r=site/page&view=FileName
+            'page'=>array(
+                'class'=>'CViewAction',
+                ),
+            );
     }
 
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
+     * @access public
      */
     public function actionIndex()
     {
@@ -36,28 +39,28 @@ class SiteController extends Controller
 
     /**
      * This is the action to handle external exceptions.
+     * @access public
      */
     public function actionError()
     {
-        if($error = Yii::app()->errorHandler->error)
+        if($error=Yii::app()->errorHandler->error)
         {
-            if (Yii::app()->request->isAjaxRequest)
-                echo $error['message'];
-            else
-                $this->render('error', $error);
+            if(Yii::app()->request->isAjaxRequest) echo $error['message'];
+            else $this->render('error', $error);
         }
     }
 
     /**
-     *
+     * @access public
      */
     public function actionSessionFinished()
     {
-        $this->render('sessionFinished', '');
+        $this->render('sessionFinished','');
     }
 
     /**
      * Displays the contact page
+     * @access public
      */
     public function actionContact()
     {
@@ -69,48 +72,45 @@ class SiteController extends Controller
             {
                 $name='=?UTF-8?B?'.base64_encode($model->name).'?=';
                 $subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
-                $headers="From: $name <{$model->email}>\r\n" .
-                        "Reply-To: {$model->email}\r\n" .
-                        "MIME-Version: 1.0\r\n" .
-                        "Content-type: text/plain; charset=UTF-8";
-
-                mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
+                $headers="From: $name <{$model->email}>\r\n".
+                         "Reply-To: {$model->email}\r\n".
+                         "MIME-Version: 1.0\r\n".
+                         "Content-type: text/plain; charset=UTF-8";
+                mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
                 Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
                 $this->refresh();
             }
         }
-        $this->render('contact', array('model' => $model));
+        $this->render('contact',array('model'=>$model));
     }
 
     /**
      * Displays the login page
+     * @access public
      */
     public function actionLogin()
     {
         $model=new LoginForm;
-
         // if it is ajax validation request
-        if(isset($_POST['ajax']) && $_POST['ajax'] === 'login-form')
+        if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
         {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-
         // collect user input data
         if(isset($_POST['LoginForm']))
         {
-            $model->attributes = $_POST['LoginForm'];
-
+            $model->attributes=$_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
-            if ($model->validate() && $model->login())
-                $this->redirect(Yii::app()->user->returnUrl);
+            if($model->validate() && $model->login()) $this->redirect(Yii::app()->user->returnUrl);
         }
         // display the login form
-        $this->render('login', array('model' => $model));
+        $this->render('login',array('model'=>$model));
     }
 
     /**
      * Logs out the current user and redirect to homepage.
+     * @access public
      */
     public function actionLogout()
     {
@@ -119,7 +119,7 @@ class SiteController extends Controller
     }
 
     /**
-     *
+     * @access public
      */
     public static function actionMail()
     {
@@ -127,7 +127,9 @@ class SiteController extends Controller
     }
    
     /**
-     * Esta funcion se encarga de devolver el arreglo con el Menu del sistema dependiendo del tipo de usuario 
+     * Esta funcion se encarga de devolver el arreglo con el Menu del sistema dependiendo del tipo de usuario
+     * @access public
+     * @static
      */
     public static function controlAcceso($tipoUsuario)
     {
@@ -136,97 +138,263 @@ class SiteController extends Controller
         if($tipoUsuario==1)
         {
             return array(
-                //array('label' => 'Home', 'url' => array('/site/index')),
-                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => array('/log/createInicioJornada'), 'label' => 'Declarar', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => array('/novedad/create'), 'label' => 'Novedades/Fallas', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/' . Cabina::getNombreCabina(Yii::app()->getModule('user')->user($idUsuario)->CABINA_Id) . ')', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
-            );
+                array(
+                    'url'=>Yii::app()->getModule('user')->loginUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Login"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->registrationUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Register"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/log/createInicioJornada'),
+                    'label'=>'Declarar',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/novedad/create'),
+                    'label'=>'Novedades/Fallas',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->logoutUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/'.Cabina::getNombreCabina(Yii::app()->getModule('user')->user($idUsuario)->CABINA_Id).')',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->profileUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Profile"),
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                );
         }
         /* GERENTE DE OPERACIONES */
-        if ($tipoUsuario == 2) {
+        if($tipoUsuario==2)
+        {
             return array(
-                //array('label' => 'Home', 'url' => array('/site/index')),
-                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
-                //array('url' => array('/recargas/index'), 'label' => 'Transferencias', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => array('/balance/index'), 'label' => 'Reportes/Balances', 'visible' => !Yii::app()->user->isGuest),
-                array('url'=>array('/pabrightstar/create'),'label'=>'P.A.B.', 'visible'=>!Yii::app()->user->isGuest),        
-                array('url'=>array('/detallegasto/create'),'label'=>'Gastos', 'visible'=>!Yii::app()->user->isGuest),        
-                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/GerenteOp)', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
-            );
+                array(
+                    'url'=>Yii::app()->getModule('user')->loginUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Login"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->registrationUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Register"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/balance/index'),
+                    'label'=>'Reportes/Balances',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/pabrightstar/create'),
+                    'label'=>'P.A.B.',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/detallegasto/create'),
+                    'label'=>'Gastos',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->logoutUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/GerenteOp)',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->profileUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Profile"),
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                );
         }
         /* ADMINISTRADOR */
-        if ($tipoUsuario == 3)
+        if($tipoUsuario==3)
         {
             return array(
-                //array('label' => 'Home', 'url' => array('/site/index')),
-                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => array('/balance/controlPanel'), 'label' => 'Balances', 'visible' => !Yii::app()->user->isGuest),
-                array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.', 'visible'=>!Yii::app()->user->isGuest), 
-                array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos', 'visible'=>!Yii::app()->user->isGuest), 
-                array('url' => array('/novedad/admin'), 'label' => 'Novedades/Fallas', 'visible' => !Yii::app()->user->isGuest),
-                //array('url' => array('/nomina/adminEmpleado'), 'label' => 'Nomina', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => array('/log/admin'), 'label' => 'Log', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/Admin)', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
-            );
+                array(
+                    'url'=>Yii::app()->getModule('user')->loginUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Login"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->registrationUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Register"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/balance/controlPanel'),
+                    'label'=>'Balances',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/pabrightstar/admin'),
+                    'label'=>'P.A.B.',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/detallegasto/estadoGastos'),
+                    'label'=>'Gastos',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/novedad/admin'),
+                    'label'=>'Novedades/Fallas',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/log/admin'),
+                    'label'=>'Log',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->logoutUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/Admin)',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->profileUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Profile"),
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                );
         }
         /* TESORERO */
-        if ($tipoUsuario == 4)
+        if($tipoUsuario==4)
         {
             return array(
-                //array('label' => 'Home', 'url' => array('/site/index')),
-                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => array('/balance/reporteDepositos'), 'label' => 'Reportes', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => array('/paridad/create'), 'label' => 'Banco/Tesoreria', 'visible' => !Yii::app()->user->isGuest),
-                //array('url'=>array('/brightstar/index'),'label'=>'P.A.Brightstar', 'visible'=>!Yii::app()->user->isGuest),        
-                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/Tesorero)', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
-            );
+                array(
+                    'url'=>Yii::app()->getModule('user')->loginUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Login"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->registrationUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Register"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/balance/reporteDepositos'),
+                    'label'=>'Reportes',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/paridad/create'),
+                    'label'=>'Banco/Tesoreria',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->logoutUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/Tesorero)',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->profileUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Profile"),
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                );
         }
         /* SOCIO */
-        if ($tipoUsuario == 5)
+        if($tipoUsuario==5)
         {
             return array(
-                //array('label' => 'Home', 'url' => array('/site/index')),
-                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => array('/balance/controlPanel'), 'label' => 'Reportes', 'visible' => !Yii::app()->user->isGuest),
-                array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.', 'visible'=>!Yii::app()->user->isGuest), 
-                array('url' => array('/novedad/admin'), 'label' => 'Novedades/Fallas', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => array('/log/admin'), 'label' => 'Log', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/Socio)', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
-            );
+                array(
+                    'url'=>Yii::app()->getModule('user')->loginUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Login"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->registrationUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Register"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/balance/controlPanel'),
+                    'label'=>'Reportes',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/pabrightstar/admin'),
+                    'label'=>'P.A.B.',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/novedad/admin'),
+                    'label'=>'Novedades/Fallas',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/log/admin'),
+                    'label'=>'Log',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->logoutUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/Socio)',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->profileUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Profile"),
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                );
         }
         /* GERENTE DE CONTABILIDAD */
-        if ($tipoUsuario == 6)
+        if($tipoUsuario==6)
         {
             return array(
-                //array('label' => 'Home', 'url' => array('/site/index')),
-                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
-                array('url' => array('/balance/controlPanel'), 'label' => 'Reportes', 'visible' => !Yii::app()->user->isGuest),
-                array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos', 'visible'=>!Yii::app()->user->isGuest), 
-                array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.', 'visible'=>!Yii::app()->user->isGuest), 
-                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/GerenteCont)', 'visible' => !Yii::app()->user->isGuest),
-                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
-            );
+                array(
+                    'url'=>Yii::app()->getModule('user')->loginUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Login"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->registrationUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Register"),
+                    'visible'=>Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/balance/controlPanel'),
+                    'label'=>'Reportes',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>array('/detallegasto/estadoGastos'),
+                    'label'=>'Gastos',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ), 
+                array(
+                    'url'=>array('/pabrightstar/admin'),
+                    'label'=>'P.A.B.',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ), 
+                array(
+                    'url'=>Yii::app()->getModule('user')->logoutUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/GerenteCont)',
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                array(
+                    'url'=>Yii::app()->getModule('user')->profileUrl,
+                    'label'=>Yii::app()->getModule('user')->t("Profile"),
+                    'visible'=>!Yii::app()->user->isGuest
+                    ),
+                );
         }
     }
 
     /**
-     *
+     * @access public
+     * @static
      */
     public static function mensajesConfirm($tipo)
     {
-        switch ($tipo) {
+        switch($tipo)
+        {
             case 1:
                 return '¿Está Seguro de los Montos Declarados? (Esta declaración es irreversible)';
                 break;
@@ -253,95 +421,85 @@ class SiteController extends Controller
     
     /**
      * ACCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR (LLAMAN A LAS FUNCIONES CORRESPONDIENTES)
+     * @access public
      */
     public function actionExcel()
-    {  
-
+    {
         $files=array();
-        
-        if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta'){
-            
-               $files['balance']['name']=$_GET['name'];
-               $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],true);   
-        }
-        if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta'){
-            
-               $files['libroVentas']['name']=$_GET['name'];
-               $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],true);
-        }
-        if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta'){
-            
-               $files['depositoBancario']['name']=$_GET['name'];
-               $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids'],true);
-        }
-        if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta'){
-                 
-               $files['ventasbrighstar']['name']=$_GET['name'];
-               $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids'],true);
-        }
-        if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta'){
-                 
-               $files['traficocaptura']['name']=$_GET['name'];
-               $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids'],true);
-        }
-        if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta'){
-              
-               $files['cicloIngreso']['name']=$_GET['name'];
-               $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);   
-        }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas'){
-              
-               $files['cicloIngresoC']['name']=$_GET['name'];
-               $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);  
-        }
-       if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta'){
-              
-               $files['cicloIngresoT']['name']=$_GET['name'];
-               $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,true);
+        if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
+        {
+            $files['balance']['name']=$_GET['name'];
+            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],true);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-
             $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {
             $files['depositoBancario']['name']=$_GET['name'];
-
             $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
         {
             $files['ventasbrighstar']['name']=$_GET['name'];
-
             $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids'],true);
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
         {
             $files['traficocaptura']['name']=$_GET['name'];
-
             $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids'],true);
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {
             $files['cicloIngreso']['name']=$_GET['name'];
-
+            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);
+        }
+        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        {
+            $files['cicloIngresoC']['name']=$_GET['name'];
+            $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);
+        }
+        if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
+        {
+            $files['cicloIngresoT']['name']=$_GET['name'];
+            $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,true);
+        }
+        if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
+        {
+            $files['libroVentas']['name']=$_GET['name'];
+            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],true);
+        }
+        if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
+        {
+            $files['depositoBancario']['name']=$_GET['name'];
+            $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids'],true);
+        }
+        if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
+        {
+            $files['ventasbrighstar']['name']=$_GET['name'];
+            $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids'],true);
+        }
+        if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
+        {
+            $files['traficocaptura']['name']=$_GET['name'];
+            $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids'],true);
+        }
+        if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
+        {
+            $files['cicloIngreso']['name']=$_GET['name'];
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);   
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
         {
             $files['cicloIngresoC']['name']=$_GET['name'];
-
             $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);  
-
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {
             $files['cicloIngresoT']['name']=$_GET['name'];
-
             $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,true);
-
         }
         if($_GET['table']=='tabla')
         {
@@ -365,55 +523,44 @@ class SiteController extends Controller
     }
     
     /**
-     *
+     * @access public
      */
     public function actionSendEmail()
     {
-        $correo = Yii::app()->getModule('user')->user()->email;
-        $topic = $_GET['name'];
-        
+        $correo=Yii::app()->getModule('user')->user()->email;
+        $topic=$_GET['name'];    
         $files=array();
-        
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
             $files['balance']['name']=$_GET['name'];
-
             $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],false);
             $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['ids'],true);
-
             $files['balance']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['balance']['name'].".xls";    
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-
             $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],false);
             $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['ids'],true);
-
             $files['libroVentas']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['libroVentas']['name'].".xls";        
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {         
             $files['depositoBancario']['name']=$_GET['name'];
-
             $files['depositoBancario']['body']=Yii::app()->reporte->depositoBancario($_GET['ids'],false);
             $files['depositoBancario']['excel']=Yii::app()->reporte->depositoBancario($_GET['ids'],true);
-
             $files['depositoBancario']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['depositoBancario']['name'].".xls";    
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
         {
             $files['ventasbrighstar']['name']=$_GET['name'];
-
             $files['ventasbrighstar']['body']=Yii::app()->reporte->brightstar($_GET['ids'],false);
             $files['ventasbrighstar']['excel']=Yii::app()->reporte->brightstar($_GET['ids'],true);
-
             $files['ventasbrighstar']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['ventasbrighstar']['name'].".xls";    
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
         {
             $files['traficocaptura']['name']=$_GET['name'];
-
             $files['traficocaptura']['body']=Yii::app()->reporte->captura($_GET['ids'],false);
             $files['traficocaptura']['excel']=Yii::app()->reporte->captura($_GET['ids'],true);
             $files['traficocaptura']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['traficocaptura']['name'].".xls";    
@@ -421,28 +568,22 @@ class SiteController extends Controller
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
-
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,false);
             $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);
-
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
-
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,false);
             $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);
-
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {      
             $files['cicloIngresoT']['name']=$_GET['name'];
-
             $files['cicloIngresoT']['body']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,false);
             $files['cicloIngresoT']['excel']=Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,true);
-
             $files['cicloIngresoT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngresoT']['name'].".xls";    
         }
         if($_GET['table']=='tabla')
@@ -452,21 +593,18 @@ class SiteController extends Controller
             $files['matriz']['excel']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],true);
             $files['matriz']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matriz']['name'].".xls";
         }
-        if($_GET['table']=='tabla2'){
-            
+        if($_GET['table']=='tabla2')
+        {
             $files['matrizE']['name']=$_GET['name'];
             $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
             $files['matrizE']['excel']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
             $files['matrizE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizE']['name'].".xls";
-  
         }
-        if($_GET['table']=='estadogasto-grid'){
-            
+        if($_GET['table']=='estadogasto-grid')
+        {
             $files['estadogasto']['name']=$_GET['name'];
-
             $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids'],false);
             $files['estadogasto']['excel']=Yii::app()->reporte->estadoGasto($_GET['ids'],true);
-
             $files['estadogasto']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadogasto']['name'].".xls";               
         }
         
@@ -478,7 +616,7 @@ class SiteController extends Controller
     }
 
     /**
-     *
+     * @access public
      */
     public function actionPrint()
     { 
@@ -517,22 +655,22 @@ class SiteController extends Controller
         if($_GET['table']=='tabla'){
             echo Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],false);
         }
-        if($_GET['table']=='estadogasto-grid'){
+        if($_GET['table']=='estadogasto-grid')
+        {
             echo Yii::app()->reporte->estadoGasto($_GET['ids'],false);
         }
-
-        if($_GET['table']=='tabla2'){
+        if($_GET['table']=='tabla2')
+        {
             echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
-        }
-               
+        }    
     }
     
     /**
      * FUNCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR
+     * @access public
      */
     public function genExcel($name,$html,$salida=true)
-    {  
-          
+    {
         if($salida)
         {
             header('Content-type: application/vnd.ms-excel');
@@ -545,14 +683,13 @@ class SiteController extends Controller
         {
             $ruta=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR;
             $fp=fopen($ruta."$name.xls","w+");
-            $cuerpo="
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <meta charset='utf-8'>
-                    <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
-                </head>
-                <body>";
+            $cuerpo="<!DOCTYPE html>
+                        <html>
+                            <head>
+                                <meta charset='utf-8'>
+                                <meta http-equiv='Content-Type' content='application/vnd.ms-excel charset=utf-8'>
+                            </head>
+                            <body>";
             $cuerpo.=$html;
             $cuerpo.="</body>
             </html>";
