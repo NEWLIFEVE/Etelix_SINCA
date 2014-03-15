@@ -64,12 +64,8 @@
             <td>
             <table border="1">
                 <tr >
-                  <td id="ocultarEnUpdate" style="width: 50%;"><div class="row"> <?php echo $form->labelEx($model,'CABINA_Id'); ?> <?php echo $form->dropDownList($model, 'CABINA_Id', Cabina::getListCabinaResto(),array('empty'=>'Seleccionar..'));?> <?php echo $form->error($model,'CABINA_Id'); ?> </div></td>
-                    <td style="width: 50%;"><div class="row"> <?php echo $form->labelEx($model, 'beneficiario'); ?> <?php echo $form->textField($model, 'beneficiario'); ?> <?php echo $form->error($model, 'beneficiario'); ?> </div></td>
-                     <td style="width: 50%;">&nbsp;</td>
-                </tr>
-                <tr>
-                  <td>
+                  
+                    <td>
                         <div class="row"> 
                                 <?php echo $form->labelEx($model, 'category'); ?> 
                                 <?php echo $form->dropDownList($model, 'category',Category::getListTipoCategoria(), array('empty'=>'Seleccionar...'),array(
@@ -116,6 +112,21 @@
                           <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> 
                       </div>
                   </td>
+                  <td id="ocultarEnUpdate" style="width: 50%;"><div class="row"> <?php echo $form->labelEx($model,'CABINA_Id'); ?> <?php echo $form->dropDownList($model, 'CABINA_Id', Cabina::getListCabinaResto(),array('empty'=>'Seleccionar..'));?> <?php echo $form->error($model,'CABINA_Id'); ?> </div>
+                  </td>  
+                    
+                    
+                     <td style="width: 50%;">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 50%;"><div class="row">
+                        <?php echo $form->labelEx($model, 'beneficiario'); ?> 
+                        <?php echo $form->textField($model, 'beneficiario'); ?> 
+                        <?php echo $form->dropDownList($model, 'beneficiario',array('empty'=>'Seleccionar...'),array('name'=>'beneficiario2')); 
+                        ?> 
+                        <?php echo $form->error($model, 'beneficiario'); ?> </div>
+                    </td>
+                  
                     <td>
                         <div class="row"> 
                                 <?php echo $form->labelEx($model, 'moneda'); ?> 

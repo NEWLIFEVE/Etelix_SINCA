@@ -5,7 +5,7 @@
      */
     class depositoBancario extends Reportes 
     {
-        public static function reporte($ids,$type) 
+        public static function reporte($ids,$name,$type) 
         {
 //            $acumuladoSaldoApMov = 0;
 //            $acumuladoSaldoApClaro = 0;
@@ -17,7 +17,9 @@
             $balance = depositoBancario::get_Model($ids);
             if($balance != NULL){
                 
-                $table = '<table class="items">'.
+                    $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
+                        <br>
+                        <table class='items'>".
                         Reportes::defineHeader("depositos")
                         .'<tbody>';
                 foreach ($balance as $key => $registro) {

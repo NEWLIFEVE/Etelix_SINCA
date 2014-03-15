@@ -5,7 +5,7 @@
      */
     class cicloIngreso extends Reportes 
     {
-        public static function reporte($ids,$complete,$type) 
+        public static function reporte($ids,$name,$complete,$type) 
         {
 
             if($complete==false){
@@ -13,7 +13,9 @@
             $balance = cicloIngreso::get_Model($ids);
             if($balance != NULL){
                 
-                $table = '<table class="items">'.
+                    $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
+                        <br>
+                        <table class='items'>".
                         Reportes::defineHeader("cicloI")
                         .'<tbody>';
                 foreach ($balance as $key => $registro) {
@@ -65,7 +67,9 @@
             $balance = cicloIngreso::get_ModelComplete($ids);
             if($balance != NULL){
                 
-                $table = '<table class="items">'.
+                    $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
+                        <br>
+                        <table class='items'>".
                         Reportes::defineHeader("cicloIC")
                         .'<tbody>';
                 foreach ($balance as $key => $registro) {
@@ -80,8 +84,8 @@
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->OtrosServicios), $type).'</td>
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->TotalVentas), $type).'</td>
                                             
-                                        <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->FechaDep).'</td>
-                                        <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::defineMonto($registro->HoraDep).'</td>
+                                        <td '.Reportes::defineStyleTd($key+2).'>'.$registro->FechaDep.'</td>
+                                        <td '.Reportes::defineStyleTd($key+2).'>'.$registro->HoraDep.'</td>
                                             
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->MontoDeposito), $type).'</td>
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->MontoBanco), $type).'</td>

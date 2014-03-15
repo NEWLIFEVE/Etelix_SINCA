@@ -47,7 +47,6 @@
                                 ),
                             );
                     }
-
                     if((!Yii::app()->user->isGuest))
                     {
                         $tipoUsuario=Yii::app()->getModule('user')->user(Yii::app()->user->id)->tipo;

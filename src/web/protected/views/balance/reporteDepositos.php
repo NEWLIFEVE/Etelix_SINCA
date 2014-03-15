@@ -5,12 +5,17 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 
-$mes=date("Y-m");
+$mes=null;
 
 
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
     {
         $mes=$_POST["formFecha"];
+    }
+    
+    if(isset($_POST["formCabina"]) && $_POST["formCabina"] != "")
+    {
+        $cabina=$_POST["formCabina"];
     }
     
     
@@ -43,7 +48,7 @@ $año = date("Y", strtotime($mes));
         </div>
     </span>
 </h1>
-<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
+<div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)): "";?></div>
 <?php
 $_POST['vista']='Depositos';
 $this->widget('zii.widgets.grid.CGridView', array(
@@ -53,7 +58,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'rel'=>'total',
         'name'=>'vista',
         ),
-    'dataProvider'=>$model->search($_POST,$mes),
+    'dataProvider'=>$model->search($_POST,$mes,$cabina),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(

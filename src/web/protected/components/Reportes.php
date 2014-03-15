@@ -15,9 +15,9 @@ class Reportes extends CApplicationComponent
      * @param array $ids
      * @return string
      */
-    public function balanceAdmin($ids,$type)
+    public function balanceAdmin($ids,$name,$type)
     {
-        $var=  balanceAdmin::reporte($ids,$type);
+        $var=  balanceAdmin::reporte($ids,$name,$type);
         return $var;
     }
     
@@ -25,10 +25,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function libroVenta($ids,$type)
+    public function libroVenta($ids,$name,$type)
 
     {
-        $var= libroVenta::reporte($ids,$type);
+        $var= libroVenta::reporte($ids,$name,$type);
         return $var;
     }
     
@@ -36,10 +36,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function depositoBancario($ids,$type)
+    public function depositoBancario($ids,$name,$type)
 
     {
-        $var= depositoBancario::reporte($ids,$type);
+        $var= depositoBancario::reporte($ids,$name,$type);
         return $var;
     }
     
@@ -47,10 +47,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function brightstar($ids,$type)
+    public function brightstar($ids,$name,$type)
 
     {
-        $var= brightstar::reporte($ids,$type);
+        $var= brightstar::reporte($ids,$name,$type);
         return $var;
     }
     
@@ -58,10 +58,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function captura($ids,$type)
+    public function captura($ids,$name,$type)
 
     {
-        $var= captura::reporte($ids,$type);
+        $var= captura::reporte($ids,$name,$type);
         return $var;
     }
     
@@ -69,10 +69,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function cicloIngreso($ids,$complete,$type)
+    public function cicloIngreso($ids,$name,$complete,$type)
 
     {
-        $var= cicloIngreso::reporte($ids,$complete,$type);
+        $var= cicloIngreso::reporte($ids,$name,$complete,$type);
         return $var;
     }
     
@@ -80,10 +80,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function cicloIngresoTotal($ids,$complete,$type)
+    public function cicloIngresoTotal($ids,$name,$complete,$type)
 
     {
-        $var= cicloIngresoTotal::reporte($ids,$complete,$type);
+        $var= cicloIngresoTotal::reporte($ids,$name,$complete,$type);
         return $var;
     }
     
@@ -91,10 +91,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function estadoGasto($ids,$type)
+    public function estadoGasto($ids,$name,$type)
 
     {
-        $var= estadoGasto::reporte($ids,$type);
+        $var= estadoGasto::reporte($ids,$name,$type);
         return $var;
     }
     
@@ -260,8 +260,8 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Total Ventas (S/.)</th>
                                     
-                                <th '.self::defineStyleHeader("depositos").' id="b alance-grid_c6">Fecha en el que se hizo el Deposito</th>
-                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Hora en el que se hizo el Deposito</th>
+                                <th '.self::defineStyleHeader("depositos").' id="b alance-grid_c6">Fecha del Deposito</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Hora del Deposito</th>
                                     
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c6">Monto Deposito (S/.)</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Monto Banco (S/.)</th>

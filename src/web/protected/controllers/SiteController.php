@@ -491,7 +491,7 @@ class SiteController extends Controller
             $files['cicloIngreso']['name']=$_GET['name'];
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);   
         }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        if($_GET['table']=='balanceCicloIngresosCompleto')
         {
             $files['cicloIngresoC']['name']=$_GET['name'];
             $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,true);  
@@ -513,7 +513,7 @@ class SiteController extends Controller
         if($_GET['table']=='estadogasto-grid')
         {
             $files['estadogasto']['name']=$_GET['name'];
-            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids'],true);
+            $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids'],$_GET['name'],true);
         }
         
         foreach($files as $key => $file)
@@ -572,7 +572,7 @@ class SiteController extends Controller
             $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        if($_GET['table']=='balanceCicloIngresosCompleto')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
             $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],true,false);
@@ -589,8 +589,8 @@ class SiteController extends Controller
         if($_GET['table']=='tabla')
         {    
             $files['matriz']['name']=$_GET['name'];
-            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],false);
-            $files['matriz']['excel']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],true);
+            $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],$_GET['name'],false);
+            $files['matriz']['excel']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],$_GET['name'],true);
             $files['matriz']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matriz']['name'].".xls";
         }
         if($_GET['table']=='tabla2')
@@ -622,35 +622,35 @@ class SiteController extends Controller
     { 
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
-            echo Yii::app()->reporte->balanceAdmin($_GET['ids'],false);
+            echo Yii::app()->reporte->balanceAdmin($_GET['ids'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
-            echo Yii::app()->reporte->libroVenta($_GET['ids'],false);
+            echo Yii::app()->reporte->libroVenta($_GET['ids'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {
-            echo Yii::app()->reporte->depositoBancario($_GET['ids'],false);
+            echo Yii::app()->reporte->depositoBancario($_GET['ids'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceReporteBrighstar' || $_GET['table']=='balanceReporteBrighstarOculta')
         {
-            echo Yii::app()->reporte->brightstar($_GET['ids'],false);
+            echo Yii::app()->reporte->brightstar($_GET['ids'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceReporteCaptura' || $_GET['table']=='balanceReporteCapturaOculta')
         {
-            echo Yii::app()->reporte->captura($_GET['ids'],false);
+            echo Yii::app()->reporte->captura($_GET['ids'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {
-            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],false,false);
+            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],$_GET['name'],false,false);
         }
-        if($_GET['table']=='balanceCicloIngresosCompletoActivas' || $_GET['table']=='balanceCicloIngresosCompletoInactivas')
+        if($_GET['table']=='balanceCicloIngresosCompleto')
         {
-            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],true,false);
+            echo Yii::app()->reporte->cicloIngreso($_GET['ids'],$_GET['name'],true,false);
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {
-            echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],false,false);
+            echo Yii::app()->reporte->cicloIngresoTotal($_GET['ids'],$_GET['name'],false,false);
         }
         if($_GET['table']=='tabla'){
             echo Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],false);
