@@ -68,7 +68,7 @@ $(document).ready(function()
             if(ids != ''){
             var response = $.ajax({ type: "GET",   
                                     url: '/site/excel?ids='+ids+'&name='+name+"&table="+gridview,   
-                                    async: false,
+                                    async: true,
                                     succes: alert,
                                   }).responseText;
 
@@ -237,7 +237,10 @@ $(document).ready(function()
         $('img.botonCorreo').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-
+            $("#loading").html("Enviando Correo... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+            
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
@@ -250,14 +253,18 @@ $(document).ready(function()
             
                                 $.ajax({ 
                                     type: "GET",   
-                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,   
-                                    async: false,
+                                    url: '/site/sendemail',
+                                    data: 'ids='+ids+'&name='+name+"&table="+gridview,
+                                    async: true,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
 //                                            $("#nombreContenedor").css("display", "inline");
 //                                            $("#loading").css("display", "inline");
                                     },
                                     success:  function (response) {
+                                            $("#nombreContenedor").css("display", "NONE");
+                                            $("#loading").css("display", "NONE");
+                                            
                                             $("#complete").html("Correo Enviado con Exito... !!");
                                             $("#nombreContenedor").css("display", "inline");
                                             $("#complete").css("display", "inline");
@@ -266,6 +273,8 @@ $(document).ready(function()
                                     }
                                   });
             }else{
+                        $("#nombreContenedor").css("display", "NONE");
+                        $("#loading").css("display", "NONE");
                         $("#error").html("No Existen Datos... !!");
                         $("#nombreContenedor").css("display", "inline");
                         $("#error").css("display", "inline");
@@ -277,7 +286,10 @@ $(document).ready(function()
         $('img.botonCorreoComplete').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-
+            $("#loading").html("Enviando Correo... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+            
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile('balanceCicloIngresosCompleto');
@@ -291,13 +303,15 @@ $(document).ready(function()
                                 $.ajax({ 
                                     type: "GET",   
                                     url: '/site/sendemail?ids='+ids+'&name='+name+"&table=balanceCicloIngresosCompleto",   
-                                    async: false,
+                                    async: true,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
 //                                            $("#nombreContenedor").css("display", "inline");
 //                                            $("#loading").css("display", "inline");
                                     },
                                     success:  function (response) {
+                                            $("#nombreContenedor").css("display", "NONE");
+                                            $("#loading").css("display", "NONE");
                                             $("#complete").html("Correo Enviado con Exito... !!");
                                             $("#nombreContenedor").css("display", "inline");
                                             $("#complete").css("display", "inline");
@@ -306,6 +320,8 @@ $(document).ready(function()
                                     }
                                   });
             }else{
+                        $("#nombreContenedor").css("display", "NONE");
+                        $("#loading").css("display", "NONE");
                         $("#error").html("No Existen Datos... !!");
                         $("#nombreContenedor").css("display", "inline");
                         $("#error").css("display", "inline");
@@ -317,7 +333,10 @@ $(document).ready(function()
         $('img.botonCorreoTotal').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-
+            $("#loading").html("Enviando Correo... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+            
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
@@ -331,13 +350,15 @@ $(document).ready(function()
                                 $.ajax({ 
                                     type: "GET",   
                                     url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,   
-                                    async: false,
+                                    async: true,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
 //                                            $("#nombreContenedor").css("display", "inline");
 //                                            $("#loading").css("display", "inline");
                                     },
                                     success:  function (response) {
+                                            $("#nombreContenedor").css("display", "NONE");
+                                            $("#loading").css("display", "NONE");
                                             $("#complete").html("Correo Enviado con Exito... !!");
                                             $("#nombreContenedor").css("display", "inline");
                                             $("#complete").css("display", "inline");
@@ -346,6 +367,8 @@ $(document).ready(function()
                                     }
                                   });
             }else{
+                        $("#nombreContenedor").css("display", "NONE");
+                        $("#loading").css("display", "NONE");
                         $("#error").html("No Existen Datos... !!");
                         $("#nombreContenedor").css("display", "inline");
                         $("#error").css("display", "inline");
@@ -357,7 +380,10 @@ $(document).ready(function()
         $('img.botonCorreoMatriz').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-
+            $("#loading").html("Enviando Correo... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+            
             var gridview = $('table.matrizGastos').attr('id');
             var mes = $('div#fecha2').text();
             var cabina = $('div#cabina').text();
@@ -368,13 +394,15 @@ $(document).ready(function()
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
                                     url: "/site/sendemail?name="+name+"&table="+gridview+"&mes="+mes+"&cabina="+cabina,  
-                                    async: false,
+                                    async: true,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
 //                                            $("#nombreContenedor").css("display", "inline");
 //                                            $("#loading").css("display", "inline");
                                     },
                                     success:  function (response) {
+                                            $("#nombreContenedor").css("display", "NONE");
+                                            $("#loading").css("display", "NONE");
                                             $("#complete").html("Correo Enviado con Exito... !!");
                                             $("#nombreContenedor").css("display", "inline");
                                             $("#complete").css("display", "inline");
@@ -383,6 +411,8 @@ $(document).ready(function()
                                     }
                                   });
             }else{
+                        $("#nombreContenedor").css("display", "NONE");
+                        $("#loading").css("display", "NONE");
                         $("#error").html("No Existen Datos... !!");
                         $("#nombreContenedor").css("display", "inline");
                         $("#error").css("display", "inline");
@@ -803,16 +833,17 @@ $(document).ready(function()
 
                 //Capturar Seleccion del Tipo de Gasto
                 $("#Detallegasto_TIPOGASTO_Id").change(function () {
+                var selc_categoria = $("#Detallegasto_category option:selected").text();
                 var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
-                $("select#Detallegasto_CABINA_Id").prop('selectedIndex', 0);
-                    if(selc_tipo_gasto == 'Pago a Empleado'){
+                //$("select#Detallegasto_CABINA_Id").prop('selectedIndex', 0);
+                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Pago a Empleado' || selc_tipo_gasto != 'Seleccione uno')){
                         //Capturar Seleccion de la Cabina
                         $("#Detallegasto_CABINA_Id").change(function () {
                         
                         var selc_cabina = $("#Detallegasto_CABINA_Id option:selected").text();
                         var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
                         
-                        if(selc_cabina != 'Seleccionar..' && selc_tipo_gasto != 'Seleccione uno' && selc_tipo_gasto == 'Pago a Empleado'){     
+                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno' || selc_tipo_gasto == 'Pago a Empleado')){     
                         $("#Detallegasto_Monto").val('');     
                         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
                         
@@ -866,6 +897,9 @@ $(document).ready(function()
 
                                   
                             });
+                        }else{
+                            $("#Detallegasto_beneficiario").css('display','inline');
+                            $("select#beneficiario2").css('display','none');
                         }
                         
                         });

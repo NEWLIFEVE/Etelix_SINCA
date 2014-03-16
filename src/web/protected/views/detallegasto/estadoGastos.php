@@ -161,6 +161,7 @@ echo "' name='excel' method='post' target='_blank' id='FormularioExportacion'>
 echo CHtml::beginForm(Yii::app()->createUrl('detallegasto/updateGasto'), 'post', array('name' => 'actualizar', 'id' => 'Form'));
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'estadogasto-grid',
+    'updateSelector' => '{sort}',
     'htmlOptions'=>array(
         'class'=>'grid-view ReporteBrighstar',
         'rel'=>'total',
