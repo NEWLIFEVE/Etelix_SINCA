@@ -49,6 +49,7 @@ $año = date("Y", strtotime($mes));
     </span>
 </h1>
 <div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)): "";?></div>
+<div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceReporteCaptura',

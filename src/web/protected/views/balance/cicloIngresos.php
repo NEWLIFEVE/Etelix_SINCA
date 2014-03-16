@@ -68,6 +68,7 @@ $año = date("Y", strtotime($mes));
     </div>
 </div>
 <div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)): "";?></div>
+<div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
 $this->widget('application.extensions.fancybox.EFancyBox',array(
     'target'=>'a[rel^="fancybox"]',

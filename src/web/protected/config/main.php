@@ -6,7 +6,7 @@ switch ($server)
         $server_db='localhost';
         $sinca_db='sinca';
         $user_db='root';
-        $pass_db='Nsusfd8263';
+        $pass_db='123';
         break;
     case SERVER_NAME_PRE_PROD:
         $server_db='localhost';
@@ -106,10 +106,10 @@ return array(
             ),
 		'db'=>array(
 			'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
+			'connectionString'=>'mysql:host=localhost;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-            'username'=>$user_db,
-			'password'=>$pass_db,
+                        'username'=>'root',
+			'password'=>'123',
 			'charset'=>'utf8',        
 			),
 		'errorHandler'=>array(

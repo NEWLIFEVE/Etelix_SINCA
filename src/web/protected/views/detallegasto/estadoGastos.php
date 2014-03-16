@@ -137,6 +137,7 @@ $('.search-form form').submit(function(){
 </form>
 <div style="display: block;">&nbsp;</div>
 <div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
+<div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
 echo CHtml::beginForm(Yii::app()->createUrl('detallegasto/enviarEmail'), 'post', array('name' => 'FormularioCorreo', 'id' => 'FormularioCorreo', 'style' => 'display:none'));
 echo CHtml::textField('html', 'Hay Efectivo', array('id' => 'html', 'style' => 'display:none'));

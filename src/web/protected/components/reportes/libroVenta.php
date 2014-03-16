@@ -83,7 +83,7 @@ class libroVenta extends Reportes
                      SUM((b.RecargaCelularMov+b.RecargaFonoYaMov)) AS RecargaMovistar,
                      SUM((b.RecargaCelularClaro+b.RecargaFonoClaro)) AS RecargaClaro,
                      SUM(b.OtrosServicios) AS OtrosServicios,
-                     SUM((b.FijoLocal+b.FijoProvincia+b.FijoLima+b.Rural+b.Celular+b.LDI+b.RecargaCelularMov+b.RecargaFonoYaMov+b.RecargaCelularClaro+b.RecargaFonoClaro+b.OtrosServicios)) AS TotalVentas
+                     SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0))) AS TotalVentas
               FROM balance b INNER JOIN cabina AS c ON c.id=b.CABINA_Id
               WHERE b.id IN ($ids)";
         return Balance::model()->findBySql($sql);

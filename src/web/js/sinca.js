@@ -618,28 +618,32 @@ $(document).ready(function()
         else
             var fecha = new String(' '+$('#fecha').text());
         
-        var cabina = $('div#cabina2').text();
+        var cabina_format = $('div#cabina2').text();
+        if(cabina_format == '')
+            var cabina = '';
+        else
+            var cabina = new String(' '+$('div#cabina2').text());
         //alert(fecha);
         if(gridview=='balance-grid' || gridview=='balance-grid-oculta'){
             name = 'SINCA Administrar Balance de Cabinas';
         }
         if(gridview=='balanceLibroVentas' || gridview=='balanceLibroVentasOculta'){
-            name = 'SINCA Reporte Libro de Ventas'+fecha;
+            name = 'SINCA Reporte Libro de Ventas'+cabina+' '+fecha;
         }
         if(gridview=='balanceReporteDepositos' || gridview=='balanceReporteDepositosOculta'){
-            name = 'SINCA Reporte de Depositos Bancarios'+fecha;
+            name = 'SINCA Reporte de Depositos Bancarios'+cabina+' '+fecha;
         }
         if(gridview=='balanceReporteBrighstar' || gridview=='balanceReporteBrighstarOculta'){
-            name = 'SINCA Reporte de Ventas Recargas Brighstar'+fecha;
+            name = 'SINCA Reporte de Ventas Recargas Brighstar'+cabina+' '+fecha;
         }
         if(gridview=='balanceReporteCaptura' || gridview=='balanceReporteCapturaOculta'){
-            name = 'SINCA Reporte de Trafico Captura'+fecha;
+            name = 'SINCA Reporte de Trafico Captura'+cabina+' '+fecha;
         }
         if(gridview=='balanceCicloIngresosResumido' || gridview=='balanceCicloIngresosResumidoOculta'){
-            name = 'SINCA Ciclo de Ingresos Resumido'+fecha;
+            name = 'SINCA Ciclo de Ingresos Resumido'+cabina+' '+fecha;
         }
         if(gridview=='balanceCicloIngresosCompleto'){
-            name = 'SINCA Ciclo de Ingresos Completo'+fecha;
+            name = 'SINCA Ciclo de Ingresos Completo'+cabina+' '+fecha;
         }
         if(gridview=='balanceCicloIngresosTotalResumido' || gridview=='balanceCicloIngresosTotalResumidoOculta'){
             name = 'SINCA Ciclo de Ingresos Total'+fecha;
@@ -651,7 +655,7 @@ $(document).ready(function()
             name = 'SINCA Matriz de Gastos Evolucion'+cabina+' '+fecha;
         }
         if(gridview=='estadogasto-grid'){
-            name = 'SINCA Estado de Gastos'+fecha;
+            name = 'SINCA Estado de Gastos'+cabina+' '+fecha;
         }
         
         return name;   
