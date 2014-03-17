@@ -14,7 +14,6 @@
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/main.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/form.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datepicker.css" />
-
         <?php Yii::app()->clientScript->registerCssFile(Yii::app()->clientScript->getCoreScriptUrl().'/jui/css/base/jquery-ui.css'); ?>
         <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
         <?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
@@ -34,54 +33,54 @@
             <header id="header">
                 <div id="logo"><?php echo CHtml::link(CHtml::encode(Yii::app()->name), '/'); ?></div>
                 <nav id="mainmenu">
-                <?php
+                    <?php
                     Yii::import('webroot.protected.controllers.SiteController');
                     Yii::import('webroot.protected.controllers.CabinaController');
                     Yii::import('webroot.protected.modules.user.models.User');
-
                     if(Yii::app()->user->isGuest)
                     {
                         $menuItems=array(
-                            array('url'=>Yii::app()->getModule('user')->logoutUrl, 'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->user->name.')', 'visible'=>!Yii::app()->user->isGuest),
+                            array(
+                                'url'=>Yii::app()->getModule('user')->logoutUrl,
+                                'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->user->name.')', 
+                                'visible'=>!Yii::app()->user->isGuest
+                                ),
                             );
                     }
-
                     if((!Yii::app()->user->isGuest))
                     {
                         $tipoUsuario=Yii::app()->getModule('user')->user(Yii::app()->user->id)->tipo;
                         $menuItems=SiteController::controlAcceso($tipoUsuario);
                     }
-
                     $this->widget('zii.widgets.CMenu',array(
                         'items'=>$menuItems,
                         'firstItemCssClass'=>'first',
                         'lastItemCssClass'=>'last',
                         )
-                    );
-                ?>
+                        );
+                    ?>
                 </nav>
                 <!-- mainmenu -->
             </header>
             <!-- header -->
             <div class="info" style='text-align:left;'>
-            <?php
+                <?php
                 $flashMessages=Yii::app()->user->getFlashes();
                 if($flashMessages)
                 {
-                    echo '<ul class="flashes" >';
-                    foreach($flashMessages as $key=> $message)
+                    echo '<ul class="flashes">';
+                    foreach ($flashMessages as $key=> $message)
                     {
-                        echo '<div class="flash-' .$key. '">' . $message ."</div>\n";
+                        echo '<div class="flash-'.$key.'">'.$message."</div>\n";
                     }
                     echo '</ul>';
                 }
-            ?>
+                ?>
             </div>
             <div class="nota">
-            <?php
-                if(!Yii::app()->user->isGuest && Yii::app()->getModule('user')->user(Yii::app()->user->id)->tipo==1)
-                    echo 'NOTA: Recuerde Cerrar la Sesion al terminar su JORNADA LABORAL';
-            ?>
+                <?php
+                if(!Yii::app()->user->isGuest && Yii::app()->getModule('user')->user(Yii::app()->user->id)->tipo==1) echo 'NOTA: Recuerde Cerrar la Sesion al terminar su JORNADA LABORAL';
+                ?>
             </div>
             <div id="main-wrapper">
                 <div id="main" role="main">
@@ -91,11 +90,10 @@
             <!-- main -->
             <footer id="footer">
                 <nav id="footermenu">
-                    <h5 style="color:#FFF ">S I N C A - v1.6.4</h5>
-                    <?php //  $this->widget('zii.widgets.CMenu',array('items'=>$menuItems)); ?>
+                    <h5 style="color:#FFF ">S I N C A - v1.6.1</h5>
                 </nav>
                 <div class="content">
-                <?php echo 'Copyright 2013 by <a href="http://www.sacet.com.ve/" rel="external"> www.sacet.com.ve</a> Legal privacy' // echo Yii::powered(); ?>
+                    <?php echo 'Copyright 2014 by <a href="http://www.sacet.com.ve/" rel="external"> www.sacet.com.ve</a> Legal privacy' ?>
                 </div>
             </footer>
             <!-- footer -->
@@ -104,17 +102,17 @@
     </body>
 </html>
 <?php
-    // Efecto para el div de Mensajes Flash
-    Yii::app()->clientScript->registerScript(
-        'myHideEffect',
-        '$(".info").animate({opacity: 1.0}, 5000).slideUp("slow");',
-        CClientScript::POS_READY
-        );
-    $this->widget('ext.scrolltop.ScrollTop', array(
-        //Default values
-        'fadeTransitionStart'=>10,
-        'fadeTransitionEnd'=>200,
-        'speed' => 'slow'
-        )
+// Efecto para el div de Mensajes Flash
+Yii::app()->clientScript->registerScript(
+    'myHideEffect',
+    '$(".info").animate({opacity: 1.0}, 5000).slideUp("slow");',
+    CClientScript::POS_READY
     );
+$this->widget('ext.scrolltop.ScrollTop', array(
+//Default values
+    'fadeTransitionStart'=>10,
+    'fadeTransitionEnd'=>200,
+    'speed'=>'slow'
+    )
+);
 ?>
