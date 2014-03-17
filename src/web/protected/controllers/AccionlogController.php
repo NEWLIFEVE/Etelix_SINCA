@@ -1,14 +1,18 @@
 <?php
-
+/**
+ * @package controllers
+ */
 class AccionlogController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
+	 * @access public
 	 */
 	public $layout='//layouts/column2';
 
 	/**
+	 * @access public
 	 * @return array action filters
 	 */
 	public function filters()
@@ -22,6 +26,7 @@ class AccionlogController extends Controller
 	/**
 	 * Specifies the access control rules.
 	 * This method is used by the 'accessControl' filter.
+	 * @access public
 	 * @return array access control rules
 	 */
 	public function accessRules()
@@ -47,6 +52,7 @@ class AccionlogController extends Controller
 
 	/**
 	 * Displays a particular model.
+	 * @access public
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
@@ -59,19 +65,16 @@ class AccionlogController extends Controller
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * @access public
 	 */
 	public function actionCreate()
 	{
 		$model=new Accionlog;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
 		if(isset($_POST['Accionlog']))
 		{
 			$model->attributes=$_POST['Accionlog'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->Id));
+			if($model->save()) $this->redirect(array('view','id'=>$model->Id));
 		}
 
 		$this->render('create',array(
@@ -82,20 +85,17 @@ class AccionlogController extends Controller
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @access public
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
 		if(isset($_POST['Accionlog']))
 		{
 			$model->attributes=$_POST['Accionlog'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->Id));
+			if($model->save()) $this->redirect(array('view','id'=>$model->Id));
 		}
 
 		$this->render('update',array(
@@ -106,6 +106,7 @@ class AccionlogController extends Controller
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @access public
 	 * @param integer $id the ID of the model to be deleted
 	 */
 	public function actionDelete($id)
@@ -113,12 +114,12 @@ class AccionlogController extends Controller
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		if(!isset($_GET['ajax'])) $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
 	 * Lists all models.
+	 * @access public
 	 */
 	public function actionIndex()
 	{
@@ -130,13 +131,13 @@ class AccionlogController extends Controller
 
 	/**
 	 * Manages all models.
+	 * @access public
 	 */
 	public function actionAdmin()
 	{
 		$model=new Accionlog('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Accionlog']))
-			$model->attributes=$_GET['Accionlog'];
+		if(isset($_GET['Accionlog'])) $model->attributes=$_GET['Accionlog'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -146,6 +147,7 @@ class AccionlogController extends Controller
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
+	 * @access public
 	 * @param integer $id the ID of the model to be loaded
 	 * @return Accionlog the loaded model
 	 * @throws CHttpException
@@ -153,13 +155,13 @@ class AccionlogController extends Controller
 	public function loadModel($id)
 	{
 		$model=Accionlog::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+		if($model===null) throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
 
 	/**
 	 * Performs the AJAX validation.
+	 * @access protected
 	 * @param Accionlog $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)

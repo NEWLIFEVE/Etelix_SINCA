@@ -1,5 +1,27 @@
 <?php
-
+$server=$_SERVER['SERVER_NAME'];
+switch ($server)
+{
+    case SERVER_NAME_PROD:
+        $server_db='localhost';
+        $sinca_db='sinca';
+        $user_db='root';
+        $pass_db='Nsusfd8263';
+        break;
+    case SERVER_NAME_PRE_PROD:
+        $server_db='localhost';
+        $sori_db='dev_sinca';
+        $user_db='root';
+        $pass_db='Nsusfd8263';
+        break;
+    case SERVER_NAME_DEV:
+    default:
+        $server_db='172.16.17.190';
+        $sinca_db='sinca';
+        $user_db='manuelz';
+        $pass_db='123';
+        break;
+}
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -83,11 +105,12 @@ return array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
             ),
 		'db'=>array(
-			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
+			'class'=>'CDbConnection',
+			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
 			'emulatePrepare'=>true,
-			'username'=>'manuelz',
-			'password'=>'123',
-			'charset'=>'utf8',
+            'username'=>$user_db,
+			'password'=>$pass_db,
+			'charset'=>'utf8',        
 			),
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors
