@@ -5,6 +5,67 @@ class NominaController extends Controller
 {
     
         public $layout = '//layouts/column2';
+               	
+        public function accessRules()
+	{
+        /* 1-Operador de Cabina
+         * 2-Gerente de Operaciones
+         * 3-Administrador
+         * 4-Tesorero
+         * 5-Socio
+         * 7-RRHH
+         */                                
+		return array(
+			array(
+				'allow',
+				'actions'=>array(
+					'adminEmpleado',
+					'viewEmpleado',
+					),
+				'users'=>Users::UsuariosPorTipo(5),
+				),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(
+					'index',
+					'viewEmpleado',
+					'createEmpleado',
+					'update',
+					'adminEmpleado',
+					'DesactivarEmpleado',
+					),
+				'users'=>Users::UsuariosPorTipo(3),
+				),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(
+					'index',
+					'viewEmpleado',
+					'createEmpleado',
+					'update',
+					'adminEmpleado',
+					'DesactivarEmpleado',
+					),
+				'users'=>Users::UsuariosPorTipo(7),
+				),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(
+					'index',
+					'viewEmpleado',
+					'createEmpleado',
+					'update',
+					'adminEmpleado',
+					'DesactivarEmpleado',
+					),
+				'users'=>Users::UsuariosPorTipo(3),
+				),
+			array(
+				'deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
         
 	public function actionIndex()
 	{
@@ -265,6 +326,28 @@ class NominaController extends Controller
 
             /* ADMINISTRADOR */
             if($tipoUsuario == 3)
+            {
+                return array(
+                    array('label' => 'Administrar Empleados', 'url' => array('adminEmpleado')),
+                    array('label' => 'Crear Empleado', 'url' => array('CrearEmpleado')),
+//                    array('label' => 'Administrar Evento', 'url' => array('adminEvento')),
+//                    array('label' => 'Registrar Evento', 'url' => array('EventoEmpleado')),
+
+                );
+            }
+            /* SOCIO */
+            if($tipoUsuario == 5)
+            {
+                return array(
+                    array('label' => 'Administrar Empleados', 'url' => array('adminEmpleado')),
+//                    array('label' => 'Crear Empleado', 'url' => array('CrearEmpleado')),
+//                    array('label' => 'Administrar Evento', 'url' => array('adminEvento')),
+//                    array('label' => 'Registrar Evento', 'url' => array('EventoEmpleado')),
+
+                );
+            }
+            /* RRHH */
+            if($tipoUsuario == 7)
             {
                 return array(
                     array('label' => 'Administrar Empleados', 'url' => array('adminEmpleado')),
