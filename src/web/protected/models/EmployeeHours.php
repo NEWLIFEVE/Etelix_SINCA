@@ -13,9 +13,18 @@
  */
 class EmployeeHours extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+	public $day_1;
+        public $start_time_1;
+        public $end_time_1;
+        
+        public $day_2;
+        public $start_time_2;
+        public $end_time_2;
+        
+        public $day_3;
+        public $start_time_3;
+        public $end_time_3;
+        
 	public function tableName()
 	{
 		return 'employee_hours';
@@ -29,11 +38,11 @@ class EmployeeHours extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('start_time, end_time', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
+			array('start_time, end_time,employee_id,day', 'required'),
+			array('id,employee_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id, start_time, end_time, employee_id,day', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +54,7 @@ class EmployeeHours extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'employees' => array(self::HAS_MANY, 'Employee', 'employee_hours_id'),
+			'employees' => array(self::BELONGS_TO, 'Employee', 'employee_id'),
 		);
 	}
 
@@ -56,8 +65,12 @@ class EmployeeHours extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
+			'start_time' => 'Hora de Entrada',
+			'end_time' => 'Hora de Salida',
+                        'employee_id' => 'Empleado',
+                        'day' => 'Horario',
+                        'employee_hours_start' => 'Hora de Entrada',
+                        'employee_hours_end' => 'Hora de Salida',
 		);
 	}
 
@@ -82,6 +95,8 @@ class EmployeeHours extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('start_time',$this->start_time,true);
 		$criteria->compare('end_time',$this->end_time,true);
+                $criteria->compare('employee_id',$this->employee_id);
+                $criteria->compare('day',$this->day);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -120,4 +135,15 @@ class EmployeeHours extends CActiveRecord
 			}
 		}
         }
+        
+        public static function getEmployeeHoursDay($id,$day){
+            
+	  $model=self::model()->findBySql("SELECT CONCAT(DATE_FORMAT(start_time,'%h:%i %p'), ' - ', DATE_FORMAT(end_time,'%h:%i %p')) AS day FROM employee_hours WHERE employee_id = $id AND day = $day");
+            if($model == null){
+                return $model = 'No Asignado';
+            }else{       
+                return $model->day ;
+            }	
+        }
+
 }

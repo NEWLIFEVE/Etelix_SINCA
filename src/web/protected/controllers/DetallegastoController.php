@@ -44,6 +44,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCuentaEmployee',
                     'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'estadoGastos',
@@ -67,6 +68,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCuentaEmployee',
                     'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'matrizGastos',
@@ -89,6 +91,7 @@ class DetallegastoController extends Controller {
                     'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
+                    'dynamicCuentaEmployee',
                     'dynamicCategoria',
                     'dynamicGastoAnterior',
                     'estadoGastos',
@@ -147,7 +150,13 @@ class DetallegastoController extends Controller {
             else
             {
                 $model->FechaVenc=NULL;
-            }        
+            } 
+            
+//            if(isset($_POST['beneficiario2']) && $_POST['beneficiario2']!= "empty" ){
+//                $model->beneficiario=  Employee::getNameEmployee($_POST['Detallegasto']['beneficiario']);
+//            }else{
+                $model->beneficiario=$_POST['Detallegasto']['beneficiario'];
+//            } 
 //            $model->USERS_Id=$_POST['USERS_Id'];
 
             if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= ""){
@@ -182,6 +191,9 @@ class DetallegastoController extends Controller {
         {
             $model->attributes = $_POST['Detallegasto'];
             $model->FechaMes=$_POST['Detallegasto']['FechaMes']."-01";  
+
+            //$model->beneficiario=$_POST['Detallegasto']['beneficiario'];
+
             
             if(isset($_POST['Detallegasto']['FechaVenc']) && $_POST['Detallegasto']['FechaVenc']!= "" && strstr($_POST['Detallegasto']['FechaVenc'], '-')==FALSE)
             {
@@ -408,6 +420,20 @@ class DetallegastoController extends Controller {
         if($_POST['Detallegasto']['moneda'] != 'empty'){
             echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
             $data = Cuenta::getListCuentaTipo($_POST['Detallegasto']['moneda']);
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+            }
+        }else{
+            echo CHtml::tag('option',array('value'=>''),'Seleccionar Moneda',true);
+        }
+    }
+    
+    public function actionDynamicCuentaEmployee()
+    {
+        if($_GET['moneda'] != 'empty'){
+            echo CHtml::tag('option',array('value'=>'empty'),'Seleccione uno',true);
+            $data = Cuenta::getListCuentaTipo($_GET['moneda']);
             foreach($data as $value=>$name)
             {
                 echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);

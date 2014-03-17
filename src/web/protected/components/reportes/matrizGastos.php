@@ -36,7 +36,7 @@ class matrizGastos extends Reportes
 
             $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id,t.Nombre AS nombreTipoDetalle, a.name AS categoria
                   FROM detallegasto d, tipogasto t, category a
-                  WHERE d.TIPOGASTO_Id=t.id AND a.id=t.category_id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.status=3 AND a.name!='RECARGAS'
+                  WHERE d.TIPOGASTO_Id=t.id AND a.id=t.category_id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.status IN (2,3) AND a.name!='RECARGAS'
                   GROUP BY t.Nombre
                   ORDER BY a.id, t.Nombre;";
             $model=Detallegasto::model()->findAllBySql($sql);
@@ -142,44 +142,22 @@ class matrizGastos extends Reportes
                         $sqlMontoGasto="SELECT SUM(d.Monto) AS Monto, d.status, d.moneda,
                                                (SELECT d.Monto AS Monto
                                                 FROM detallegasto d, tipogasto t, category a, cabina c
-                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status=3 AND d.moneda=1 AND a.name!='RECARGAS'
+                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status IN (2,3) AND d.moneda=1 AND a.name!='RECARGAS'
                                                 GROUP BY d.moneda) AS MontoDolares,
                                                (SELECT d.Monto AS Monto
                                                 FROM detallegasto d, tipogasto t, category a, cabina c
-                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status=3 AND d.moneda=2 AND a.name!='RECARGAS'
+                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status IN (2,3) AND d.moneda=2 AND a.name!='RECARGAS'
                                                 GROUP BY d.moneda) AS MontoSoles
                                         FROM detallegasto d, tipogasto t, category a, cabina c
-                                        WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status=3 AND a.name!='RECARGAS'
+                                        WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status IN (2,3) AND a.name!='RECARGAS'
                                         GROUP BY d.status;";
                         $MontoGasto=Detallegasto::model()->findBySql($sqlMontoGasto);
 
                         if($MontoGasto!=NULL)
                         {
                             $moneda=Detallegasto::monedaGasto($MontoGasto->moneda);
-                            switch ($MontoGasto->status)
-                            {
-                                case "1":
-                                    if($count>0)
-                                    {
-                                        $opago.="<td style='width: 80px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                                    }
-                                    else
-                                    {
-                                        $opago.="<td style='width: 80px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='width: 200px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                                    }
-                                    break;
-                                case "2":
-                                    if($count>0)
-                                    {
-                                        $opago.="<td style='width: 80px;color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                                    }
-                                    else
-                                    {
-                                        $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
-                                        $opago.="<td style='width: 80px;color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                                    }
-                                    break;
-                                case "3":
+
+                                
                                     $fondo='';
                                     if($moneda=='S/.')
                                     {
@@ -212,8 +190,7 @@ class matrizGastos extends Reportes
                                             $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
                                         }
                                     }
-                                    break;
-                            }
+                                    
                         }
                         else
                         {
@@ -231,10 +208,10 @@ class matrizGastos extends Reportes
 
                     $sqlT="SELECT (SELECT SUM(d.Monto) AS Monto 
                                    FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id = t.category_id 
-                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status=3) AS MontoD,
+                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoD,
                                   (SELECT SUM(d.Monto) AS Monto 
                                    FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id = t.id INNER JOIN category AS a ON a.id = t.category_id 
-                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status=3) AS MontoS
+                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoS
                            FROM detallegasto AS d";
                     $monts=Detallegasto::model()->findBySql($sqlT);
                     $tr.="<tr id='ordenPago'>
@@ -268,10 +245,10 @@ class matrizGastos extends Reportes
                 {
                     $sqlTotales="SELECT (SELECT SUM(d.Monto) AS Monto 
                                          FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id INNER JOIN cabina AS c ON d.CABINA_Id=c.id
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status=3) AS MontoD,
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoD,
                                         (SELECT SUM(d.Monto) AS Monto 
                                          FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id INNER JOIN cabina AS c ON d.CABINA_Id=c.id
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status=3) AS MontoS, 
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoS, 
                                         d.moneda
                                  FROM detallegasto AS d";
                     $total=Detallegasto::model()->findBySql($sqlTotales);
@@ -282,10 +259,10 @@ class matrizGastos extends Reportes
 
                 $sqlTS="SELECT (SELECT SUM(d.Monto) AS Monto 
                                 FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id 
-                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status=3) AS MontoD,
+                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoD,
                                (SELECT SUM(d.Monto) AS Monto 
                                 FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id 
-                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status=3) AS MontoS
+                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoS
                         FROM detallegasto AS d";
                 $montS=Detallegasto::model()->findBySql($sqlTS);
                 $tr.="<td style=' background-color: #DADFE4;'></td>";
@@ -313,10 +290,10 @@ class matrizGastos extends Reportes
                 {
                     $sqlTotales="SELECT (SELECT SUM(d.Monto) AS Monto 
                                          FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id INNER JOIN cabina AS c ON d.CABINA_Id=c.id
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status=3) AS MontoD,
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoD,
                                         (SELECT SUM(d.Monto) AS Monto 
                                          FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id INNER JOIN cabina AS c ON d.CABINA_Id=c.id
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status=3) AS MontoS,
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoS,
                                         d.moneda
                                         FROM detallegasto AS d";
                     $total=Detallegasto::model()->findBySql($sqlTotales);
@@ -326,10 +303,10 @@ class matrizGastos extends Reportes
                 }      
                 $sqlTS="SELECT (SELECT SUM(d.Monto) AS Monto 
                                 FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id 
-                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status=3) AS MontoD,
+                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoD,
                                (SELECT SUM(d.Monto) AS Monto 
                                 FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id 
-                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status=3) AS MontoS
+                                WHERE EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name!='RECARGAS' AND d.status IN (2,3)) AS MontoS
                         FROM detallegasto as d";
                 $montS=Detallegasto::model()->findBySql($sqlTS);
 
@@ -346,7 +323,7 @@ class matrizGastos extends Reportes
                 //RECARGAS
                 $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id,t.Nombre AS nombreTipoDetalle, a.name AS categoria
                       FROM detallegasto d, tipogasto t, category a
-                      WHERE d.TIPOGASTO_Id=t.id AND a.id=t.category_id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.status=3 AND a.name='RECARGAS'
+                      WHERE d.TIPOGASTO_Id=t.id AND a.id=t.category_id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.status IN (2,3) AND a.name='RECARGAS'
                       GROUP BY t.Nombre
                       ORDER BY a.id, t.Nombre";
                 $model=Detallegasto::model()->findAllBySql($sql);    
@@ -366,14 +343,14 @@ class matrizGastos extends Reportes
                         $sqlMontoGasto="SELECT SUM(d.Monto) AS Monto, d.status, d.moneda,
                                                (SELECT d.Monto AS Monto
                                                 FROM detallegasto d, tipogasto t, category a, cabina c
-                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status=3 AND d.moneda=1 AND a.name='RECARGAS'
+                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status IN (2,3) AND d.moneda=1 AND a.name='RECARGAS'
                                                 GROUP BY d.moneda) AS MontoDolares,
                                                (SELECT d.Monto AS Monto
                                                 FROM detallegasto d, tipogasto t, category a, cabina c    
-                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status=3 AND d.moneda=2 AND a.name='RECARGAS'
+                                                WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status IN (2,3) AND d.moneda=2 AND a.name='RECARGAS'
                                                 GROUP BY d.moneda) AS MontoSoles
                                         FROM detallegasto d, tipogasto t, category a, cabina c
-                                        WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status=3 AND a.name='RECARGAS'
+                                        WHERE a.id=t.category_id AND d.CABINA_Id=c.id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id={$gasto->TIPOGASTO_Id} AND d.CABINA_Id={$cabina->Id} AND d.status IN (2,3) AND a.name='RECARGAS'
                                         GROUP BY d.status";
                         $MontoGasto=Detallegasto::model()->findBySql($sqlMontoGasto);
                         if($MontoGasto!=NULL)
@@ -437,10 +414,10 @@ class matrizGastos extends Reportes
                     }
                     $sqlT="SELECT (SELECT SUM(d.Monto) AS Monto 
                                    FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id 
-                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name='RECARGAS' AND d.status=3) AS MontoD,
+                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND a.name='RECARGAS' AND d.status IN (2,3)) AS MontoD,
                                   (SELECT SUM(d.Monto) AS Monto 
                                    FROM detallegasto AS d INNER JOIN tipogasto AS t ON d.TIPOGASTO_Id=t.id INNER JOIN category AS a ON a.id=t.category_id 
-                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name='RECARGAS' AND d.status=3) AS MontoS
+                                   WHERE t.Id={$gasto->TIPOGASTO_Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND a.name='RECARGAS' AND d.status IN (2,3)) AS MontoS
                            FROM detallegasto AS d";
                     $mont=Detallegasto::model()->findBySql($sqlT);
 

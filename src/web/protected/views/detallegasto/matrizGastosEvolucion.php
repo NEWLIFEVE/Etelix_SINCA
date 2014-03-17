@@ -44,7 +44,7 @@ $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDeta
         WHERE d.TIPOGASTO_Id=t.id 
         AND EXTRACT(YEAR_MONTH FROM d.FechaMes) >= EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11 MONTH)) 
         AND EXTRACT(YEAR_MONTH FROM d.FechaMes) <= '".$año.$mes2."'
-        AND d.status = 3
+        AND d.status IN (2,3)
         AND d.CABINA_Id = $cabina
         GROUP BY t.Nombre
         ORDER BY t.Nombre ASC;";
@@ -183,7 +183,7 @@ if (count($model)> 0) { ?>
                                         WHERE d.CABINA_Id=c.id
                                         AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count." MONTH))
                                         AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina
-                                        AND d.status = 3
+                                        AND d.status IN (2,3)
                                         AND d.moneda = 1
                                         GROUP BY d.moneda
                                         ) as MontoDolares, 
@@ -194,7 +194,7 @@ if (count($model)> 0) { ?>
                                         WHERE d.CABINA_Id=c.id
                                         AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count." MONTH))
                                         AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id  AND d.CABINA_Id = $cabina
-                                        AND d.status = 3
+                                        AND d.status IN (2,3)
                                         AND d.moneda = 2
                                         GROUP BY d.moneda
                                         )  as MontoSoles
@@ -204,38 +204,13 @@ if (count($model)> 0) { ?>
                                   AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count." MONTH)) 
                                   AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id 
                                   AND d.CABINA_Id = $cabina
-                                  AND d.status = 3
+                                  AND d.status IN (2,3)
                                   GROUP BY d.moneda;";
                 $MontoGasto = Detallegasto::model()->findBySql($sqlMontoGasto);
 
                 if ($MontoGasto!=NULL){
                      $moneda = Detallegasto::monedaGasto($MontoGasto->moneda);
-                    switch ($MontoGasto->status) {
-                        case "1":
-                            if ($count>0){
-                                $opago.="<td style='width: 200px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                            }else{
-                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='width: 200px;color: #FFF; background: #ff9900; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                            }
-                            
-                            //$aprobado.="<td></td>";
-                            //$pagado.="<td></td>";
-                            break;
-                        case "2":
-                            
-                            if ($count>0){
-                                //$opago.="<td></td>";
-                                $opago.="<td style='width: 200px;color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                            }else{
-                                $opago.="<td rowspan='1' style='width: 120px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
-//                                $opago.="<td></td>";
-                                $opago.="<td style='width: 200px;color: #FFF; background: #1967B2; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                            }
-                            
-//                            $pagado.="<td></td>";
-                            break;
-                        case "3":
-                            
+ 
                                 $fondo = '';
                                 if($moneda == 'S/.'){
                                     $fondo = 'background: #1967B2;';
@@ -267,8 +242,7 @@ if (count($model)> 0) { ?>
                                         $opago.="<td style='width: 200px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     }
                             }
-                            break;
-                    }
+                       
                 }  else {
                     if ($count>0){
                         $opago.="<td></td>";
@@ -307,9 +281,9 @@ if (count($model)> 0) { ?>
             ";
             $count2 = 0;
             for($i=0;$i<=11;$i++){
-                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count2." MONTH)) AND d.moneda = 1 AND d.status = 3) 
+                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count2." MONTH)) AND d.moneda = 1 AND d.status IN (2,3)) 
                                 as MontoD,
-                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count2." MONTH)) AND (d.moneda = 2 OR d.moneda IS NULL) AND d.status = 3) 
+                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count2." MONTH)) AND (d.moneda = 2 OR d.moneda IS NULL) AND d.status IN (2,3)) 
                                 as MontoS, d.moneda
                                 FROM detallegasto as d
                                 LIMIT 1";       
@@ -339,9 +313,9 @@ if (count($model)> 0) { ?>
             ";
             $count3 = 0;
             for($i=0;$i<=11;$i++){
-                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count3." MONTH)) AND d.moneda = 1 AND d.status = 3) 
+                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count3." MONTH)) AND d.moneda = 1 AND d.status IN (2,3)) 
                                 as MontoD,
-                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count3." MONTH)) AND (d.moneda = 2 OR d.moneda IS NULL) AND d.status = 3) 
+                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina AND EXTRACT(YEAR_MONTH FROM d.FechaMes) = EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11-".$count3." MONTH)) AND (d.moneda = 2 OR d.moneda IS NULL) AND d.status IN (2,3)) 
                                 as MontoS, d.moneda
                                 FROM detallegasto as d
                                 LIMIT 1";      
