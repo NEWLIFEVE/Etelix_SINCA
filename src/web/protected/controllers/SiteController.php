@@ -219,6 +219,19 @@ class SiteController extends Controller
                 array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
             );
         }
+        /* RRHH */
+        if ($tipoUsuario == 7)
+        {
+            return array(
+                //array('label' => 'Home', 'url' => array('/site/index')),
+                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
+                array('url' => array('/nomina/adminEmpleado'), 'label' => 'Nomina', 'visible' => !Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/RRHH)', 'visible' => !Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
+            
+            );
+        }
     }
 
     /**
