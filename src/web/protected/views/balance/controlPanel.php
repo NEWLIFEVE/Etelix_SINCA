@@ -147,7 +147,7 @@ echo CHtml::endForm();
 
 <h1>
     <span class="enviar">
-    Tablero de Control de Actividades <?php echo $date != NULL ?" - ". Utility::monthName($date).'   ' : ""; ?>
+    Tablero de Control de Actividades
     </span>
     <span>
     <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoPanel" />
