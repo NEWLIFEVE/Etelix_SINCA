@@ -294,9 +294,9 @@ div.flash-notice
 
 div.flash-success
 {
-	background:#E6EFC2;
-	color:#264409;
-	border-color:#C6D880;
+	background:rgba(0, 153, 43, 0.65);
+	color:white;
+	border-color:#00992B;
 }
 
 div.flash-error a

@@ -108,6 +108,9 @@ div.form input.success,
 div.form textarea.success,
 div.form select.success
 {
+/*    color: white;
+background: #00992B;
+border-color: #00992B;*/
 	background: #E6EFC2;
 	border-color: #C6D880;
 }

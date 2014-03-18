@@ -84,35 +84,28 @@
                   <td>
                       <div class="row"> 
                           <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> 
-                          <?php 
-                          
-       
-                         
-                            ($model->isNewRecord)
-                                  ? $tg = $form->dropDownList($model, 'TIPOGASTO_Id', array('empty'=>'Seleccionar Categoria'), array(
-                                                'ajax'=>array(
-                                                    'type'=>'POST', //request type
-                                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
-                                                    'update'=>'#GastoMesAnterior', //selector to update
-                                                    ),
-                                                )
-                                            )
-                                  : $tg = $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGastoCategoria($model->category),array(
-                                                'empty'=>array('Seleccionar..','Nuevo..'),
-                                                'ajax'=>array(
-                                                    'type'=>'POST', //request type
-                                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
-                                                    'update'=>'#GastoMesAnterior', //selector to update
-                                                    ),
-                                                )
-                                            );
-
-                            echo $tg;
+                            <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGasto(),array(
+                                'empty'=>array('Seleccionar..','Nuevo..'),
+//                                'ajax'=>array(
+//                                    'type'=>'POST', //request type
+//                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
+//                                    'update'=>'#GastoMesAnterior', //selector to update
+//                                    ),
+                                )
+                            );
                             ?> 
                           <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> 
                       </div>
                   </td>
-                  <td id="ocultarEnUpdate" style="width: 50%;"><div class="row"> <?php echo $form->labelEx($model,'CABINA_Id'); ?> <?php echo $form->dropDownList($model, 'CABINA_Id', Cabina::getListCabinaResto(),array('empty'=>'Seleccionar..'));?> <?php echo $form->error($model,'CABINA_Id'); ?> </div>
+                  <td id="ocultarEnUpdate" style="width: 50%;"><div class="row"> <?php echo $form->labelEx($model,'CABINA_Id'); ?> 
+                      <?php echo $form->dropDownList($model, 'CABINA_Id', Cabina::getListCabinaResto(),array(
+                          'empty'=>'Seleccionar..',
+                          'ajax'=>array(
+                                    'type'=>'POST', //request type
+                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
+                                    'update'=>'#GastoMesAnterior', //selector to update
+                                    ),));?> 
+                          <?php echo $form->error($model,'CABINA_Id'); ?> </div>
                   </td>  
                     
                     
@@ -177,7 +170,7 @@
                             <td><div class="row"> <?php echo $form->labelEx($model, 'Monto'); ?> <?php echo $form->textField($model, 'Monto', array('size' => 15, 'maxlength' => 15)); ?> <?php echo $form->error($model, 'Monto'); ?> </div></td>
                             <td>
                                 
-                              <div id="GastoMesAnterior"> 
+                                <div id="GastoMesAnterior" style="display: block !important; float: right;"> 
 
                             </div></td>
                         </tr>
@@ -190,7 +183,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="row">
+                                <div class="row" style="float: right;">
                                     <?php echo $form->labelEx($model, 'FechaVenc'); ?>
                                     <?php 
                                             $this->widget('zii.widgets.jui.CJuiDatePicker', 
@@ -225,7 +218,7 @@
                         <tr>
                             <td colspan="2">
                                 <?php echo $form->labelEx($model, 'Descripcion',array('style' => 'width:400px;')); ?> 
-                                <?php echo $form->textArea($model, 'Descripcion', array('size' => 160, 'maxlength' => 450, 'style' => 'width:400px;height:183px;')); ?>
+                                <?php echo $form->textArea($model, 'Descripcion', array('size' => 160, 'maxlength' => 450, 'style' => 'width:394px;')); ?>
                                 <?php echo $form->error($model, 'Descripcion'); ?>
                             </td>
                         </tr>

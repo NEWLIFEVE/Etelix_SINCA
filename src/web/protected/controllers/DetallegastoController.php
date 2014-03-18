@@ -469,7 +469,8 @@ class DetallegastoController extends Controller {
             echo "<strong><span>Monto ".Utility::monthName($fechaMesAnterior).": </span>
                     <span style='color:forestgreen;'>$resulset->Monto</span><span> S.</span></strong>";
         else 
-            echo ''; 
+           echo "<strong><span>Monto ".Utility::monthName($fechaMesAnterior).": </span>
+                    <span style='color:forestgreen;'>No hay data</span><span> S.</span></strong>";
     }
     
     /**

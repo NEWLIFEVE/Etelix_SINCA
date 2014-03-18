@@ -33,6 +33,9 @@ class NominaController extends Controller
 					'update',
 					'adminEmpleado',
 					'DesactivarEmpleado',
+                                        'DynamicEmployee',
+                                        'GetCurrency',
+                                        'GetSalary',
 					),
 				'users'=>Users::UsuariosPorTipo(3),
 				),
@@ -45,8 +48,41 @@ class NominaController extends Controller
 					'update',
 					'adminEmpleado',
 					'DesactivarEmpleado',
+                                        'DynamicEmployee',
+                                        'GetCurrency',
+                                        'GetSalary',
 					),
 				'users'=>Users::UsuariosPorTipo(7),
+				),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(
+					'index',
+					'viewEmpleado',
+					'crearEmpleado',
+					'update',
+					'adminEmpleado',
+					'DesactivarEmpleado',
+                                        'DynamicEmployee',
+                                        'GetCurrency',
+                                        'GetSalary',
+					),
+				'users'=>Users::UsuariosPorTipo(2),
+				),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(
+					'index',
+					'viewEmpleado',
+					'crearEmpleado',
+					'update',
+					'adminEmpleado',
+					'DesactivarEmpleado',
+                                        'DynamicEmployee',
+                                        'GetCurrency',
+                                        'GetSalary',
+					),
+				'users'=>Users::UsuariosPorTipo(4),
 				),
 			array(
 				'deny',  // deny all users

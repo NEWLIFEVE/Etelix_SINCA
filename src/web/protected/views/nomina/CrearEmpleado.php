@@ -252,7 +252,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                                             'constrainInput' => 'false',
                                             'showAnim' => 'show',
                                             //'minDate'=>'-30D', //fecha minima
-                                            //'maxDate'=> "+30D", //fecha maxima
+                                            'maxDate'=> "-0D", //fecha maxima
                                              ),
                                                 'htmlOptions'=>array(
                                                     'readonly'=>'readonly',
