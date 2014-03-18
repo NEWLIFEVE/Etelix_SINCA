@@ -29,7 +29,7 @@ class NominaController extends Controller
 				'actions'=>array(
 					'index',
 					'viewEmpleado',
-					'createEmpleado',
+					'crearEmpleado',
 					'update',
 					'adminEmpleado',
 					'DesactivarEmpleado',
@@ -41,24 +41,12 @@ class NominaController extends Controller
 				'actions'=>array(
 					'index',
 					'viewEmpleado',
-					'createEmpleado',
+					'crearEmpleado',
 					'update',
 					'adminEmpleado',
 					'DesactivarEmpleado',
 					),
 				'users'=>Users::UsuariosPorTipo(7),
-				),
-			array(
-				'allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array(
-					'index',
-					'viewEmpleado',
-					'createEmpleado',
-					'update',
-					'adminEmpleado',
-					'DesactivarEmpleado',
-					),
-				'users'=>Users::UsuariosPorTipo(3),
 				),
 			array(
 				'deny',  // deny all users
