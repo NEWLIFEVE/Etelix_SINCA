@@ -22,7 +22,18 @@ $this->breadcrumbs=array(
             else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()=="Nuevo.."){
                 $("#DetalleGasto").slideDown("slow");
                 $("#GastoMesAnterior").slideUp("slow");
+                $("tr#Gasto").css("display","inline");
                 $("#GastoNuevo").slideDown("slow");
+                
+                $("#DetalleGasto input").val("");
+                $("#DetalleGasto textarea").val("");
+            }
+            else if($("#Detallegasto_TIPOGASTO_Id option:selected").html()!="Nuevo.."){
+                $("#DetalleGasto").slideDown("slow");
+                $("#GastoMesAnterior").slideUp("slow");
+                
+                $("#GastoNuevo").slideUp("slow");
+                $("tr#Gasto").slideUp("slow");
                 $("#DetalleGasto input").val("");
                 $("#DetalleGasto textarea").val("");
             }

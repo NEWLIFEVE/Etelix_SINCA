@@ -227,6 +227,52 @@ $(document).ready(function()
             }
 
         });
+        
+        $('img.botonExcelPanel').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
+        {    
+
+            $("#loading").html("Generando Excel... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+             
+            var gridview = 'tabla3';
+            var date = $('div#fecha2').text();
+            var name = genNameFile(gridview);
+
+            //Creamos la variable que contiene la tabla generada.
+            
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/excel?table="+gridview+'&date='+date+'&name='+name,    
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
+
+             //alert(response);
+             if($('table#'+gridview).length){
+             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+             var win = false;
+             win = window.open("/site/excel?table="+gridview+'&date='+date+'&name='+name,"_top");
+
+            if (win.closed == false)
+            {
+ 
+             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+             $("#complete").html("Archivo Excel Generado... !!");
+             setTimeout('$("#complete").css("display", "inline");', 1000);
+             setTimeout('$("#loading").css("display", "none");', 1000); 
+             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+             }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#loading").css("display", "none");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+
+        });
     }
 
 
@@ -236,11 +282,11 @@ $(document).ready(function()
     {
         $('img.botonCorreo').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
-
+//
             $("#loading").html("Enviando Correo... !!");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
-            
+//            
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
@@ -248,13 +294,12 @@ $(document).ready(function()
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
             });
-            //alert(name);
+//            alert(name);
             if(ids != ''){
             
                                 $.ajax({ 
                                     type: "GET",   
-                                    url: '/site/sendemail',
-                                    data: 'ids='+ids+'&name='+name+"&table="+gridview,
+                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,
                                     async: true,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
@@ -420,6 +465,49 @@ $(document).ready(function()
                         setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
             }
         });  
+        
+        $('img.botonCorreoPanel').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
+        {    
+
+            $("#loading").html("Enviando Correo... !!");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+            
+            var gridview = 'tabla3';
+            var date = $('div#fecha2').text();
+            var name = genNameFile(gridview);
+            //alert(mes);
+            
+            if($('table#'+gridview).length){
+            //Creamos la variable que contiene la tabla generada.
+                    $.ajax({ type: "GET",   
+                                    url: "/site/sendemail?table="+gridview+'&date='+date+'&name='+name,     
+                                    async: true,
+                                    beforeSend: function () {
+                                            //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
+//                                            $("#nombreContenedor").css("display", "inline");
+//                                            $("#loading").css("display", "inline");
+                                    },
+                                    success:  function (response) {
+                                            $("#nombreContenedor").css("display", "NONE");
+                                            $("#loading").css("display", "NONE");
+                                            $("#complete").html("Correo Enviado con Exito... !!");
+                                            $("#nombreContenedor").css("display", "inline");
+                                            $("#complete").css("display", "inline");
+                                            setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                            setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  });
+            }else{
+                        $("#nombreContenedor").css("display", "NONE");
+                        $("#loading").css("display", "NONE");
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+        });
         
     }
 
@@ -634,6 +722,50 @@ $(document).ready(function()
                         setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
             }
         }); 
+        
+        $('img.printButtonPanel').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
+        {    
+
+            var gridview = 'tabla3';
+            var date = $('div#fecha2').text();
+            var name = genNameFile(gridview);
+            //Creamos la variable que contiene la tabla generada.
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/print?table="+gridview+'&date='+date+'&name='+name,   
+                                    async: false,
+                                  }).responseText;
+            //Creamos la variable que alberga la pagina con la tabla generada.
+            var content = '<!DOCTYPE html><html><meta charset="es">'+
+            '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
+            '<body>'
+            //Tabla con Formato
+            +response+
+
+            '<script type="text/javascript">function printPage() { window.focus(); window.print();return; }</script>'+
+            '</body></html>';
+    
+//    
+//            $.fancybox.open({
+//		href : 'iframe.html',
+//		type : 'iframe',
+//		padding : 5
+//				});
+                        
+            //Creamos un 'iframe' para simular la apertura de una pagina nueva sin recargar ni alterar la anterior.
+            var newIframe = document.createElement('iframe');
+            newIframe.width = '0';
+            newIframe.height = '0';
+            newIframe.src = 'about:blank';
+            document.body.appendChild(newIframe);
+            newIframe.contentWindow.contents = content;
+            newIframe.src = 'javascript:window["contents"]';
+            newIframe.focus();
+            //setTimeout(function() {
+            newIframe.contentWindow.printPage();
+            //}, 10);
+            return;
+
+        }); 
     }
 
 
@@ -683,6 +815,9 @@ $(document).ready(function()
         }
         if(gridview=='tabla2'){
             name = 'SINCA Matriz de Gastos Evolucion'+cabina+' '+fecha;
+        }
+        if(gridview=='tabla3'){
+            name = 'SINCA Tablero de Control de Actividades'+fecha;
         }
         if(gridview=='estadogasto-grid'){
             name = 'SINCA Estado de Gastos'+cabina+' '+fecha;
@@ -835,15 +970,17 @@ $(document).ready(function()
                 $("#Detallegasto_TIPOGASTO_Id").change(function () {
                 var selc_categoria = $("#Detallegasto_category option:selected").text();
                 var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
-                //$("select#Detallegasto_CABINA_Id").prop('selectedIndex', 0);
-                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Pago a Empleado' || selc_tipo_gasto != 'Seleccione uno')){
+                
+                resetField(false);
+                
+                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Pago a Empleado' || selc_tipo_gasto == 'Nuevo..')){
                         //Capturar Seleccion de la Cabina
                         $("#Detallegasto_CABINA_Id").change(function () {
-                        
+                        var selc_categoria = $("#Detallegasto_category option:selected").text();
                         var selc_cabina = $("#Detallegasto_CABINA_Id option:selected").text();
                         var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
                         
-                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno' || selc_tipo_gasto == 'Pago a Empleado')){     
+                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Nuevo..' || selc_tipo_gasto == 'Pago a Empleado')){     
                         $("#Detallegasto_Monto").val('');     
                         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
                         
@@ -903,6 +1040,9 @@ $(document).ready(function()
                         }
                         
                         });
+                    }else{
+                        resetField(false);
+                        
                     }
                 
                 
@@ -927,7 +1067,7 @@ $(document).ready(function()
         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");
         $("#Detallegasto_CUENTA_Id option[value='empty']").attr("selected", "selected");
         $("#Detallegasto_CUENTA_Id").html('<option value="empty">Seleccionar Moneda</option>');
-        $("select#Detallegasto_TIPOGASTO_Id").prop('selectedIndex', 0);
+        //$("select#Detallegasto_TIPOGASTO_Id").prop('selectedIndex', 0);
         $("select#Detallegasto_CABINA_Id").prop('selectedIndex', 0);
     }
     

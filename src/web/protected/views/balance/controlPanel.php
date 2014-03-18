@@ -34,6 +34,7 @@ if(!isset($_POST["formFecha"]) || $_POST["formFecha"]==""){
 }
 elseif(isset($_POST["formFecha"])){
 
+    $date = $_POST["formFecha"];
     list($year2, $mon2, $day2) = explode('-', $_POST["formFecha"]);
     list($year, $mon, $day) = explode('-', $_POST["formFecha"]);
     $fechaActual = date('Y-m-d', mktime(0, 0, 0,$mon, $day, $year));
@@ -136,7 +137,24 @@ echo CHtml::endForm();
 
 ?>
 
-<h1>Tablero de Control de Actividades <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoPanel" /></h1>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
+
+<div id="fecha" style="display: none;"><?php echo $date != NULL ? date('Ymd',strtotime($date)): "";?></div>
+<div id="fecha2" style="display: none;"><?php echo $date != NULL ? $date: "";?></div>
+
+<h1>
+    <span class="enviar">
+    Tablero de Control de Actividades <?php echo $date != NULL ?" - ". Utility::monthName($date).'   ' : ""; ?>
+    </span>
+    <span>
+    <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoPanel" />
+    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelPanel" />
+    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonPanel' />
+    </span>
+</h1> 
 <div id="enviar" rel="total">
     <div>
         <div>
@@ -190,7 +208,7 @@ echo CHtml::endForm();
     <br/>
     <br/>
 <?php if ($model !== null) { ?>
-<table id="tabla" class="tabla2 items" border="1" style="background-color:#F2F4F2; border-collapse:collapse;width:auto;">
+<table id="tabla3" class="tabla2 items" border="1" style="background-color:#F2F4F2; border-collapse:collapse;width:auto;">
     <tr>
         <td style='font-weight:bold; background: #1967B2' ><span style="background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif&quot;) repeat scroll 0 0 #2D2D2D;"><img style="padding-left: 24px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Activity-w.png" /></span></td>
         <td style='width: 120px; font-weight:bold; background: #1967B2;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'><?php //echo $fechaActual.' '; ?>Inicio Jornada</h3></td>

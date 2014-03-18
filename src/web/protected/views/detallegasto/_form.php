@@ -59,13 +59,13 @@
     ?>
     <p class="note">Los campos con  <span class="required">*</span> son obligatorios.</p>
 <?php echo $form->errorSummary(array ($model, $model_cabina)); ?>
-    <table style="width: 70%;" border="1">
+    <table style="width: 50%;" border="1" valign="top">
         <tr>
-            <td>
-            <table border="1">
+            <td style="vertical-align: top">
+            <table border="1" >
                 <tr >
                   
-                    <td>
+                    <td >
                         <div class="row"> 
                                 <?php echo $form->labelEx($model, 'category'); ?> 
                                 <?php echo $form->dropDownList($model, 'category',Category::getListTipoCategoria(), array('empty'=>'Seleccionar...'),array(
@@ -158,16 +158,21 @@
                 </tr>
             </table>
             </td>
-        </tr>
-        <tr>
-            <td>
+
+            <td style="vertical-align: top">
                 <div id="DetalleGasto" class="ocultar">
 
                     <table border="1">
-                        <tr>
-                          <td><div id="GastoNuevo" class="row ocultar"> <?php echo $form->labelEx($model, 'nombreTipoDetalle'); ?> <?php echo $form->textField($model, 'nombreTipoDetalle'); ?> <?php echo $form->error($model, 'nombreTipoDetalle'); ?> </div></td>
-                          <td>&nbsp;</td>
+                        <tr id="Gasto" style="display: none;">
+                          <td>
+                              <div id="GastoNuevo" class="row ocultar">
+                              <?php echo $form->labelEx($model, 'nombreTipoDetalle'); ?> 
+                              <?php echo $form->textField($model, 'nombreTipoDetalle'); ?> 
+                              <?php echo $form->error($model, 'nombreTipoDetalle'); ?> 
+                              </div>
+                          </td>
                         </tr>
+
                         <tr>
                             <td><div class="row"> <?php echo $form->labelEx($model, 'Monto'); ?> <?php echo $form->textField($model, 'Monto', array('size' => 15, 'maxlength' => 15)); ?> <?php echo $form->error($model, 'Monto'); ?> </div></td>
                             <td>

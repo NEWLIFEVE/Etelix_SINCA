@@ -110,6 +110,12 @@ class Reportes extends CApplicationComponent
         $var= matrizGastosEvolucion::reporte($mes,$cabina,$nombre,$type);    
         return $var;
     }
+    
+    public function tableroControl($date,$name)
+    {
+        $var= tableroControl::reporte($date,$name);    
+        return $var;
+    }
 
     /**
      * Documentacion va aqui

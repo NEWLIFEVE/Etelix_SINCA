@@ -159,6 +159,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
   
   $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid-oculta',
+
     'htmlOptions'=>array(
       'class'=>'grid-view oculta',
       'rel'=>'total',

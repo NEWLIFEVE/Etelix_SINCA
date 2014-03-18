@@ -352,6 +352,11 @@ class SiteController extends Controller
             $files['matrizE']['name']=$_GET['name'];
             $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
         }
+        if($_GET['table']=='tabla3')
+        {
+            $files['TableroA']['name']=$_GET['name'];
+            $files['TableroA']['body']=Yii::app()->reporte->tableroControl($_GET['date'],$_GET['name']);
+        }
         if($_GET['table']=='estadogasto-grid')
         {
             $files['estadogasto']['name']=$_GET['name'];
@@ -410,16 +415,16 @@ class SiteController extends Controller
         if($_GET['table']=='balanceCicloIngresosResumido' || $_GET['table']=='balanceCicloIngresosResumidoOculta')
         {      
             $files['cicloIngreso']['name']=$_GET['name'];
-            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,false);
-            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],false,true);
+            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],$topic,false,false);
+            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],$topic,false,true);
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosCompleto')
         {      
-            $files['cicloIngreso']['name']=$_GET['name'];
-            $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],$topic,true,false);
-            $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],$topic,true,true);
-            $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngreso']['name'].".xls";    
+            $files['cicloIngresoC']['name']=$_GET['name'];
+            $files['cicloIngresoC']['body']=Yii::app()->reporte->cicloIngreso($_GET['ids'],$topic,true,false);
+            $files['cicloIngresoC']['excel']=Yii::app()->reporte->cicloIngreso($_GET['ids'],$topic,true,true);
+            $files['cicloIngresoC']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['cicloIngresoC']['name'].".xls";    
         }
         if($_GET['table']=='balanceCicloIngresosTotalResumido' || $_GET['table']=='balanceCicloIngresosTotalResumidoOculta')
         {      
@@ -441,6 +446,13 @@ class SiteController extends Controller
             $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
             $files['matrizE']['excel']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
             $files['matrizE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizE']['name'].".xls";
+        }
+        if($_GET['table']=='tabla3')
+        {
+            $files['TableroA']['name']=$_GET['name'];
+            $files['TableroA']['body']=Yii::app()->reporte->tableroControl($_GET['date'],$_GET['name']);
+            $files['TableroA']['excel']=Yii::app()->reporte->tableroControl($_GET['date'],$_GET['name']);
+            $files['TableroA']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['TableroA']['name'].".xls";
         }
         if($_GET['table']=='estadogasto-grid')
         {
@@ -504,7 +516,11 @@ class SiteController extends Controller
         if($_GET['table']=='tabla2')
         {
             echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
-        }    
+        } 
+        if($_GET['table']=='tabla3')
+        {
+            echo Yii::app()->reporte->tableroControl($_GET['date'],$_GET['name']);
+        } 
     }
     
     /**
