@@ -8,6 +8,7 @@
         public static function reporte($ids,$name) 
         {
 
+            
             $novedadFalla = novedadFalla::get_Model($ids);
             if($novedadFalla != NULL){
                 

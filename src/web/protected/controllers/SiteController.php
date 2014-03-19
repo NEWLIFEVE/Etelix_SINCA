@@ -469,8 +469,8 @@ class SiteController extends Controller
         if($_GET['table']=='novedad-grid')
         {
             $files['novedadF']['name']=$_GET['name'];
-            $files['novedadF']['body']=Yii::app()->reporte->novedadFalla($_GET['ids'],$topic);
-            $files['novedadF']['excel']=Yii::app()->reporte->novedadFalla($_GET['ids'],$topic);
+            $files['novedadF']['body']=Yii::app()->reporte->novedadFalla($_GET['ids'],$_GET['name']);
+            $files['novedadF']['excel']=Yii::app()->reporte->novedadFalla($_GET['ids'],$_GET['name']);
             $files['novedadF']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['novedadF']['name'].".xls";               
         }
         

@@ -299,7 +299,7 @@ $(document).ready(function()
 
                                 $.ajax({ 
                                     type: "GET",   
-                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,
+                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,   
                                     async: true,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
@@ -309,7 +309,6 @@ $(document).ready(function()
                                     success:  function (response) {
                                             $("#nombreContenedor").css("display", "NONE");
                                             $("#loading").css("display", "NONE");
-                                            
                                             $("#complete").html("Correo Enviado con Exito... !!");
                                             $("#nombreContenedor").css("display", "inline");
                                             $("#complete").css("display", "inline");
@@ -823,7 +822,7 @@ $(document).ready(function()
             name = 'SINCA Estado de Gastos'+cabina+' '+fecha;
         }
         if(gridview=='novedad-grid'){
-            name = 'SINCA Administrar Novedades/Fallas'+cabina+' '+fecha;
+            name = 'SINCA Administrar Novedades y Fallas';
         }
         
         return name;   

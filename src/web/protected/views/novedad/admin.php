@@ -51,11 +51,11 @@ $('.search-form form').submit(function(){
 ?>
 <!--<p>Enviar por Correo  </p>-->
 
-<form action="<?php echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Reporte_Administrar_Novedades" method="post" target="_blank" id="FormularioExportacion">
+<!--<form action="<?php // echo Yii::app()->request->baseUrl; ?>/ficheroExcel.php?nombre=Reporte_Administrar_Novedades" method="post" target="_blank" id="FormularioExportacion">
 
-<!--<p>Exportar a Excel  </p>-->
+<p>Exportar a Excel  </p>
     <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
-</form>
+</form>-->
 
 <?php //echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
