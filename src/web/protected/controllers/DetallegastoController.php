@@ -47,6 +47,7 @@ class DetallegastoController extends Controller {
                     'dynamicCuentaEmployee',
                     'dynamicCategoria',
                     'dynamicGastoAnterior',
+                    'dynamicGastoAnteriorNomina',
                     'estadoGastos',
                     'matrizGastos',
                     'matrizGastosEvolucion',
@@ -71,6 +72,7 @@ class DetallegastoController extends Controller {
                     'dynamicCuentaEmployee',
                     'dynamicCategoria',
                     'dynamicGastoAnterior',
+                    'dynamicGastoAnteriorNomina',
                     'matrizGastos',
                     'matrizGastosEvolucion',
                     'estadoGastos',
@@ -94,6 +96,7 @@ class DetallegastoController extends Controller {
                     'dynamicCuentaEmployee',
                     'dynamicCategoria',
                     'dynamicGastoAnterior',
+                    'dynamicGastoAnteriorNomina',
                     'estadoGastos',
                     'matrizGastos',
                     'matrizGastosEvolucion',
@@ -461,18 +464,37 @@ class DetallegastoController extends Controller {
     public function actionDynamicGastoAnterior()
     {
         list($year, $mon, $day) = explode('-', date("Y-m-d", time()));
-        $fechaMesAnterior = date('Y-m-d', mktime(0, 0, 0,$mon-1, '01', $year));
-        if(isset($_POST['Detallegasto']['TIPOGASTO_Id']) && isset($_POST['Detallegasto']['CABINA_Id']))
-        $resulset = Detallegasto::model()->find("TIPOGASTO_Id=:tipoGasto AND FechaMes=:fechaMes AND CABINA_Id=:cabinaId",
-                array(':tipoGasto'=>$_POST['Detallegasto']['TIPOGASTO_Id'],':fechaMes'=>"$fechaMesAnterior",':cabinaId'=>$_POST['Detallegasto']['CABINA_Id']));
-        if($resulset!=NULL)
-            echo "<strong><span>Monto ".Utility::monthName($fechaMesAnterior).": </span>
+        $fechaMesAnterior = date('Y-m-d', mktime(0, 0, 0, $mon - 1, '01', $year));
+        if (isset($_POST['Detallegasto']['TIPOGASTO_Id']) && isset($_POST['Detallegasto']['CABINA_Id']) && isset($_POST['Detallegasto']['category'])) {
+            if ($_POST['Detallegasto']['category']!= 9){
+            $resulset = Detallegasto::model()->find("TIPOGASTO_Id=:tipoGasto AND FechaMes=:fechaMes AND CABINA_Id=:cabinaId", array(':tipoGasto' => $_POST['Detallegasto']['TIPOGASTO_Id'], ':fechaMes' => "$fechaMesAnterior", ':cabinaId' => $_POST['Detallegasto']['CABINA_Id']));   
+            if ($resulset != NULL)
+                echo "<strong><span>Monto " . Utility::monthName($fechaMesAnterior) . ": </span>
                     <span style='color:forestgreen;'>$resulset->Monto</span><span> S.</span></strong>";
-        else 
-           echo "<strong><span>Monto ".Utility::monthName($fechaMesAnterior).": </span>
+            else
+                echo "<strong><span>Monto " . Utility::monthName($fechaMesAnterior) . ": </span>
                     <span style='color:forestgreen;'>No hay data</span><span> S.</span></strong>";
+        }
+         }
     }
-    
+    public function actionDynamicGastoAnteriorNomina() 
+    {
+        if ($_GET['beneficiario'] != 'empty') {
+            list($year, $mon, $day) = explode('-', date("Y-m-d", time()));
+            $fechaMesAnterior = date('Y-m-d', mktime(0, 0, 0, $mon - 1, '01', $year));
+
+            $resulset = Detallegasto::model()->find("TIPOGASTO_Id=:tipoGasto AND FechaMes=:fechaMes AND CABINA_Id=:cabinaId AND beneficiario =:beneficiario", array(':tipoGasto' => $_GET['idGasto'], ':fechaMes' => "$fechaMesAnterior", ':cabinaId' => $_GET['idCabina'], ':beneficiario' => $_GET['beneficiario']));
+            if ($resulset != NULL)
+                echo "<strong><span>Monto " . Utility::monthName($fechaMesAnterior) . ": </span>
+                <span style='color:forestgreen;'>$resulset->Monto</span><span> S.</span></strong>";
+            else
+                echo "<strong><span>Monto " . Utility::monthName($fechaMesAnterior) . ": </span>
+                <span style='color:forestgreen;'>No hay data</span><span> S.</span></strong>";
+        }else {
+            echo '';
+        }
+    }
+
     /**
      *
      */
