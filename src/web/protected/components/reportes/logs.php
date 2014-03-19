@@ -24,7 +24,7 @@
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->FechaEsp.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Accion.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Usuario.'</td>  
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.  Cabina::getNombreCabina3($registro->Cabina).'</td>  
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Cabina::getNombreCabina3($registro->Cabina).'</td>  
                                 </tr>
                                 ';
 
