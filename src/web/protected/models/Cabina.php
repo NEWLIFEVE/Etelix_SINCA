@@ -180,6 +180,22 @@ class Cabina extends CActiveRecord
             return 'error buscando cabina';
         }
     }
+    
+    public static function getNombreCabina3($idCabina)
+    {
+    	$criteria = new CDbCriteria;
+    	$criteria->condition = 'Id=:cabina_id';
+    	$criteria->params = array(':cabina_id' => $idCabina);
+    	$resultSet = Cabina::model()->find($criteria);
+    	if(isset($resultSet))
+    	{
+    		return $resultSet->Nombre;
+    	}
+    	else
+    	{
+            return '';
+        }
+    }
     /**
     * Encargada de retornar el id de la cabina consultada
     * @param string $cabina.

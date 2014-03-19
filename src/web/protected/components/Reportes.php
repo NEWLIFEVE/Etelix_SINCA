@@ -116,6 +116,24 @@ class Reportes extends CApplicationComponent
         $var= tableroControl::reporte($date,$name);    
         return $var;
     }
+    
+    public function novedadFalla($ids,$name)
+    {
+        $var= novedadFalla::reporte($ids,$name);    
+        return $var;
+    }
+    
+    public function logs($ids,$name)
+    {
+        $var= logs::reporte($ids,$name);    
+        return $var;
+    }
+    
+    public function nominaEmpleado($ids,$name)
+    {
+        $var= nominaEmpleado::reporte($ids,$name);    
+        return $var;
+    }
 
     /**
      * Documentacion va aqui
@@ -314,10 +332,12 @@ class Reportes extends CApplicationComponent
                             <tr >
                                 <th '.self::defineStyleHeader("brightstar").' id="Fechas">Mes</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Categoria</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Tipo Gasto</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">'.htmlentities('Descripción', ENT_QUOTES,'UTF-8').'</th>    
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Fecha de Vencimiento</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Monto</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Mes Anterior</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Monto</th>    
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Moneda</th>  
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Beneficiario</th>  
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Estatus</th> 
@@ -327,6 +347,49 @@ class Reportes extends CApplicationComponent
                             </tr>
                         </thead>';
 
+                break;
+            case "novedadFalla":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Hora</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Tipo de Novedad</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Usuario</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Descripcion</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Numero Telefonico</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Puesto de la Cabina</th>    
+                            </tr>
+                        </thead>';
+                break;
+            case "nominaEmpleado":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("balance").' id="Fechas">Codigo</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Nombre</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Apellido</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Identificacion</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Cabina</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Cargo</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Remuneracion</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Moneda</th> 
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Cuenta Bancaria</th>     
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Supervisor</th> 
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Fecha de Ingreso</th> 
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Estatus</th>     
+                            </tr>
+                        </thead>';
+                break;
+            case "log":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Hora</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Fecha Esp</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Accionlog</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Usuario</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Cabina</th>    
+                            </tr>
+                        </thead>';
                 break;
         }
         return $header;

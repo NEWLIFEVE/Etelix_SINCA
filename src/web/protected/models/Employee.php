@@ -43,10 +43,15 @@ class Employee extends CActiveRecord
         public $employee_hours_end;
         public $age;
         public $kids;
+        public $Cargo;
+        public $Cabina;
+        public $Moneda;
 
-        
-  
-	public function tableName()
+
+
+
+
+        public function tableName()
 	{
 		return 'employee';
 	}
@@ -60,14 +65,14 @@ class Employee extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, lastname, identification_number, admission_date, gender, address, salary, academic_level_id, profession_id, marital_status_id, position_id, CABINA_Id, phone_number', 'required'),
-			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, position_id', 'numerical', 'integerOnly'=>true),
+			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, position_id, bank_account', 'numerical', 'integerOnly'=>true),
 			array('salary', 'numerical'),
 			array('code_employee', 'length', 'max'=>4),
 			array('name, lastname, identification_number, phone_number', 'length', 'max'=>45),
 			array('photo_path', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, marital_status_name, position_id, currency_id', 'safe', 'on'=>'search'),
+			array('id, code_employee, name, lastname, identification_number, gender, photo_path, address, immediate_supervisor, phone_number, salary, CABINA_Id, academic_level_id, profession_id, marital_status_id, marital_status_name, position_id, currency_id, bank_account', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -107,7 +112,7 @@ class Employee extends CActiveRecord
 			'photo_path' => 'Ruta de Foto',
 			'address' => 'Direccion',
 			'immediate_supervisor' => 'Supervisor',
-			'phone_number' => 'Telefono',
+			'phone_number' => 'Telefono/Celular',
 			'salary' => 'Remuneracion',
 			'CABINA_Id' => 'Cabina',
 			'academic_level_id' => 'Nivel Academico',
@@ -124,6 +129,7 @@ class Employee extends CActiveRecord
                         'age' => 'Edad del Hijo',
                         'admission_date' => 'Fecha de Ingreso',
                         'currency_id' => 'Moneda',
+                        'bank_account' => 'Cuenta Bancaria',
                     
 		);
 	}
@@ -165,6 +171,7 @@ class Employee extends CActiveRecord
                 $criteria->compare('admission_date',$this->admission_date);
                 $criteria->compare('record_date',$this->record_date);
                 $criteria->compare('currency_id',$this->currency_id);
+                $criteria->compare('bank_account',$this->bank_account,true);
                 
                 $orden="status ASC";
                 
@@ -210,6 +217,17 @@ class Employee extends CActiveRecord
             
 	  $model=self::model()->findBySql("SELECT CONCAT(name,' ',lastname) AS name FROM employee WHERE id = $id");
           return $model->name ;
+		
+        }
+        
+        public static function getName($id){
+
+          if($id != null){
+              $model=self::model()->findBySql("SELECT CONCAT(name,' ',lastname) AS name FROM employee WHERE id = $id");
+              return $model->name;
+          }else{
+              return 'Sin Supervisor';
+          }    
 		
         }
         

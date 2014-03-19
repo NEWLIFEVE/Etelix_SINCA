@@ -142,7 +142,7 @@ echo CHtml::endForm();
 <div id="complete" class="ventana_flotante2"></div>
 <div id="error" class="ventana_flotante3"></div>
 
-<div id="fecha" style="display: none;"><?php echo $date != NULL ? date('Ymd',strtotime($date)): "";?></div>
+<div id="fecha" style="display: none;"><?php echo $date != NULL ? date('Ymd',strtotime($date)): date("Ymd", time());?></div>
 <div id="fecha2" style="display: none;"><?php echo $date != NULL ? $date: "";?></div>
 
 <h1>

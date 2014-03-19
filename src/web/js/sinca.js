@@ -294,12 +294,12 @@ $(document).ready(function()
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
             });
-//            alert(name);
+//            alert(ids);
             if(ids != ''){
-            
+
                                 $.ajax({ 
                                     type: "GET",   
-                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,
+                                    url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,   
                                     async: true,
                                     beforeSend: function () {
                                             //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
@@ -309,7 +309,6 @@ $(document).ready(function()
                                     success:  function (response) {
                                             $("#nombreContenedor").css("display", "NONE");
                                             $("#loading").css("display", "NONE");
-                                            
                                             $("#complete").html("Correo Enviado con Exito... !!");
                                             $("#nombreContenedor").css("display", "inline");
                                             $("#complete").css("display", "inline");
@@ -821,6 +820,15 @@ $(document).ready(function()
         }
         if(gridview=='estadogasto-grid'){
             name = 'SINCA Estado de Gastos'+cabina+' '+fecha;
+        }
+        if(gridview=='novedad-grid'){
+            name = 'SINCA Administrar Novedades y Fallas';
+        }
+        if(gridview=='log-grid'){
+            name = 'SINCA Administrar Logs';
+        }
+        if(gridview=='employee-grid'){
+            name = 'SINCA Administrar Empleados';
         }
         
         return name;   

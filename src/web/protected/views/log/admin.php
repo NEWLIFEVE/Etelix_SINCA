@@ -26,6 +26,10 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
         Administrar Logs
@@ -72,6 +76,18 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'afterAjaxUpdate' => 'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+        array(
+            'name'=>'Id',
+            'value'=>'$data->Id',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'display:none'),
+            'htmlOptions'=>array(
+                'id'=>'ids',
+                'style'=>'display:none',
+
+              ),
+              'filterHtmlOptions' => array('style' => 'display:none'),
+            ),
         //'Fecha',
           array(
                    'name' => 'Fecha',

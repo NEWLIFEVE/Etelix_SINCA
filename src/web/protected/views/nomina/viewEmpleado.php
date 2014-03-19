@@ -5,7 +5,7 @@ $kids = Kids::getEmployeeKids($model->id);
 ?>
 
 
-<h1>Detalle del Empleado #<?php echo $model->id;?></h1>
+<h1>Detalle del Empleado #<?php echo $model->code_employee;?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -68,6 +68,10 @@ $kids = Kids::getEmployeeKids($model->id);
             array(
                     'name'=>'salary',
                     'value'=>$model->salary.' '.$model->currency->name,
+                ),
+            array(
+                    'name'=>'bank_account',
+                    'value'=>($model->bank_account != null) ? $model->bank_account : 'No Asignado',
                 ),
             array(
                     'name'=>'admission_date',
