@@ -367,6 +367,16 @@ class SiteController extends Controller
             $files['novedadF']['name']=$_GET['name'];
             $files['novedadF']['body']=Yii::app()->reporte->novedadFalla($_GET['ids'],$_GET['name']);              
         }
+        if($_GET['table']=='employee-grid')
+        {
+            $files['nominaE']['name']=$_GET['name'];
+            $files['nominaE']['body']=Yii::app()->reporte->nominaEmpleado($_GET['ids'],$_GET['name']);              
+        }
+        if($_GET['table']=='log-grid')
+        {
+            $files['logs']['name']=$_GET['name'];
+            $files['logs']['body']=Yii::app()->reporte->logs($_GET['ids'],$_GET['name']);            
+        }
         
         foreach($files as $key => $file)
         {
@@ -473,6 +483,20 @@ class SiteController extends Controller
             $files['novedadF']['excel']=Yii::app()->reporte->novedadFalla($_GET['ids'],$_GET['name']);
             $files['novedadF']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['novedadF']['name'].".xls";               
         }
+        if($_GET['table']=='employee-grid')
+        {
+            $files['nominaE']['name']=$_GET['name'];
+            $files['nominaE']['body']=Yii::app()->reporte->nominaEmpleado($_GET['ids'],$_GET['name']);
+            $files['nominaE']['excel']=Yii::app()->reporte->nominaEmpleado($_GET['ids'],$_GET['name']);
+            $files['nominaE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['nominaE']['name'].".xls";               
+        }
+        if($_GET['table']=='log-grid')
+        {
+            $files['logs']['name']=$_GET['name'];
+            $files['logs']['body']=Yii::app()->reporte->logs($_GET['ids'],$_GET['name']);
+            $files['logs']['excel']=Yii::app()->reporte->logs($_GET['ids'],$_GET['name']);
+            $files['logs']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['logs']['name'].".xls";               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -536,7 +560,15 @@ class SiteController extends Controller
         if($_GET['table']=='novedad-grid')
         {
             echo Yii::app()->reporte->novedadFalla($_GET['ids'],$_GET['name']);
-        } 
+        }
+        if($_GET['table']=='employee-grid')
+        {
+            echo Yii::app()->reporte->nominaEmpleado($_GET['ids'],$_GET['name']);
+        }
+        if($_GET['table']=='log-grid')
+        {
+            echo Yii::app()->reporte->logs($_GET['ids'],$_GET['name']);
+        }
     }
     
     /**

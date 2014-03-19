@@ -827,6 +827,9 @@ $(document).ready(function()
         if(gridview=='log-grid'){
             name = 'SINCA Administrar Logs';
         }
+        if(gridview=='employee-grid'){
+            name = 'SINCA Administrar Empleados';
+        }
         
         return name;   
     }

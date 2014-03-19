@@ -294,6 +294,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 </td>
             </tr>
             <tr>
+                <td>
+                    <div class="row">
+                            <?php echo $form->labelEx($model,'bank_account'); ?>
+                            <?php echo $form->textField($model,'bank_account'); ?>
+                            <?php echo $form->error($model,'bank_account'); ?>
+                    </div>
+                </td>    
+            </tr>
+            <tr>
 
                 <!-- Campo Status -->
                 <?php if($model->status != 1){

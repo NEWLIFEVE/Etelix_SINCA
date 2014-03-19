@@ -6,7 +6,10 @@ $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=  NominaController::controlAcceso($tipoUsuario);
 
 ?>
-
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 
 
 <h1>
@@ -26,6 +29,10 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
         
         $this->widget('zii.widgets.grid.CGridView', array(
             'id'=>'employee-grid',
+            'htmlOptions'=>array(
+                'rel'=>'total',
+                'name'=>'vista',
+            ),
             'dataProvider'=>$model->search(),
             'filter'=>$model,
             'columns'=>array(
@@ -41,15 +48,15 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                           ),
                           'filterHtmlOptions' => array('style' => 'display:none'),
                         ),
-                    array(
-                        'name'=>'code_employee',
-                        'value'=>'$data->code_employee',
-                        'type'=>'text',
-                        'htmlOptions'=>array(
-                            'id'=>'gender',
-                            'style'=>'text-align: center',
-                          ),
-                        ),
+//                    array(
+//                        'name'=>'code_employee',
+//                        'value'=>'$data->code_employee',
+//                        'type'=>'text',
+//                        'htmlOptions'=>array(
+//                            'id'=>'gender',
+//                            'style'=>'text-align: center',
+//                          ),
+//                        ),
                     array(
                         'name'=>'name',
                         'value'=>'$data->name',
@@ -106,7 +113,39 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             'style'=>'text-align: center; width: 100px;',
                           ),
                         ),
-                    'salary',
+                    array(
+                        'name'=>'salary',
+                        'value'=>'$data->salary',
+                        //'value'=>'$data->salary.\' \'.$data->currency->name',
+                        'type'=>'text',
+                        'htmlOptions'=>array(
+                            'id'=>'salary',
+                            'style'=>'text-align: center',
+                            'style'=>'text-align: center; width: 80px;',
+                          ),
+                        ),
+                    array(
+                        'name'=>'currency_id',
+                        'value'=>'$data->currency->name',
+                        //'value'=>'$data->salary.\' \'.$data->currency->name',
+                        'type'=>'text',
+                        'htmlOptions'=>array(
+                            'id'=>'salary',
+                            'style'=>'text-align: center',
+                            'style'=>'text-align: center; width: 80px;',
+                          ),
+                        ),
+//                    array(
+//                        'name'=>'bank_account',
+//                        'value'=>'$data->bank_account',
+//                        //'value'=>'$data->salary.\' \'.$data->currency->name',
+//                        'type'=>'text',
+//                        'htmlOptions'=>array(
+//                            'id'=>'salary',
+//                            'style'=>'text-align: center',
+//                            'style'=>'text-align: center; width: 50px;',
+//                          ),
+//                        ),    
                     array(
                         'name'=>'immediate_supervisor',
                         'value'=>'($data->immediate_supervisor == null) ? "Sin Supervisor" : $data->immediateSupervisor->name." ".$data->immediateSupervisor->lastname',
