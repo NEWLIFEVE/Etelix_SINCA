@@ -24,7 +24,7 @@
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Hora.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->TipoNovedad.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->User.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Descripcion.'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Descripcion, ENT_QUOTES,'UTF-8').'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Num.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Puesto.'</td>
                                 </tr>';
