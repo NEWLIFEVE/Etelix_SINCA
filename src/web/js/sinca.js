@@ -982,6 +982,7 @@ $(document).ready(function()
                         var selc_categoria = $("#Detallegasto_category option:selected").text();
                         var selc_cabina = $("#Detallegasto_CABINA_Id option:selected").text();
                         var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
+                        var id_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").val();
                         
                         if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Nuevo..' || selc_tipo_gasto == 'Pago a Empleado')){     
                         $("#Detallegasto_Monto").val('');     
@@ -1023,12 +1024,19 @@ $(document).ready(function()
                                     async: false,
                                     succes: alert,
                                   }).responseText;
+                                  
+                                  var gastoAnterior = $.ajax({ type: "GET",   
+                                    url: '/Detallegasto/DynamicGastoAnteriorNomina?idGasto='+id_tipo_gasto+'&idCabina='+selc_cabina+'&beneficiario='+selc_empleado_name,   
+                                    async: false,
+                                    succes: alert,
+                                  }).responseText;
 
                                   //Solo Asignar Valores  Cuando se Selecciones a un Empleado
                                   if(selc_empleado!='empty'){
                                     $("#Detallegasto_Monto").val(salary);
                                     $("#Detallegasto_moneda option[value='"+currency+"']").attr("selected", "selected");
                                     $("#Detallegasto_CUENTA_Id").html(cuenta); 
+                                    $("#GastoMesAnterior").html(gastoAnterior); 
                                     $("#Detallegasto_beneficiario").val(selc_empleado_name);
                                     
                                   }else{

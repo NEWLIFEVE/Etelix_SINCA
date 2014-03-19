@@ -84,15 +84,11 @@
                   <td>
                       <div class="row"> 
                           <?php echo $form->labelEx($model, 'TIPOGASTO_Id'); ?> 
-                            <?php echo $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGasto(),array(
-                                'empty'=>array('Seleccionar..','Nuevo..'),
-//                                'ajax'=>array(
-//                                    'type'=>'POST', //request type
-//                                    'url'=>CController::createUrl('Detallegasto/DynamicGastoAnterior'), //url to call.
-//                                    'update'=>'#GastoMesAnterior', //selector to update
-//                                    ),
-                                )
-                            );
+                          <?php 
+                            ($model->isNewRecord)
+                                  ? $tg = $form->dropDownList($model, 'TIPOGASTO_Id', array('empty'=>'Seleccionar Categoria'))
+                                  : $tg = $form->dropDownList($model, 'TIPOGASTO_Id', Tipogasto::getListTipoGastoCategoria($model->category),array('empty'=>array('Seleccionar..','Nuevo..')));
+                            echo $tg;
                             ?> 
                           <?php echo $form->error($model, 'TIPOGASTO_Id'); ?> 
                       </div>
@@ -170,7 +166,7 @@
                             <td><div class="row"> <?php echo $form->labelEx($model, 'Monto'); ?> <?php echo $form->textField($model, 'Monto', array('size' => 15, 'maxlength' => 15)); ?> <?php echo $form->error($model, 'Monto'); ?> </div></td>
                             <td>
                                 
-                                <div id="GastoMesAnterior" style="display: block !important; float: right;"> 
+                                <div id="GastoMesAnterior"> 
 
                             </div></td>
                         </tr>
@@ -183,7 +179,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="row" style="float: right;">
+                                <div class="row"  style="float: right;">
                                     <?php echo $form->labelEx($model, 'FechaVenc'); ?>
                                     <?php 
                                             $this->widget('zii.widgets.jui.CJuiDatePicker', 

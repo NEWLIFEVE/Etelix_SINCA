@@ -1068,3 +1068,9 @@ img
 {
     margin-left: 16em !important ;
 }
+
+#GastoMesAnterior
+{
+    display: block !important;
+    float: right;
+}

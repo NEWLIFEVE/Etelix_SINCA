@@ -151,7 +151,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 <td>
                     <div class="row">
                             <?php echo $form->labelEx($model,'CABINA_Id'); ?>
-                            <?php echo $form->dropDownList($model,'CABINA_Id',CHtml::listData(Cabina::model()->findAllBySql("SELECT Id,Nombre FROM Cabina WHERE status=:status AND Nombre!=:nombre;",array(':status'=>'1', ':nombre'=>'ZPRUEBA')),'Id','Nombre'),array('empty'=>'Seleccionar..')); ?>
+                            <?php echo $form->dropDownList($model,'CABINA_Id', Cabina::getListCabinaResto(),array('empty'=>'Seleccionar..')); ?>
                             <?php echo $form->error($model,'CABINA_Id'); ?>
                     </div>
                 </td>

@@ -3,6 +3,7 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Realese 1.7
     - Asignacion de Categoria de Gatos (Declaracion de Gasto y Matriz).
     - Carga Automatica de los Datos de Nomina por Empleado (Declaracion de Gasto).
     - Creacion del Modulo de Nomina.
