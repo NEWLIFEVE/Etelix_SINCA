@@ -116,6 +116,12 @@ class Reportes extends CApplicationComponent
         $var= tableroControl::reporte($date,$name);    
         return $var;
     }
+    
+    public function novedadFalla($ids,$name)
+    {
+        $var= novedadFalla::reporte($ids,$name);    
+        return $var;
+    }
 
     /**
      * Documentacion va aqui
@@ -327,6 +333,19 @@ class Reportes extends CApplicationComponent
                             </tr>
                         </thead>';
 
+                break;
+            case "novedadFalla":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Hora</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Tipo de Novedad</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Usuario</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Descripcion</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Numero Telefonico</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Puesto de la Cabina</th>    
+                            </tr>
+                        </thead>';
                 break;
         }
         return $header;

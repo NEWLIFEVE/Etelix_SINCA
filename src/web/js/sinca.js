@@ -294,9 +294,9 @@ $(document).ready(function()
             $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
             });
-//            alert(name);
+//            alert(ids);
             if(ids != ''){
-            
+
                                 $.ajax({ 
                                     type: "GET",   
                                     url: '/site/sendemail?ids='+ids+'&name='+name+"&table="+gridview,
@@ -821,6 +821,9 @@ $(document).ready(function()
         }
         if(gridview=='estadogasto-grid'){
             name = 'SINCA Estado de Gastos'+cabina+' '+fecha;
+        }
+        if(gridview=='novedad-grid'){
+            name = 'SINCA Administrar Novedades/Fallas'+cabina+' '+fecha;
         }
         
         return name;   

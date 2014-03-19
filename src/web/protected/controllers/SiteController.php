@@ -362,6 +362,11 @@ class SiteController extends Controller
             $files['estadogasto']['name']=$_GET['name'];
             $files['estadogasto']['body']=Yii::app()->reporte->estadoGasto($_GET['ids'],$_GET['name'],true);
         }
+        if($_GET['table']=='novedad-grid')
+        {
+            $files['novedadF']['name']=$_GET['name'];
+            $files['novedadF']['body']=Yii::app()->reporte->novedadFalla($_GET['ids'],$_GET['name']);              
+        }
         
         foreach($files as $key => $file)
         {
@@ -461,6 +466,13 @@ class SiteController extends Controller
             $files['estadogasto']['excel']=Yii::app()->reporte->estadoGasto($_GET['ids'],$topic,true);
             $files['estadogasto']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadogasto']['name'].".xls";               
         }
+        if($_GET['table']=='novedad-grid')
+        {
+            $files['novedadF']['name']=$_GET['name'];
+            $files['novedadF']['body']=Yii::app()->reporte->novedadFalla($_GET['ids'],$topic);
+            $files['novedadF']['excel']=Yii::app()->reporte->novedadFalla($_GET['ids'],$topic);
+            $files['novedadF']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['novedadF']['name'].".xls";               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -520,6 +532,10 @@ class SiteController extends Controller
         if($_GET['table']=='tabla3')
         {
             echo Yii::app()->reporte->tableroControl($_GET['date'],$_GET['name']);
+        } 
+        if($_GET['table']=='novedad-grid')
+        {
+            echo Yii::app()->reporte->novedadFalla($_GET['ids'],$_GET['name']);
         } 
     }
     

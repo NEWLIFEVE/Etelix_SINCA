@@ -26,6 +26,11 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
+
 <h1>
     <span class="enviar">
         Administrar Novedades/Fallas
@@ -37,12 +42,12 @@ $('.search-form form').submit(function(){
     </span>
 </h1>
 <?php
-echo CHtml::beginForm(Yii::app()->createUrl('novedad/enviarEmail'), 'post', array('name' => 'FormularioCorreo', 'id' => 'FormularioCorreo','style'=>'display:none'));
-echo CHtml::textField('html', 'Hay Efectivo', array('id' => 'html', 'style'=>'display:none'));
-echo CHtml::textField('vista', 'novedad/admin', array('id' => 'vista', 'style'=>'display:none'));
-echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
-echo CHtml::textField('asunto', 'Reporte Administrar Novedades Solicitado', array('id' => 'asunto', 'style'=>'display:none'));
-echo CHtml::endForm();
+//echo CHtml::beginForm(Yii::app()->createUrl('novedad/enviarEmail'), 'post', array('name' => 'FormularioCorreo', 'id' => 'FormularioCorreo','style'=>'display:none'));
+//echo CHtml::textField('html', 'Hay Efectivo', array('id' => 'html', 'style'=>'display:none'));
+//echo CHtml::textField('vista', 'novedad/admin', array('id' => 'vista', 'style'=>'display:none'));
+//echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
+//echo CHtml::textField('asunto', 'Reporte Administrar Novedades Solicitado', array('id' => 'asunto', 'style'=>'display:none'));
+//echo CHtml::endForm();
 ?>
 <!--<p>Enviar por Correo  </p>-->
 
@@ -71,7 +76,18 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'afterAjaxUpdate' => 'reinstallDatePicker',
     'filter' => $model,
     'columns' => array(
-        //'Id',
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
         //'users_id',
         //'TIPONOVEDAD_Id',
         array(
