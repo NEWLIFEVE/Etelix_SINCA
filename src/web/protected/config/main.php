@@ -6,11 +6,11 @@ switch ($server)
         $server_db='localhost';
         $sinca_db='sinca';
         $user_db='root';
-        $pass_db='123';
+        $pass_db='Nsusfd8263';
         break;
     case SERVER_NAME_PRE_PROD:
         $server_db='localhost';
-        $server_db='sinca';
+        $sinca_db='sinca';
         $user_db='root';
         $pass_db='Nsusfd8263';
         break;
