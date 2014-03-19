@@ -24,10 +24,12 @@ class estadoGasto extends Reportes
                 $table.='<tr>
                             <td '.Reportes::defineStyleTd($key+2).'>'.Utility::monthName($registro->FechaMes).'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Cabina.'</td>
+                            <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->categoria, ENT_QUOTES,'UTF-8').'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Tipogasto, ENT_QUOTES,'UTF-8').'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Descripcion, ENT_QUOTES,'UTF-8').'</td>    
                             <td '.Reportes::defineStyleTd($key+2).'>'.$registro->FechaVenc.'</td>
-                            <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format($registro->Monto, $type).'</td>
+                            <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Detallegasto::MontoMesAnterior($registro->categoria_id, $registro->tipogasto_id, $registro->cabina_id, $registro->FechaMes, $registro->beneficiario), $type).'</td>
+                            <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format($registro->Monto, $type).'</td>    
                             <td '.Reportes::defineStyleTd($key+2).'>'.$registro->moneda.'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->beneficiario, ENT_QUOTES,'UTF-8').'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.$registro->status.'</td>
@@ -46,8 +48,8 @@ class estadoGasto extends Reportes
                         </tr>
                         <tr>
                             <td '.Reportes::defineStyleTd(2).'>------</td>
-                            <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineMonto($balanceTotals->Cuenta).'</td>
-                            <td '.Reportes::defineStyleTd(2).'>'.Reportes::defineMonto($balanceTotals->Cabina).'</td>  
+                            <td '.Reportes::defineStyleTd(2).'>'.Reportes::format(Reportes::defineMonto($balanceTotals->Cuenta), $type).'</td>
+                            <td '.Reportes::defineStyleTd(2).'>'.Reportes::format(Reportes::defineMonto($balanceTotals->Cabina), $type).'</td>  
                         </tr>
                     </thead>
                     </tbody>
@@ -67,9 +69,13 @@ class estadoGasto extends Reportes
      */
     public static function get_Model($ids)
     {
-        $sql="SELECT d.id AS id, t.nombre AS Tipogasto, d.FechaMes AS FechaMes, d.FechaVenc AS FechaVenc, d.Descripcion AS Descripcion, CASE d.status WHEN 1 THEN 'Orden de Pago' WHEN 2 THEN 'Aprovada' WHEN 3 THEN 'Pagada' END AS status,
-                     d.Monto AS Monto, CASE d.moneda WHEN 1 THEN 'USD$' WHEN 2 THEN 'S/.' END AS moneda, d.beneficiario AS beneficiario, d.TransferenciaPago AS TransferenciaPago, d.FechaTransf AS FechaTransf, c.nombre AS Cabina, cu.Nombre AS Cuenta
-              FROM detallegasto AS d INNER JOIN cabina AS c ON c.id=d.CABINA_Id INNER JOIN tipogasto AS t ON t.id=d.TIPOGASTO_Id INNER JOIN cuenta AS cu ON cu.id=d.CUENTA_Id
+        $sql="SELECT d.id AS id, ca.name as categoria, ca.id as categoria_id, t.nombre AS Tipogasto, t.Id AS tipogasto_id, d.FechaMes AS FechaMes, d.FechaVenc AS FechaVenc, d.Descripcion AS Descripcion, CASE d.status WHEN 1 THEN 'Orden de Pago' WHEN 2 THEN 'Aprovada' WHEN 3 THEN 'Pagada' END AS status,
+                     d.Monto AS Monto, CASE d.moneda WHEN 1 THEN 'USD$' WHEN 2 THEN 'S/.' END AS moneda, d.beneficiario AS beneficiario, d.TransferenciaPago AS TransferenciaPago, d.FechaTransf AS FechaTransf, c.nombre AS Cabina, c.Id AS cabina_id, cu.Nombre AS Cuenta
+              FROM detallegasto AS d 
+              INNER JOIN cabina AS c ON c.id=d.CABINA_Id 
+              INNER JOIN tipogasto AS t ON t.id=d.TIPOGASTO_Id 
+              INNER JOIN cuenta AS cu ON cu.id=d.CUENTA_Id
+              INNER JOIN category AS ca ON ca.id = t.category_id
               WHERE d.id IN ($ids)
               ORDER BY d.id ASC, d.status ASC";
         return Detallegasto::model()->findAllBySql($sql);

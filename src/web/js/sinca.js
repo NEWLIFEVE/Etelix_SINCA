@@ -824,6 +824,9 @@ $(document).ready(function()
         if(gridview=='novedad-grid'){
             name = 'SINCA Administrar Novedades y Fallas';
         }
+        if(gridview=='log-grid'){
+            name = 'SINCA Administrar Logs';
+        }
         
         return name;   
     }

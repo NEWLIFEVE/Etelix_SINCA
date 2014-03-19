@@ -320,10 +320,12 @@ class Reportes extends CApplicationComponent
                             <tr >
                                 <th '.self::defineStyleHeader("brightstar").' id="Fechas">Mes</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Categoria</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Tipo Gasto</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">'.htmlentities('Descripción', ENT_QUOTES,'UTF-8').'</th>    
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Fecha de Vencimiento</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Monto</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Mes Anterior</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Monto</th>    
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Moneda</th>  
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Beneficiario</th>  
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Estatus</th> 

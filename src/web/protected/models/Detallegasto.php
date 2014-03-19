@@ -48,6 +48,9 @@ class Detallegasto extends CActiveRecord
     public $MontoSoles;
     public $category;
     public $categoria;
+    public $categoria_id;
+    public $tipogasto_id;
+    public $cabina_id;
     //
 
     /**
@@ -288,5 +291,26 @@ class Detallegasto extends CActiveRecord
             return $sum;    
             //return $resultado->getAttribute('Egresos');    
         }
+    }
+    
+    public static function MontoMesAnterior($categoria,$tipoGasto,$cabina,$fecha,$beneficiario)
+    {
+        list($year, $mon, $day) = explode('-', $fecha);
+        $fechaMesAnterior = date('Y-m-d', mktime(0, 0, 0, $mon - 1, '01', $year));
+        if (isset($tipoGasto) && isset($cabina) && isset($categoria)) {
+            if($categoria!= 9){
+                $resulset = Detallegasto::model()->find("TIPOGASTO_Id=:tipoGasto AND FechaMes=:fechaMes AND CABINA_Id=:cabinaId", array(':tipoGasto' => $tipoGasto, ':fechaMes' => "$fechaMesAnterior", ':cabinaId' => $cabina));   
+                if ($resulset != NULL)
+                    return $resulset->Monto;
+                else
+                    return "No Declarado"; 
+            }else{
+                $resulset = Detallegasto::model()->find("TIPOGASTO_Id=:tipoGasto AND FechaMes=:fechaMes AND CABINA_Id=:cabinaId AND beneficiario=:beneficiario", array(':tipoGasto' => $tipoGasto, ':fechaMes' => "$fechaMesAnterior", ':cabinaId' => $cabina, ':beneficiario' => $beneficiario));   
+                if ($resulset != NULL)
+                    return $resulset->Monto;
+                else
+                    return "No Declarado";                
+            }
+         }
     }
 }
