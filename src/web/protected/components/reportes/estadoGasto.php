@@ -28,7 +28,7 @@ class estadoGasto extends Reportes
                             <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Tipogasto, ENT_QUOTES,'UTF-8').'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Descripcion, ENT_QUOTES,'UTF-8').'</td>    
                             <td '.Reportes::defineStyleTd($key+2).'>'.$registro->FechaVenc.'</td>
-                            <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Detallegasto::MontoMesAnterior($registro->categoria_id, $registro->tipogasto_id, $registro->cabina_id, $registro->FechaMes, $registro->beneficiario), $type).'</td>
+                            <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Detallegasto::MontoMesAnterior($registro->categoria_id, $registro->tipogasto_id, $registro->cabina_id, $registro->FechaMes, $registro->beneficiario, $registro->moneda_id), $type).'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format($registro->Monto, $type).'</td>    
                             <td '.Reportes::defineStyleTd($key+2).'>'.$registro->moneda.'</td>
                             <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->beneficiario, ENT_QUOTES,'UTF-8').'</td>
@@ -70,7 +70,7 @@ class estadoGasto extends Reportes
     public static function get_Model($ids)
     {
         $sql="SELECT d.id AS id, ca.name as categoria, ca.id as categoria_id, t.nombre AS Tipogasto, t.Id AS tipogasto_id, d.FechaMes AS FechaMes, d.FechaVenc AS FechaVenc, d.Descripcion AS Descripcion, CASE d.status WHEN 1 THEN 'Orden de Pago' WHEN 2 THEN 'Aprovada' WHEN 3 THEN 'Pagada' END AS status,
-                     d.Monto AS Monto, CASE d.moneda WHEN 1 THEN 'USD$' WHEN 2 THEN 'S/.' END AS moneda, d.beneficiario AS beneficiario, d.TransferenciaPago AS TransferenciaPago, d.FechaTransf AS FechaTransf, c.nombre AS Cabina, c.Id AS cabina_id, cu.Nombre AS Cuenta
+                     d.Monto AS Monto, CASE d.moneda WHEN 1 THEN 'USD$' WHEN 2 THEN 'S/.' END AS moneda, d.moneda as moneda_id, d.beneficiario AS beneficiario, d.TransferenciaPago AS TransferenciaPago, d.FechaTransf AS FechaTransf, c.nombre AS Cabina, c.Id AS cabina_id, cu.Nombre AS Cuenta
               FROM detallegasto AS d 
               INNER JOIN cabina AS c ON c.id=d.CABINA_Id 
               INNER JOIN tipogasto AS t ON t.id=d.TIPOGASTO_Id 
