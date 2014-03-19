@@ -108,7 +108,7 @@ return array(
 			'class'=>'CDbConnection',
 			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
 			'emulatePrepare'=>true,
-                        'username'=>$user_db,
+            'username'=>$user_db,
 			'password'=>$pass_db,
 			'charset'=>'utf8',        
 			),
