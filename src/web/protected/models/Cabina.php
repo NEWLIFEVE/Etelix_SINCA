@@ -8,6 +8,10 @@
  * @property string $Nombre
  * @property string $Codigo
  * @property string $status
+ * @property string $HoraIni
+ * @property string $HoraFin
+ * @property string $HoraIniDom
+ * @property string $HoraFinDom
  *
  * The followings are the available model relations:
  * @property Balance[] $balances
@@ -46,7 +50,7 @@ class Cabina extends CActiveRecord
 			array('Nombre, Codigo', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('Id, Nombre, Codigo, status', 'safe', 'on'=>'search'),
+			array('Id, Nombre, Codigo, status, HoraIni, HoraFin, HoraIniDom, HoraFinDom', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +79,10 @@ class Cabina extends CActiveRecord
 			'Nombre' => 'Nombre',
 			'Codigo' => 'Codigo Brightstar',
 			'status' => 'Estatus',            
+			'HoraIni' => 'Hora Inicio',            
+			'HoraFin' => 'Hora Fin',            
+			'HoraIniDom' => 'Hora Inicio Domingo',            
+			'HoraFinDom' => 'Hora Fin Domingo',            
 		);
 	}
         
@@ -87,13 +95,30 @@ class Cabina extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 		$criteria=new CDbCriteria;
+                $criteria->condition="status=1 AND Nombre!='ZPRUEBA' AND Nombre!='COMUN CABINA'";
 		$criteria->compare('Id',$this->Id);
 		$criteria->compare('Nombre',$this->Nombre,true);
 		$criteria->compare('Codigo',$this->Codigo,true);
 		$criteria->compare('status',$this->status,true);
-
+		$criteria->compare('HoraIni',$this->HoraIni,true);
+		$criteria->compare('HoraFin',$this->status,true);
+		$criteria->compare('HoraIniDom',$this->HoraIniDom,true);
+		$criteria->compare('HoraFinDom',$this->HoraFinDom,true);
+                 
+                $orden="Nombre ASC";
+                         
+                $pagina=Cabina::model()->count(array(
+                'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                'params'=>array(
+                    ':status'=>1,
+                    ':Id'=>18,
+                    ':Id2'=>19,
+                    ),
+                ));
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
+                        'pagination'=>array('pageSize'=>$pagina),
 		));
 	}
 

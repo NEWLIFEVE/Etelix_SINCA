@@ -36,14 +36,9 @@ $('.search-form form').submit(function(){
     </script>
     
 </head>
-<h1>Administrar Cabinas</h1>
+<h1>Horarios Cabinas</h1>
 
-<p>
-Puede ingresar de manera opcional operadores de comparacion (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) al principio de cada busqueda para indicar como deber ser realizada la busqueda.
-</p>
 
-<?php echo CHtml::link('Busquedas Avanzada','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
@@ -55,12 +50,52 @@ or <b>=</b>) al principio de cada busqueda para indicar como deber ser realizada
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'Id',
-		'Nombre',
-		'Codigo',
-		'status',
-		array(
-			'class'=>'CButtonColumn',
-		),
+      array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+                array(
+                'name'=>'Nombre',
+                'htmlOptions'=>array(
+                  'style'=>'text-align: center;',
+                  ),
+                ),
+                array(
+                'name'=>'HoraIni',
+                'htmlOptions'=>array(
+                  'style'=>'text-align: center;',
+                  ),
+                ),
+                array(
+                'name'=>'HoraFin',
+                'htmlOptions'=>array(
+                  'style'=>'text-align: center;',
+                  ),
+                ),
+                array(
+                'name'=>'HoraIniDom',
+                'htmlOptions'=>array(
+                  'style'=>'text-align: center;',
+                  ),
+                ),
+                array(
+                'name'=>'HoraFinDom',
+                'htmlOptions'=>array(
+                  'style'=>'text-align: center;',
+                  ),
+                ),
+//                  array(
+//        'header'=>'Detalle',
+//        'class'=>'CButtonColumn',
+//        'template'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+//        ),
 	),
 )); ?>
