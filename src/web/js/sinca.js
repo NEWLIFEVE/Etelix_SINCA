@@ -12,6 +12,7 @@ $(document).ready(function()
 //    ValidateDate(1);
 //    ValidateDate(2);
 //    ValidateDate(3);
+    manipulateKids();
     getListEmployee();
     setKids();
     removeImg();
@@ -25,7 +26,8 @@ $(document).ready(function()
     
     
 });
-
+    
+    
     function newEC(){
         $('img.botonAgregar').on('click',function(event)
         {
@@ -514,9 +516,9 @@ $(document).ready(function()
 
     function genPrint()
     {
-        $('img.printButton').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
-        {    
-
+        
+        $(document).on("click",".printButton",function(){
+            
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
@@ -571,8 +573,7 @@ $(document).ready(function()
             }
         });  
         
-        $('img.printButtonComplete').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
-        {    
+        $(document).on("click",".printButtonComplete",function(){
             
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
@@ -620,8 +621,7 @@ $(document).ready(function()
             
         }); 
         
-        $('img.printButtonTotal').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
-        {    
+        $(document).on("click",".printButtonTotal",function(){
 
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
@@ -669,11 +669,9 @@ $(document).ready(function()
             }
         
         }); 
-            
-        $('img.printButtonMatriz').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
-        {    
+        
+        $(document).on("click",".printButtonMatriz",function(){
 
-           
             var gridview = $('table.matrizGastos').attr('id');
             var mes = $('div#fecha2').text();
             var cabina = $('div#cabina').text();
@@ -722,8 +720,7 @@ $(document).ready(function()
             }
         }); 
         
-        $('img.printButtonPanel').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
-        {    
+        $(document).on("click",".printButtonPanel",function(){
 
             var gridview = 'tabla3';
             var date = $('div#fecha2').text();
@@ -913,7 +910,29 @@ $(document).ready(function()
 
     }
     
+    function manipulateKids(){
+        $(document).on("click",".botonAdd",function(){
+            
+            addKid();
 
+        });
+ 	// Evento que selecciona la fila y la elimina 
+	$(document).on("click",".botonQuitar",function(){
+            var parent = $(this).attr("id");
+
+            $('div#'+parent).remove();
+
+            $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'inline');
+            $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonAdd").css('display', 'inline');
+
+            if(parent.substring(3,4) == 2){
+                $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'none');
+            }else{
+                $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'inline');
+            }
+	});
+    }
+    
     function addKid() {
 
             var clickID = parseInt($("#DatosHijos td#col div.row").length);
