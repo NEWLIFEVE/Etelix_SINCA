@@ -9,7 +9,7 @@ define('SERVER_NAME_DEV','sinca.local');
 //Obtenemos el nombre del servidor actual
 $server=$_SERVER['SERVER_NAME'];
 // change the following paths if necessary
-$yii='/Yii/framework/yii.php';
+$yii='../../../yii/framework/yii.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
 switch ($server)
 {
