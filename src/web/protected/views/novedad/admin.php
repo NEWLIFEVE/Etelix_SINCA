@@ -168,7 +168,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'header'=>'Detalle',
             'class' => 'CButtonColumn',
-            'template' => Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+            'buttons' => Utility::ver(Yii::app()->getModule('user')->user()->tipo),
         ),
     ),
 ));
