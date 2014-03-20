@@ -21,6 +21,7 @@ class Banco extends CActiveRecord
         public $EgresoBanco;
         public $SubtotalBanco;
         public $SaldoLibro;
+        public $Nombre;
         public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

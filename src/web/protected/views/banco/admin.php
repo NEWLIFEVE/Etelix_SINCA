@@ -23,8 +23,24 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
-?>
+    $cuenta=NULL;
+    $mes=NULL;
+    
+    if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
+    {
+        $mes=$_POST["formFecha"];
+    }
+    
+    if(isset($_POST["formCuenta"]) && $_POST["formCuenta"] != "")
+    {
+        $cuenta=$_POST["formCuenta"];
+    }
 
+?>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 <h1>
   <span class="enviar">
     Administrar Bancos
@@ -47,6 +63,12 @@ $('.search-form form').submit(function(){
     </div>
   </span>
 </h1>
+
+<div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)) : "";;?></div>
+<div id="fecha2" style="display: none;"><?php echo $mes != NULL ? $mes : "";?></div>
+<div id="cabina" style="display: none;"><?php echo $cuenta != NULL ? $cuenta : "";?></div>
+<div id="cabina2" style="display: none;"><?php echo $cuenta != NULL ? Cuenta::validateCuentaNombre($cuenta) : "";?></div>
+
 <?php
   echo CHtml::beginForm(Yii::app()->createUrl('balance/enviarEmail/'),'post',array('name'=>'FormularioCorreo','id'=>'FormularioCorreo','style'=>'display:none'));
   echo CHtml::textField('html','Estados de Cuenta',array('id'=>'html','style'=>'display:none'));
@@ -71,6 +93,18 @@ $('.search-form form').submit(function(){
     'dataProvider'=>$model->search($_POST),
     'filter'=>$model,
     'columns'=>array(
+      array(
+            'name'=>'Id',
+            'value'=>'$data->Id',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'display:none'),
+            'htmlOptions'=>array(
+                'id'=>'ids',
+                'style'=>'display:none',
+
+              ),
+              'filterHtmlOptions' => array('style' => 'display:none'),
+            ),
       array(
         'name'=>'Fecha',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(

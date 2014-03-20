@@ -824,6 +824,9 @@ $(document).ready(function()
         if(gridview=='cabina-grid'){
             name = 'SINCA Horarios Cabinas';
         }
+        if(gridview=='banco-grid'){
+            name = 'SINCA Administrar Bancos'+cabina+' '+fecha;
+        }
         
         return name;   
     }

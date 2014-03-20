@@ -392,6 +392,11 @@ class SiteController extends Controller
             $files['HorarioC']['name']=$_GET['name'];
             $files['HorarioC']['body']=Yii::app()->reporte->horarioCabina($_GET['ids'],$_GET['name']);          
         }
+        if($_GET['table']=='banco-grid')
+        {
+            $files['AbminBanco']['name']=$_GET['name'];
+            $files['AbminBanco']['body']=Yii::app()->reporte->adminBanco($_GET['ids'],$_GET['name'],true);           
+        }
         
         foreach($files as $key => $file)
         {
@@ -533,6 +538,13 @@ class SiteController extends Controller
             $files['HorarioC']['excel']=Yii::app()->reporte->horarioCabina($_GET['ids'],$_GET['name']);
             $files['HorarioC']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['HorarioC']['name'].".xls";               
         }
+        if($_GET['table']=='banco-grid')
+        {
+            $files['AbminBanco']['name']=$_GET['name'];
+            $files['AbminBanco']['body']=Yii::app()->reporte->adminBanco($_GET['ids'],$_GET['name'],false);
+            $files['AbminBanco']['excel']=Yii::app()->reporte->adminBanco($_GET['ids'],$_GET['name'],true);
+            $files['AbminBanco']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['AbminBanco']['name'].".xls";               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -616,6 +628,10 @@ class SiteController extends Controller
         if($_GET['table']=='cabina-grid')
         {
             echo Yii::app()->reporte->horarioCabina($_GET['ids'],$_GET['name']);
+        }
+        if($_GET['table']=='banco-grid')
+        {
+            echo Yii::app()->reporte->adminBanco($_GET['ids'],$_GET['name'],false);
         }
     }
     
