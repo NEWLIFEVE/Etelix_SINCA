@@ -93,8 +93,8 @@ $('.search-form form').submit(function(){
     </span>
 </h1>
 <form name="Detallegasto" method="post" action="<?php echo Yii::app()->createAbsoluteUrl('detallegasto/estadoGastos') ?>">
-    <div>
-        <div style="float: left;width: 36%;padding-top: 1%;padding-left: 4%;">
+    <div id="Contenedor">
+        <div style="float: left;padding-top: 1.2%;padding-left: 4%;">
             <div>
                 <label for="datepicker">
                     Seleccione una cabina:
@@ -104,7 +104,7 @@ $('.search-form form').submit(function(){
                 <?php echo CHtml::dropDownList('formCabina', '', Cabina::getListCabinaResto(), array('empty' => 'Seleccionar...')) ?>
             </div>
         </div>
-        <div style="float: left;width: 36%;padding-top: 1%;padding-left: 4%;">
+        <div style="float: left;width: 19%;padding-top: 1%;padding-left: 4%;">
             <div>
                 <label for="dateMonth">
                     Seleccione un mes:
@@ -114,13 +114,7 @@ $('.search-form form').submit(function(){
                 <input type="text" id="dateMonth" name="formFecha" size="30" readonly/>
             </div>
         </div>
-        <div class="buttons" style="float: left;width: 20%;padding-top: 3.5%;">
-            <input type="submit" name="boton" value="Actualizar"/>
-            <input type="submit" name="boton" value="Resetear Valores"/>
-        </div>
-    </div>
-    <div style="display: block;">&nbsp;</div>
-    <div>
+        <div>
         <div>
             <?php
             echo CHtml::label("Filtrar por estatus", "habilitarStatus");
@@ -133,9 +127,14 @@ $('.search-form form').submit(function(){
             ));
             ?>
         </div>
+        </div>
+        <div class="buttons" style="float: left;margin-left: 54em;">
+            <input type="submit" name="boton" value="Actualizar"/>
+            <input type="submit" name="boton" value="Resetear Valores"/>
+        </div>
     </div>
+    
 </form>
-<div style="display: block;">&nbsp;</div>
 <div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
 <div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
@@ -163,7 +162,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'estadogasto-grid',
     'updateSelector' => '{sort}',
     'htmlOptions'=>array(
-        'class'=>'grid-view ReporteBrighstar',
+        'class'=>'grid-view ReporteDepositos',
         'rel'=>'total',
         'name'=>'vista'
         ),

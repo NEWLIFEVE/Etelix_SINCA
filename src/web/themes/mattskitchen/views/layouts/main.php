@@ -90,7 +90,7 @@
             <!-- main -->
             <footer id="footer">
                 <nav id="footermenu">
-                    <h5 style="color:#FFF ">S I N C A - v1.7</h5>
+                    <h5 style="color:#FFF ">S I N C A - v1.7.1</h5>
                 </nav>
                 <div class="content">
                     <?php echo 'Copyright 2014 by <a href="http://www.sacet.com.ve/" rel="external"> www.sacet.com.ve</a> Legal privacy' ?>

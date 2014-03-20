@@ -40,10 +40,7 @@ $('.search-form form').submit(function(){
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
     </span>
 </h1>
-<p>
-Puede ingresar de manera opcional operadores de comparacion (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) al principio de cada busqueda para indicar como deber ser realizada la busqueda.
-</p>
+
 <?php //echo CHtml::link('Busqueda Avanzada','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(

@@ -330,20 +330,20 @@ class Reportes extends CApplicationComponent
             case "estadoGasto":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("brightstar").' id="Fechas">Mes</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c2">Cabina</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Categoria</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Tipo Gasto</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">'.htmlentities('Descripción', ENT_QUOTES,'UTF-8').'</th>    
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Fecha de Vencimiento</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Mes Anterior</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Monto</th>    
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Moneda</th>  
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Beneficiario</th>  
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Estatus</th> 
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Numero de Transferencia</th>   
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Fecha de Transferencia</th> 
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Cuenta</th>     
+                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Mes</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Categoria</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Tipo Gasto</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">'.htmlentities('Descripción', ENT_QUOTES,'UTF-8').'</th>    
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c6">Fecha de Vencimiento</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Mes Anterior</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Monto</th>    
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Moneda</th>  
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Beneficiario</th>  
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Estatus</th> 
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Numero de Transferencia</th>   
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Fecha de Transferencia</th> 
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Cuenta</th>     
                             </tr>
                         </thead>';
 

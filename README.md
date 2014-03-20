@@ -3,6 +3,13 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Realese 1.7.1
+    - Exportar para Log,Novedades, Nomina.
+    - Agregados mes anterior, categoria y moneda a Estados de Gastos exportar.
+    - Agregados Numero de Cuenta a Empleado.
+    - Cambio de interfaz a EstadoDeGastos.
+    - Nueva vista de Horarios de Cabinas.
+
 Realese 1.7
     - Asignacion de Categoria de Gatos (Declaracion de Gasto y Matriz).
     - Carga Automatica de los Datos de Nomina por Empleado (Declaracion de Gasto).
