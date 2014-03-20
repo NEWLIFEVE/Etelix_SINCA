@@ -387,6 +387,11 @@ class SiteController extends Controller
             $files['MatrizNo']['name']=$_GET['name'];
             $files['MatrizNo']['body']=Yii::app()->reporte->matrizNomina($_GET['mes'],$_GET['name'],true);             
         }
+        if($_GET['table']=='cabina-grid')
+        {
+            $files['HorarioC']['name']=$_GET['name'];
+            $files['HorarioC']['body']=Yii::app()->reporte->horarioCabina($_GET['ids'],$_GET['name']);          
+        }
         
         foreach($files as $key => $file)
         {
@@ -521,6 +526,13 @@ class SiteController extends Controller
             $files['MatrizNo']['excel']=Yii::app()->reporte->matrizNomina($_GET['mes'],$_GET['name'],true);
             $files['MatrizNo']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['MatrizNo']['name'].".xls";               
         }
+        if($_GET['table']=='cabina-grid')
+        {
+            $files['HorarioC']['name']=$_GET['name'];
+            $files['HorarioC']['body']=Yii::app()->reporte->horarioCabina($_GET['ids'],$_GET['name']);
+            $files['HorarioC']['excel']=Yii::app()->reporte->horarioCabina($_GET['ids'],$_GET['name']);
+            $files['HorarioC']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['HorarioC']['name'].".xls";               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -600,6 +612,10 @@ class SiteController extends Controller
         if($_GET['table']=='tablaNomina')
         {
             echo Yii::app()->reporte->matrizNomina($_GET['mes'],$_GET['name'],false);
+        }
+        if($_GET['table']=='cabina-grid')
+        {
+            echo Yii::app()->reporte->horarioCabina($_GET['ids'],$_GET['name']);
         }
     }
     

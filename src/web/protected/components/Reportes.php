@@ -135,6 +135,12 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function horarioCabina($ids,$name)
+    {
+        $var= horarioCabina::reporte($ids,$name);    
+        return $var;
+    }
+    
     public function nominaEmpleado($ids,$name)
     {
         $var= nominaEmpleado::reporte($ids,$name);    
@@ -414,6 +420,17 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Recarga P.A.</th> 
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c8">Sub Total P.A.</th> 
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c8">Saldo Cierre P.A.</th>     
+                            </tr>
+                        </thead>';
+                break;
+            case "horarioCabina":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("balance").' id="Fechas">Nombre</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Hora Inicio</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Hora Fin</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Hora Inicio Domingo</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Hora Fin Domingo</th>   
                             </tr>
                         </thead>';
                 break;

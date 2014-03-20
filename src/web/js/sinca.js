@@ -833,6 +833,9 @@ $(document).ready(function()
         if(gridview=='tablaNomina'){
             name = 'SINCA Matriz de Nomina'+fecha;
         }
+        if(gridview=='cabina-grid'){
+            name = 'SINCA Horarios Cabinas';
+        }
         
         return name;   
     }

@@ -192,21 +192,21 @@ class NominaController extends Controller
                  
                     $model->record_date = date("Y-m-d");
                     $model->currency_id = $_POST['Employee']['currency_id'];
-                
-                
-                if ($model->save()){
 
-                    if($id == false){
-                        $id = $model->id;
+                    if ($model->save()){
+
+                        if($id == false){
+                            $id = $model->id;
+                        }
+
+                        $this->saveEmployeeHours($id,$_POST['EmployeeHours']);
+                        $this->setKids($id,$_POST['Employee']['kids']);
+
+                        Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
+                        $this->redirect(array('viewEmpleado', 'id' => $model->id));
+
                     }
-                    
-                    $this->saveEmployeeHours($id,$_POST['EmployeeHours']);
-                    $this->setKids($id,$_POST['Employee']['kids']);
-
-                    Yii::app()->user->setFlash('success',"Datos Guardados Correctamente!");
-                    $this->redirect(array('viewEmpleado', 'id' => $model->id));
-                    
-                }
+                
 
             }
         

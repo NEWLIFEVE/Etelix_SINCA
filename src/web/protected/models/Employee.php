@@ -67,6 +67,7 @@ class Employee extends CActiveRecord
 			array('name, lastname, identification_number, admission_date, gender, address, salary, academic_level_id, profession_id, marital_status_id, position_id, CABINA_Id, phone_number', 'required'),
 			array('id, gender, immediate_supervisor, CABINA_Id, academic_level_id, profession_id, marital_status_id, position_id, bank_account', 'numerical', 'integerOnly'=>true),
 			array('salary', 'numerical'),
+                        array('identification_number','unique'),
 			array('code_employee', 'length', 'max'=>4),
 			array('name, lastname, identification_number, phone_number', 'length', 'max'=>45),
 			array('photo_path', 'safe'),
