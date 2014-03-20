@@ -104,6 +104,7 @@ class DetallegastoController extends Controller {
                     'updateGasto',
                     'mostrarFinal',
                     'enviarEmail',
+                    'matrizNomina',
                 ),
                 'users'=>Users::UsuariosPorTipo(3),
             ),
@@ -283,6 +284,18 @@ class DetallegastoController extends Controller {
         else
         {
            $this->render('matrizGastos', array()); 
+        }
+    }
+    
+    public function actionMatrizNomina()
+    {
+        if(isset($_POST['formFecha']))
+        {
+            $this->render('matrizNomina', array('formFecha'=>$_POST['formFecha']));
+        }
+        else
+        {
+           $this->render('matrizNomina', array()); 
         }
     }
     
@@ -527,6 +540,7 @@ class DetallegastoController extends Controller {
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
                 array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
                 array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
             );
         }
         /* TESORERO */

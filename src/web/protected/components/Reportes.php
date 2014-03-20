@@ -104,6 +104,12 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function matrizNomina($mes,$nombre,$type)
+    {
+        $var= matrizNomina::reporte($mes,$nombre,$type);    
+        return $var;
+    }
+    
 
     public function matrizGastosEvolucion($mes,$cabina,$nombre,$type)
     {
@@ -132,6 +138,12 @@ class Reportes extends CApplicationComponent
     public function nominaEmpleado($ids,$name)
     {
         $var= nominaEmpleado::reporte($ids,$name);    
+        return $var;
+    }
+    
+    public function pabrightstarReport($ids,$name,$type)
+    {
+        $var= pabrightstarReport::reporte($ids,$name,$type);    
         return $var;
     }
 
@@ -388,6 +400,20 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Accionlog</th>
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Usuario</th>
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Cabina</th>    
+                            </tr>
+                        </thead>';
+                break;
+            case "pabrightstar":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Compañia</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Saldo Apertura P.A.</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Transferencia P.A.</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Comision P.A.</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Recarga P.A.</th> 
+                                <th '.self::defineStyleHeader("captura").' id="balance-grid_c8">Sub Total P.A.</th> 
+                                <th '.self::defineStyleHeader("captura").' id="balance-grid_c8">Saldo Cierre P.A.</th>     
                             </tr>
                         </thead>';
                 break;

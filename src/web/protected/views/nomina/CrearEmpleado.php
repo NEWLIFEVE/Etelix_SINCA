@@ -4,34 +4,7 @@
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=  NominaController::controlAcceso($tipoUsuario);
 ?>
- <script>
-//  $(function() {
-//    $( "#tabs" ).tabs();
-//  });
-  $(function(){
-	// Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
-        $(document).on("click",".botonAdd",function(){
-            
-            addKid();
 
-        });
- 	// Evento que selecciona la fila y la elimina 
-	$(document).on("click",".botonQuitar",function(){
-            var parent = $(this).attr("id");
-
-            $('div#'+parent).remove();
-
-            $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'inline');
-            $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonAdd").css('display', 'inline');
-
-            if(parent.substring(3,4) == 2){
-                $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'none');
-            }else{
-                $("#DatosHijos td#col div#row"+(parent.substring(3,4)-1)+" img.botonQuitar").css('display', 'inline');
-            }
-	});
-});
- </script>
 <h1>
   <span class="enviar" style="position: relative; top: -7px;">
     <?php 

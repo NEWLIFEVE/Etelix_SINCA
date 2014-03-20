@@ -36,7 +36,12 @@ class matrizGastos extends Reportes
 
             $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id,t.Nombre AS nombreTipoDetalle, a.name AS categoria
                   FROM detallegasto d, tipogasto t, category a
-                  WHERE d.TIPOGASTO_Id=t.id AND a.id=t.category_id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.status IN (2,3) AND a.name!='RECARGAS'
+                  WHERE d.TIPOGASTO_Id=t.id 
+                  AND a.id=t.category_id 
+                  AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' 
+                  AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' 
+                  AND d.status IN (2,3) 
+                  AND a.name!='RECARGAS'
                   GROUP BY t.Nombre
                   ORDER BY a.id, t.Nombre;";
             $model=Detallegasto::model()->findAllBySql($sql);
@@ -315,10 +320,7 @@ class matrizGastos extends Reportes
                 if($montS->MontoD!=null) $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>".Reportes::format($montS->MontoD, $type)."</td>";
                 else $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'>".Reportes::format($montS->MontoD, $type)."</td>";
 
-                $tr.="</tr>
-                      <tr>
-                        $row
-                      </tr>";
+                $tr.="</tr>";
 
                 //RECARGAS
                 $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id,t.Nombre AS nombreTipoDetalle, a.name AS categoria
@@ -326,7 +328,11 @@ class matrizGastos extends Reportes
                       WHERE d.TIPOGASTO_Id=t.id AND a.id=t.category_id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.status IN (2,3) AND a.name='RECARGAS'
                       GROUP BY t.Nombre
                       ORDER BY a.id, t.Nombre";
-                $model=Detallegasto::model()->findAllBySql($sql);    
+                $model=Detallegasto::model()->findAllBySql($sql); 
+                
+                if(count($model) >0)
+                    $tr.="<tr>$row</tr>";
+                
                 foreach ($model as $key => $gasto)
                 {
                     $opago="";

@@ -26,7 +26,10 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button','style'=>'display:none')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
@@ -67,8 +70,18 @@ echo CHtml::endForm();
         'afterAjaxUpdate' => 'reinstallDatePicker',
 	'filter'=>$model,
 	'columns'=>array(
-		//'Id',
-		//'Fecha',
+		array(
+                    'name'=>'Id',
+                    'value'=>'$data->Id',
+                    'type'=>'text',
+                    'headerHtmlOptions' => array('style' => 'display:none'),
+                    'htmlOptions'=>array(
+                        'id'=>'ids',
+                        'style'=>'display:none',
+
+                      ),
+                      'filterHtmlOptions' => array('style' => 'display:none'),
+                    ),
             array(
                    'name' => 'Fecha',
                    'filter' => $this->widget('zii.widgets.jui.CJuiDatePicker', array(

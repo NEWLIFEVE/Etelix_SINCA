@@ -229,6 +229,8 @@ class NominaController extends Controller
                 $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('adminEmpleado'));
         }
         
+        
+        
         public function actionDesactivarEmpleado($id) {
             
             $model = Employee::model()->findByPk($id);
@@ -354,6 +356,7 @@ class NominaController extends Controller
                 return array(
                     array('label' => 'Administrar Empleados', 'url' => array('adminEmpleado')),
                     array('label' => 'Crear Empleado', 'url' => array('CrearEmpleado')),
+                    
 //                    array('label' => 'Administrar Evento', 'url' => array('adminEvento')),
 //                    array('label' => 'Registrar Evento', 'url' => array('EventoEmpleado')),
 

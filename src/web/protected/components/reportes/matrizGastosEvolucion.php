@@ -17,9 +17,12 @@ class matrizGastosEvolucion extends Reportes
             $mes2=date("m", strtotime($mes));
             $ruta=$_SERVER["SERVER_NAME"];
 
-            $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id, t.Nombre AS nombreTipoDetalle
-                  FROM detallegasto d, tipogasto t
-                  WHERE d.TIPOGASTO_Id=t.id AND EXTRACT(YEAR_MONTH FROM d.FechaMes) >= EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11 MONTH)) AND EXTRACT(YEAR_MONTH FROM d.FechaMes) <= '{$año}{$mes2}' AND d.status IN (2,3) AND d.CABINA_Id={$cabina}
+            $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id, t.Nombre AS nombreTipoDetalle, a.name AS categoria
+                  FROM detallegasto d, tipogasto t, category a
+                  WHERE d.TIPOGASTO_Id=t.id 
+                  AND a.id=t.category_id 
+                  AND EXTRACT(YEAR_MONTH FROM d.FechaMes) >= EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11 MONTH))
+                  AND EXTRACT(YEAR_MONTH FROM d.FechaMes) <= '{$año}{$mes2}' AND d.status IN (2,3) AND d.CABINA_Id={$cabina}
                   GROUP BY t.Nombre
                   ORDER BY t.Nombre ASC;";
             $model=Detallegasto::model()->findAllBySql($sql);
@@ -62,6 +65,7 @@ class matrizGastosEvolucion extends Reportes
                     <br>
                     <table id='tabla' class='matrizGastos' border='1' style='border-collapse:collapse;width:auto;'>
                         <thead>
+                            <th style='background: none;border:none;'></th>
                             <th style='width: 80px;background: #ff9900;text-align: center;'>
                                 <center>
                                     <img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' />
@@ -106,6 +110,7 @@ class matrizGastosEvolucion extends Reportes
                         </thead>
                         <tbody>
                             <tr>
+                                <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
@@ -174,7 +179,7 @@ class matrizGastosEvolucion extends Reportes
                                     }
                                     else
                                     {
-                                        $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td>";
+                                        $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->categoria)."</h3></td><td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td>";
                                         if($MontoGasto->MontoDolares!=null && $MontoGasto->MontoSoles!=null)
                                         {
                                             $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." USD$</td></tr></table></td>";
@@ -194,7 +199,7 @@ class matrizGastosEvolucion extends Reportes
                             }
                             else
                             {
-                                $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
+                                $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->categoria)."</h3></td><td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
                             }
                         }
                         $count++;
@@ -217,10 +222,12 @@ class matrizGastosEvolucion extends Reportes
                             <td style='height: em; background-color: #DADFE4;'></td>
                             <td style='height: em; background-color: #DADFE4;'></td>
                             <td style='height: em; background-color: #DADFE4;'></td>
+                            <td style='height: em; background-color: #DADFE4;'></td>
                         </tr>";
                 }
-    //TOTAL SOLES
+            //TOTAL SOLES
                 $tr.= "<tr>
+                        <td style='border:  0px rgb(233, 224, 224) solid !important; border:0;'></td>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3>
                         </td>";
@@ -244,20 +251,15 @@ class matrizGastosEvolucion extends Reportes
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
-                        if($total->MontoD!=null || $total->MontoS!=null)
-                        {
-                            $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoS), $type)."</td>";
-                        }
-                        else
-                        {
-                            $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";
-                        }
+                        if($total->MontoS!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format($total->MontoS, $type)."</td>";
+                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
                     }
                     $count2++;
                 }
                 $tr.="</tr>";
                 // TOTALES DOLARES
                 $tr.="<tr>
+                        <td style='border:  0px rgb(233, 224, 224) solid !important; border:0;'></td>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Dolares</h3>
                         </td>";
@@ -281,14 +283,8 @@ class matrizGastosEvolucion extends Reportes
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
-                        if($total->MontoD!=null || $total->MontoS!=null)
-                        {
-                            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
-                        }
-                        else
-                        {
-                            $tr.= "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";
-                        }
+                        if($total->MontoD!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
+                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
                     }
                     $count3++;
                 }
