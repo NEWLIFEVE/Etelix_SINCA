@@ -106,10 +106,10 @@ return array(
             ),
 		'db'=>array(
 			'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
+			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
 			'emulatePrepare'=>true,
-            'username'=>$user_db,
-			'password'=>$pass_db,
+            'username'=>'root',
+			'password'=>'Nsusfd8263',
 			'charset'=>'utf8',        
 			),
 		'errorHandler'=>array(

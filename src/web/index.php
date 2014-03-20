@@ -11,22 +11,22 @@ $server=$_SERVER['SERVER_NAME'];
 // change the following paths if necessary
 $yii='/yii/framework/yii.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
-switch ($server)
+/*switch ($server)
 {
 	case SERVER_NAME_PROD:
 		defined('YII_DEBUG') or define('YII_DEBUG',false);
 		defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',0);
 		break;
-	case SERVER_NAME_PRE_PROD:
+	case SERVER_NAME_PRE_PROD:*/
 		defined('YII_DEBUG') or define('YII_DEBUG',true);
 		defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
-		break;
+	/*	break;
 	case SERVER_NAME_DEV:
 	default:
 		defined('YII_DEBUG') or define('YII_DEBUG',true);
 		defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 		break;
-}
+}*/
 
 require_once($yii);
 Yii::createWebApplication($config)->run();
