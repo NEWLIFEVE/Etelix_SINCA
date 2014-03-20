@@ -830,6 +830,9 @@ $(document).ready(function()
         if(gridview=='reportePaBrightstar'){
             name = 'SINCA Reporte P.A. Brighstar';
         }
+        if(gridview=='tablaNomina'){
+            name = 'SINCA Matriz de Nomina'+fecha;
+        }
         
         return name;   
     }

@@ -251,8 +251,8 @@ class matrizGastosEvolucion extends Reportes
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
-                        if($total->MontoS!=null) $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>".Reportes::format($total->MontoS, $type)."</td>";
-                        else $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'>".Reportes::format($total->MontoS, $type)."</td>";
+                        if($total->MontoS!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format($total->MontoS, $type)."</td>";
+                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
                     }
                     $count2++;
                 }
@@ -283,8 +283,8 @@ class matrizGastosEvolucion extends Reportes
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
-                        if($total->MontoD!=null) $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
-                        else $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";
+                        if($total->MontoD!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
+                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
                     }
                     $count3++;
                 }

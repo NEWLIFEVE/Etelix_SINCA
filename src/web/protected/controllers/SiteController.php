@@ -382,6 +382,11 @@ class SiteController extends Controller
             $files['PaBrightstar']['name']=$_GET['name'];
             $files['PaBrightstar']['body']=Yii::app()->reporte->pabrightstarReport($_GET['ids'],$_GET['name'],true);         
         }
+        if($_GET['table']=='tablaNomina')
+        {
+            $files['MatrizNo']['name']=$_GET['name'];
+            $files['MatrizNo']['body']=Yii::app()->reporte->matrizNomina($_GET['mes'],$_GET['name'],true);             
+        }
         
         foreach($files as $key => $file)
         {
@@ -509,6 +514,13 @@ class SiteController extends Controller
             $files['PaBrightstar']['excel']=Yii::app()->reporte->pabrightstarReport($_GET['ids'],$_GET['name'],true);
             $files['PaBrightstar']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['PaBrightstar']['name'].".xls";               
         }
+        if($_GET['table']=='tablaNomina')
+        {
+            $files['MatrizNo']['name']=$_GET['name'];
+            $files['MatrizNo']['body']=Yii::app()->reporte->matrizNomina($_GET['mes'],$_GET['name'],false);
+            $files['MatrizNo']['excel']=Yii::app()->reporte->matrizNomina($_GET['mes'],$_GET['name'],true);
+            $files['MatrizNo']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['MatrizNo']['name'].".xls";               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -584,6 +596,10 @@ class SiteController extends Controller
         if($_GET['table']=='reportePaBrightstar')
         {
             echo Yii::app()->reporte->pabrightstarReport($_GET['ids'],$_GET['name'],false);
+        }
+        if($_GET['table']=='tablaNomina')
+        {
+            echo Yii::app()->reporte->matrizNomina($_GET['mes'],$_GET['name'],false);
         }
     }
     

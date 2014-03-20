@@ -104,6 +104,12 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function matrizNomina($mes,$nombre,$type)
+    {
+        $var= matrizNomina::reporte($mes,$nombre,$type);    
+        return $var;
+    }
+    
 
     public function matrizGastosEvolucion($mes,$cabina,$nombre,$type)
     {
