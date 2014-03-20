@@ -13,7 +13,7 @@
                 
                 $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
                         <br>
-                        <table class='items'>".
+                        <table class='items' width='100%'>".
                         Reportes::defineHeader("log")
                         .'<tbody>';
                 foreach ($nominaEmpleado as $key => $registro) {
