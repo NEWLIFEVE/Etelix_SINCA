@@ -331,7 +331,7 @@ class matrizGastos extends Reportes
                 $model=Detallegasto::model()->findAllBySql($sql); 
                 
                 if(count($model) >0)
-                $tr.="<tr>$row</tr>";
+                    $tr.="<tr>$row</tr>";
                 
                 foreach ($model as $key => $gasto)
                 {
