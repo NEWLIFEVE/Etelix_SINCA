@@ -24,7 +24,8 @@ class EnviarEmail extends CFormatter
             $mailer->AddAttachment($dir);
             $message = $html;
             $mailer->Body = $message;
-            $mailer->Send();
+            if($mailer->Send())
+                unlink($dir);
         }
     }
 }
