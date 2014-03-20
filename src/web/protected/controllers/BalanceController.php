@@ -977,32 +977,32 @@ class BalanceController extends Controller
                 array('label'=>'Ingresar Datos Brightstar','url'=>array('balance/brightstar')),
                 array('label'=>'Ingresar Datos Captura','url'=>array('balance/captura')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
-                array('label'=>'Reporte Libro Ventas','url'=>array('reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('reporteDepositos')),
-                array('label'=>'Reporte Brightstar','url'=>array('reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('cicloIngresosTotal')),
+                array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
+                array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
+                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
                 array('label'=>'_____________________________','url' => array('')),
                 array('label'=>'Administrar Balances','url'=>array('balance/admin')),
                 array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
-                array('label'=>'Tablero de Control de Actv.','url'=>array('controlPanel')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
                 );
         }
         //ADMINISTRADOR 
         if($tipoUsuario==3)
         {
             return array(
-                array('label'=>'Tablero de Control de Actv.','url'=>array('controlPanel')),
-                array('label'=>'Administrar Balances','url'=>array('admin')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
+                array('label'=>'Administrar Balances','url'=>array('balance/admin')),
                 array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
-                array('label'=>'Reporte Libro Ventas','url'=>array('reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('reporteDepositos')),
-                array('label'=>'Reporte Brightstar','url'=>array('reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('cicloIngresosTotal')),
+                array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
+                array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
+                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
                 );
         }
         //TESORERO
@@ -1025,31 +1025,31 @@ class BalanceController extends Controller
         if($tipoUsuario==5)
         {
             return array(
-                array('label'=>'Tablero de Control de Actv.','url'=>array('controlPanel')),
-                array('label'=>'Administrar Balances','url'=>array('admin')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
+                array('label'=>'Administrar Balances','url'=>array('balance/admin')),
                 array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
-                array('label'=>'Reporte Libro Ventas','url'=>array('reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('reporteDepositos')),
-                array('label'=>'Reporte Brightstar','url'=>array('reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('cicloIngresosTotal')),
+                array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
+                array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
+                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
                 );
         }
         //GERENTE CONTABILIDAD
         if($tipoUsuario==6)
         {
             return array(
-                array('label'=>'Tablero de Control de Actv.','url'=>array('controlPanel')),
-                array('label'=>'Administrar Balances','url'=>array('admin')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
+                array('label'=>'Administrar Balances','url'=>array('balance/admin')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
-                array('label'=>'Reporte Libro Ventas','url'=>array('reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('reporteDepositos')),
-                array('label'=>'Reporte Brightstar','url'=>array('reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('cicloIngresosTotal')),
+                array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
+                array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
+                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
                 );
         }
     }
