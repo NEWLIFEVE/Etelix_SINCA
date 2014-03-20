@@ -39,9 +39,10 @@ $mes2 = date("m", strtotime($mes));
 
 
         
-$sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle
-        FROM detallegasto d, tipogasto t 
+$sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle, a.name as categoria
+        FROM detallegasto d, tipogasto t, category a  
         WHERE d.TIPOGASTO_Id=t.id 
+        AND a.id=t.category_id
         AND EXTRACT(YEAR_MONTH FROM d.FechaMes) >= EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11 MONTH)) 
         AND EXTRACT(YEAR_MONTH FROM d.FechaMes) <= '".$año.$mes2."'
         AND d.status IN (2,3)
@@ -142,6 +143,7 @@ if (count($model)> 0) { ?>
 <table id="tabla2" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
 
     <thead>
+        <th style="background: none;"><h3></h3></th>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></td>
         <th style="background-color: #ff9900;"><h3><?php echo $mes_array[11]; ?></h3></th>
         <th style="background-color: #ff9900;"><h3><?php echo $mes_array[10]; ?></h3></th>
@@ -159,7 +161,20 @@ if (count($model)> 0) { ?>
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
     </tr>
  <?php  
  
@@ -231,7 +246,7 @@ if (count($model)> 0) { ?>
                                 
                                 
                             }else{
-                                $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                                $opago.="<td style='width: 200px; background: #1967B2'><h3>$gasto->categoria</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
 //                                $opago.="<td ></td>";
 //                                $opago.="<td></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
@@ -247,7 +262,7 @@ if (count($model)> 0) { ?>
                     if ($count>0){
                         $opago.="<td></td>";
                     }else{
-                        $opago.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
+                        $opago.="<td style='width: 200px; background: #1967B2'><h3>$gasto->categoria</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td></td>";
                     }
                     
 //                    $aprobado.="<td></td>";
@@ -268,7 +283,21 @@ if (count($model)> 0) { ?>
 //    </tr>";
 
     $tr.="<tr style='height: em; background-color: #DADFE4;'>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
     </tr>";
      echo $tr;
      
@@ -277,7 +306,7 @@ if (count($model)> 0) { ?>
     // TOTALES SOLES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Soles</h3></td>
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Soles</h3></td>
             ";
             $count2 = 0;
             for($i=0;$i<=11;$i++){
@@ -292,11 +321,11 @@ if (count($model)> 0) { ?>
         $totales = Detallegasto::model()->findAllBySql($sqlTotales);
         foreach ($totales as $key => $total) {
  
-        if($total->MontoD != null || $total->MontoS != null){
-            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Detallegasto::montoGasto($total->MontoS)."</td>";
+        if($total->MontoS != null){
+            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>".Detallegasto::montoGasto($total->MontoS)."</td>";
 
         }else{
-            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";            
+            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";            
         }
   
         }
@@ -309,7 +338,7 @@ if (count($model)> 0) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Dolares</h3></td>
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Dolares</h3></td>
             ";
             $count3 = 0;
             for($i=0;$i<=11;$i++){
@@ -324,11 +353,11 @@ if (count($model)> 0) { ?>
         $totales = Detallegasto::model()->findAllBySql($sqlTotales);
         foreach ($totales as $key => $total) {
  
-        if($total->MontoD != null || $total->MontoS != null){
-            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Detallegasto::montoGasto($total->MontoD)."</td>";
+        if($total->MontoD != null){
+            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>".Detallegasto::montoGasto($total->MontoD)."</td>";
 
         }else{
-            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";            
+            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";            
         }
 
 

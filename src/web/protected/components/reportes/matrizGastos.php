@@ -36,7 +36,12 @@ class matrizGastos extends Reportes
 
             $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id,t.Nombre AS nombreTipoDetalle, a.name AS categoria
                   FROM detallegasto d, tipogasto t, category a
-                  WHERE d.TIPOGASTO_Id=t.id AND a.id=t.category_id AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.status IN (2,3) AND a.name!='RECARGAS'
+                  WHERE d.TIPOGASTO_Id=t.id 
+                  AND a.id=t.category_id 
+                  AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' 
+                  AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' 
+                  AND d.status IN (2,3) 
+                  AND a.name!='RECARGAS'
                   GROUP BY t.Nombre
                   ORDER BY a.id, t.Nombre;";
             $model=Detallegasto::model()->findAllBySql($sql);
