@@ -385,7 +385,7 @@ if (count($model)> 0) { ?>
                   
             echo "</tr>";     
             
-           echo $row;
+           
         //SECCION DE RECARGAS      
         $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDetalle, a.name as categoria
               FROM detallegasto d, tipogasto t, category a  
@@ -397,7 +397,10 @@ if (count($model)> 0) { ?>
               AND a.name = 'RECARGAS'
               GROUP BY t.Nombre
               ORDER BY a.id, t.Nombre;";
-        $model = Detallegasto::model()->findAllBySql($sql);    
+        $model = Detallegasto::model()->findAllBySql($sql);
+        if(count($model) >0)
+            echo $row;
+        
         foreach ($model as $key => $gasto) {
         $tr="";
         $content="";
