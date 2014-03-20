@@ -322,10 +322,10 @@ if (count($model)> 0) { ?>
         foreach ($totales as $key => $total) {
  
         if($total->MontoS != null){
-            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #1967B2;'>".Detallegasto::montoGasto($total->MontoS)."</td>";
+            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Detallegasto::montoGasto($total->MontoS)."</td>";
 
         }else{
-            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";            
+            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";            
         }
   
         }
@@ -354,10 +354,10 @@ if (count($model)> 0) { ?>
         foreach ($totales as $key => $total) {
  
         if($total->MontoD != null){
-            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;'>".Detallegasto::montoGasto($total->MontoD)."</td>";
+            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Detallegasto::montoGasto($total->MontoD)."</td>";
 
         }else{
-            echo "<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;'></td>";            
+            echo "<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>00.00</td>";            
         }
 
 
