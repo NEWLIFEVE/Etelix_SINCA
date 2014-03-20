@@ -2,15 +2,9 @@
 /* @var $this CabinaController */
 /* @var $model Cabina */
 
-$this->breadcrumbs=array(
-	'Cabinas'=>array('index'),
-	'Manage',
-);
-
-$this->menu=array(
-	array('label'=>'Listar Cabina', 'url'=>array('index')),
-	array('label'=>'Crear Cabina', 'url'=>array('create')),
-);
+Yii::import('webroot.protected.controllers.BalanceController');
+$tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
+$this->menu=BalanceController::controlAcceso($tipoUsuario);
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
