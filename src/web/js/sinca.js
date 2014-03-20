@@ -544,13 +544,7 @@ $(document).ready(function()
             '<script type="text/javascript">function printPage() { window.focus(); window.print();return; }</script>'+
             '</body></html>';
     
-//    
-//            $.fancybox.open({
-//		href : 'iframe.html',
-//		type : 'iframe',
-//		padding : 5
-//				});
-                        
+
             //Creamos un 'iframe' para simular la apertura de una pagina nueva sin recargar ni alterar la anterior.
             var newIframe = document.createElement('iframe');
             newIframe.width = '0';
@@ -740,12 +734,6 @@ $(document).ready(function()
             '<script type="text/javascript">function printPage() { window.focus(); window.print();return; }</script>'+
             '</body></html>';
     
-//    
-//            $.fancybox.open({
-//		href : 'iframe.html',
-//		type : 'iframe',
-//		padding : 5
-//				});
                         
             //Creamos un 'iframe' para simular la apertura de una pagina nueva sin recargar ni alterar la anterior.
             var newIframe = document.createElement('iframe');

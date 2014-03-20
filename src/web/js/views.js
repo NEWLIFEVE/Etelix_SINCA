@@ -555,7 +555,7 @@ function switchCabina()
          }       
          else        
          {       
-             $(this).text('Activas');        
+             $(this).text('Activas');
              $('div[name="oculta"]').css('display','block');     
              $('div[name="vista"]').css('display','none');       
              $('a[rel="fancybox1"]').attr('href','/balance/pop/5');      
@@ -564,7 +564,8 @@ function switchCabina()
              $('a[rel="fancybox4"]').attr('href','/balance/pop/8');      
          }       
         totales();      
-     });     
+     });  
+
 }
 
 /*****************************

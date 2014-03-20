@@ -317,7 +317,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         'name'=>'oculta',
         ),
     'dataProvider'=>$model->disable(),
-    'afterAjaxUpdate'=>'reinstallDatePicker',
+    'afterAjaxUpdate'=>'reinstallDatePicker2',
     'filter'=>$model,
     'columns'=>array(
         array(
@@ -342,7 +342,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
-                    'id'=>'datepicker_for_FechaInactiva',
+                    'id'=>'datepicker_for_Fecha_oculta',
                     'size'=>'10',
                     ),
                 'defaultOptions'=>array(
@@ -360,7 +360,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'name'=>'CABINA_Id',
             'value'=>'$data->cABINA->Nombre',
             'type'=>'text',
-            'filter'=>Cabina::getListCabina(),
+            'filter'=>Cabina::getListCabinaInactivas(),
             'htmlOptions'=>array(
                 'style'=>'text-align: center;'
                 )
@@ -528,6 +528,13 @@ function reinstallDatePicker(id, data) {
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();
+}
+");
+Yii::app()->clientScript->registerScript('re-install-date-picker2', "
+function reinstallDatePicker2(id, data) {
+    $('#datepicker_for_Fecha_oculta').datepicker();
+    $('div[name=".'"oculta"'."]').css('display','block');     
+    $('div[name=".'"vista"'."]').css('display','none'); 
 }
 ");
 ?>
