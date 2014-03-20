@@ -827,6 +827,9 @@ $(document).ready(function()
         if(gridview=='employee-grid'){
             name = 'SINCA Administrar Empleados';
         }
+        if(gridview=='reportePaBrightstar'){
+            name = 'SINCA Reporte P.A. Brighstar';
+        }
         
         return name;   
     }
