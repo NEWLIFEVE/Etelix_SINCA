@@ -150,7 +150,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
       array(
         'header'=>'Detalle',
         'class'=>'CButtonColumn',
-        'template'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+        'buttons'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
         ),
       ),
     )
@@ -267,7 +267,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
       array(
         'header'=>'Detalle',
         'class'=>'CButtonColumn',
-        'template'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+        'buttons'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
         ),
       ),
     )

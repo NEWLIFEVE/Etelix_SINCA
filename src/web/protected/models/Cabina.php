@@ -124,7 +124,7 @@ class Cabina extends CActiveRecord
 
 	public static function getListCabina()
 	{
-		return CHtml::listData(Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2 ORDER BY nombre = "COMUN CABINA", nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'RESTO')), 'Id', 'Nombre');
+		return CHtml::listData(Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2 ORDER BY nombre = "COMUN CABINA", nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'COMUN CABINA')), 'Id', 'Nombre');
 	}
         public static function getListCabinaInactivas()
 	{

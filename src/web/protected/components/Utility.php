@@ -115,15 +115,34 @@ class Utility
      * @access public
      * @static
      */
-    public static function ver($tipo)
+    public static function ver($userType)
     {
-    	if($tipo == 1 || $tipo == 5)
-    	{
-    		return '{view}';
+        $arreglo = array();
+        $arregloView = array();
+        $arregloUpdate = array();
+        $arregloDelete = array();
+    	if($userType == 1 || $userType == 5)
+    	{   
+            $arregloView['label']='Detalle';
+            $arregloView['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png";
+            $arregloUpdate['visible']='false';
+            $arregloDelete['visible']='false';
+            $arreglo['view']=$arregloView;
+            $arreglo['update']=$arregloUpdate;
+            $arreglo['delete']=$arregloDelete;
+            return $arreglo;
     	}
     	else
     	{
-    		return '{view}{update}';
+            $arregloView['label']='Detalle';
+            $arregloView['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png";
+            $arregloUpdate['label']='Editar';
+            $arregloUpdate['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/update.png";
+            $arregloDelete['visible']='false';
+            $arreglo['view']=$arregloView;
+            $arreglo['update']=$arregloUpdate;
+            $arreglo['delete']=$arregloDelete;
+            return $arreglo;
     	}
     }
 
