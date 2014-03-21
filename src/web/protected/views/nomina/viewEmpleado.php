@@ -63,7 +63,7 @@ $kids = Kids::getEmployeeKids($model->id);
                 ),
             array(
                     'name'=>'immediate_supervisor',
-                    'value'=>($model->immediate_supervisor == null) ? 'Sin Supervisor' : $model->immediateSupervisor->name,
+                    'value'=>($model->immediate_supervisor == null) ? 'Sin Supervisor' : $model->immediateSupervisor->name.' '.$model->immediateSupervisor->lastname,
                 ),
             array(
                     'name'=>'salary',
