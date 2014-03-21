@@ -172,9 +172,9 @@ echo CHtml::endForm();
             </div>
         </div>
         <div>
-            <div style="width: 46%;float: left;" class="filters">&nbsp;</div>
+            <div style="width: 56%;float: left;" class="filters">&nbsp;</div>
             <div style="width: 54%;float: right;" class="filters">
-                <div style="padding-top: 3.5%;" class="filters"></div>
+                <div style="padding-top: 5%;" class="filters"></div>
                 <div id="mostrarReglas" class="filters">
                     Reglas de declaraci&oacute;n
                 </div>
@@ -229,6 +229,8 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.FechaEsp = :fechaesp a
                 $sqlCP2 = "SELECT DISTINCT(DATE_FORMAT(l.Hora, '%H:%i')) as HORA FROM log l, users u 
 WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.CABINA_Id = :cabina and l.hora > '19:00:00'";
 
+                $sqlCP3 = Cabina::model()->findBySql("SELECT Id, Nombre, HoraIni, HoraFin, HoraIniDom, HoraFinDom FROM cabina WHERE Id = $codigo[$i]");
+                
                 
     $post = $model->find('CABINA_Id = :id and Fecha = :fecha', array(':id' => $i, ':fecha' => $fechaActual));
     ?><tr <?php echo ($x++) % 2 == 0 ? "style='background-color:#CCC'" : ""; ?>>
@@ -246,8 +248,15 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $id = $command->query(); // execute a query SQL
                 if ($id->count()) {
                     ?>
-                    <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo  $id->readColumn(0) ?></div>
-            
+                
+                    <!-- COMPARA LA HORA DE INICIO DE JORDADA CON LA HORA DE INICIO NORMAL DE LA CABINA -->
+                    <?php $hora = $id->readColumn(0); 
+                          if(($diaMostrar != 'Domingo' && $hora <= $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora <= $sqlCP3->HoraIniDom)){                               ?>
+                                <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo $hora; ?></div>
+                    <?php }else{  ?>
+                                <div align="center" style="color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;"><img src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' style="width:16px;height: 16px;"/> <?php echo $hora; ?></div>
+                    <?php }  ?> 
+                     
                 <?php } else { ?>
                     <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                      <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
@@ -382,8 +391,16 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $id2 = $command2->query(); // execute a query SQL
                 if ($id2->count()) {
                     ?>
-                             
-                    <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo  $id2->readColumn(0) ?></div>
+                    
+                    <!-- COMPARA LA HORA DE FIN DE JORDADA CON LA HORA DE FIN NORMAL DE LA CABINA -->
+                    <?php $hora2 = $id2->readColumn(0); 
+                          if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  ?>
+                                <div align="center" style="color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;"><img src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' style="width:16px;height: 16px;"/> <?php echo $hora2; ?></div>
+                   <?php }else{  ?>
+                                <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo $hora2; ?></div>
+                    <?php }  ?> 
+                                
+                                
                 <?php } else { ?>
                     <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
                     <?php

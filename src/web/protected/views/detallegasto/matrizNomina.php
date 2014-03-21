@@ -208,7 +208,7 @@ if (count($model)> 0) { ?>
     // TOTALES SOLES         
     echo "<tr>
         
-            <td style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Soles</h3></td>";
+            <td style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Soles</h3></td>";
             $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 AND id != 19 ORDER BY nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             foreach ($cabinas as $key => $cabina) {
@@ -237,7 +237,7 @@ if (count($model)> 0) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Dolares</h3></td>";
+            <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Dolares</h3></td>";
          
             foreach ($cabinas as $key => $cabina) {
                 $sqlTotales = "SELECT  sum(d.Monto) as MontoD 
@@ -268,7 +268,7 @@ if (count($model)> 0) { ?>
     // GRAN TOTALES SOLES         
     echo "<tr>
         
-            <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Totales Soles</h3></td>";
+            <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Total Soles</h3></td>";
 
                 $sqlTotales = "SELECT  sum(d.Monto) as MontoS 
                                FROM detallegasto as d 
@@ -295,7 +295,7 @@ if (count($model)> 0) { ?>
     // GRAN TOTALES DOLARES         
     echo "<tr>
         
-            <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Totales Dolares</h3></td>";
+            <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Total Dolares</h3></td>";
 
                 $sqlTotales = "SELECT  sum(d.Monto) as MontoD 
                                FROM detallegasto as d 

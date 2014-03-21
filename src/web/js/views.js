@@ -551,7 +551,9 @@ function switchCabina()
              $('a[rel="fancybox1"]').attr('href','/balance/pop/1');      
              $('a[rel="fancybox2"]').attr('href','/balance/pop/2');      
              $('a[rel="fancybox3"]').attr('href','/balance/pop/3');      
-             $('a[rel="fancybox4"]').attr('href','/balance/pop/4');      
+             $('a[rel="fancybox4"]').attr('href','/balance/pop/4');   
+             
+             //$('#formCabina').prop('disabled', false);      
          }       
          else        
          {       
@@ -561,7 +563,9 @@ function switchCabina()
              $('a[rel="fancybox1"]').attr('href','/balance/pop/5');      
              $('a[rel="fancybox2"]').attr('href','/balance/pop/6');      
              $('a[rel="fancybox3"]').attr('href','/balance/pop/7');      
-             $('a[rel="fancybox4"]').attr('href','/balance/pop/8');      
+             $('a[rel="fancybox4"]').attr('href','/balance/pop/8'); 
+             
+             //$('#formCabina').prop('disabled', true);
          }       
         totales();      
      });  

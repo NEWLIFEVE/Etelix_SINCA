@@ -194,7 +194,7 @@ class matrizNomina extends Reportes
             //TOTAL SOLES
                 $tr.= "<tr>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
-                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3>
+                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Soles</h3>
                         </td>";
                 $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 AND id != 19 ORDER BY nombre";
                 $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
@@ -217,7 +217,7 @@ class matrizNomina extends Reportes
                 // TOTALES DOLARES
                 $tr.="<tr>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
-                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Dolares</h3>
+                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Dolares</h3>
                         </td>";
 
                 foreach ($cabinas as $key => $cabina) {
@@ -256,7 +256,7 @@ class matrizNomina extends Reportes
                 // GRAN TOTALES SOLES         
                 $tr.= "<tr>
         
-                <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Totales Soles</h3></td>";
+                <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Total Soles</h3></td>";
 
                     $sqlTotales = "SELECT  sum(d.Monto) as MontoS 
                                    FROM detallegasto as d 
@@ -284,7 +284,7 @@ class matrizNomina extends Reportes
                 // GRAN TOTALES DOLARES         
                 $tr.= "<tr>
         
-                <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Totales Dolares</h3></td>";
+                <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Total Dolares</h3></td>";
 
                     $sqlTotales = "SELECT  sum(d.Monto) as MontoD 
                                    FROM detallegasto as d 

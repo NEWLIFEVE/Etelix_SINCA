@@ -43,6 +43,8 @@
             else
                 list($year, $mon, $day) = explode('-', $date);
                 
+            $dias = array('Sun' => 'Domingo', 'Mon' => 'Lunes','Tue' => 'Martes','Wed' => 'Miercoles','Thu' => 'Jueves','Fri' => 'Viernes','Sat' => 'Sabado');
+            $diaMostrar = $dias[date('D',mktime(0, 0, 0,$mon , $day, $year))];
             $fechaActual = date('Y-m-d', mktime(0, 0, 0,$mon, $day, $year));
             $fechaAyer = date('Y-m-d', mktime(0, 0, 0,$mon, $day-1, $year));
             
@@ -68,7 +70,8 @@
 
                                         $sqlCP2 = 'SELECT DISTINCT(DATE_FORMAT(l.Hora, "%H:%i")) as HORA FROM log l, users u 
                         WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.CABINA_Id = :cabina and l.hora > "19:00:00"';
-
+                                        
+                                        $sqlCP3 = Cabina::model()->findBySql("SELECT * FROM cabina WHERE Id = $codigo[$i]");
 
                             $post = $model->find("CABINA_Id = :id and Fecha = :fecha", array(":id" => $i, ":fecha" => $fechaActual));
                             $table .= "<tr>
@@ -85,8 +88,14 @@
                 $command->bindValue(':fecha', $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 $id = $command->query(); // execute a query SQL
                 if ($id->count()) {
-
-                    $table .= "<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'>".$id->readColumn(0)."</div>";
+                    
+                    //COMPARA LA HORA DE INICIO DE JORDADA CON LA HORA DE INICIO NORMAL DE LA CABINA
+                     $hora = $id->readColumn(0); 
+                          if(($diaMostrar != 'Domingo' && $hora <= $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora <= $sqlCP3->HoraIniDom)){                               
+                                $table .="<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora</div>";
+                     }else{  
+                                $table .="<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='".Yii::app()->request->baseUrl."/themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/>  $hora </div>";
+                     }  
             
                 } else {
                     $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
@@ -176,8 +185,14 @@
                 $id2 = $command2->query(); // execute a query SQL
                 if ($id2->count()) {
                     
-                             
-                    $table .= "<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'>".$id2->readColumn(0)."</div>";
+                    // COMPARA LA HORA DE FIN DE JORDADA CON LA HORA DE FIN NORMAL DE LA CABINA 
+                     $hora2 = $id2->readColumn(0); 
+                    if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  
+                                $table .= "<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='".Yii::app()->request->baseUrl." /themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/> $hora2 </div>";
+                    }else{  
+                                $table .= "<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora2 </div>";
+                     }   
+
                  } else { 
                     $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
                     

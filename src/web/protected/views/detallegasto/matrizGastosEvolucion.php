@@ -306,7 +306,7 @@ if (count($model)> 0) { ?>
     // TOTALES SOLES         
     echo "<tr>
         
-            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Soles</h3></td>
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Soles</h3></td>
             ";
             $count2 = 0;
             for($i=0;$i<=11;$i++){
@@ -338,7 +338,7 @@ if (count($model)> 0) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Totales Dolares</h3></td>
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Dolares</h3></td>
             ";
             $count3 = 0;
             for($i=0;$i<=11;$i++){

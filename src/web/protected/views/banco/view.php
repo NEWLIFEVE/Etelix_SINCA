@@ -76,8 +76,10 @@ echo "<form action='";?><?php echo Yii::app()->request->baseUrl; ?><?php echo"/f
 				{
 					$clase="odd";
 				}
+                                setlocale(LC_TIME, 'esp');
+                                $day = ucwords(strftime("%A", mktime(0, 0, 0, date('d',strtotime($balance->Fecha)))));
 				echo "<tr class='".$clase."'>
-						<td colspan='2'>".$balance->cABINA->Nombre." ( cº. ".$balance->Fecha.")</td>
+						<td colspan='2'>".$balance->cABINA->Nombre." ( cº. ".$balance->Fecha." / ".utf8_encode($day).") </td>
 						<td>".$balance->MontoBanco."</td>
 					  </tr>";
 			}

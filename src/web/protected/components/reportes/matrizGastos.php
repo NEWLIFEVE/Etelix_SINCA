@@ -238,7 +238,7 @@ class matrizGastos extends Reportes
                 $tr.="<tr>
                         <td style='border:0px rgb(233, 224, 224) solid !important;'></td>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
-                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Soles</h3>
+                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Soles</h3>
                         </td>";
                 $sqlCabinas="SELECT * 
                              FROM cabina 
@@ -281,7 +281,7 @@ class matrizGastos extends Reportes
                 $tr.="<tr>
                         <td style='border:  0px rgb(233, 224, 224) solid !important; '></td>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
-                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Totales Dolares</h3>
+                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Dolares</h3>
                         </td>";
 
                 $sqlCabinas="SELECT * 
