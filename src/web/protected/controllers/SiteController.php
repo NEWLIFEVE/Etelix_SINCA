@@ -397,6 +397,11 @@ class SiteController extends Controller
             $files['AbminBanco']['name']=$_GET['name'];
             $files['AbminBanco']['body']=Yii::app()->reporte->adminBanco($_GET['ids'],$_GET['name'],true);           
         }
+        if($_GET['table']=='DetailretesoMov')
+        {
+            $files['retesoMov']['name']=$_GET['name'];
+            $files['retesoMov']['body']=Yii::app()->reporte->retesoMovimiento($_GET['ids'],$_GET['name'],true);
+        }
         
         foreach($files as $key => $file)
         {
@@ -545,6 +550,13 @@ class SiteController extends Controller
             $files['AbminBanco']['excel']=Yii::app()->reporte->adminBanco($_GET['ids'],$_GET['name'],true);
             $files['AbminBanco']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['AbminBanco']['name'].".xls";               
         }
+        if($_GET['table']=='DetailretesoMov')
+        {
+            $files['retesoMov']['name']=$_GET['name'];
+            $files['retesoMov']['body']=Yii::app()->reporte->retesoMovimiento($_GET['ids'],$_GET['name'],false);
+            $files['retesoMov']['excel']=Yii::app()->reporte->retesoMovimiento($_GET['ids'],$_GET['name'],true);
+            $files['retesoMov']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['retesoMov']['name'].".xls";               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -632,6 +644,10 @@ class SiteController extends Controller
         if($_GET['table']=='banco-grid')
         {
             echo Yii::app()->reporte->adminBanco($_GET['ids'],$_GET['name'],false);
+        }
+        if($_GET['table']=='DetailretesoMov')
+        {
+            echo Yii::app()->reporte->retesoMovimiento($_GET['ids'],$_GET['name'],false);
         }
     }
     

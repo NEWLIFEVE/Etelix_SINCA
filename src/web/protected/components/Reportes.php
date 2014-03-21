@@ -153,6 +153,12 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function retesoMovimiento($id,$name,$type)
+    {
+        $var= retesoMovimiento::reporte($id,$name,$type);    
+        return $var;
+    }
+    
     public function pabrightstarReport($ids,$name,$type)
     {
         $var= pabrightstarReport::reporte($ids,$name,$type);    
@@ -442,16 +448,14 @@ class Reportes extends CApplicationComponent
                             </tr>
                         </thead>';
                 break;
-            case "libroV":
+            case "horarioCabina":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("libroV").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c2">Cabina</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c5">Trafico (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Recarga Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Recarga Claro (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Total Ventas (S/.)</th>    
+                                <th '.self::defineStyleHeader("balance").' id="Fechas">Nombre</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Hora Inicio</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Hora Fin</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Hora Inicio Domingo</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Hora Fin Domingo</th>
                             </tr>
                         </thead>';
                 break;

@@ -14,14 +14,23 @@ $this->menu= BancoController::controlAcceso($tipoUsuario);
 $ingresos=null;
 $egresos=0;
 ?>
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
+
+<div id="id" style="display: none;"><?php echo $model->Id;?></div>
+<div id="fecha" style="display: none;"><?php echo $model->Fecha;?></div>
+<div id="cabina2" style="display: none;"><?php echo $model->cUENTA->Nombre;?></div>
+
 <h1>
     <span class="enviar">
         RETESO MOVIMIENTOS <?php echo $model->cUENTA->Nombre; echo " ".$model->Fecha; ?>
     </span>
     <span>
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoDetail" />
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
         <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonDetail' />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
     </span>
 </h1>
 <?php
@@ -43,7 +52,7 @@ echo "<form action='";?><?php echo Yii::app()->request->baseUrl; ?><?php echo"/f
 </form>-->
 <div  rel="total" class="grid-view enviarTabla detalleCuenta">
     <div class="summary"></div>
-	<table class="items">
+    <table class="items" id="DetailretesoMov">
 			<tr>
 				<th colspan='2'>Banco Credito de Perú</th>
 				<th class="titulo">INGRESOS</th>

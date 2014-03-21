@@ -63,9 +63,15 @@ $(document).ready(function()
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             
-            $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
-                        ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
-            });
+            if($('div#id').length){
+                ids[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
             
             if(ids != ''){
             var response = $.ajax({ type: "GET",   
@@ -293,9 +299,15 @@ $(document).ready(function()
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             
-            $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
-                        ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
-            });
+            if($('div#id').length){
+                ids[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
 //            alert(ids);
             if(ids != ''){
 
@@ -522,10 +534,18 @@ $(document).ready(function()
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
-            $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
-                        ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
-            });
-            //alert(ids);
+            
+            if($('div#id').length){
+                ids[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
+            
+            //alert(name);
             
             if(ids != ''){
                 
@@ -826,6 +846,9 @@ $(document).ready(function()
         }
         if(gridview=='banco-grid'){
             name = 'SINCA Administrar Bancos'+cabina+' '+fecha;
+        }
+        if(gridview=='DetailretesoMov'){
+            name = 'SINCA Reteso Movimientos'+cabina+' '+fecha;
         }
         
         return name;   
