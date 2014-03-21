@@ -10,6 +10,7 @@ Realese 1.7.2
     - Ordenamiento en Admin Nomina por Cabina y Cargo (PENDIENTE ORDEN POR CARGO REAL)
     - Exportables para admin de Banco y Reteso Bancario
     - Agregado nombre de dia en movimientos de ingresos en el Reteso Bancario.
+    - Se excluyo Transferencias entre cuentas de Gastos en Matriz de Gastos.
 
 
 Realese 1.7.1
