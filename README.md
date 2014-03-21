@@ -9,6 +9,11 @@ Realese 1.7.1
     - Agregados Numero de Cuenta a Empleado.
     - Cambio de interfaz a EstadoDeGastos.
     - Nueva vista de Horarios de Cabinas.
+    - Corregido error de tablas para cabinas inactivas, donde se pierde la tabla al pasar de página.
+    - Validación en Empleado para no registrar empleados con misma Cedula.
+    - Nuevo Reporte Matriz de Nomina con sus versiones exportables.
+    - Reportes exportables para PABrightstar 
+
 
 Realese 1.7
     - Asignacion de Categoria de Gatos (Declaracion de Gasto y Matriz).
