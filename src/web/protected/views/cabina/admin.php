@@ -63,7 +63,7 @@ $('.search-form form').submit(function(){
             'name'=>'vista',
          ),
 	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+//	'filter'=>$model,
 	'columns'=>array(
       array(
         'name'=>'Id',
