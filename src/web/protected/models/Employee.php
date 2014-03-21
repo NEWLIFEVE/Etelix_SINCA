@@ -173,8 +173,8 @@ class Employee extends CActiveRecord
                 $criteria->compare('record_date',$this->record_date);
                 $criteria->compare('currency_id',$this->currency_id);
                 $criteria->compare('bank_account',$this->bank_account,true);
-                
-                $orden="status ASC";
+                $criteria->join='INNER JOIN cabina ON cabina.Id=t.CABINA_Id INNER JOIN position ON position.id=t.position_id';
+                $orden="cabina.Nombre ASC, position.name ASC, status ASC";
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

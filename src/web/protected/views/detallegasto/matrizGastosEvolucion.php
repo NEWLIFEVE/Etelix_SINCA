@@ -48,7 +48,7 @@ $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDeta
         AND d.status IN (2,3)
         AND d.CABINA_Id = $cabina
         GROUP BY t.Nombre
-        ORDER BY t.Nombre ASC;";
+        ORDER BY a.id, t.Nombre;";
 $model = Detallegasto::model()->findAllBySql($sql);
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetallegastoController::controlAcceso($tipoUsuario);

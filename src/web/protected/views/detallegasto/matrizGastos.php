@@ -33,6 +33,7 @@ $sql="SELECT DISTINCT(d.TIPOGASTO_Id) as TIPOGASTO_Id,t.Nombre as nombreTipoDeta
               AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
               AND d.status IN (2,3)
               AND a.name != 'RECARGAS'
+              AND t.Id != 72
               GROUP BY t.Nombre
               ORDER BY a.id, t.Nombre;";
 $model = Detallegasto::model()->findAllBySql($sql);
@@ -185,6 +186,7 @@ if (count($model)> 0) { ?>
                                         AND d.status IN (2,3)
                                         AND d.moneda = 1
                                         AND a.name != 'RECARGAS'
+                                        AND t.Id != 72
                                         GROUP BY d.moneda
                                         ) as MontoDolares, 
                                         
@@ -199,6 +201,7 @@ if (count($model)> 0) { ?>
                                         AND d.status IN (2,3)
                                         AND d.moneda = 2
                                         AND a.name != 'RECARGAS'
+                                        AND t.Id != 72
                                         GROUP BY d.moneda
                                         )  as MontoSoles
                                         
@@ -210,6 +213,7 @@ if (count($model)> 0) { ?>
                                   AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
                                   AND d.status IN (2,3)
                                   AND a.name != 'RECARGAS'
+                                  AND t.Id != 72
                                   GROUP BY d.status;";
                 $MontoGasto = Detallegasto::model()->findBySql($sqlMontoGasto);
                
@@ -248,9 +252,9 @@ if (count($model)> 0) { ?>
                 $count++;
             }
             
-            $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+            $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
@@ -292,9 +296,9 @@ if (count($model)> 0) { ?>
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
-                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                                 as MontoD,
-                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                                 as MontoS, d.moneda
                                 FROM detallegasto as d
                                 LIMIT 1;";       
@@ -313,9 +317,9 @@ if (count($model)> 0) { ?>
         }
             }
             
-        $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+        $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE  EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE  EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
@@ -343,9 +347,9 @@ if (count($model)> 0) { ?>
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
-                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+                $sqlTotales = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                                 as MontoD,
-                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+                                (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id INNER JOIN cabina as c ON d.CABINA_Id = c.id  WHERE d.CABINA_Id = $cabina->Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                                 as MontoS, d.moneda
                                 FROM detallegasto as d
                                 LIMIT 1;";       
@@ -364,9 +368,9 @@ if (count($model)> 0) { ?>
         }
             }
        
-        $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+        $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE  EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND d.status IN (2,3)) 
+                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE  EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name != 'RECARGAS' AND t.Id != 72 AND d.status IN (2,3)) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
@@ -394,9 +398,10 @@ if (count($model)> 0) { ?>
               AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
               AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
               AND d.status IN (2,3)
-              AND a.name = 'RECARGAS'
+              AND (a.name = 'RECARGAS'
+              OR t.Id = 72)
               GROUP BY t.Nombre
-              ORDER BY a.id, t.Nombre;";
+              ORDER BY t.Nombre;";
         $model = Detallegasto::model()->findAllBySql($sql);
         if(count($model) >0)
             echo $row;
@@ -423,7 +428,8 @@ if (count($model)> 0) { ?>
                                         AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
                                         AND d.status IN (2,3)
                                         AND d.moneda = 1
-                                        AND a.name = 'RECARGAS'
+                                        AND (a.name = 'RECARGAS'
+                                        OR t.Id = 72)
                                         GROUP BY d.moneda
                                         ) as MontoDolares, 
                                         
@@ -437,7 +443,8 @@ if (count($model)> 0) { ?>
                                         AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
                                         AND d.status IN (2,3)
                                         AND d.moneda = 2
-                                        AND a.name = 'RECARGAS'
+                                        AND (a.name = 'RECARGAS'
+                                        OR t.Id = 72)
                                         GROUP BY d.moneda
                                         )  as MontoSoles
                                         
@@ -448,7 +455,7 @@ if (count($model)> 0) { ?>
                                   AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
                                   AND d.TIPOGASTO_Id=t.id AND d.TIPOGASTO_Id=$gasto->TIPOGASTO_Id AND d.CABINA_Id = $cabina->Id
                                   AND d.status IN (2,3)
-                                  AND a.name = 'RECARGAS'
+                                  AND (a.name = 'RECARGAS' OR t.Id = 72)
                                   GROUP BY d.status;";
                 $MontoGasto = Detallegasto::model()->findBySql($sqlMontoGasto);
                
@@ -491,9 +498,9 @@ if (count($model)> 0) { ?>
                 $count++;
             }
             
-            $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND a.name = 'RECARGAS' AND d.status IN (2,3)) 
+            $sqlT = "select (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND (a.name = 'RECARGAS' OR t.Id = 72) AND d.status IN (2,3)) 
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND a.name = 'RECARGAS' AND d.status IN (2,3)) 
+                    (SELECT  sum(d.Monto) as Monto FROM detallegasto as d INNER JOIN tipogasto as t ON d.TIPOGASTO_Id = t.id INNER JOIN category as a ON a.id = t.category_id WHERE t.Id = $gasto->TIPOGASTO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND (a.name = 'RECARGAS' OR t.Id = 72) AND d.status IN (2,3)) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";

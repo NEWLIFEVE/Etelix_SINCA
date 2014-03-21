@@ -24,7 +24,7 @@ class matrizGastosEvolucion extends Reportes
                   AND EXTRACT(YEAR_MONTH FROM d.FechaMes) >= EXTRACT(YEAR_MONTH FROM DATE_SUB('$mes', INTERVAL 11 MONTH))
                   AND EXTRACT(YEAR_MONTH FROM d.FechaMes) <= '{$año}{$mes2}' AND d.status IN (2,3) AND d.CABINA_Id={$cabina}
                   GROUP BY t.Nombre
-                  ORDER BY t.Nombre ASC;";
+                  ORDER BY a.id, t.Nombre;";
             $model=Detallegasto::model()->findAllBySql($sql);
             setlocale(LC_TIME, 'spanish'); 
             $fecha_consulta=$mes_array=Array();

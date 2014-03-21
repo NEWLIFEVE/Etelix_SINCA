@@ -112,6 +112,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             'style'=>'text-align: center',
                             'style'=>'text-align: center; width: 100px;',
                           ),
+                        'filter'=> Position::getListPosition(),
                         ),
                     array(
                         'name'=>'salary',

@@ -208,7 +208,7 @@ echo CHtml::endForm();
     <br/>
     <br/>
 <?php if ($model !== null) { ?>
-<table id="tabla3" class="tabla2 items" border="1" style="background-color:#F2F4F2; border-collapse:collapse;width:auto;">
+<table id="tabla3" class="tabla2 items" border="1" style="background-color:#F2F4F2; border-collapse:collapse;width:100%;">
     <tr>
         <td style='font-weight:bold; background: #1967B2' ><span style="background: url("<?php echo Yii::app()->theme->baseUrl; ?>/img/footer_bg.gif&quot;) repeat scroll 0 0 #2D2D2D;"><img style="padding-left: 24px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Activity-w.png" /></span></td>
         <td style='width: 120px; font-weight:bold; background: #1967B2;' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'><?php //echo $fechaActual.' '; ?>Inicio Jornada</h3></td>
