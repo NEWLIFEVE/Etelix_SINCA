@@ -94,7 +94,7 @@
                           if(($diaMostrar != 'Domingo' && $hora <= $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora <= $sqlCP3->HoraIniDom)){                               
                                 $table .="<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora</div>";
                      }else{  
-                                $table .="<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='".Yii::app()->request->baseUrl."/themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/>  $hora </div>";
+                                $table .="<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/>  $hora </div>";
                      }  
             
                 } else {
@@ -188,7 +188,7 @@
                     // COMPARA LA HORA DE FIN DE JORDADA CON LA HORA DE FIN NORMAL DE LA CABINA 
                      $hora2 = $id2->readColumn(0); 
                     if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  
-                                $table .= "<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='".Yii::app()->request->baseUrl." /themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/> $hora2 </div>";
+                                $table .= "<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/> $hora2 </div>";
                     }else{  
                                 $table .= "<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora2 </div>";
                      }   

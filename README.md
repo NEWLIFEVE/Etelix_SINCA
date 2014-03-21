@@ -3,6 +3,15 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Realese 1.7.2
+    - Validacion de Horarios de Cabina en Tablero de Control.
+    - Orden por Categoria en Matriz Evolucion.
+    - Filtro por Cargo en Empleado.
+    - Ordenamiento en Admin Nomina por Cabina y Cargo (PENDIENTE ORDEN POR CARGO REAL)
+    - Exportables para admin de Banco y Reteso Bancario
+    - Agregado nombre de dia en movimientos de ingresos en el Reteso Bancario.
+
+
 Realese 1.7.1
     - Exportar para Log,Novedades, Nomina.
     - Agregados mes anterior, categoria y moneda a Estados de Gastos exportar.
