@@ -243,9 +243,9 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 }
 .mostrar{display:block;}
 .ocultar{display:none;}
-div#mostrarFormulas, div#mostrarReglas {background-color:#00992B;color:#fff;font-size:1em;font-weight:bold;padding: 1% 0 1% 1%;}
-div#tablaFormulas table, div#tablaReglas table {border:1px #00992B solid;border-collapse:collapse;background-color:#e4fde4;}
-div#tablaFormulas table tr, div#tablaReglas table tr {border:1px #00992B solid;}
+div#mostrarFormulas, div#mostrarReglas, div#mostrarHorario, div#mostrarHorario {background-color:#00992B;color:#fff;font-size:1em;font-weight:bold;padding: 1% 0 1% 1%;}
+div#tablaFormulas table, div#tablaReglas table, div#tablaHorarios table {border:1px #00992B solid;border-collapse:collapse;background-color:#e4fde4;}
+div#tablaFormulas table tr, div#tablaReglas table tr, div#tablaHorarios table tr {border:1px #00992B solid;}
 /*Estados de gasto*/
 div#totalGasto
 {

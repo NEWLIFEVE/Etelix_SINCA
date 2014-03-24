@@ -41,10 +41,10 @@
 				{
 					$clase="background: #E5F1F4;";
 				}
-                                setlocale(LC_TIME, 'esp');
-                                $day = ucwords(strftime("%A", mktime(0, 0, 0, date('d',strtotime($balance->Fecha)))));
+                                $dias = array('Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado');
+                                $day = date('w',strtotime($balance->Fecha));
 				$table.= "<tr style='".$clase."'>
-						<td colspan='2'>".htmlentities($balance->cABINA->Nombre." ( cº. ".$balance->Fecha)." / ".utf8_encode($day).") </td>
+						<td colspan='2'>".htmlentities($balance->cABINA->Nombre." ( cº. ".$balance->Fecha)." / ".$dias[$day].") </td>
 						<td style='text-align: right;'>".Reportes::format($balance->MontoBanco, $type)."</td>
 					  </tr>";
 			}

@@ -47,7 +47,7 @@
             $diaMostrar = $dias[date('D',mktime(0, 0, 0,$mon , $day, $year))];
             $fechaActual = date('Y-m-d', mktime(0, 0, 0,$mon, $day, $year));
             $fechaAyer = date('Y-m-d', mktime(0, 0, 0,$mon, $day-1, $year));
-            
+            $modelHours = Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2 ORDER BY nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'COMUN CABINA'));
             
                 $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
                         <br>
@@ -201,7 +201,32 @@
         </tr>";
 
         } 
-        $table .= "</table>";
+        $table .= "</table>
+                <br>
+                <h3 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>Horario de Trabajo de las Cabinas</h3>
+                <table style='background-color:#F2F4F2;border-collapse:collapse;width:auto;text-align:center;' border='1'>
+                        
+                        <tr style='font-weight:bold;'>
+                            <td style='background: #1967B2;color:#FFFFFF;'> Cabina </td> 
+                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Inicio </td> 
+                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Fin </td> 
+                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Inicio Domingo </td> 
+                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Fin Domingo</td>
+                        </tr>";
+
+                        foreach ($modelHours as $key => $hours) {
+
+                        $table .= "<tr>
+                            <td style='font-weight:bold;background: #1967B2;color:#FFFFFF;font-size:10px;'> $hours->Nombre </td> 
+                            <td> $hours->HoraIni </td> 
+                            <td> $hours->HoraFin </td> 
+                            <td> $hours->HoraIniDom </td> 
+                            <td> $hours->HoraFinDom </td>
+                        </tr>";
+                        
+                        }
+
+                    $table .= "</table>";
 
             return $table;
         }

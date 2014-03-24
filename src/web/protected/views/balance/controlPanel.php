@@ -119,6 +119,10 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         $("#mostrarReglas").click(function(){
             $("#tablaReglas").slideToggle("slow");
         });
+        
+        $("#mostrarHorario").click(function(){
+            $("#tablaHorarios").slideToggle("slow");
+        });
 
     });
 
@@ -172,8 +176,9 @@ echo CHtml::endForm();
             </div>
         </div>
         <div>
+            <!-- Leyenda de las Reglas de Declaracion -->
             <div style="width: 56%;float: left;" class="filters">&nbsp;</div>
-            <div style="width: 54%;float: right;" class="filters">
+            <div style="width: 60%;float: right;" class="filters">
                 <div style="padding-top: 5%;" class="filters"></div>
                 <div id="mostrarReglas" class="filters">
                     Reglas de declaraci&oacute;n
@@ -197,6 +202,51 @@ echo CHtml::endForm();
                     </table>
                 </div>
             </div>
+            
+            <!-- Leyenda del Horario de las Cabinas -->
+            <div style="width: 60%;float: right;" class="filters">
+                <div style="padding-top: 2%;" class="filters"></div>
+                <div id="mostrarHorario" class="filters">
+                    Horario de las Cabinas
+                </div>
+                <div id="tablaHorarios" class="ocultar filters">
+                    <table class="filters">
+                        
+                        <tr >
+                            <td> Cabina </td> 
+                            <td> Hora Inicio </td> 
+                            <td> Hora Fin </td> 
+                            <td> Hora Inicio Domingo </td> 
+                            <td> Hora Fin Domingo</td>
+                        </tr>
+                        
+                        <?php 
+                        
+                        $modelHours = Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2 ORDER BY nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'COMUN CABINA'));
+                        
+                        foreach ($modelHours as $key => $hours) {
+                            
+                        
+                        ?>
+                        
+                        <tr>
+                            <td> <?php echo $hours->Nombre; ?> </td> 
+                            <td> <?php echo $hours->HoraIni; ?> </td> 
+                            <td> <?php echo $hours->HoraFin; ?> </td> 
+                            <td> <?php echo $hours->HoraIniDom; ?> </td> 
+                            <td> <?php echo $hours->HoraFinDom; ?> </td>
+                        </tr>
+                        
+                        <?php 
+                        
+                        }
+                        
+                        ?>
+                        
+                    </table>
+                </div>
+            </div>
+            <div style="width: 56%;float: left;" class="filters">&nbsp;</div>
         </div>
     </div>
     <br/>
