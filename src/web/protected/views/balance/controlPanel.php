@@ -207,7 +207,7 @@ echo CHtml::endForm();
             <div style="width: 60%;float: right;" class="filters">
                 <div style="padding-top: 2%;" class="filters"></div>
                 <div id="mostrarHorario" class="filters">
-                    Horario de las Cabinas
+                    Horario de trabajo de las cabinas
                 </div>
                 <div id="tablaHorarios" class="ocultar filters">
                     <table class="filters">
