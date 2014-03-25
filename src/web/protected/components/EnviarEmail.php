@@ -21,10 +21,11 @@ class EnviarEmail extends CFormatter
             $mailer->FromName = 'SINCA';
             $mailer->CharSet = 'UTF-8';
             $mailer->Subject = Yii::t('', $topic);
-            $mailer->AddAttachment($dir);
+            if($dir!=null)
+                $mailer->AddAttachment($dir);
             $message = $html;
             $mailer->Body = $message;
-            if($mailer->Send())
+            if($mailer->Send() && $dir!=null)
                 unlink($dir);
         }
     }

@@ -120,6 +120,6 @@ class Position extends CActiveRecord
         
         public static function getListPosition()
 	{
-		return CHtml::listData(Position::model()->findAll(), 'id', 'name');
+		return CHtml::listData(Position::model()->findAll(array('order'=>'name')), 'id', 'name');
 	}
 }

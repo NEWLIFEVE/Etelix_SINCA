@@ -69,10 +69,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function cicloIngreso($ids,$name,$complete,$type)
+    public function cicloIngreso($ids,$name,$complete,$type,$report)
 
     {
-        $var= cicloIngreso::reporte($ids,$name,$complete,$type);
+        $var= cicloIngreso::reporte($ids,$name,$complete,$type,$report);
         return $var;
     }
     
@@ -80,10 +80,10 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
-    public function cicloIngresoTotal($ids,$name,$complete,$type)
+    public function cicloIngresoTotal($ids,$name,$complete,$type,$report)
 
     {
-        $var= cicloIngresoTotal::reporte($ids,$name,$complete,$type);
+        $var= cicloIngresoTotal::reporte($ids,$name,$complete,$type,$report);
         return $var;
     }
     

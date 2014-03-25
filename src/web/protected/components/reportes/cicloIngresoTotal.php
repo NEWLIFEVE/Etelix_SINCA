@@ -5,12 +5,17 @@
      */
     class cicloIngresoTotal extends Reportes 
     {
-        public static function reporte($ids,$name,$complete,$type) 
+        public static function reporte($ids=null,$name,$complete,$type,$report=false) 
         {
 
             if($complete==false){
-                
-            $balance = cicloIngresoTotal::get_Model($ids);
+            
+            if($report == null){    
+                $balance = cicloIngresoTotal::get_Model($ids);
+            }else{
+                $balance = cicloIngresoTotal::get_Model_Ayer($report);
+            }
+            
             if($balance != NULL){
                 
                     $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
@@ -38,24 +43,28 @@
                                 ';
 
                 }
+                if($report != null){
+                 $balanceTotals = cicloIngresoTotal::get_ModelTotal_Ayer($ids);
+                }else{
+                 $balanceTotals = cicloIngresoTotal::get_ModelTotal($ids);   
+                }
+                 $table.=  Reportes::defineHeader("cicloI")
+                                .'<tr >
+                                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->TotalVentas).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->DiferencialBancario,$balanceTotals->DiferencialBancario).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$balanceTotals->ConciliacionBancaria).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar).'</td> 
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Acumulado,$balanceTotals->Acumulado).'</td> 
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Sobrante,$balanceTotals->Sobrante).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->SobranteAcum,$balanceTotals->SobranteAcum).'</td>   
+                                      </tr>';
                 
-                 //$balanceTotals = cicloIngresoTotal::get_ModelTotal($ids);
-                 //$table.=  Reportes::defineHeader("cicloI")
-//                                .'<tr style="display:none;">
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::defineTotals($balanceTotals->TotalVentas).'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::defineTotals($balanceTotals->DiferencialBancario,$balanceTotals->DiferencialBancario).'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::defineTotals($balanceTotals->ConciliacionBancaria,$balanceTotals->ConciliacionBancaria).'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov).'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro).'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles).'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar).'</td> 
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Acumulado,$balanceTotals->Acumulado).'</td> 
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Sobrante,$balanceTotals->Sobrante).'</td>
-//                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->SobranteAcum,$balanceTotals->SobranteAcum).'</td>   
-//                                      </tr>
                                       $table.=   '</tbody>
                            </table>';
             }else{
@@ -179,6 +188,33 @@
          
         }
         
+        public static function get_Model_Ayer($date) 
+        {
+            $sql = "SELECT  b.fecha as Fecha,
+	           SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0))) as TotalVentas,  
+                   SUM((IFNULL(b.MontoBanco,0)-(IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0)))) as DiferencialBancario,
+                   SUM((IFNULL(b.MontoBanco,0)-IFNULL(b.MontoDeposito,0))) as ConciliacionBancaria,
+                   SUM((IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)))) as DifMov,
+                   SUM((IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)))) as DifClaro,
+                   TRUNCATE(IFNULL(p.Valor,0),2) AS Paridad,
+		   SUM(TRUNCATE((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor),2)) as DifSoles,
+                   SUM(TRUNCATE((((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor))/p.Valor),2)) as DifDollar,
+                   SUM(TRUNCATE(IFNULL(b.Acumulado,0),2)) AS Acumulado,
+                   SUM(TRUNCATE(sobranteActual(b.Id,b.MontoBanco,b.RecargaVentasMov,b.RecargaVentasClaro,b.TraficoCapturaDollar),2)) AS Sobrante,
+                   SUM(TRUNCATE(IFNULL(b.SobranteAcum,0),2)) AS SobranteAcum
+
+                   FROM balance b
+                   INNER JOIN paridad as p ON p.id = b.PARIDAD_Id
+		   WHERE b.fecha >= CONCAT(YEAR(CURDATE()),'-0',MONTH(CURDATE()),'-','01')
+                   AND b.fecha <= CONCAT(YEAR(CURDATE()),'-0',MONTH(CURDATE()),'-',DAY(CURDATE())-1)
+                   AND b.CABINA_Id NOT IN (18,19)
+                   group by b.fecha
+                   order by b.fecha desc;";
+            
+              return Balance::model()->findAllBySql($sql); 
+         
+        }
+        
         public static function get_ModelComplete($ids) 
         {
             $sql = "SELECT b.id as id, b.fecha as Fecha, c.nombre as cabina, 
@@ -217,7 +253,7 @@
         
         public static function get_ModelTotal($ids) 
         {
-            $sql = "SELECT b.id as id, b.fecha as Fecha,
+            $sql = "SELECT b.id as id,b.fecha as Fecha,
                     SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0))) as TotalVentas,  
                    SUM((IFNULL(b.MontoBanco,0)-(IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0)))) as DiferencialBancario,
                    SUM((IFNULL(b.MontoBanco,0)-IFNULL(b.MontoDeposito,0))) as ConciliacionBancaria,
@@ -233,7 +269,35 @@
 
                     FROM balance as b
                     INNER JOIN paridad as p ON p.id = b.PARIDAD_Id
-                    WHERE b.fecha IN ($ids)";
+		    WHERE b.fecha In ($ids)
+                    order by b.fecha desc;";
+            
+              return Balance::model()->findBySql($sql); 
+         
+        }
+        
+        public static function get_ModelTotal_Ayer($ids) 
+        {
+            $sql = "SELECT b.fecha as Fecha,
+                    SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0))) as TotalVentas,  
+                   SUM((IFNULL(b.MontoBanco,0)-(IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0)))) as DiferencialBancario,
+                   SUM((IFNULL(b.MontoBanco,0)-IFNULL(b.MontoDeposito,0))) as ConciliacionBancaria,
+                   SUM((IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)))) as DifMov,
+                   SUM((IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)))) as DifClaro,
+                   TRUNCATE(IFNULL(p.Valor,0),2) AS Paridad,
+		   SUM(TRUNCATE((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor),2)) as DifSoles,
+                   SUM(TRUNCATE((((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor))/p.Valor),2)) as DifDollar,
+                   SUM(TRUNCATE(IFNULL(b.Acumulado,0),2)) AS Acumulado,
+                   SUM(TRUNCATE(sobranteActual(b.Id,b.MontoBanco,b.RecargaVentasMov,b.RecargaVentasClaro,b.TraficoCapturaDollar),2)) AS Sobrante,
+                   SUM(TRUNCATE(IFNULL(b.SobranteAcum,0),2)) AS SobranteAcum
+
+
+                    FROM balance as b
+                    INNER JOIN paridad as p ON p.id = b.PARIDAD_Id
+                    WHERE b.fecha >= CONCAT(YEAR(CURDATE()),'-0',MONTH(CURDATE()),'-','01')
+                    AND b.fecha <= CONCAT(YEAR(CURDATE()),'-0',MONTH(CURDATE()),'-',DAY(CURDATE())-1)
+                    AND b.CABINA_Id NOT IN (18,19)
+                    ORDER BY b.fecha DESC;";
             
               return Balance::model()->findBySql($sql); 
          
