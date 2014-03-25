@@ -27,8 +27,8 @@ class CicloIngresoAutomatico extends CApplicationComponent
             $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$excel_name.".xls"; 
 	
             if(YII_DEBUG){           
-                    Yii::app()->excel->genExcel($files['tab']['name'],utf8_encode($files['tab']['excel']),false);
-                    Yii::app()->correo->sendEmail($files['tab']['body'],'pnfiuty.rramirez@gmail.com',$topic,$files['tab']['dir']);
+                    Yii::app()->excel->genExcel($excel_name,utf8_encode($files['cicloIngreso']['excel']),false);
+                    Yii::app()->correo->sendEmail($files['cicloIngreso']['body'],'pnfiuty.rramirez@gmail.com',$topic,$files['cicloIngreso']['dir']);
             }else{
 //                foreach($files as $key => $file)
 //                {   
