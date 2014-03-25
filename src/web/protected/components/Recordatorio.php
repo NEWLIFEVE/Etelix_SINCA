@@ -13,12 +13,13 @@ class Recordatorio extends CApplicationComponent
 
     public function run($dateSet=null)
     {
-    	    $correo='pnfiuty.rramirez@gmail.com';
+            //CORREOS DE LAS CABINAS    
+    	    $sql="SELECT DISTINCT(u.email) as email from users u, cabina c  where u.CABINA_Id IS NOT NULL and c.id not in (18,19) and c.status = 1 and u.CABINA_Id = c.id;";
+            $emailsCabinas = Users::model()->findAllBySql($sql);
+
             $topic= "Recordatorio";  
-            $files=array();
-        
-	    $files['tab']['name']=$topic;
-            $files['tab']['body']='<html>
+            $files='';
+            $files='<html>
                                     <head>
                                     </head>
 
@@ -38,11 +39,16 @@ class Recordatorio extends CApplicationComponent
                                     </body>
 
                                 </html>';
-	
-            foreach($files as $key => $file)
-            {   
-                Yii::app()->correo->sendEmail($file['body'],$correo,"Recordatorio",null);
+            
+            if(YII_DEBUG){           
+                    Yii::app()->correo->sendEmail($files,'pnfiuty.rramirez@gmail.com',$topic,null);
+            }else{
+//                foreach ($emailsCabinas as $value) {
+//                    Yii::app()->correo->sendEmail($files,$value->email,$topic,null);
+//                }
             }
+                
+            
             
             
     }

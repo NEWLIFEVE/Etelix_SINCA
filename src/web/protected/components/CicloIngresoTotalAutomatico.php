@@ -13,7 +13,7 @@ class CicloIngresoTotalAutomatico extends CApplicationComponent
 
     public function run($dateSet=null)
     {
-    	    $correo='pnfiuty.rramirez@gmail.com';
+    	    $correo='cabinasperu@etelix.com';
             $ayer = date( "Y-m-d", strtotime( "-1 day", strtotime( date('Y-m-d', time()) ) ) );
             $dias = array('Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado');
             $day = date('w',strtotime($ayer));
@@ -26,10 +26,15 @@ class CicloIngresoTotalAutomatico extends CApplicationComponent
             $files['cicloIngresoT']['excel']=Yii::app()->reporte->cicloIngresoTotal(null,$topic,false,true,$ayer);
             $files['cicloIngresoT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$excel_name.".xls";  
 	
-            foreach($files as $key => $file)
-            {   
-                Yii::app()->excel->genExcel($excel_name,utf8_encode($file['excel']),false);
-                Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
+            if(YII_DEBUG){
+                    Yii::app()->excel->genExcel($files['tab']['name'],utf8_encode($files['tab']['excel']),false);
+                    Yii::app()->correo->sendEmail($files['tab']['body'],'pnfiuty.rramirez@gmail.com',$topic,$files['tab']['dir']);
+            }else{
+//                foreach($files as $key => $file)
+//                {   
+//                    Yii::app()->excel->genExcel($file['name'],utf8_encode($file['excel']),false);
+//                    Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
+//                }
             }
             
             
