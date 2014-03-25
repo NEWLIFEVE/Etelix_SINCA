@@ -41,11 +41,11 @@ class Recordatorio extends CApplicationComponent
                                 </html>';
             
             if(YII_DEBUG){           
-                    Yii::app()->correo->sendEmail($files,'pnfiuty.rramirez@gmail.com',$topic,null);
+                    Yii::app()->correo->sendEmail($files,'auto@etelix.com',$topic,null);
             }else{
-//                foreach ($emailsCabinas as $value) {
-//                    Yii::app()->correo->sendEmail($files,$value->email,$topic,null);
-//                }
+               foreach ($emailsCabinas as $value) {
+                   Yii::app()->correo->sendEmail($files,$value->email,$topic,null);
+               }
             }
                 
             

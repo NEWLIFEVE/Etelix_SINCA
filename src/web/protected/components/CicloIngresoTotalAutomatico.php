@@ -28,13 +28,13 @@ class CicloIngresoTotalAutomatico extends CApplicationComponent
 	
             if(YII_DEBUG){
                     Yii::app()->excel->genExcel($excel_name,utf8_encode($files['cicloIngresoT']['excel']),false);
-                    Yii::app()->correo->sendEmail($files['cicloIngresoT']['body'],'pnfiuty.rramirez@gmail.com',$topic,$files['cicloIngresoT']['dir']);
+                    Yii::app()->correo->sendEmail($files['cicloIngresoT']['body'],'auto@etelix.com',$topic,$files['cicloIngresoT']['dir']);
             }else{
-//                foreach($files as $key => $file)
-//                {   
-//                    Yii::app()->excel->genExcel($file['name'],utf8_encode($file['excel']),false);
-//                    Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
-//                }
+               foreach($files as $key => $file)
+               {   
+                   Yii::app()->excel->genExcel($file['name'],utf8_encode($file['excel']),false);
+                   Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
+               }
             }
             
             
