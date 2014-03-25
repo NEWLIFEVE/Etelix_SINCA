@@ -1,7 +1,7 @@
 <?php
 /**
  * @package components
- * @version 2.0
+ * @version 1.0
  */
 class CicloIngresoTotalAutomatico extends CApplicationComponent
 {
@@ -10,7 +10,13 @@ class CicloIngresoTotalAutomatico extends CApplicationComponent
     {
        
     }
-
+    
+    /**
+     * Ejecuta el comando de ciclo de ingreso total automatico
+     * @access public
+     * @param date $dateSet
+     * @author Ramon Ramirez
+     */
     public function run($dateSet=null)
     {
     	    $correo='cabinasperu@etelix.com';

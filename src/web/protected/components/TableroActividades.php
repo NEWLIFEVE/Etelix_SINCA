@@ -1,7 +1,7 @@
 <?php
 /**
  * @package components
- * @version 2.0
+ * @version 1.0
  */
 class TableroActividades extends CApplicationComponent
 {
@@ -27,13 +27,13 @@ class TableroActividades extends CApplicationComponent
             
             if(YII_DEBUG){           
                     Yii::app()->excel->genExcel($files['tab']['name'],utf8_encode($files['tab']['excel']),false);
-                    Yii::app()->correo->sendEmail($files['tab']['body'],'auto@etelix.com',$topic,$files['tab']['dir']);
+                    Yii::app()->correo->sendEmail($files['tab']['body'],'pnfiuty.rramirez@gmail.com',$topic,$files['tab']['dir']);
             }else{
-               foreach($files as $key => $file)
-               {   
-                   Yii::app()->excel->genExcel($file['name'],utf8_encode($file['excel']),false);
-                   Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
-               }
+//               foreach($files as $key => $file)
+//               {   
+//                   Yii::app()->excel->genExcel($file['name'],utf8_encode($file['excel']),false);
+//                   Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
+//               }
             }
             
             

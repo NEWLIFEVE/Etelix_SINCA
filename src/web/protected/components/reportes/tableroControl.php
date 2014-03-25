@@ -47,11 +47,14 @@
             $diaMostrar = $dias[date('D',mktime(0, 0, 0,$mon , $day, $year))];
             $fechaActual = date('Y-m-d', mktime(0, 0, 0,$mon, $day, $year));
             $fechaAyer = date('Y-m-d', mktime(0, 0, 0,$mon, $day-1, $year));
+
             $modelHours = Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2 ORDER BY nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'COMUN CABINA'));
+            
+            
             
                 $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
                         <br>
-                        <table id='tabla' class='tabla2 items' border='1' style='background-color:#F2F4F2; border-collapse:collapse;width:auto;'>
+                        <table id='tabla' class='tabla2 items' border='0' style='background-color:#F2F4F2; border-collapse:collapse;width:auto;'>
                         <tr>
                             <td style='font-weight:bold; background: #1967B2' ><span style='background: url('http://sinca.sacet.com.ve/themes/mattskitchen/img/footer_bg.gif&quot;) repeat scroll 0 0 #2D2D2D;'><div align='center' style='width:80px;'><img align='center' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Activity-w.png' /></div></span></td>
                             <td style='width: 120px; background: #1967B2;' ><h3 align='center' style='font-size:13px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Inicio Jornada</h3></td>
@@ -202,31 +205,83 @@
 
         } 
         $table .= "</table>
+               
                 <br>
-                <h3 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>Horario de Trabajo de las Cabinas</h3>
-                <table style='background-color:#F2F4F2;border-collapse:collapse;width:auto;text-align:center;' border='1'>
-                        
-                        <tr style='font-weight:bold;'>
-                            <td style='background: #1967B2;color:#FFFFFF;'> Cabina </td> 
-                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Inicio </td> 
-                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Fin </td> 
-                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Inicio Domingo </td> 
-                            <td style='background: #1967B2;color:#FFFFFF;'> Hora Fin Domingo</td>
+                
+                <table width='100%' valign='top'>
+                    <tr>
+                     <td style='width:50%;' style='vertical-align: top'>
+                
+                      <table style='width:100%;font-size:10px;background-color:#F2F4F2;border:1px #1967B2 solid;border-collapse:collapse;text-align:center;' border='1'>
+                        <tr style='border:1px #1967B2 solid;text-align:left;background-color:#1967B2;color:#fff;font-size:1em;font-weight:bold;padding: 1% 0 1% 1%;'>
+                            <td colspan='3'> Horario de Trabajo de las Cabinas </td>
+                        </tr>
+                        <tr style='font-weight:bold;border:1px #1967B2 solid;'>
+                            <td colspan='1' align='center' style='background: #1967B2;color:#FFFFFF;width:80px;'> Cabina </td> 
+                            <td colspan='1' style='background: #1967B2;color:#FFFFFF;'> Hora Inicio </td> 
+                            <td colspan='1' style='background: #1967B2;color:#FFFFFF;'> Hora Fin </td> 
+
                         </tr>";
 
                         foreach ($modelHours as $key => $hours) {
+                            
+                        if($diaMostrar != 'Domingo'){  
+                            $table .= "<tr style='border:1px #1967B2 solid;'>
+                            <td colspan='1' style='width:80px;font-weight:bold;background: #1967B2;color:#FFFFFF;font-size:10px;'> $hours->Nombre </td> 
+                            <td colspan='1'> $hours->HoraIni </td> 
+                            <td colspan='1'> $hours->HoraFin </td> 
+                            </tr>";
+                        }else{  
+                            $table .= "<tr style='border:1px #1967B2 solid;'>
+                            <td colspan='1' style='width:80px;font-weight:bold;background: #1967B2;color:#FFFFFF;font-size:10px;'> $hours->Nombre </td> 
+                            <td colspan='1'> $hours->HoraIniDom </td> 
+                            <td colspan='1'> $hours->HoraFinDom </td> 
+                            </tr>";
+                        } 
 
-                        $table .= "<tr>
-                            <td style='font-weight:bold;background: #1967B2;color:#FFFFFF;font-size:10px;'> $hours->Nombre </td> 
-                            <td> $hours->HoraIni </td> 
-                            <td> $hours->HoraFin </td> 
-                            <td> $hours->HoraIniDom </td> 
-                            <td> $hours->HoraFinDom </td>
-                        </tr>";
-                        
                         }
 
-                    $table .= "</table>";
+                       $table .= "</table>
+                     </td>
+                     <td>
+                        
+                     </td>
+                     <td style='width:50%;' style='vertical-align: top'>        
+                        <table style='width:100%;font-size:10px;border:1px green solid;border-collapse:collapse;background-color:#e4fde4;'>
+                            <tr style='background-color:green;color:#fff;font-size:1em;font-weight:bold;padding: 1% 0 1% 1%;'>
+                                <td colspan='3'> Reglas de Declaraci&oacute;n </td>
+                            </tr>
+                            <tr style='border:1px green solid;'>
+                                <td colspan='3'> ".htmlentities("Las Declaraciones de 'Saldo Apertura' y 'Ventas' son hasta las 12:00pm.")." </td>
+                            </tr>
+                            <tr style='border:1px green solid;'>
+                                <td colspan='3'> ".htmlentities("Las Declaraciones de 'Depósitos' son hasta las 3:00pm.")." </td>
+                            </tr>
+                            <tr >
+                                <td colspan='3'> ".htmlentities("Debe declarar solo un Deposito correspondiente al día, en el")."
+
+                                </td>
+                            </tr>
+                            <tr >
+                                <td colspan='3'> ".htmlentities("caso que el pago de ese día se haya efectuado a través de")."
+                                </td>
+                            </tr>
+                            <tr >
+                                <td colspan='3'> ".htmlentities("varios Depósitos, declare la suma de los montos en el campo")."
+                                </td>
+                            </tr>
+                            <tr >
+                                <td colspan='3'> ".htmlentities("'Monto Deposito' y declare los diferentes num de referencia")."
+                                </td>
+                            </tr>
+                            <tr >
+                                <td colspan='3'> ".htmlentities("separados por una coma (,) en el campo 'Monto de Ref. Deposito'.")."
+                                </td>
+                            </tr>
+                        </table>
+                     </td>
+                    </tr>
+                </table>";
 
             return $table;
         }
