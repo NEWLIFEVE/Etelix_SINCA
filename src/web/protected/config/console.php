@@ -1,4 +1,33 @@
 <?php
+//Obtenemos el nombre del servidor actual 
+$server=gethostname();
+if($server==SERVER_NAME_PROD)
+{
+	$server=dirname(__FILE__);
+	$nuevo=explode(DIRECTORY_SEPARATOR,$server);
+	$num=count($nuevo);
+	if($nuevo[$num-3]==DIRECTORY_NAME_PRE_PROD)
+	{
+		$server_db='localhost';
+        $sinca_db='sinca';
+        $user_db='root';
+        $pass_db='Nsusfd8263';
+	}
+	else
+	{
+		$server_db='localhost';
+        $sinca_db='sinca';
+        $user_db='root';
+        $pass_db='Nsusfd8263';
+	}
+}
+else
+{
+	$server_db='172.16.17.190';
+    $sinca_db='sinca';
+    $user_db='manuelz';
+    $pass_db='123';
+}
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
@@ -8,31 +37,31 @@ return array(
         'import'=>array(
 		'application.models.*',
 		'application.components.*',
-                'application.modules.user.models.*',
+        'application.modules.user.models.*',
 		'application.modules.user.components.*',
 		'application.components.reportes.*'
 		),
 	// application components
 	'components'=>array(
-                'controlactividades'=>array(
-                    'class'=>"application.components.TableroActividades",
-                            ),
-                'cicloingreso'=>array(
-                    'class'=>"application.components.CicloIngresoAutomatico",
-                            ),
-                'cicloingresototal'=>array(
-                    'class'=>"application.components.CicloIngresoTotalAutomatico",
-                            ),
-                'recordatorio'=>array(
-                    'class'=>"application.components.Recordatorio",
-                            ),            
-                'correo'=>array(
+		'controlactividades'=>array(
+			'class'=>"application.components.TableroActividades",
+			),
+		'cicloingreso'=>array(
+			'class'=>"application.components.CicloIngresoAutomatico",
+			),
+		'cicloingresototal'=>array(
+			'class'=>"application.components.CicloIngresoTotalAutomatico",
+			),
+		'recordatorio'=>array(
+			'class'=>"application.components.Recordatorio",
+			),
+		'correo'=>array(
 			'class'=>'application.components.EnviarEmail'
 			),
-                'excel'=>array(
+		'excel'=>array(
 			'class'=>'application.components.Excel'
-			),        
-                'reporte'=>array(
+			),
+		'reporte'=>array(
 			'class'=>'application.components.Reportes'
 			),        
 		'user'=>array(
@@ -59,10 +88,10 @@ return array(
             ),
 		'db'=>array(
 			'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host=67.215.160.89;port=3306;dbname=sinca',
+			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
 			'emulatePrepare'=>true,
-                        'username'=>'root',
-			'password'=>'Nsusfd8263',
+            'username'=>$user_db,
+			'password'=>$pass_db,
 			'charset'=>'utf8',        
 			),
 		'log'=>array(
