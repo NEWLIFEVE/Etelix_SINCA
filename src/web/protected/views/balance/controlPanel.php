@@ -268,7 +268,7 @@ echo CHtml::endForm();
         <td style='width: 120px; font-weight:bold; background: #1967B2' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Saldo Cierre</h3></td>
         <td style='width: 120px; font-weight:bold; background: #1967B2' ><h3 align="center" style='font-size:14px; color:#FFFFFF; background: url(../img/line_hor.gif) repeat-x 0 100%;'>Fin Jornada</h3></td>
     </tr>
-    <tr <?php echo ($x++) % 2 == 0 ? "style='background-color:#CCC'" : ""; ?>>
+    <tr>
 <?php for ($i = 1; $i <= $cabinas->count(); $i++) {
                 $sqlCP1 = "SELECT DISTINCT(DATE_FORMAT(l.Hora, '%H:%i')) as HORA FROM log l, users u 
 WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.CABINA_Id = :cabina ORDER BY HORA ASC";

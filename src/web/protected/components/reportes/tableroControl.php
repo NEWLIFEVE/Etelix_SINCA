@@ -76,13 +76,19 @@
                                         
                                         $sqlCP3 = Cabina::model()->findBySql("SELECT * FROM cabina WHERE Id = $codigo[$i]");
 
+                                        if($i%2==0)
+                                            $fondo = "background: #FFFFFF;";
+                                        else  
+                                            $fondo = "background: #CCC;";
+                                        
+                                        
                             $post = $model->find("CABINA_Id = :id and Fecha = :fecha", array(":id" => $i, ":fecha" => $fechaActual));
-                            $table .= "<tr>
+                            $table .= "<tr >
                                 <td style='font-size:10px; font-weight:bold; color:#FFFFFF; background: #1967B2' >
                                     <div align='center' style='width:80px;'>$nombre[$i]</div>
                                 </td>
         
-                            <td>";
+                            <td style='$fondo'>";
 /********************************INICIO JORNADA*******************************************************/
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP1);
@@ -97,14 +103,14 @@
                           if(($diaMostrar != 'Domingo' && $hora <= $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora <= $sqlCP3->HoraIniDom)){                               
                                 $table .="<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora</div>";
                      }else{  
-                                $table .="<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/>  $hora </div>";
+                                $table .="<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img width='23' height='23' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png' />  $hora </div>";
                      }  
             
                 } else {
                     $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
                 }
             $table .= "</td>
-            <td style='height: 35px;'>"; 
+            <td style='height: 35px;$fondo'>"; 
 /********************************SALDO APERTURA*******************************************************/            
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP1);
@@ -122,7 +128,7 @@
                     
                 }
             $table .= "</td>
-            <td style='height: 35px;'>"; 
+            <td style='height: 35px;$fondo'>"; 
 /********************************LLAMADAS*******************************************************/
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP);
@@ -139,7 +145,7 @@
                     $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
                 }
             $table .= "</td>
-            <td style='height: 35px;'>"; 
+            <td style='height: 35px;$fondo'>"; 
 /********************************DEPOSITOS*******************************************************/
             
                 $connection = Yii::app()->db;
@@ -158,7 +164,7 @@
                     
                 }
             $table .= "</td>
-            <td style='height: 35px;'>"; 
+            <td style='height: 35px;$fondo'>"; 
 /********************************SALDO CIERRE*******************************************************/
            
                 $connection = Yii::app()->db;
@@ -177,7 +183,7 @@
                     
                 }
             $table .= "</td>
-            <td style='height: 35px;'>"; 
+            <td style='height: 35px;$fondo'>"; 
 /********************************FIN JORNADA*******************************************************/
          
                 $connection2 = Yii::app()->db;
@@ -191,7 +197,7 @@
                     // COMPARA LA HORA DE FIN DE JORDADA CON LA HORA DE FIN NORMAL DE LA CABINA 
                      $hora2 = $id2->readColumn(0); 
                     if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  
-                                $table .= "<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png' style='width:16px;height: 16px;'/> $hora2 </div>";
+                                $table .= "<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img width='23' height='23' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png'/> $hora2 </div>";
                     }else{  
                                 $table .= "<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora2 </div>";
                      }   
@@ -212,30 +218,35 @@
                     <tr>
                      <td style='width:50%;' style='vertical-align: top'>
                 
-                      <table style='width:100%;font-size:10px;background-color:#F2F4F2;border:1px #1967B2 solid;border-collapse:collapse;text-align:center;' border='1'>
+                      <table style='float:left;width:100%;font-size:10px;background-color:#F2F4F2;border:1px #1967B2 solid;border-collapse:collapse;text-align:center;' border='1'>
                         <tr style='border:1px #1967B2 solid;text-align:left;background-color:#1967B2;color:#fff;font-size:1em;font-weight:bold;padding: 1% 0 1% 1%;'>
                             <td colspan='3'> Horario de Trabajo de las Cabinas </td>
                         </tr>
                         <tr style='font-weight:bold;border:1px #1967B2 solid;'>
-                            <td colspan='1' align='center' style='background: #1967B2;color:#FFFFFF;width:80px;'> Cabina </td> 
-                            <td colspan='1' style='background: #1967B2;color:#FFFFFF;'> Hora Inicio </td> 
-                            <td colspan='1' style='background: #1967B2;color:#FFFFFF;'> Hora Fin </td> 
+                            <td colspan='1' align='center' style='background: #ff9900;color:#FFFFFF;width:80px;'> Cabina </td> 
+                            <td colspan='1' style='background: #ff9900;color:#FFFFFF;'> Hora Inicio </td> 
+                            <td colspan='1' style='background: #ff9900;color:#FFFFFF;'> Hora Fin </td> 
 
                         </tr>";
 
                         foreach ($modelHours as $key => $hours) {
+                        
+                        if($key%2!=0)
+                            $fondo = "background: #FFFFFF;";
+                        else  
+                            $fondo = "background: #CCC;";    
                             
                         if($diaMostrar != 'Domingo'){  
                             $table .= "<tr style='border:1px #1967B2 solid;'>
                             <td colspan='1' style='width:80px;font-weight:bold;background: #1967B2;color:#FFFFFF;font-size:10px;'> $hours->Nombre </td> 
-                            <td colspan='1'> $hours->HoraIni </td> 
-                            <td colspan='1'> $hours->HoraFin </td> 
+                            <td colspan='1' style='$fondo'> $hours->HoraIni </td> 
+                            <td colspan='1' style='$fondo'> $hours->HoraFin </td> 
                             </tr>";
                         }else{  
                             $table .= "<tr style='border:1px #1967B2 solid;'>
                             <td colspan='1' style='width:80px;font-weight:bold;background: #1967B2;color:#FFFFFF;font-size:10px;'> $hours->Nombre </td> 
-                            <td colspan='1'> $hours->HoraIniDom </td> 
-                            <td colspan='1'> $hours->HoraFinDom </td> 
+                            <td colspan='1' style='$fondo'> $hours->HoraIniDom </td> 
+                            <td colspan='1' style='$fondo'> $hours->HoraFinDom </td> 
                             </tr>";
                         } 
 
@@ -243,7 +254,7 @@
 
                        $table .= "</table>
                      </td>
-                     <td>
+                     <td style='width:3%;'>
                         
                      </td>
                      <td style='width:50%;' style='vertical-align: top'>        
