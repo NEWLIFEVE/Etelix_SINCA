@@ -827,6 +827,9 @@ $(document).ready(function()
         if(gridview=='estadogasto-grid'){
             name = 'SINCA Estado de Gastos'+cabina+' '+fecha;
         }
+        if(gridview=='detalleingreso-grid'){
+            name = 'SINCA Administracion de Ingresos'+cabina+' '+fecha;
+        }
         if(gridview=='novedad-grid'){
             name = 'SINCA Administrar Novedades y Fallas';
         }

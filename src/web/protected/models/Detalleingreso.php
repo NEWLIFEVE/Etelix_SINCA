@@ -29,6 +29,9 @@ class Detalleingreso extends CActiveRecord
 	 * @return string the associated database table name
 	 */
         public $nombreTipoDetalle;
+        public $Cabina;
+        public $Tipoingreso;
+        public $Cuenta;
 
 
         public function tableName()

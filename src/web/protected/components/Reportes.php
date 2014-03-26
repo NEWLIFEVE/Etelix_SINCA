@@ -92,9 +92,14 @@ class Reportes extends CApplicationComponent
      */
 
     public function estadoGasto($ids,$name,$type)
-
     {
         $var= estadoGasto::reporte($ids,$name,$type);
+        return $var;
+    }
+    
+    public function adminIngreso($ids,$name,$type)
+    {
+        $var= adminIngreso::reporte($ids,$name,$type);
         return $var;
     }
     
@@ -371,6 +376,22 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Moneda</th>  
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Beneficiario</th>  
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Estatus</th> 
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Numero de Transferencia</th>   
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Fecha de Transferencia</th> 
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Cuenta</th>     
+                            </tr>
+                        </thead>';
+
+                break;
+            case "adminIngreso":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Mes</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Tipo de Ingreso</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Monto</th>    
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Moneda</th>      
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">'.htmlentities('Descripción', ENT_QUOTES,'UTF-8').'</th>    
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Numero de Transferencia</th>   
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Fecha de Transferencia</th> 
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Cuenta</th>     
