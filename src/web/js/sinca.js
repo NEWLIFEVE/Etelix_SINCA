@@ -20,6 +20,7 @@ $(document).ready(function()
     changeCheckbox(2);
     changeCheckbox(3);
     changeStatus();
+    canbioCuenta();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
@@ -1205,5 +1206,21 @@ $(document).ready(function()
           }
         }
         return newArray;
+      }
+      
+      function canbioCuenta(){
+          $("select#Detalleingreso_moneda").change(function () {
+                var selc_moneda = $("select#Detalleingreso_moneda").val();
+
+                  //Obtener el Salario del empleado Seleccionado
+                  var cuenta = $.ajax({ type: "GET",   
+                    url: '/Detallegasto/DynamicCuentaEmployee?moneda='+selc_moneda,   
+                    async: false,
+                    succes: alert,
+                  }).responseText;
+                  
+                  $("#Detalleingreso_CUENTA_Id").html(cuenta);
+                                  
+          });                      
       }
     

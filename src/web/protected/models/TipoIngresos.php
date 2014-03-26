@@ -1,23 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "currency".
+ * This is the model class for table "tipo_ingresos".
  *
- * The followings are the available columns in table 'currency':
- * @property integer $id
- * @property string $name
+ * The followings are the available columns in table 'tipo_ingresos':
+ * @property integer $Id
+ * @property string $Nombre
  *
  * The followings are the available model relations:
- * @property Employee[] $employees
+ * @property Detalleingreso[] $detalleingresos
  */
-class Currency extends CActiveRecord
+class TipoIngresos extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'currency';
+		return 'tipo_ingresos';
 	}
 
 	/**
@@ -28,12 +28,11 @@ class Currency extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>20),
+			array('Nombre', 'required'),
+			array('Nombre', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name', 'safe', 'on'=>'search'),
+			array('Id, Nombre', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +44,7 @@ class Currency extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'employees' => array(self::HAS_MANY, 'Employee', 'currency_id'),
+			'detalleingresos' => array(self::HAS_MANY, 'Detalleingreso', 'TIPOINGRESO_Id'),
 		);
 	}
 
@@ -55,8 +54,8 @@ class Currency extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
+			'Id' => 'ID',
+			'Nombre' => 'Nombre',
 		);
 	}
 
@@ -78,8 +77,8 @@ class Currency extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('Id',$this->Id);
+		$criteria->compare('Nombre',$this->Nombre,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -90,15 +89,35 @@ class Currency extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Currency the static model class
+	 * @return TipoIngresos the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
         
-        public static function getListCurrency()
-	{
-		return CHtml::listData(Currency::model()->findAll(), 'id', 'name');
-	}
+        public static function getListTipoGIngreso(){
+            return CHtml::listData(TipoIngresos::model()->findAll(), 'Id', 'Nombre');
+        }
+        
+        public static function getIdIngreso($nombre){
+            
+		if($nombre != null)
+		{
+			$model=self::model()->find('Nombre=:nombre',array(':nombre'=>$nombre));
+			if($model == null)
+			{
+				$model=new TipoIngresos;
+				$model->Nombre=$nombre;
+				if($model->save())
+				{
+					return $model->Id;
+				}
+			}
+			else
+			{
+				return $model->Id;
+			}
+		}
+        }
 }
