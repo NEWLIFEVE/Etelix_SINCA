@@ -52,6 +52,7 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
                 //$("td#Gasto").css("display","none");
             }
         });
+        
     });
 </script>
 
@@ -149,6 +150,7 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
                             'language' => 'es', 
                             'model' => $model,
                             'attribute'=>'FechaTransf', 'options' => array(
+                            'dateFormat'=>'dd/mm/yy',    
                             'changeMonth' => 'true',//para poder cambiar mes
                             'changeYear' => 'true',//para poder cambiar año
                             'showButtonPanel' => 'false', 

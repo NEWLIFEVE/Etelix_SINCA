@@ -14,17 +14,29 @@ class DetalleingresoController extends Controller
             );
         }
 
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
+	public function accessRules()
+    {
+        /* 1-Operador de Cabina
+         * 2-Gerente de Operaciones
+         * 3-Administrador
+         * 4-Tesorero
+         * 5-Socio
+         */
+        return array(
+            array('allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
+                    'index',
+                    'viewIngreso',
+                    'createIngreso',
+                    'adminIngreso',
+                ),
+                'users'=>Users::UsuariosPorTipo(3),
+            ),
+            array('deny', // deny all users
+                'users'=>array('*'),
+            ),
+        );
+    }
         
         public function actionViewIngreso($id)
         {
@@ -45,11 +57,13 @@ class DetalleingresoController extends Controller
             ));
         }
         
-        public function actionCreateIngreso() {
-            $model = new Detalleingreso;
-            $model_cabina = new Cabina;
-
-
+        public function actionCreateIngreso($id=null) {
+            if($id==null){
+                $model = new Detalleingreso;
+            }else{
+                $model = $this->loadModel($id);
+            }
+            
             $this->performAjaxValidation($model);
 
             if(isset($_POST['Detalleingreso']))
@@ -68,8 +82,11 @@ class DetalleingresoController extends Controller
                 }
 
                 if(isset($_POST['Detalleingreso']['FechaTransf']) && $_POST['Detalleingreso']['FechaTransf']!= "" )
-                {
-                    $model->FechaTransf=Yii::app()->format->formatDate($_POST['Detalleingreso']['FechaTransf'],'post');
+                {   
+                    if($id==null)
+                        $model->FechaTransf=Yii::app()->format->formatDate($_POST['Detalleingreso']['FechaTransf'],'post');
+                    else
+                        $model->FechaTransf=$_POST['Detalleingreso']['FechaTransf'];
                 }else{
                     $model->FechaTransf=NULL;
                 }
@@ -84,7 +101,6 @@ class DetalleingresoController extends Controller
 
             $this->render('createIngreso', array(
                 'model'=>$model,
-                'model_cabina'=>$model_cabina,
             ));
         }
 	

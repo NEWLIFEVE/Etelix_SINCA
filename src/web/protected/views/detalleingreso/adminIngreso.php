@@ -173,7 +173,7 @@ $this->menu=DetalleingresoController::controlAcceso($tipoUsuario);
                 ),
                 array(
                 'name'=>'FechaTransf',
-                'value'=>'$data->FechaTransf',
+                'value'=>'Yii::app()->format->formatearFecha($data->FechaTransf,"Cadena")',
                 'type'=>'text',
                 'htmlOptions'=>array(
                     'style'=>'text-align: center',
