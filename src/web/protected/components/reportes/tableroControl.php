@@ -11,7 +11,10 @@
             date_default_timezone_set('America/Caracas');
 
             $horaMostrarCaracas = "Hora Actual: ".date("h:i:s A",time())." Caracas / Venezuela.";
-
+            
+            date_default_timezone_set('America/Lima');
+            $horamostrar = "Hora Actual: ".date("h:i:s A",time())." Lima / Per&uacute;.";
+            
             date_default_timezone_set('America/Lima');
 
             /* BUSCO EN BD EL REGISTRO QUE COINCIDA CON LA DATA PARA VALIDAR QUE NO EXISTA */
@@ -47,12 +50,19 @@
             $diaMostrar = $dias[date('D',mktime(0, 0, 0,$mon , $day, $year))];
             $fechaActual = date('Y-m-d', mktime(0, 0, 0,$mon, $day, $year));
             $fechaAyer = date('Y-m-d', mktime(0, 0, 0,$mon, $day-1, $year));
+            $fechamostrar = date('d/m/Y', mktime(0, 0, 0,$mon , $day, $year));
 
             $modelHours = Cabina::model()->findAll('status=:status AND Nombre!=:nombre AND Nombre!=:nombre2 ORDER BY nombre',array(':status'=>'1', ':nombre'=>'ZPRUEBA', ':nombre2'=>'COMUN CABINA'));
-            
+            $dia_formato = CHtml::label($diaMostrar, 'diaSemana', array('id' => 'diaSemana', 'style' => 'color:forestgreen'));
             
             
                 $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
+                        <table>
+                        <tr><td colspan='3'>D&iacute;a: <font color='forestgreen'>$dia_formato</font> $fechamostrar</td></tr>
+                        <tr><td colspan='3'>$horamostrar</td></tr>
+                        <tr><td colspan='3'>$horaMostrarCaracas</td></tr>
+                        </table>
+
                         <br>
                         <table id='tabla' class='tabla2 items' border='0' style='background-color:#F2F4F2; border-collapse:collapse;width:auto;'>
                         <tr>
