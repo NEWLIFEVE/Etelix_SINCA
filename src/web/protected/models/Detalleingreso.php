@@ -82,8 +82,8 @@ class Detalleingreso extends CActiveRecord
 			'Monto' => 'Monto',
 			'FechaMes' => 'Mes',
 			'Descripcion' => 'Descripcion',
-			'TransferenciaPago' => 'Transferencia Pago',
-			'FechaTransf' => 'Fecha Transf',
+			'TransferenciaPago' => 'Nro. Transferencia',
+			'FechaTransf' => 'Fecha Transferencia',
 			'moneda' => 'Moneda',
 			'USERS_Id' => 'Responsable',
 			'TIPOINGRESO_Id' => 'Tipo de Ingreso',
@@ -105,7 +105,7 @@ class Detalleingreso extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($cabina=null,$mes=null)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -122,7 +122,13 @@ class Detalleingreso extends CActiveRecord
 		$criteria->compare('TIPOINGRESO_Id',$this->TIPOINGRESO_Id);
 		$criteria->compare('CABINA_Id',$this->CABINA_Id);
 		$criteria->compare('CUENTA_Id',$this->CUENTA_Id);
+                
+                if($cabina!=NULL)
+                    $criteria->addCondition("CABINA_Id=$cabina");
+                if($mes!=NULL)
+                    $criteria->addCondition("FechaMes='$mes'");
 
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

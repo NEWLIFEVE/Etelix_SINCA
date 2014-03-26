@@ -39,7 +39,6 @@ class DetallegastoController extends Controller {
                     'index',
                     'view',
                     'create',
-                    'DeclareIngreso',
                     'update',
                     'admin',
                     'delete',
@@ -65,7 +64,6 @@ class DetallegastoController extends Controller {
                     'index',
                     'view',
                     'create',
-                    'DeclareIngreso',
                     'update',
                     'admin',
                     'delete',
@@ -89,9 +87,7 @@ class DetallegastoController extends Controller {
                 'actions'=>array(
                     'index',
                     'view',
-                    'ViewIngreso',
                     'create',
-                    'DeclareIngreso',
                     'update',
                     'admin',
                     'delete',
@@ -128,14 +124,6 @@ class DetallegastoController extends Controller {
             'model'=>$this->loadModel($id),
         ));
     }
-    
-    public function actionViewIngreso($id)
-    {
-        $this->render('viewIngreso', array(
-            'model'=>$this->loadModelIngresos($id),
-        ));
-    }
-
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -189,50 +177,6 @@ class DetallegastoController extends Controller {
             'model_cabina'=>$model_cabina,
         ));
     }
-    
-    public function actionDeclareIngreso() {
-        $model = new Detalleingreso;
-        $model_cabina = new Cabina;
-        
-        
-        $this->performAjaxValidationIngreso($model);
-
-        if(isset($_POST['Detalleingreso']))
-        {
-            $model->attributes = $_POST['Detalleingreso'];
-            $model->Monto=Yii::app()->format->truncarDecimal(Utility::ComaPorPunto($_POST['Detalleingreso']['Monto']));
-            $model->FechaMes=$_POST['Detalleingreso']['FechaMes']."-01";        
-            $model->Descripcion=$_POST['Detalleingreso']['Descripcion'];
-            $model->CABINA_Id=$_POST['Detalleingreso']['CABINA_Id'];
-            $model->USERS_Id=  Yii::app()->getModule('user')->user()->id;
-            
-            if(isset($_POST['Detalleingreso']['nombreTipoDetalle']) && $_POST['Detalleingreso']['nombreTipoDetalle']!= ""){
-                $model->TIPOINGRESO_Id = TipoIngresos::getIdIngreso($_POST['Detalleingreso']['nombreTipoDetalle']);
-            }else{
-                $model->TIPOINGRESO_Id=$_POST['Detalleingreso']['TIPOINGRESO_Id'];
-            }
-            
-            if(isset($_POST['Detalleingreso']['FechaTransf']) && $_POST['Detalleingreso']['FechaTransf']!= "" )
-            {
-                $model->FechaTransf=Yii::app()->format->formatDate($_POST['Detalleingreso']['FechaTransf'],'post');
-            }else{
-                $model->FechaTransf=NULL;
-            }
-            
-            
-            $model->moneda=$_POST['Detalleingreso']['moneda'];
-            $model->CUENTA_Id=$_POST['Detalleingreso']['CUENTA_Id'];
-            
-            if($model->save())
-                $this->redirect(array('viewIngreso', 'id' => $model->Id));
-        }
-
-        $this->render('declareIngreso', array(
-            'model'=>$model,
-            'model_cabina'=>$model_cabina,
-        ));
-    }
-
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -456,13 +400,7 @@ class DetallegastoController extends Controller {
         return $model;
     }
     
-    public function loadModelIngresos($id) {
-        $model = Detalleingreso::model()->findBySql("SELECT detalleingreso.* FROM detalleingreso WHERE detalleingreso.Id = $id");
-
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
-        return $model;
-    }
+    
 
     /**
      * Performs the AJAX validation.
@@ -476,16 +414,6 @@ class DetallegastoController extends Controller {
             Yii::app()->end();
         }
     }
-    
-    protected function performAjaxValidationIngreso($model)
-    {
-        if(isset($_POST['ajax']) && $_POST['ajax'] === 'declareIngreso-form')
-        {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-    }
-
     /**
      *
      */
@@ -607,7 +535,8 @@ class DetallegastoController extends Controller {
         {
             return array(
                 array('label'=>'__________INGRESOS___________','url'=>array('')),
-                array('label' => 'Declarar Ingreso', 'url' => array('detallegasto/declareingreso')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
                 array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
               //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),

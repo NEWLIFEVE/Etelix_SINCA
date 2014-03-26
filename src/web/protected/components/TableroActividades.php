@@ -14,6 +14,7 @@ class TableroActividades extends CApplicationComponent
     public function run($dateSet=null)
     {
     	    $correo='cabinasperu@etelix.com';
+            $correo_rrhh='rrhh@sacet.biz';
              
             $date = date('Y-m-d', time());
             $topic= 'SINCA Tablero de Control de Actividades '.$date;  
@@ -33,6 +34,7 @@ class TableroActividades extends CApplicationComponent
                {   
                    Yii::app()->excel->genExcel($file['name'],utf8_encode($file['excel']),false);
                    Yii::app()->correo->sendEmail($file['body'],$correo,$topic,$file['dir']);
+                   Yii::app()->correo->sendEmail($file['body'],$correo_rrhh,$topic,$file['dir']);
                }
             }
             

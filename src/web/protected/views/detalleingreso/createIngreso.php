@@ -1,11 +1,11 @@
 <?php
 $this->breadcrumbs=array(
-	'Detallegastos'=>array('index'),
+	'Detalleingreso'=>array('index'),
 	'Create',
 );
 
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
-$this->menu=  DetallegastoController::controlAcceso($tipoUsuario);
+$this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
 ?>
 <script>
     $(function() {
@@ -143,7 +143,24 @@ $this->menu=  DetallegastoController::controlAcceso($tipoUsuario);
                 <td>
                     <div class="row"> 
                         <?php echo $form->labelEx($model,'FechaTransf'); ?>
-                        <?php echo $form->textField($model,'FechaTransf'); ?>
+                        <?php 
+                            $this->widget('zii.widgets.jui.CJuiDatePicker', 
+                            array(
+                            'language' => 'es', 
+                            'model' => $model,
+                            'attribute'=>'FechaTransf', 'options' => array(
+                            'changeMonth' => 'true',//para poder cambiar mes
+                            'changeYear' => 'true',//para poder cambiar año
+                            'showButtonPanel' => 'false', 
+                            'constrainInput' => 'false',
+                            'showAnim' => 'show',
+                            //'minDate'=>'-30D', //fecha minima
+                            'maxDate'=> "+30D", //fecha maxima
+                             ),
+                                'htmlOptions'=>array('readonly'=>'readonly'),
+                        )); 
+                            echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
+                        ?>
                         <?php echo $form->error($model,'FechaTransf'); ?>
                     </div> 
                 </td>
@@ -159,20 +176,6 @@ $this->menu=  DetallegastoController::controlAcceso($tipoUsuario);
             </tr>
             
         </table>
-        
-        
-        
-        
-        
-        
-
-	
-        
-	
-
-	
-
-	
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Declarar'); ?>

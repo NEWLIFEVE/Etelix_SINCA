@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
-$this->menu=  DetallegastoController::controlAcceso($tipoUsuario);
+$this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
 
 ?>
 
