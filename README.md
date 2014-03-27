@@ -3,6 +3,10 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Release 1.8
+    - Se migraron a yiiconsole los reportes automaticos.
+    - Cambios menores en el estilo del tablero de actividades, ademas de corregir acentos en las palabras.
+
 Realese 1.7.2
     - Validacion de Horarios de Cabina en Tablero de Control.
     - Orden por Categoria en Matriz Evolucion.
