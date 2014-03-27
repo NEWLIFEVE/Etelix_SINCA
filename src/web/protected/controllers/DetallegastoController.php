@@ -124,7 +124,6 @@ class DetallegastoController extends Controller {
             'model'=>$this->loadModel($id),
         ));
     }
-
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -178,7 +177,6 @@ class DetallegastoController extends Controller {
             'model_cabina'=>$model_cabina,
         ));
     }
-
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -401,6 +399,8 @@ class DetallegastoController extends Controller {
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+    
+    
 
     /**
      * Performs the AJAX validation.
@@ -414,7 +414,6 @@ class DetallegastoController extends Controller {
             Yii::app()->end();
         }
     }
-
     /**
      *
      */
@@ -444,7 +443,7 @@ class DetallegastoController extends Controller {
             echo CHtml::tag('option',array('value'=>''),'Seleccionar Moneda',true);
         }
     }
-    
+
     public function actionDynamicCuentaEmployee()
     {
         if($_GET['moneda'] != 'empty'){
@@ -535,6 +534,10 @@ class DetallegastoController extends Controller {
         if($tipoUsuario==3)
         {
             return array(
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
               //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),

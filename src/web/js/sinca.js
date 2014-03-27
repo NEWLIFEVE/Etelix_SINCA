@@ -20,6 +20,7 @@ $(document).ready(function()
     changeCheckbox(2);
     changeCheckbox(3);
     changeStatus();
+    canbioCuenta();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
@@ -826,6 +827,9 @@ $(document).ready(function()
         if(gridview=='estadogasto-grid'){
             name = 'SINCA Estado de Gastos'+cabina+' '+fecha;
         }
+        if(gridview=='detalleingreso-grid'){
+            name = 'SINCA Administracion de Ingresos'+cabina+' '+fecha;
+        }
         if(gridview=='novedad-grid'){
             name = 'SINCA Administrar Novedades y Fallas';
         }
@@ -1206,4 +1210,21 @@ $(document).ready(function()
         }
         return newArray;
       }
+      
+      function canbioCuenta(){
+          $("select#Detalleingreso_moneda").change(function () {
+                var selc_moneda = $("select#Detalleingreso_moneda").val();
+
+                  //Obtener el Salario del empleado Seleccionado
+                  var cuenta = $.ajax({ type: "GET",   
+                    url: '/Detallegasto/DynamicCuentaEmployee?moneda='+selc_moneda,   
+                    async: false,
+                    succes: alert,
+                  }).responseText;
+                  
+                  $("#Detalleingreso_CUENTA_Id").html(cuenta);
+                                  
+          });                      
+      }
+      
     
