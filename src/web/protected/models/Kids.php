@@ -119,7 +119,11 @@ class Kids extends CActiveRecord
           foreach ($model_kid as $key => $value) {
               $kids[$key] = $value->age;
           }
-          $kids_string = implode(",", $kids);
+          if(!isset($kids[0]))
+            $kids_string = 'No Posee Hijos';
+          else
+            $kids_string = implode(",", $kids);  
+          
           return $kids_string;	
 		
         }
