@@ -56,7 +56,25 @@ $(document).ready(function()
         $('img.botonExcel').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Generando Excel... !!");
+            //$("#loading").html("Generando Excel... !!");
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
              
@@ -78,20 +96,22 @@ $(document).ready(function()
             var response = $.ajax({ type: "GET",   
                                     url: '/site/excel?ids='+ids+'&name='+name+"&table="+gridview,   
                                     async: true,
-                                    succes: alert,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table="+gridview+"','_top');",500);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
                                   }).responseText;
 
              
 
-             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-             setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table="+gridview+"','_top');",500);
-
-             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Generado... !!");
-             setTimeout('$("#complete").css("display", "inline");', 1000);
-             setTimeout('$("#loading").css("display", "none");', 1000); 
-             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
-             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+             
              }else{
                         $("#error").html("No Existen Datos... !!");
                         $("#loading").css("display", "none");
@@ -106,7 +126,24 @@ $(document).ready(function()
         $('img.botonExcelComplete').on('click',function(event)//Al pulsar la imagen de Print, es Generada la siguiente Funcion:
         {    
             
-            $("#loading").html("Generando Excel... !!");
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
              
@@ -120,22 +157,21 @@ $(document).ready(function()
             //alert(ids);
             if(ids != ''){
             var response = $.ajax({ type: "GET",   
-                                    url: '/site/excel?ids='+ids+'&name='+name+"&table=balanceCicloIngresosCompleto",   
-                                    async: false,
-                                    succes: alert,
+                                    url: '/site/excel?ids='+ids+'&name='+name+'&table=balanceCicloIngresosCompleto',   
+                                    async: true,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table=balanceCicloIngresosCompleto','_top');",500);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
                                   }).responseText;
 
-             
-
-             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-             setTimeout("window.open('/site/excel?ids="+ids+"&name="+name+"&table=balanceCicloIngresosCompleto','_top');",500);
-
-             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Generado... !!");
-             setTimeout('$("#complete").css("display", "inline");', 1000);
-             setTimeout('$("#loading").css("display", "none");', 1000); 
-             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
-             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
             }else{
                         $("#error").html("No Existen Datos... !!");
                         $("#loading").css("display", "none");
@@ -149,7 +185,24 @@ $(document).ready(function()
         $('img.botonExcelTotal').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Generando Excel... !!");
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
              
@@ -163,21 +216,20 @@ $(document).ready(function()
             if(ids != ''){
             var response = $.ajax({ type: "GET",   
                                     url: '/site/excel?ids='+ids+'&name='+name+"&table="+gridview,   
-                                    async: false,
-                                    succes: alert,
+                                    async: true,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout('window.open("/site/excel?ids='+ids+'&name='+name+'&table='+gridview+'","_top");',500);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
                                   }).responseText;
 
-             
-
-             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-             setTimeout('window.open("/site/excel?ids='+ids+'&name='+name+'&table='+gridview+'","_top");',500);
-
-             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Generado... !!");
-             setTimeout('$("#complete").css("display", "inline");', 1000);
-             setTimeout('$("#loading").css("display", "none");', 1000); 
-             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
-             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
              }else{
                         $("#error").html("No Existen Datos... !!");
                         $("#loading").css("display", "none");
@@ -192,7 +244,24 @@ $(document).ready(function()
         $('img.botonExcelMatriz').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Generando Excel... !!");
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
              
@@ -203,29 +272,23 @@ $(document).ready(function()
             
             //alert(mes);
             
-            
+            if($('table#'+gridview).length){
             var response = $.ajax({ type: "GET",   
                                     url: '/site/excel?name='+name+"&table="+gridview+"&mes="+mes+"&cabina="+cabina,    
-                                    async: false,
-                                    succes: alert,
+                                    async: true,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout("window.open('/site/excel?name="+name+"&table="+gridview+"&mes="+mes+"&cabina="+cabina+"','_top');",500);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
                                   }).responseText;
 
-             //alert(response);
-             if($('table#'+gridview).length){
-             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-             var win = false;
-             win = window.open("/site/excel?name="+name+"&table="+gridview+"&mes="+mes+"&cabina="+cabina,"_top");
-
-            if (win.closed == false)
-            {
- 
-             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Generado... !!");
-             setTimeout('$("#complete").css("display", "inline");', 1000);
-             setTimeout('$("#loading").css("display", "none");', 1000); 
-             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
-             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
-            }
              }else{
                         $("#error").html("No Existen Datos... !!");
                         $("#loading").css("display", "none");
@@ -240,7 +303,24 @@ $(document).ready(function()
         $('img.botonExcelPanel').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Generando Excel... !!");
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
              
@@ -249,29 +329,26 @@ $(document).ready(function()
             var name = genNameFile(gridview);
 
             //Creamos la variable que contiene la tabla generada.
-            
+            if($('table#'+gridview).length){
             var response = $.ajax({ type: "GET",   
                                     url: "/site/excel?table="+gridview+'&date='+date+'&name='+name,    
-                                    async: false,
-                                    succes: alert,
+                                    async: true,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout("window.open('/site/excel?table="+gridview+'&date='+date+'&name='+name+"','_top');",500);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
                                   }).responseText;
 
              //alert(response);
-             if($('table#'+gridview).length){
-             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-             var win = false;
-             win = window.open("/site/excel?table="+gridview+'&date='+date+'&name='+name,"_top");
+             
 
-            if (win.closed == false)
-            {
- 
-             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
-             $("#complete").html("Archivo Excel Generado... !!");
-             setTimeout('$("#complete").css("display", "inline");', 1000);
-             setTimeout('$("#loading").css("display", "none");', 1000); 
-             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
-             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
-            }
              }else{
                         $("#error").html("No Existen Datos... !!");
                         $("#loading").css("display", "none");
@@ -292,7 +369,24 @@ $(document).ready(function()
         $('img.botonCorreo').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 //
-            $("#loading").html("Enviando Correo... !!");
+            $("#loading").html("Enviando Correo... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
 //            
@@ -345,7 +439,24 @@ $(document).ready(function()
         $('img.botonCorreoComplete').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Enviando Correo... !!");
+            $("#loading").html("Enviando Correo... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
             
@@ -392,7 +503,24 @@ $(document).ready(function()
         $('img.botonCorreoTotal').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Enviando Correo... !!");
+            $("#loading").html("Enviando Correo... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
             
@@ -439,7 +567,24 @@ $(document).ready(function()
         $('img.botonCorreoMatriz').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Enviando Correo... !!");
+            $("#loading").html("Enviando Correo... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
             
@@ -483,7 +628,24 @@ $(document).ready(function()
         $('img.botonCorreoPanel').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 
-            $("#loading").html("Enviando Correo... !!");
+            $("#loading").html("Enviando Correo... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
             
