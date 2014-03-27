@@ -55,7 +55,7 @@ $kids = Kids::getEmployeeKids($model->id);
             //MUESTRA LOS HIJOS DEL EMPLEADO
             array(
                     'type'=>'raw',
-                    'name'=>'Hijos',
+                    'name'=>'Edades Hijos',
                     'value'=>  Kids::getEmployeeKidsRow($model->id),
                 ),
             //MUESTRA LOS DATOS ACADEMICOS DEL EMPLEADO
