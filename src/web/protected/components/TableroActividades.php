@@ -15,8 +15,14 @@ class TableroActividades extends CApplicationComponent
     {
     	    $correo='cabinasperu@etelix.com';
             $correo_rrhh='rrhh@sacet.biz';
-             
-            $date = date('Y-m-d', time());
+            
+            
+            if($dateSet==null)
+                $date = date('Y-m-d', time());
+            else
+                $date = $dateSet;
+            
+            
             $topic= 'SINCA Tablero de Control de Actividades '.$date;  
             $files=array();
         
