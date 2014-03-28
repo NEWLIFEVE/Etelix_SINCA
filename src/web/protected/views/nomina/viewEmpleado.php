@@ -11,7 +11,13 @@ $kids = Kids::getEmployeeKids($model->id);
 	'data'=>$model,
 	'attributes'=>array(
 //		'id',
-            
+             //MUESTRA LOS DATOS PERSONALES DEL EMPLEADO
+            array(
+                    'type'=>'raw',
+                    'name'=>'Datos',
+                    'value'=>'Personales',
+                    'cssClass'=>'resaltado',
+                ),
              array(
                     'name'=>'code_employee',
                     'value'=>$model->code_employee,
@@ -37,10 +43,7 @@ $kids = Kids::getEmployeeKids($model->id);
                     'name'=>'marital_status_id',
                     'value'=>$model->maritalStatus->name,
                 ),
-            array(
-                    'name'=>'CABINA_Id',
-                    'value'=>$model->cABINA->Nombre,
-                ),
+            
             array(
                     'name'=>'address',
                     'value'=>$model->address,
@@ -49,6 +52,19 @@ $kids = Kids::getEmployeeKids($model->id);
                     'name'=>'phone_number',
                     'value'=>$model->phone_number,
                 ),
+            //MUESTRA LOS HIJOS DEL EMPLEADO
+            array(
+                    'type'=>'raw',
+                    'name'=>'Edades Hijos',
+                    'value'=>  Kids::getEmployeeKidsRow($model->id),
+                ),
+            //MUESTRA LOS DATOS ACADEMICOS DEL EMPLEADO
+            array(
+                    'type'=>'raw',
+                    'name'=>'Datos',
+                    'value'=>'Academicos',
+                    'cssClass'=>'resaltado',
+                ),
             array(
                     'name'=>'academic_level_id',
                     'value'=>$model->academicLevel->name,
@@ -56,6 +72,17 @@ $kids = Kids::getEmployeeKids($model->id);
             array(
                     'name'=>'profession_id',
                     'value'=>$model->profession->name,
+                ),
+            //MUESTRA LOS DATOS LABORALES
+            array(
+                    'type'=>'raw',
+                    'name'=>'Datos',
+                    'value'=>'Laborales',
+                    'cssClass'=>'resaltado',
+                ),
+            array(
+                    'name'=>'CABINA_Id',
+                    'value'=>$model->cABINA->Nombre,
                 ),
             array(
                     'name'=>'position_id',
@@ -100,12 +127,7 @@ $kids = Kids::getEmployeeKids($model->id);
                     'name'=>'Domingo',
                     'value'=>  EmployeeHours::getEmployeeHoursDay($model->id,3),
                 ),
-            //MUESTRA LOS HIJOS DEL EMPLEADO
-//            array(
-//                    'name'=>'Hijos',
-//                    'value'=>'De Mayor a Menor',
-//                    'cssClass'=>'resaltado',
-//                )
+            
 //           
 //            array(
 //                    'name'=>'Hijo #'.$key,

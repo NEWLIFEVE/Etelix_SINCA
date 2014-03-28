@@ -7,9 +7,13 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
 
 ?>
 <div id="nombreContenedor" class="black_overlay"></div>
-<div id="loading" class="ventana_flotante"></div>
+
 <div id="complete" class="ventana_flotante2"></div>
 <div id="error" class="ventana_flotante3"></div>
+
+<div id="loading" class="ventana_flotante">
+       
+</div>
 
 
 <h1>
@@ -34,6 +38,7 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                 'name'=>'vista',
             ),
             'dataProvider'=>$model->search(),
+            'afterAjaxUpdate'=>'reinstallDatePicker',
             'filter'=>$model,
             'columns'=>array(
                     array(
@@ -156,15 +161,35 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                             'style'=>'text-align: center; width: 80px;',
                           ),
                         ),
-                    array(
+                    
+                     array(
                         'name'=>'admission_date',
-                        'value'=>'$data->admission_date',
-                        'type'=>'text',
-                        'htmlOptions'=>array(
-                            'id'=>'admission_date',
-                            'style'=>'text-align: center; width: 60px;',
+                        'id'=>'admission_date',
+                        'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                          'model'=>$model,
+                          'attribute'=>'admission_date',
+                          'language'=>'ja',
+                          'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
+                          'htmlOptions'=>array(
+                            'id'=>'datepicker_for_Fecha',
+                            'size'=>'10',
+                            ),
+                          'defaultOptions'=>array(
+                            'showOn'=>'focus',
+                            'dateFormat'=>'yy-mm-dd',
+                            'showOtherMonths'=>true,
+                            'selectOtherMonths'=>true,
+                            'changeMonth'=>true,
+                            'changeYear'=>true,
+                            'showButtonPanel'=>true,
+                            )
                           ),
-                        ),
+                        true),
+                        'htmlOptions'=>array(
+                          'style'=>'text-align: center;',
+                          'id'=>'fecha',
+                          ),
+                        ),   
                      array(
                         'name'=>'status',
                         'value'=>'($data->status == 1) ? "Activo" : "Inactivo"',
@@ -208,5 +233,11 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
                     ),
             ),
         )); 
+        Yii::app()->clientScript->registerScript('re-install-date-picker', "
+            function reinstallDatePicker(id, data)
+            {
+              $('#datepicker_for_Fecha').datepicker();
+            }
+          ");
 
 ?>

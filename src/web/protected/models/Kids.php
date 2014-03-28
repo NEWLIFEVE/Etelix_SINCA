@@ -111,4 +111,20 @@ class Kids extends CActiveRecord
            return $model_kid;	
 		
         }
+        
+        public static function getEmployeeKidsRow($id){
+            
+          $kids = Array();  
+	  $model_kid = self::model()->findAllBySql("SELECT age FROM kids WHERE employee_id = $id ORDER BY age DESC");
+          foreach ($model_kid as $key => $value) {
+              $kids[$key] = $value->age;
+          }
+          if(!isset($kids[0]))
+            $kids_string = 'No Posee Hijos';
+          else
+            $kids_string = implode(",", $kids);  
+          
+          return $kids_string;	
+		
+        }
 }

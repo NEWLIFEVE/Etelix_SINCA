@@ -83,10 +83,7 @@ class DetalleingresoController extends Controller
 
                 if(isset($_POST['Detalleingreso']['FechaTransf']) && $_POST['Detalleingreso']['FechaTransf']!= "" )
                 {   
-                    if($id==null)
-                        $model->FechaTransf=Yii::app()->format->formatDate($_POST['Detalleingreso']['FechaTransf'],'post');
-                    else
-                        $model->FechaTransf=$_POST['Detalleingreso']['FechaTransf'];
+                    $model->FechaTransf=$_POST['Detalleingreso']['FechaTransf'];
                 }else{
                     $model->FechaTransf=NULL;
                 }

@@ -49,6 +49,7 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
             }
             else if($("#Detalleingreso_TIPOINGRESO_Id option:selected").html()!="Nuevo.."){
                 $("#GastoNuevo").slideUp("slow");
+                $("#Detalleingreso_nombreTipoDetalle").val("");
                 //$("td#Gasto").css("display","none");
             }
         });
@@ -150,7 +151,7 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
                             'language' => 'es', 
                             'model' => $model,
                             'attribute'=>'FechaTransf', 'options' => array(
-                            'dateFormat'=>'dd/mm/yy',    
+                            'dateFormat'=>'yy-mm-dd',    
                             'changeMonth' => 'true',//para poder cambiar mes
                             'changeYear' => 'true',//para poder cambiar año
                             'showButtonPanel' => 'false', 
@@ -180,7 +181,7 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
         </table>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Declarar'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Declarar' : 'Guardar'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
