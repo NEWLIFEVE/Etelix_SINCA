@@ -725,7 +725,9 @@ class BalanceController extends Controller
      */
     public function actioncicloIngresosTotal()
     {
-        $model=new Balance();
+        $model=new Balance('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
         $this->render('cicloIngresosTotal', array(
             'model'=>$model,
         ));

@@ -237,30 +237,31 @@ $this->widget('zii.widgets.grid.CGridView',array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
-            'name'=>'Fecha',
-            'htmlOptions'=>array(
+            'name' => 'Fecha',
+            'filter' => $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                'model' => $model,
+                'attribute' => 'Fecha',
+                'language' => 'ja',
+                'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', // (#2)
+                'htmlOptions' => array(
+                    'id' => 'datepicker_for_Fecha',
+                    'size' => '25',
+                ),
+                'defaultOptions' => array(// (#3)
+                    'showOn' => 'focus',
+                    'dateFormat' => 'yy-mm-dd',
+                    'showOtherMonths' => true,
+                    'selectOtherMonths' => true,
+                    'changeMonth' => true,
+                    'changeYear' => true,
+                    'showButtonPanel' => true,
+                )
+                    ), true),
+            'htmlOptions' => array(
+                'style' => 'text-align: center;',
                 'id'=>'fecha',
-                ),
-            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'model'=>$model,
-                'attribute'=>'Fecha',
-                'language'=>'ja',
-                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
-                'htmlOptions'=>array(
-                    'id'=>'datepicker_for_Fecha',
-                    'size'=>'10',
-                    ),
-                'defaultOptions'=>array(
-                    'showOn'=>'focus',
-                    'dateFormat'=>'yy-mm-dd',
-                    'showOtherMonths'=>true,
-                    'selectOtherMonths'=>true,
-                    'changeMonth'=>true,
-                    'changeYear'=>true,
-                    'showButtonPanel'=>true,
-                    )
-                ),
-                true)),
+            ),
+        ),
         array(
             'name'=>'CABINA_Id',
             'value'=>'$data->tagTodasLasCabina',
