@@ -137,24 +137,24 @@ class CabinaController extends Controller
 		));
 	}
         
-        public function actionUpdateHours($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Cabina']))
-		{
-			$model->attributes=$_POST['Cabina'];
-			if($model->save())
-				$this->redirect(array('admin'));
-		}
-
-		$this->render('updateHours',array(
-			'model'=>$model,
-		));
-	}
+//        public function actionUpdateHours($id)
+//	{
+//		$model=$this->loadModel($id);
+//
+//		// Uncomment the following line if AJAX validation is needed
+//		// $this->performAjaxValidation($model);
+//
+//		if(isset($_POST['Cabina']))
+//		{
+//			$model->attributes=$_POST['Cabina'];
+//			if($model->save())
+//				$this->redirect(array('admin'));
+//		}
+//
+//		$this->render('update',array(
+//			'model'=>$model,
+//		));
+//	}
 
 	/**
 	 * Deletes a particular model.

@@ -28,6 +28,5 @@ switch ($server)
 		defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 		break;
 }
-
 require_once($yii);
 Yii::createWebApplication($config)->run();

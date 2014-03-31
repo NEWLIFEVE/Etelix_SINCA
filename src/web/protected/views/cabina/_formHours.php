@@ -1,27 +1,8 @@
-
 <?php
-
-$this->breadcrumbs=array(
-	'Cabinas'=>array('index'),
-	'Create',
-);
-
-$this->menu=array(
-	array('label'=>'Listar Cabina', 'url'=>array('index')),
-	array('label'=>'Administrar Cabina', 'url'=>array('admin')),
-);
+/* @var $this CabinaController */
+/* @var $model Cabina */
+/* @var $form CActiveForm */
 ?>
-
-<h1>
-  <span class="enviar" style="position: relative; top: -7px;">
-    <?php 
-
-        echo 'Actualizar Horario - '.$model->Nombre;
-        
-    
-    ?> 
-  </span >
-</h1>
 
 <div class="form">
 
@@ -35,14 +16,6 @@ $this->menu=array(
 	<?php echo $form->errorSummary($model); ?>
         
         <table id="datosEmpleado">
-            <tr>
-                <td colspan="5">
-                <br>    
-                <h2>
-                    <span class="enviar" style="position: relative;">Horario de la Cabina</span>
-                </h2>    
-                </td>
-            </tr>
             <!-- Campo Horario de Lunes a Sabado -->
             <tr>
                 
@@ -58,9 +31,6 @@ $this->menu=array(
                     <div class="row">
                             <?php echo $form->labelEx($model,'Hora de Entrada'); ?>
                             <?php 
-                            
-                            //$this->widget('application.extensions.timepicker.timepicker', array('model'=>$model,'name'=>'HoraIni','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Entrada','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); 
-                            
                             $this->widget('webroot.protected.extensions.clockpick.EClockpick', array(
                                 'model' => $model,
                                 'attribute' => 'HoraIni',
@@ -76,7 +46,7 @@ $this->menu=array(
                                 ),
                                 'htmlOptions' => array('size' => 10, 'maxlength' => 10,'readonly'=>'readonly')
                             ));
-//                            ?>  
+                           ?>  
                             <?php echo $form->error($model,'HoraIni'); ?>
                     </div>
                 </td>
@@ -85,7 +55,7 @@ $this->menu=array(
                             <?php echo $form->labelEx($model,'Hora de Salida'); ?>
                             <?php 
                             
-                            //$this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'end_time_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); 
+//                            $this->widget('application.extensions.timepicker.timepicker', array('model'=>$model_hour_day_1,'name'=>'end_time_1','select'=> 'time','options' => array('showOn'=>'focus','timeFormat'=>'hh:mm','timeText'=>'Tiempo','hourText'=>'Hora','minuteText'=>'Minuto','timeOnlyTitle'=>'Hora de Salida','currentText'=>'Ahora','closeText'=>'Listo','timeOnly'=>true ))); 
                             
 //                            $this->widget('webroot.protected.extensions.clockpick.EClockpick', array(
 //                                'model' => $model,

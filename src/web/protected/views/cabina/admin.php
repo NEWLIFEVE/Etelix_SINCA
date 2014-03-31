@@ -118,8 +118,8 @@ $('.search-form form').submit(function(){
                                 ),
                                 'update' => array
                                 (
-                                    'label'=>'Actualizar Empleado',
-                                    'url'=>'Yii::app()->createUrl("Cabina/UpdateHours", array("id"=>$data->Id))',
+                                    'label'=>'Actualizar Horario',
+                                    'url'=>'Yii::app()->createUrl("Cabina/Update", array("id"=>$data->Id))',
                                     'imageUrl'=>Yii::app()->request->baseUrl."/themes/mattskitchen/img/update.png",
                                 ), 
                                 'delete' => array
