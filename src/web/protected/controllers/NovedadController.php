@@ -236,14 +236,13 @@ class NovedadController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Novedad('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Novedad']))
-			$model->attributes=$_GET['Novedad'];
+                $model=new Novedad('search');
+                $model->unsetAttributes();  // clear any default values
+                if(isset($_GET['Novedad'])) $model->attributes=$_GET['Novedad'];
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+                $this->render('admin', array(
+                    'model'=>$model,
+                ));
 	}
 
 	/**

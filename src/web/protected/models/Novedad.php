@@ -49,7 +49,7 @@ class Novedad extends CActiveRecord
 			array('Descripcion', 'length', 'max'=>450),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('Id, Descripcion, Num, Puesto, users_id, TIPONOVEDAD_Id', 'safe', 'on'=>'search'),
+			array('Fecha, Hora, Id, Descripcion, Num, Puesto, users_id, TIPONOVEDAD_Id', 'safe', 'on'=>'search'),
 		);
 	}
 
