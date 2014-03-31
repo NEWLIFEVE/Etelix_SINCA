@@ -39,6 +39,7 @@ class CabinaController extends Controller
                             'view',
                             'create',
                             'update',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(2),
@@ -49,6 +50,7 @@ class CabinaController extends Controller
                             'view',
                             'create',
                             'update',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(3),
@@ -59,6 +61,7 @@ class CabinaController extends Controller
                             'view',
                             'create',
                             'update',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(4),
@@ -68,6 +71,7 @@ class CabinaController extends Controller
                             'index',
                             'view',
                             'create',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(5),
@@ -129,6 +133,25 @@ class CabinaController extends Controller
 		}
 
 		$this->render('update',array(
+			'model'=>$model,
+		));
+	}
+        
+        public function actionUpdateHours($id)
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Cabina']))
+		{
+			$model->attributes=$_POST['Cabina'];
+			if($model->save())
+				$this->redirect(array('admin'));
+		}
+
+		$this->render('updateHours',array(
 			'model'=>$model,
 		));
 	}

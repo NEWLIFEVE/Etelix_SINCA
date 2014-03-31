@@ -20,12 +20,12 @@
  */
 class Cabina extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Cabina the static model class
-	 */
-	public static function model($className=__CLASS__)
+	
+        public $day_1; 
+        public $day_2; 
+
+
+        public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}

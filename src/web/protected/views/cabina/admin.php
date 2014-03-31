@@ -107,10 +107,26 @@ $('.search-form form').submit(function(){
                   'style'=>'text-align: center;',
                   ),
                 ),
-//                  array(
-//        'header'=>'Detalle',
-//        'class'=>'CButtonColumn',
-//        'template'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
-//        ),
+                array(
+                            'header' => 'Detalle',
+                            'class'=>'CButtonColumn',
+                            'buttons'=>array
+                            (
+                                'view' => array
+                                (
+                                    'visible'=>'false',
+                                ),
+                                'update' => array
+                                (
+                                    'label'=>'Actualizar Empleado',
+                                    'url'=>'Yii::app()->createUrl("Cabina/UpdateHours", array("id"=>$data->Id))',
+                                    'imageUrl'=>Yii::app()->request->baseUrl."/themes/mattskitchen/img/update.png",
+                                ), 
+                                'delete' => array
+                                (
+                                    'visible'=>'false',
+                                ),
+                            ),
+                    ),
 	),
 )); ?>
