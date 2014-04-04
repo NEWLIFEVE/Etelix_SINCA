@@ -227,6 +227,19 @@ class SiteController extends Controller
             
             );
         }
+        /* NOC */
+        if ($tipoUsuario == 8)
+        {
+            return array(
+                //array('label' => 'Home', 'url' => array('/site/index')),
+                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
+                array('url'=>array('/novedad/admin'),'label'=>'Novedades/Fallas','visible'=>!Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/NOC)', 'visible' => !Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
+            
+            );
+        }
     }
 
     /**

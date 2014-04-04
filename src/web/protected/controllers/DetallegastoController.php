@@ -534,10 +534,10 @@ class DetallegastoController extends Controller {
         if($tipoUsuario==3)
         {
             return array(
-                //array('label'=>'__________INGRESOS___________','url'=>array('')),
-                //array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
-                //array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
-                //array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
               //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
