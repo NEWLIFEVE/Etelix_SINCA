@@ -7,9 +7,13 @@ $this->menu=  NominaController::controlAcceso($tipoUsuario);
 
 ?>
 <div id="nombreContenedor" class="black_overlay"></div>
-<div id="loading" class="ventana_flotante"></div>
+
 <div id="complete" class="ventana_flotante2"></div>
 <div id="error" class="ventana_flotante3"></div>
+
+<div id="loading" class="ventana_flotante">
+       
+</div>
 
 
 <h1>

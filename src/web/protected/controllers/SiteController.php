@@ -227,6 +227,19 @@ class SiteController extends Controller
             
             );
         }
+        /* NOC */
+        if ($tipoUsuario == 8)
+        {
+            return array(
+                //array('label' => 'Home', 'url' => array('/site/index')),
+                array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
+                array('url'=>array('/novedad/admin'),'label'=>'Novedades/Fallas','visible'=>!Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/NOC)', 'visible' => !Yii::app()->user->isGuest),
+                array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
+            
+            );
+        }
     }
 
     /**
@@ -366,6 +379,11 @@ class SiteController extends Controller
         {
             $files['retesoMov']['name']=$_GET['name'];
             $files['retesoMov']['body']=Yii::app()->reporte->retesoMovimiento($_GET['ids'],$_GET['name'],true);
+        }
+        if($_GET['table']=='detalleingreso-grid')
+        {
+            $files['adminIngreso']['name']=$_GET['name'];
+            $files['adminIngreso']['body']=Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],true);     
         }
         
         foreach($files as $key => $file)
@@ -523,6 +541,13 @@ class SiteController extends Controller
             $files['retesoMov']['excel']=Yii::app()->reporte->retesoMovimiento($_GET['ids'],$_GET['name'],true);
             $files['retesoMov']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['retesoMov']['name'].".xls";               
         }
+        if($_GET['table']=='detalleingreso-grid')
+        {
+            $files['adminIngreso']['name']=$_GET['name'];
+            $files['adminIngreso']['body']=Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],false);
+            $files['adminIngreso']['excel']=Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],true);
+            $files['adminIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['adminIngreso']['name'].".xls";               
+        }
         
         foreach($files as $key => $file)
         {   
@@ -614,6 +639,10 @@ class SiteController extends Controller
         if($_GET['table']=='DetailretesoMov')
         {
             echo Yii::app()->reporte->retesoMovimiento($_GET['ids'],$_GET['name'],false);
+        }
+        if($_GET['table']=='detalleingreso-grid')
+        {
+            echo Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],false);
         }
     }
     

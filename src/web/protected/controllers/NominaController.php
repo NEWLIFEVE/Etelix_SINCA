@@ -14,6 +14,7 @@ class NominaController extends Controller
          * 4-Tesorero
          * 5-Socio
          * 7-RRHH
+         * 8-NOC
          */                                
 		return array(
 			array(

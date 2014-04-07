@@ -34,6 +34,7 @@ class NovedadController extends Controller
 		 * 3-Administrador
 		 * 4-Tesorero
 		 * 5-Socio
+		 * 8-NOC
 		 */
 		return array(
 			array(
@@ -78,6 +79,18 @@ class NovedadController extends Controller
 					'enviarNovedad'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(5)),
+				),
+			array(
+				'allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array(
+					'index',
+					'create',
+					'admin',
+					'view',
+					'enviarEmail',
+					'enviarNovedad'
+					),
+				'users'=>array_merge(Users::UsuariosPorTipo(8)),
 				),
 			array(
 				'deny',  // deny all users
@@ -236,14 +249,13 @@ class NovedadController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Novedad('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Novedad']))
-			$model->attributes=$_GET['Novedad'];
+                $model=new Novedad('search');
+                $model->unsetAttributes();  // clear any default values
+                if(isset($_GET['Novedad'])) $model->attributes=$_GET['Novedad'];
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+                $this->render('admin', array(
+                    'model'=>$model,
+                ));
 	}
 
 	/**
@@ -318,6 +330,13 @@ class NovedadController extends Controller
     	if($tipoUsuario==5)
     	{
     		return array(
+                array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
+                );
+    	}       
+    	if($tipoUsuario==8)
+    	{
+    		return array(
+                array('label'=>'Reportar Novedad/Falla', 'url'=>array('create')),
                 array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
                 );
     	}       

@@ -3,6 +3,10 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Realese 1.8.1
+    - Nuevo MVC Ingresos
+    - Nuevo tipo de UYsuario NOC, solo ve Novedades/Fallas
+
 Release 1.8
     - Se migraron a yiiconsole los reportes automaticos.
     - Cambios menores en el estilo del tablero de actividades, ademas de corregir acentos en las palabras.

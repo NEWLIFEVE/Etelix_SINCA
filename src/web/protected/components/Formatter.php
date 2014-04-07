@@ -83,6 +83,25 @@
             return $fechaFinal;
         }
         
+        if($tipo=='Cadena'){
+            
+            if(isset($fecha)){
+            $arrayFecha = explode("-", $fecha);
+
+            if (strlen($arrayFecha[0]) == 1) {
+                $arrayFecha[0] = "0" . $arrayFecha[0];
+            }
+            if (strlen($arrayFecha[1]) == 1) {
+                $arrayFecha[1] = "0" . $arrayFecha[1];
+            }
+
+            $fechaFinal = $arrayFecha[2] . "/" . $arrayFecha[1] . "/" . $arrayFecha[0];
+            }else{
+               $fechaFinal = ''; 
+            }
+            return $fechaFinal;
+        }
+        
         if($tipo=='etelixPeru'){
             
             $arrayFecha = explode(" ", $fecha);
