@@ -523,21 +523,26 @@ class DetallegastoController extends Controller {
         if($tipoUsuario==2)
         {
             return array(
+                 array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
-               // array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+              //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
                 array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
-                //array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
             );
         }
         /* ADMINISTRADOR */
         if($tipoUsuario==3)
         {
             return array(
-                //array('label'=>'__________INGRESOS___________','url'=>array('')),
-                //array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
-                //array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
-                //array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
               //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
