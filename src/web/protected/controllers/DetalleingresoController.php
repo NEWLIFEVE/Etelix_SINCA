@@ -29,6 +29,7 @@ class DetalleingresoController extends Controller
                     'viewIngreso',
                     'createIngreso',
                     'adminIngreso',
+                    'MatrizIngresos',
                 ),
                 'users'=>Users::UsuariosPorTipo(3),
             ),
@@ -38,6 +39,7 @@ class DetalleingresoController extends Controller
                     'viewIngreso',
                     'createIngreso',
                     'adminIngreso',
+                    'MatrizIngresos',
                 ),
                 'users'=>Users::UsuariosPorTipo(2),
             ),
@@ -64,6 +66,18 @@ class DetalleingresoController extends Controller
             $this->render('adminIngreso', array(
                 'model' => $model,
             ));
+        }
+        
+        public function actionMatrizIngresos()
+        {
+            if(isset($_POST['formFecha']))
+            {
+                $this->render('matrizIngresos', array('formFecha'=>$_POST['formFecha']));
+            }
+            else
+            {
+               $this->render('matrizIngresos', array()); 
+            }
         }
         
         public function actionCreateIngreso($id=null) {
@@ -143,6 +157,7 @@ class DetalleingresoController extends Controller
                     array('label'=>'__________INGRESOS___________','url'=>array('')),
                     array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
                     array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                    array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
                     array('label'=>'__________GASTOS___________','url'=>array('')),
                     array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
                   //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
@@ -159,6 +174,7 @@ class DetalleingresoController extends Controller
                     array('label'=>'__________INGRESOS___________','url'=>array('')),
                     array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
                     array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                    array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
                     array('label'=>'__________GASTOS___________','url'=>array('')),
                     array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
                   //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
