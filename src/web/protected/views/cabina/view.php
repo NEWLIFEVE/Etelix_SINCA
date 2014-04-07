@@ -2,20 +2,9 @@
 /* @var $this CabinaController */
 /* @var $model Cabina */
 
-$this->breadcrumbs=array(
-	'Cabinas'=>array('index'),
-	$model->Id,
-);
-
-
-        
- $this->menu=array(
-	array('label'=>'Listar Cabina', 'url'=>array('index')),
-	array('label'=>'Crear Cabina', 'url'=>array('create')),
-	array('label'=>'Actualizar Cabina', 'url'=>array('update', 'id'=>$model->Id)),
-	array('label'=>'Eliminar Cabina', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->Id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Administrar Cabina', 'url'=>array('admin')),
-);
+Yii::import('webroot.protected.controllers.BalanceController');
+$tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
+$this->menu=BalanceController::controlAcceso($tipoUsuario);
 ?>
 
 <h1>Ver Cabina #<?php echo $model->Id; ?></h1>
@@ -26,6 +15,24 @@ $this->breadcrumbs=array(
 		'Id',
 		'Nombre',
 		'Codigo',
-		'status',
+                array(
+                        'name'=>'status',
+                        'value'=>($model->status == 1) ? 'Activo' : 'Inactivo',
+                    ),
+                //MUESTRA EL HORARIO DE LA CABINA
+                array(
+                        'type'=>'raw',
+                        'name'=>'Horario',
+                        'value'=>'Entrada - Salida',
+                        'cssClass'=>'resaltado',
+                    ),
+                array(
+                        'name'=>'Lunes a Sabado',
+                        'value'=> Cabina::getHours($model->Id,1),
+                    ),
+                array(
+                        'name'=>'Domingo',
+                        'value'=> Cabina::getHours($model->Id,2),
+                    )
 	),
 )); ?>

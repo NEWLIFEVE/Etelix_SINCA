@@ -19,6 +19,9 @@ $(document).ready(function()
     changeCheckbox(1);
     changeCheckbox(2);
     changeCheckbox(3);
+    
+    changeCheckboxCabinas(1);
+    changeCheckboxCabinas(2);
     changeStatus();
     canbioCuenta();
     $("#Detallegasto_category").change(function () {
@@ -1277,6 +1280,39 @@ $(document).ready(function()
     
    
 
+    }
+    
+    function enableHoursCabinas(day){
+        
+        var checkbox = $('#Cabina_day_'+day).attr('checked');
+        if(day == 1){
+            if(checkbox != 'checked'){
+                $('#Cabina_HoraIni').prop('disabled', true);
+                $('#Cabina_HoraFin').prop('disabled', true);        
+            }else{
+                $('#Cabina_HoraIni').prop('disabled', false);
+                $('#Cabina_HoraFin').prop('disabled', false); 
+            }
+        }else{
+            if(checkbox != 'checked'){
+                $('#Cabina_HoraIniDom').prop('disabled', true);
+                $('#Cabina_HoraFinDom').prop('disabled', true);        
+            }else{
+                $('#Cabina_HoraIniDom').prop('disabled', false);
+                $('#Cabina_HoraFinDom').prop('disabled', false); 
+            }
+        }
+        
+    }
+    
+    function changeCheckboxCabinas(day){
+        
+        enableHoursCabinas(day);
+        $('#Cabina_day_'+day).change(function () {
+
+                enableHoursCabinas(day);
+
+        });
     }
     
     function resetField(beneficiario){

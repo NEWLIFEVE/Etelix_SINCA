@@ -21,8 +21,9 @@
 class Cabina extends CActiveRecord
 {
 	
-        public $day_1; 
-        public $day_2; 
+        public $hours;
+        public $day_1;
+        public $day_2;
 
 
         public static function model($className=__CLASS__)
@@ -213,4 +214,22 @@ class Cabina extends CActiveRecord
     	else
     		return false;
     }
+    
+    public static function getHours($id,$day){
+          
+          if($day == 1){
+            $inicio = 'HoraIni';
+            $fin = 'HoraFin';
+          }else{
+            $inicio = 'HoraIniDom';
+            $fin = 'HoraFinDom';
+          }  
+          
+	  $model=self::model()->findBySql("SELECT CONCAT(DATE_FORMAT($inicio,'%h:%i %p'), ' - ', DATE_FORMAT($fin,'%h:%i %p')) AS hours FROM cabina WHERE Id = $id;");
+            if($model == null){
+                return $model = 'No Asignado';
+            }else{       
+                return $model->hours ;
+            }	
+        }
 }
