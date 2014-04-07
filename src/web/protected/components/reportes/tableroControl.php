@@ -98,7 +98,7 @@
                                     <div align='center' style='width:80px;'>$nombre[$i]</div>
                                 </td>
         
-                            <td style='$fondo'>";
+                            ";
 /********************************INICIO JORNADA*******************************************************/
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP1);
@@ -106,21 +106,27 @@
                 $command->bindValue(':accion', 9); // bind de parametro cabina del user
                 $command->bindValue(':fecha', $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 $id = $command->query(); // execute a query SQL
+                
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
                 if ($id->count()) {
                     
                     //COMPARA LA HORA DE INICIO DE JORDADA CON LA HORA DE INICIO NORMAL DE LA CABINA
                      $hora = $id->readColumn(0); 
                           if(($diaMostrar != 'Domingo' && $hora <= $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora <= $sqlCP3->HoraIniDom)){                               
-                                $table .="<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora</div>";
+                                $table .="<td style='$fondo'><div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora</div></td>";
                      }else{  
-                                $table .="<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img width='23' height='23' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png' />  <font color='#ff9900'>$hora</font> </div>";
+                                $table .="<td style='$fondo'><div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img width='23' height='23' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png' />  <font color='#ff9900'>$hora</font> </div></td>";
                      }  
             
                 } else {
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
+                    $table .= "<td style='$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div></td>";
                 }
-            $table .= "</td>
-            <td style='height: 35px;$fondo'>"; 
+                
+                }else{
+                    $table .= "<td style='$fondo height: 35px;' colspan='6'><div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:25px;'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/house.png' style='width:20px;height: 20px;'/> No Laborable</div></td>";
+                 }
+
 /********************************SALDO APERTURA*******************************************************/            
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP1);
@@ -128,17 +134,20 @@
                 $command->bindValue(':accion', 2); // bind de parametro cabina del user
                 $command->bindValue(':fecha', $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 //$command->bindValue(':fechaesp', $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
-                $id = $command->query(); // execute a query SQL
-                if ($id->count()) {
-                    
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div>";
-            
-                 } else { 
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
-                    
-                }
-            $table .= "</td>
-            <td style='height: 35px;$fondo'>"; 
+                 if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
+                    $id = $command->query(); // execute a query SQL
+                    if ($id->count()) {
+
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div></td>";
+
+                     } else { 
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div></td>";
+
+                    }
+                
+                 }
+
 /********************************LLAMADAS*******************************************************/
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP);
@@ -147,15 +156,20 @@
                 $command->bindValue(':fecha', $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario 
                 $command->bindValue(':fechaesp', $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
                 $id = $command->query(); // execute a query SQL
-                if ($id->count()) {
-                    
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div>";
-            
-                 } else { 
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
-                }
-            $table .= "</td>
-            <td style='height: 35px;$fondo'>"; 
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
+                    $id = $command->query(); // execute a query SQL
+                    if ($id->count()) {
+
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div></td>";
+
+                     } else { 
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div></td>";
+
+                    }
+                
+                 }
+
 /********************************DEPOSITOS*******************************************************/
             
                 $connection = Yii::app()->db;
@@ -165,16 +179,20 @@
                 $command->bindValue(':fecha', $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario  
                 $command->bindValue(':fechaesp', $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
                 $id = $command->query(); // execute a query SQL
-                if ($id->count()) {
-                    
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div>";
-            
-                 } else { 
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
-                    
-                }
-            $table .= "</td>
-            <td style='height: 35px;$fondo'>"; 
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
+                    $id = $command->query(); // execute a query SQL
+                    if ($id->count()) {
+
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div></td>";
+
+                     } else { 
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div></td>";
+
+                    }
+                
+                 }
+
 /********************************SALDO CIERRE*******************************************************/
            
                 $connection = Yii::app()->db;
@@ -184,16 +202,20 @@
                 $command->bindValue(':fecha', $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario   
                 //$command->bindValue(':fechaesp', $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
                 $id = $command->query(); // execute a query SQL
-                if ($id->count()) {
-                    
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div>";
-            
-                 } else { 
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
-                    
-                }
-            $table .= "</td>
-            <td style='height: 35px;$fondo'>"; 
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
+                    $id = $command->query(); // execute a query SQL
+                    if ($id->count()) {
+
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/si.png'></div></td>";
+
+                     } else { 
+                        $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div></td>";
+
+                    }
+                
+                 }
+
 /********************************FIN JORNADA*******************************************************/
          
                 $connection2 = Yii::app()->db;
@@ -202,21 +224,28 @@
                 $command2->bindValue(':accion', 10); // bind de parametro cabina del user
                 $command2->bindValue(':fecha', $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 $id2 = $command2->query(); // execute a query SQL
-                if ($id2->count()) {
+                
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraFin != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraFinDom != null)){
                     
-                    // COMPARA LA HORA DE FIN DE JORDADA CON LA HORA DE FIN NORMAL DE LA CABINA 
-                     $hora2 = $id2->readColumn(0); 
-                    if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  
-                                $table .= "<div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img width='23' height='23' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png'/> <font color='#ff9900'>$hora2</font> </div>";
-                    }else{  
-                                $table .= "<div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora2 </div>";
-                     }   
+                        if ($id2->count()) {
 
-                 } else { 
-                    $table .= "<div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div>";
-                    
-                }             
-            $table .= "</td>
+                            // COMPARA LA HORA DE FIN DE JORDADA CON LA HORA DE FIN NORMAL DE LA CABINA 
+                             $hora2 = $id2->readColumn(0); 
+                            if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  
+                                        $table .= "<td style='height: 35px;$fondo'><div align='center' style='color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;'><img width='23' height='23' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/warning.png'/> <font color='#ff9900'>$hora2</font> </div></td>";
+                            }else{  
+                                        $table .= "<td style='height: 35px;$fondo'><div align='center' style='color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;'> $hora2 </div></td>";
+                             }   
+
+                         } else { 
+                            $table .= "<td style='height: 35px;$fondo'><div align='center'><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/no.png'></div></td>";
+
+                        }
+                
+                }else{
+                    $table .= "";
+                }
+            $table .= "
         </tr>";
 
         } 
