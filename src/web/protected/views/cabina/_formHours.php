@@ -1,7 +1,5 @@
 <?php
-/* @var $this CabinaController */
-/* @var $model Cabina */
-/* @var $form CActiveForm */
+ini_set('error_reporting', E_NOTICE);
 ?>
 
 <div class="form">
