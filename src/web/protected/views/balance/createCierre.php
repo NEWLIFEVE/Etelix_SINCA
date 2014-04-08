@@ -21,12 +21,12 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 <?php
 $max = Utility::hora(23,false);
 $min = Utility::hora(7,true);
-//if($min && $max)
-//{
-//	echo $this->renderPartial('_form_cierre', array('model'=>$model));
-//}
-//else
-//{
+if($min && $max)
+{
+	echo $this->renderPartial('_form_cierre', array('model'=>$model));
+}
+else
+{
 	echo "Lo sentimos, despues de las 12:00am no puede declarar el saldo de cierre";
-//}
+}
   ?>

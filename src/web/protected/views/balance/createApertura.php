@@ -20,12 +20,12 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 
 <?php 
 $horario = Utility::hora(15,true);
-//if($horario)
-//{
-//	echo "Lo sentimos, solo puede declarar saldo de apertura hasta las 12:00pm.";
-//}
-//else
-//{
+if($horario)
+{
+	echo "Lo sentimos, solo puede declarar saldo de apertura hasta las 12:00pm.";
+}
+else
+{
 	echo $this->renderPartial('_form_apertura', array('model'=>$model)); 
-//}
+}
 ?>
