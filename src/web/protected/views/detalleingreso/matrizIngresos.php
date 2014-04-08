@@ -60,7 +60,7 @@ $this->menu=DetalleIngresoController::controlAcceso($tipoUsuario);
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonMatriz' />
     </span>
 </h1>
-<form name="Detallegasto" method="post" action="<?php echo Yii::app()->createAbsoluteUrl('detallegasto/matrizNomina') ?>">
+<form name="Detallegasto" method="post" action="<?php echo Yii::app()->createAbsoluteUrl('detalleingreso/matrizIngresos') ?>">
     <div style="float: left;width: 36%;padding-top: 1%;padding-left: 4%;">
         <div style="width: 40em;">
             <div class="buttons" style="float: right;">
@@ -111,6 +111,7 @@ if (count($model)> 0) { ?>
         <th style="background-color: #ff9900;"><h3>Tarapoto</h3></th>
         <th style="background-color: #ff9900;"><h3>Trujillo 01</h3></th>
         <th style="background-color: #ff9900;"><h3>Trujillo 03</h3></th>
+        <th style="background-color: #ff9900;"><h3>Comun Cabina</h3></th>
         <th style='background: #DADFE4;width: 0px;'></th>
         <th style="background-color: #ff9900;"><h3>Total Soles</h3></th>
         <th style="background-color: #ff9900;"><h3>Total Dolares</h3></th>
@@ -118,6 +119,7 @@ if (count($model)> 0) { ?>
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -152,6 +154,7 @@ if (count($model)> 0) { ?>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
               </tr>";
  
         foreach ($model as $key => $gasto) {
@@ -160,7 +163,7 @@ if (count($model)> 0) { ?>
         $MTS="";
         $MTD="";
           
-            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 And id !=19 ORDER BY nombre";
+            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
@@ -264,7 +267,7 @@ if (count($model)> 0) { ?>
     echo "<tr>
         
             <td style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Soles</h3></td>";
-            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 AND id != 19 ORDER BY nombre";
+            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             foreach ($cabinas as $key => $cabina) {
                 $sqlTotales = "SELECT  sum(d.Monto) as MontoS 

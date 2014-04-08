@@ -326,6 +326,11 @@ class SiteController extends Controller
             $files['matriz']['name']=$_GET['name'];
             $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],true);
         }
+        if($_GET['table']=='tablaIngresos')
+        {
+            $files['matrizIngreso']['name']=$_GET['name'];
+            $files['matrizIngreso']['body']=Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],$_GET['name'],false);
+        }
         if($_GET['table']=='tabla2'){
             $files['matrizE']['name']=$_GET['name'];
             $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
@@ -471,6 +476,13 @@ class SiteController extends Controller
             $files['matrizE']['excel']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
             $files['matrizE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizE']['name'].".xls";
         }
+        if($_GET['table']=='tablaIngresos')
+        {
+            $files['matrizIngreso']['name']=$_GET['name'];
+            $files['matrizIngreso']['body']=Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],$_GET['name'],false);
+            $files['matrizIngreso']['excel']=Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],$_GET['name'],true);
+            $files['matrizIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizIngreso']['name'].".xls";
+        }
         if($_GET['table']=='tabla3')
         {
             $files['TableroA']['name']=$_GET['name'];
@@ -603,6 +615,10 @@ class SiteController extends Controller
         if($_GET['table']=='tabla2')
         {
             echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
+        } 
+        if($_GET['table']=='tablaIngresos')
+        {
+            echo Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],false);
         } 
         if($_GET['table']=='tabla3')
         {

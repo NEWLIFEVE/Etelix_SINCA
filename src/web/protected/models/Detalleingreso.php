@@ -153,4 +153,16 @@ class Detalleingreso extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function montoGasto($moneda)
+        {     
+            $mon;
+            if($moneda == null){
+                $mon = '00.00';
+            }else{
+                $mon = $moneda;
+            }
+
+            return $mon;
+        }
 }

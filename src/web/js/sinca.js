@@ -986,6 +986,9 @@ $(document).ready(function()
         if(gridview=='tabla2'){
             name = 'SINCA Matriz de Gastos Evolucion'+cabina+' '+fecha;
         }
+        if(gridview=='tablaIngresos'){
+            name = 'SINCA Matriz de Ingresos'+fecha;
+        }
         if(gridview=='tabla3'){
             name = 'SINCA Tablero de Control de Actividades'+fecha;
         }
