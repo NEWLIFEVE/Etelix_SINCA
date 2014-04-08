@@ -227,7 +227,7 @@ class matrizNomina extends Reportes
                         </td>";
 
                 foreach ($cabinas as $key => $cabina) {
-                    $sqlTotales = "SELECT sum(d.Monto) as MontoS
+                    $sqlTotales = "SELECT sum(d.Monto) as MontoD
                                   FROM detallegasto as d
                                   INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                                   INNER JOIN category as c ON c.id = t.category_id
