@@ -165,11 +165,23 @@ class DetallegastoController extends Controller {
             if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= ""){
                 $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle'],$_POST['Detallegasto']['category']);
             }else{
-
                 $model->TIPOGASTO_Id=$_POST['Detallegasto']['TIPOGASTO_Id'];
             }
-            if($model->save())
-                $this->redirect(array('view', 'id' => $model->Id));
+            
+            $tipoGasto = $_POST['Detallegasto']['TIPOGASTO_Id'];
+            $cabina = $_POST['Detallegasto']['CABINA_Id'];
+            $maneda = $_POST['Detallegasto']['moneda'];
+            $mes = $_POST['Detallegasto']['FechaMes']."-01";
+            $beneficiario = $_POST['Detallegasto']['beneficiario'];
+            
+            $varificar = Detallegasto::verificarGasto($tipoGasto,$cabina,$maneda,$mes,$beneficiario);
+            
+            if($varificar == false){
+                if($model->save())
+                    $this->redirect(array('view', 'id' => $model->Id));
+            }else{
+                    $this->redirect(array('create'));
+            }
         }
 
         $this->render('create', array(

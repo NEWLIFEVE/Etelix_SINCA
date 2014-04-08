@@ -1195,7 +1195,7 @@ $(document).ready(function()
                 
                 resetField(false);
                 
-                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Pago a Empleado' || selc_tipo_gasto == 'Nuevo..')){
+                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno')){
                         //Capturar Seleccion de la Cabina
                         $("#Detallegasto_CABINA_Id").change(function () {
                         var selc_categoria = $("#Detallegasto_category option:selected").text();
@@ -1203,7 +1203,7 @@ $(document).ready(function()
                         var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
                         var id_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").val();
                         
-                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Nuevo..' || selc_tipo_gasto == 'Pago a Empleado')){     
+                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno')){     
                         $("#Detallegasto_Monto").val('');     
                         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
                         

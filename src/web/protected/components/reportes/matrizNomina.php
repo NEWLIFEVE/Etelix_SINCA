@@ -16,13 +16,15 @@ class matrizNomina extends Reportes
             //Cambiar nombre a variable
             $mes2=date("m", strtotime($mes));
 
-            $sql="SELECT FechaMes, beneficiario, Monto, CABINA_Id 
-                  FROM detallegasto
-                  WHERE TIPOGASTO_Id = 75
-                  AND EXTRACT(YEAR FROM FechaMes) = '$año' 
-                  AND EXTRACT(MONTH FROM FechaMes) = '$mes2'
-                  AND status IN (2,3)
-                  ORDER BY beneficiario;";
+            $sql="SELECT d.FechaMes as FechaMes, d.beneficiario as beneficiario, d.Monto as Monto, d.CABINA_Id as CABINA_Id
+                    FROM detallegasto as d
+                    INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                    INNER JOIN category as c ON c.id = t.category_id
+                    WHERE c.name = 'NOMINA'
+                    AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                    AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
+                    AND d.status IN (2,3)
+                    ORDER BY d.beneficiario;";
             $model=Detallegasto::model()->findAllBySql($sql);
             
             if($model!=false)
@@ -121,11 +123,13 @@ class matrizNomina extends Reportes
                     $count=0;
                     foreach($cabinas as $key => $cabina)
                     {
-                        $sqlMontoGasto = "SELECT d.beneficiario, d.Monto as Monto, d.status, d.moneda
-                                  FROM detallegasto d
-                                  WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                        $sqlMontoGasto = "SELECT d.beneficiario as beneficiario, d.Monto as Monto, d.moneda
+                                  FROM detallegasto as d
+                                  INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                                  INNER JOIN category as c ON c.id = t.category_id
+                                  WHERE c.name = 'NOMINA'
+                                  AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                   AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
-                                  AND d.TIPOGASTO_Id=75
                                   AND d.beneficiario = '$gasto->beneficiario'
                                   AND d.CABINA_Id = $cabina->Id
                                   AND d.status IN (2,3);";
