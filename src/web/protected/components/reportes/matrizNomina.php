@@ -203,13 +203,15 @@ class matrizNomina extends Reportes
                 $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 AND id != 19 ORDER BY nombre";
                 $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
                 foreach ($cabinas as $key => $cabina) {
-                    $sqlTotales = "SELECT  sum(d.Monto) as MontoS 
-                               FROM detallegasto as d 
-                               WHERE d.CABINA_Id = $cabina->Id 
-                               AND d.TIPOGASTO_Id=75 AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-                               AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
-                               AND d.moneda = 2 
-                               AND d.status IN (2,3);";
+                    $sqlTotales = "SELECT sum(d.Monto) as MontoS
+                                  FROM detallegasto as d
+                                  INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                                  INNER JOIN category as c ON c.id = t.category_id
+                                  WHERE d.CABINA_Id = $cabina->Id 
+                                  AND c.name = 'NOMINA' AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                                  AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
+                                  AND d.moneda = 2 
+                                  AND d.status IN (2,3);";
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
@@ -225,13 +227,15 @@ class matrizNomina extends Reportes
                         </td>";
 
                 foreach ($cabinas as $key => $cabina) {
-                    $sqlTotales = "SELECT  sum(d.Monto) as MontoD 
-                               FROM detallegasto as d 
-                               WHERE d.CABINA_Id = $cabina->Id 
-                               AND d.TIPOGASTO_Id=75 AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-                               AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
-                               AND d.moneda = 1 
-                               AND d.status IN (2,3);";
+                    $sqlTotales = "SELECT sum(d.Monto) as MontoS
+                                  FROM detallegasto as d
+                                  INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                                  INNER JOIN category as c ON c.id = t.category_id
+                                  WHERE d.CABINA_Id = $cabina->Id 
+                                  AND c.name = 'NOMINA' AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                                  AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
+                                  AND d.moneda = 1 
+                                  AND d.status IN (2,3);";
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
@@ -262,13 +266,15 @@ class matrizNomina extends Reportes
         
                 <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Total Soles</h3></td>";
 
-                    $sqlTotales = "SELECT  sum(d.Monto) as MontoS 
-                                   FROM detallegasto as d 
-                                   WHERE d.TIPOGASTO_Id=75 
-                                   AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-                                   AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
-                                   AND d.moneda = 2 
-                                   AND d.status IN (2,3);";       
+                    $sqlTotales = "SELECT sum(d.Monto) as MontoS
+                                  FROM detallegasto as d
+                                  INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                                  INNER JOIN category as c ON c.id = t.category_id
+                                  WHERE c.name = 'NOMINA' 
+                                  AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                                  AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
+                                  AND d.moneda = 2 
+                                  AND d.status IN (2,3);";       
 
                     $totales = Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach ($totales as $key => $total) {
@@ -290,13 +296,15 @@ class matrizNomina extends Reportes
         
                 <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Total Dolares</h3></td>";
 
-                    $sqlTotales = "SELECT  sum(d.Monto) as MontoD 
-                                   FROM detallegasto as d 
-                                   WHERE d.TIPOGASTO_Id=75 
-                                   AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
-                                   AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
-                                   AND d.moneda = 1 
-                                   AND d.status IN (2,3);";       
+                    $sqlTotales = "SELECT sum(d.Monto) as MontoD
+                                  FROM detallegasto as d
+                                  INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                                  INNER JOIN category as c ON c.id = t.category_id
+                                  WHERE c.name = 'NOMINA' 
+                                  AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
+                                  AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
+                                  AND d.moneda = 1 
+                                  AND d.status IN (2,3);";       
 
                     $totales = Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach ($totales as $key => $total) {
