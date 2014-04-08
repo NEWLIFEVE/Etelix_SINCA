@@ -16,7 +16,8 @@ class matrizNomina extends Reportes
             //Cambiar nombre a variable
             $mes2=date("m", strtotime($mes));
 
-            $sql="SELECT d.FechaMes as FechaMes, d.beneficiario as beneficiario, d.Monto as Monto, d.CABINA_Id as CABINA_Id
+            $sql="SELECT d.FechaMes as FechaMes, d.beneficiario as beneficiario, d.Monto as Monto, 
+                    d.CABINA_Id as CABINA_Id, t.Nombre as nombreTipoDetalle
                     FROM detallegasto as d
                     INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                     INNER JOIN category as c ON c.id = t.category_id
@@ -58,6 +59,7 @@ class matrizNomina extends Reportes
                     <br>
                     <table id='tabla' class='matrizGastos' border='1' style='border-collapse:collapse;width:auto;'>
                         <thead>
+                            <th style='border:  0px rgb(233, 224, 224) solid !important;'></th>
                             <th style='width: 80px;background: #ff9900;text-align: center;'>
                                 <center>
                                     <img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' />
@@ -99,6 +101,7 @@ class matrizNomina extends Reportes
                         </thead>
                         <tbody>
                             <tr>
+                                <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
@@ -157,7 +160,7 @@ class matrizNomina extends Reportes
                                     }
                                     else
                                     {
-                                        $opago.="<td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->beneficiario)."</h3></td>";
+                                        $opago.="<td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->beneficiario)."</h3></td>";
                                         $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
                                         
                                     }
@@ -171,7 +174,7 @@ class matrizNomina extends Reportes
                             }
                             else
                             {
-                                $opago.="<td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->beneficiario)."</h3></td><td></td>";
+                                $opago.="<td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->beneficiario)."</h3></td><td></td>";
                             }
                         }
                         $count++;
@@ -193,10 +196,12 @@ class matrizNomina extends Reportes
                             <td style='height: em; background-color: #DADFE4;'></td>
                             <td style='height: em; background-color: #DADFE4;'></td>
                             <td style='height: em; background-color: #DADFE4;'></td>
+                            <td style='height: em; background-color: #DADFE4;'></td>
                         </tr>";
                 }
             //TOTAL SOLES
                 $tr.= "<tr>
+                        <td style='border:  0px rgb(233, 224, 224) solid !important; '></td>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Soles</h3>
                         </td>";
@@ -222,6 +227,7 @@ class matrizNomina extends Reportes
                 $tr.="</tr>";
                 // TOTALES DOLARES
                 $tr.="<tr>
+                        <td style='border:  0px rgb(233, 224, 224) solid !important; '></td>
                         <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Dolares</h3>
                         </td>";
@@ -247,6 +253,7 @@ class matrizNomina extends Reportes
                 
                 
                 $tr.="<tr>
+                            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td>
                             <td style='height: em; background-color: #DADFE4;'></td>
                             <td style='height: em; background-color: #DADFE4;'></td>
                             <td style='height: em; background-color: #DADFE4;'></td>
@@ -264,6 +271,7 @@ class matrizNomina extends Reportes
                 // GRAN TOTALES SOLES         
                 $tr.= "<tr>
         
+                <td style='border:  0px rgb(233, 224, 224) solid !important; '></td>
                 <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Total Soles</h3></td>";
 
                     $sqlTotales = "SELECT sum(d.Monto) as MontoS
@@ -294,6 +302,7 @@ class matrizNomina extends Reportes
                 // GRAN TOTALES DOLARES         
                 $tr.= "<tr>
         
+                <td style='border:  0px rgb(233, 224, 224) solid !important; '></td>
                 <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Gran Total Dolares</h3></td>";
 
                     $sqlTotales = "SELECT sum(d.Monto) as MontoD

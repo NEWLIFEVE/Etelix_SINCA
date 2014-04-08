@@ -180,6 +180,7 @@ class DetallegastoController extends Controller {
                 if($model->save())
                     $this->redirect(array('view', 'id' => $model->Id));
             }else{
+                    Yii::app()->user->setFlash('error',"Este Gasto ya Fue Declarado.");
                     $this->redirect(array('create'));
             }
         }
