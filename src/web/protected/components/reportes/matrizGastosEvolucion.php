@@ -16,6 +16,7 @@ class matrizGastosEvolucion extends Reportes
             //Cambiar nombre a variable
             $mes2=date("m", strtotime($mes));
             $ruta=$_SERVER["SERVER_NAME"];
+            $borde = 'border:1px;border-style:solid;border-color: #E9E0E0;';
 
             $sql="SELECT DISTINCT(d.TIPOGASTO_Id) AS TIPOGASTO_Id, t.Nombre AS nombreTipoDetalle, a.name AS categoria
                   FROM detallegasto d, tipogasto t, category a
@@ -38,73 +39,73 @@ class matrizGastosEvolucion extends Reportes
             {
                 $tr="<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>$nombre</h2>
                     <br>
-                    <table border='1' style='border-collapse:collapse;width:auto;'>
+                    <table border='0' style='border-collapse:collapse;width:auto;border-color: #DADFE4;'>
                         <tr>
-                            <td style='width: 100px; background: #DADFE4'>
+                            <td style='width: 100px; background: #DADFE4;$borde'>
                                 <h3 style='font-size:10px; color:#000000; background: none; text-align: center;'> Colores </h3>
                             </td>
-                            <td style='width: 80px; background: #1967B2'>
+                            <td style='width: 80px; background: #1967B2;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Azul</h3>
                             </td>
-                            <td style='width: 80px; background: #00992B'>
+                            <td style='width: 80px; background: #00992B;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Verde</h3>
                             </td>
                         </tr>
                         <tr>
-                            <td style='width: 100px; background: #DADFE4'>
+                            <td style='width: 100px; background: #DADFE4;$borde'>
                                 <h3 style='font-size:10px; color:#000000; background: none; text-align: center;'> Monedas </h3>
                             </td>
-                            <td style='width: 80px; background: #1967B2'>
+                            <td style='width: 80px; background: #1967B2;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Soles</h3>
                             </td>
-                            <td style='width: 80px; background: #00992B'>
+                            <td style='width: 80px; background: #00992B;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'> Dolares</h3>
                             </td>
                         </tr>
                     </table>
                     <br>
-                    <table id='tabla' class='matrizGastos' border='1' style='border-collapse:collapse;width:auto;'>
+                    <table id='tabla' class='matrizGastos' border='0' style='border-collapse:collapse;width:auto;border-color: #DADFE4;'>
                         <thead>
-                            <th style='background: none;border:none;'></th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='background-color: #DADFE4;'></th>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <center>
                                     <img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' />
                                 </center>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[11]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[10]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[9]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[8]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[7]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[6]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[5]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[4]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[3]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[2]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[1]</h3>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$mes_array[0]</h3>
                             </th>
                         </thead>
@@ -170,23 +171,23 @@ class matrizGastosEvolucion extends Reportes
                                     {
                                         if($MontoGasto->MontoDolares!=null && $MontoGasto->MontoSoles!=null)
                                         {
-                                            $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." </td></tr></table></td>";
+                                            $opago.="<td style='padding:0;color: #FFF; font-size:10px;$borde'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." </td></tr></table></td>";
                                         }
                                         else
                                         {
-                                            $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
+                                            $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;$borde'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
                                         }
                                     }
                                     else
                                     {
-                                        $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->categoria)."</h3></td><td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td>";
+                                        $opago.="<td style='width: 200px; background: #1967B2;$borde'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->categoria)."</h3></td><td rowspan='1' style='width: 80px; background: #1967B2;$borde'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td>";
                                         if($MontoGasto->MontoDolares!=null && $MontoGasto->MontoSoles!=null)
                                         {
-                                            $opago.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." USD$</td></tr></table></td>";
+                                            $opago.="<td style='padding:0;color: #FFF; font-size:10px;$borde'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." USD$</td></tr></table></td>";
                                         }
                                         else
                                         {
-                                            $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
+                                            $opago.="<td style='width: 80px;color: #FFF; $fondo font-size:10px;$borde'>". Reportes::format($MontoGasto->Monto.' '. $moneda, $type)."</td>";
                                         }
                                     }
                                  
@@ -195,11 +196,11 @@ class matrizGastosEvolucion extends Reportes
                         {
                             if($count>0)
                             {
-                                $opago.="<td></td>";
+                                $opago.="<td style='$borde'></td>";
                             }
                             else
                             {
-                                $opago.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->categoria)."</h3></td><td rowspan='1' style='width: 80px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
+                                $opago.="<td style='width: 200px; background: #1967B2;$borde'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->categoria)."</h3></td><td rowspan='1' style='width: 80px; background: #1967B2;$borde'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".htmlentities($gasto->nombreTipoDetalle)."</h3></td><td></td>";
                             }
                         }
                         $count++;
@@ -227,8 +228,8 @@ class matrizGastosEvolucion extends Reportes
                 }
             //TOTAL SOLES
                 $tr.= "<tr>
-                        <td style='border:  0px rgb(233, 224, 224) solid !important; border:0;'></td>
-                        <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
+                        <td style='border:  0px rgb(233, 224, 224) solid !important; border:0;background-color: #DADFE4;'></td>
+                        <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;$borde'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Soles</h3>
                         </td>";
                 $sqlCabinas="SELECT * 
@@ -251,16 +252,16 @@ class matrizGastosEvolucion extends Reportes
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
-                        if($total->MontoS!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format($total->MontoS, $type)."</td>";
-                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
+                        if($total->MontoS!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;$borde'>".Reportes::format($total->MontoS, $type)."</td>";
+                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;$borde'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
                     }
                     $count2++;
                 }
                 $tr.="</tr>";
                 // TOTALES DOLARES
                 $tr.="<tr>
-                        <td style='border:  0px rgb(233, 224, 224) solid !important; border:0;'></td>
-                        <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'>
+                        <td style='border:  0px rgb(233, 224, 224) solid !important; border:0;background-color: #DADFE4;'></td>
+                        <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;$borde'>
                             <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Dolares</h3>
                         </td>";
                 $sqlCabinas="SELECT * 
@@ -283,8 +284,8 @@ class matrizGastosEvolucion extends Reportes
                     $totales=Detallegasto::model()->findAllBySql($sqlTotales);
                     foreach($totales as $key => $total)
                     {
-                        if($total->MontoD!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
-                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
+                        if($total->MontoD!=null) $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;$borde'>".Reportes::format(Detallegasto::montoGasto($total->MontoD), $type)."</td>";
+                        else $tr.="<td style='padding:0;color: #000000;font-size:10px;background-color: #DADFE4;$borde'>".Reportes::format(Detallegasto::montoGasto('00.00'), $type)."</td>";
                     }
                     $count3++;
                 }
