@@ -116,79 +116,82 @@ class NovedadController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Novedad;    
+	
+        $model=new Novedad;    
 
         // Uncomment the following line if AJAX validation is needed
-        $this->performAjaxValidation($model);
+        //$this->performAjaxValidation($model);
                 
         if(isset($_POST['Novedad']))
         {
-            $model->attributes=$_POST['Novedad'];
-            $model->users_id=Yii::app()->user->id;
-            $model->Fecha=date("Y-m-d",time());
-            $model->Hora=date("H:i:s",time());
-            if($model->save())
-            {
-            	$html="<div style='padding:auto 10% auto 10%;'>".
-                    "<h1 style='border: 0 none; font:150% Arial,Helvetica,sans-serif; margin: 0;".
-                    "padding: 5; vertical-align: baseline;".
-                    "background: url('http://fullredperu.com/themes/mattskitchen/img/line_hor.gif')".
-                    "repeat-x scroll 0 100% transparent;'>".
-                    "Reporte de Novedad/Falla".
-                    "</h1>".
-                    "<br/>".
-                    "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
-                    "<tr style='background-color:#f8f8f8;'>".
-                    "<td style='font-weight:bold;width:30%;'>ID:  </td>".
-                    "<td style='width:50%;'>".$model->Id."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#e5f1f4;'>".
-                    "<td style='font-weight:bold;width:30%;'>Nombre de Cabina:  </td>".
-                    "<td style='width:50%;'>".Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id)."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#f8f8f8;'>".
-                    "<td style='font-weight:bold;width:30%;'>Tipo de Novedad:   </td>".
-                    "<td style='width:50%;'>".$model->tIPONOVEDAD->Nombre. "</td>".
-                    "</tr>".
-                    "<tr style='background-color:#e5f1f4;'>".
-                    "<td style='font-weight:bold;width:30%;'>Fecha: </td>".
-                    "<td style='width:50%;'>".$model->Fecha."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#f8f8f8;'>".
-                    "<td style='font-weight:bold;width:30%;'>Hora: </td>".
-                    "<td style='width:50%;'>".$model->Hora."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#e5f1f4;'>".
-                    "<td style='font-weight:bold;width:30%;'>Descripción: </td>".
-                    "<td style='width:50%;'>".$model->Descripcion."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#f8f8f8;'>".
-                    "<td style='font-weight:bold;width:30%;'>Número Telefónico: </td>".
-                    "<td style='width:50%;'>".$model->Num."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#e5f1f4;'>".
-                    "<td style='font-weight:bold;width:30%;'>Puesto de la Cabina: </td>".
-                    "<td style='width:50%;'>".$model->Puesto."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#f8f8f8;'>".
-                    "<td style='font-weight:bold;width:30%;'>Login Usuario: </td>".
-                    "<td style='width:50%;'>".Yii::app()->getModule('user')->user($model->users_id)->username."</td>".
-                    "</tr>".
-                    "<tr style='background-color:#e5f1f4;'>".
-                    "<td style='font-weight:bold;width:30%;'>Correo Electrónico Usuario: </td>".
-                    "<td style='width:50%;'>".Yii::app()->user->email."</td>".
-                    "</tr>".
-                    "</table>".
-                    "</div>";
-                $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
-                $_POST ['html']=$html;
-                $_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
-
-                Yii::app()->correo->sendEmail($html,$_POST ['correoUsuario'],$_POST['asunto']);
-                Yii::app()->user->setFlash('success', "*Su Observacion fue enviada satisfactoriamente, en breve le daremos una respuesta*");
-                $this->render('view', array('model' => $model,));
-            }
+            var_dump($_POST['Novedad']);
+//            $model->attributes=$_POST['Novedad'];
+//            $model->users_id=Yii::app()->user->id;
+//            $model->Fecha=date("Y-m-d",time());
+//            $model->Hora=date("H:i:s",time());
+//            if($model->save())
+//            {
+//            	$html="<div style='padding:auto 10% auto 10%;'>".
+//                    "<h1 style='border: 0 none; font:150% Arial,Helvetica,sans-serif; margin: 0;".
+//                    "padding: 5; vertical-align: baseline;".
+//                    "background: url('http://fullredperu.com/themes/mattskitchen/img/line_hor.gif')".
+//                    "repeat-x scroll 0 100% transparent;'>".
+//                    "Reporte de Novedad/Falla".
+//                    "</h1>".
+//                    "<br/>".
+//                    "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>ID:  </td>".
+//                    "<td style='width:50%;'>".$model->Id."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#e5f1f4;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Nombre de Cabina:  </td>".
+//                    "<td style='width:50%;'>".Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id)."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Tipo de Novedad:   </td>".
+//                    "<td style='width:50%;'>".$model->tIPONOVEDAD->Nombre. "</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#e5f1f4;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Fecha: </td>".
+//                    "<td style='width:50%;'>".$model->Fecha."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Hora: </td>".
+//                    "<td style='width:50%;'>".$model->Hora."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#e5f1f4;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Descripción: </td>".
+//                    "<td style='width:50%;'>".$model->Descripcion."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Número Telefónico: </td>".
+//                    "<td style='width:50%;'>".$model->Num."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#e5f1f4;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Puesto de la Cabina: </td>".
+//                    "<td style='width:50%;'>".$model->Puesto."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Login Usuario: </td>".
+//                    "<td style='width:50%;'>".Yii::app()->getModule('user')->user($model->users_id)->username."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#e5f1f4;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Correo Electrónico Usuario: </td>".
+//                    "<td style='width:50%;'>".Yii::app()->user->email."</td>".
+//                    "</tr>".
+//                    "</table>".
+//                    "</div>";
+//                $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
+//                $_POST ['html']=$html;
+//                $_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
+//
+//                Yii::app()->correo->sendEmail($html,$_POST ['correoUsuario'],$_POST['asunto']);
+//                Yii::app()->user->setFlash('success', "*Su Observacion fue enviada satisfactoriamente, en breve le daremos una respuesta*");
+//                $this->render('view', array('model' => $model,));
+//            }
         }
+        
         $model->unsetAttributes();
         $this->render('create', array(
             'model' => $model,

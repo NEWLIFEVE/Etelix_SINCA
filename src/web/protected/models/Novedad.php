@@ -21,6 +21,7 @@ class Novedad extends CActiveRecord
 {
     public $User;
     public $TipoNovedad;
+    public $TIPOTELEFONO_Id;
 
 
     public static function model($className=__CLASS__)
@@ -63,7 +64,9 @@ class Novedad extends CActiveRecord
 		return array(
 			'tIPONOVEDAD' => array(self::BELONGS_TO, 'Tiponovedad', 'TIPONOVEDAD_Id'),
 			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
-		);
+                        'novedadTipotelefonos' => array(self::HAS_MANY, 'NovedadTipotelefono', 'NOVEDAD_Id'),
+                        'novedadLocutorios' => array(self::HAS_MANY, 'NovedadLocutorio', 'NOVEDAD_Id'),
+                );
 	}
 
 	/**
@@ -80,6 +83,7 @@ class Novedad extends CActiveRecord
                         'Puesto'=>'Puesto de la Cabina',
 			'users_id' => 'Usuario',
 			'TIPONOVEDAD_Id' => 'Tipo de Novedad',
+                        'TIPOTELEFONO_Id' => 'Tipo de Telefono',
 		);
 	}
 
