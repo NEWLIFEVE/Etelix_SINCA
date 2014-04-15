@@ -54,7 +54,6 @@ class DetallegastoController extends Controller {
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
-                    'enviarEmail',
                 ),
                 'users'=>Users::UsuariosPorTipo(2),
             ),
@@ -63,7 +62,6 @@ class DetallegastoController extends Controller {
                 'actions'=>array(
                     'index',
                     'view',
-                    'create',
                     'update',
                     'admin',
                     'delete',
@@ -77,9 +75,7 @@ class DetallegastoController extends Controller {
                     'matrizGastosEvolucion',
                     'estadoGastos',
                     'filtrarPorStatus',
-                    'updateGasto',
                     'mostrarFinal',
-                    'enviarEmail',
                 ),
                 'users'=>Users::UsuariosPorTipo(6),
             ),
@@ -103,10 +99,33 @@ class DetallegastoController extends Controller {
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
-                    'enviarEmail',
                     'matrizNomina',
                 ),
                 'users'=>Users::UsuariosPorTipo(3),
+            ),
+            array('allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
+                    'index',
+                    'view',
+                    'create',
+                    'update',
+                    'admin',
+                    'delete',
+                    'dynamicUsers',
+                    'dynamicCuenta',
+                    'dynamicCuentaEmployee',
+                    'dynamicCategoria',
+                    'dynamicGastoAnterior',
+                    'dynamicGastoAnteriorNomina',
+                    'estadoGastos',
+                    'matrizGastos',
+                    'matrizGastosEvolucion',
+                    'filtrarPorStatus',
+                    'updateGasto',
+                    'mostrarFinal',
+                    'matrizNomina',
+                ),
+                'users'=>Users::UsuariosPorTipo(5),
             ),
             array('deny', // deny all users
                 'users'=>array('*'),
@@ -384,14 +403,6 @@ class DetallegastoController extends Controller {
         ));
     }
 
-    /**
-     *
-     */
-    public function actionEnviarEmail()
-    {
-        Yii::app()->enviarEmail->enviar($_POST);
-        $this->redirect($_POST['vista']);
-    }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -570,21 +581,45 @@ class DetallegastoController extends Controller {
         if($tipoUsuario==4)
         {
             return array(
-                array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
+              //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+                array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
             );
         }
         /* SOCIO */
         if($tipoUsuario==5)
         {
-            return array(
-                array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+           return array(
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
             );
         }
-        /* SOCIO */
+        /* CONTABILIDAD */
         if($tipoUsuario==6)
         {
-            return array(
+           return array(
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
             );
         }
     }

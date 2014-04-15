@@ -3,7 +3,7 @@
  */
  
  .resaltado{
-     background-color: #cd7532 ! important;
+     background-color: #00992B  ! important;
      color: #FFFFFF;
  }
  
@@ -281,9 +281,13 @@ div.flash-error, div.flash-notice, div.flash-success
 
 div.flash-error
 {
-	background:#FBE3E4;
+    background: #e04c40;
+color: #FFF;
+border-color: #e04c40;
+/*border-color: #8a1f11;*/
+/*	background:#FBE3E4;
 	color:#8a1f11;
-	border-color:#FBC2C4;
+	border-color:#FBC2C4;*/
 }
 
 div.flash-notice
@@ -295,8 +299,9 @@ div.flash-notice
 
 div.flash-success
 {
-	background:rgba(0, 153, 43, 0.65);
-	color:white;
+	/*background:rgba(0, 153, 43, 0.65);*/
+	background:#00992B;
+	color:#FFF;
 	border-color:#00992B;
 }
 
@@ -333,7 +338,7 @@ div.view
 
 #content table.detail-view tr.odd
 {
-  background-color: #eaf8e1;
+  /*background-color: #eaf8e1;*/
 }
 
 div.breadcrumbs
