@@ -37,6 +37,24 @@ class DetalleingresoController extends Controller
                 'actions'=>array(
                     'index',
                     'viewIngreso',
+                    'adminIngreso',
+                    'MatrizIngresos',
+                ),
+                'users'=>Users::UsuariosPorTipo(5),
+            ),
+            array('allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
+                    'index',
+                    'viewIngreso',
+                    'adminIngreso',
+                    'MatrizIngresos',
+                ),
+                'users'=>Users::UsuariosPorTipo(6),
+            ),
+            array('allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
+                    'index',
+                    'viewIngreso',
                     'createIngreso',
                     'adminIngreso',
                     'MatrizIngresos',
@@ -139,71 +157,95 @@ class DetalleingresoController extends Controller
             if ($model === null)
                 throw new CHttpException(404, 'The requested page does not exist.');
             return $model;
-        }
-        
+        }        
+            
         public static function controlAcceso($tipoUsuario)
         {
-            /* OPERADOR DE CABINA */
-            if($tipoUsuario==1)
-            {
-                return array(
-                    //array('label' => 'Declarar Inicio Jornada', 'url' => array('log/createInicioJornada')),
-                );
-            }
-            /* GERENTE DE OPERACIONES */
-            if($tipoUsuario==2)
-            {
-                return array(
-                    array('label'=>'__________INGRESOS___________','url'=>array('')),
-                    array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
-                    array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
-                    array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
-                    array('label'=>'__________GASTOS___________','url'=>array('')),
-                    array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
-                  //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
-                    array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
-                    array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
-                    array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
-                    array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
-                );
-            }
-            /* ADMINISTRADOR */
-            if($tipoUsuario==3)
-            {
-                return array(
-                    array('label'=>'__________INGRESOS___________','url'=>array('')),
-                    array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
-                    array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
-                    array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
-                    array('label'=>'__________GASTOS___________','url'=>array('')),
-                    array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
-                  //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
-                    array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
-                    array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
-                    array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
-                    array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
-                );
-            }
-            /* TESORERO */
-            if($tipoUsuario==4)
-            {
-                return array(
-                    array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
-                );
-            }
-            /* SOCIO */
-            if($tipoUsuario==5)
-            {
-                return array(
-                    array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
-                );
-            }
-            /* SOCIO */
-            if($tipoUsuario==6)
-            {
-                return array(
-                    array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
-                );
-            }
+        /* OPERADOR DE CABINA */
+        if($tipoUsuario==1)
+        {
+            return array(
+                //array('label' => 'Declarar Inicio Jornada', 'url' => array('log/createInicioJornada')),
+            );
         }
+        /* GERENTE DE OPERACIONES */
+        if($tipoUsuario==2)
+        {
+            return array(
+                 array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
+              //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+                array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
+            );
+        }
+        /* ADMINISTRADOR */
+        if($tipoUsuario==3)
+        {
+            return array(
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
+              //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+                array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
+            );
+        }
+        /* TESORERO */
+        if($tipoUsuario==4)
+        {
+            return array(
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
+              //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+                array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
+            );
+        }
+        /* SOCIO */
+        if($tipoUsuario==5)
+        {
+           return array(
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
+            );
+        }
+        /* CONTABILIDAD */
+        if($tipoUsuario==6)
+        {
+           return array(
+                array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
+                array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
+                array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
+            );
+        }
+    }
 }
