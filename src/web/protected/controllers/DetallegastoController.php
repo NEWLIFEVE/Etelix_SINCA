@@ -559,7 +559,7 @@ class DetallegastoController extends Controller {
                 array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
                 array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
-              //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+                array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
                 array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
                 array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
