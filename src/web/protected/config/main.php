@@ -112,6 +112,13 @@ return array(
 			'password'=>$pass_db,
 			'charset'=>'utf8',        
 			),
+                'soriDB'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'pgsql:host='.$server_db.';port=5432;dbname=sori',
+			'username'=>'postgres',
+			'password'=>'123',
+			'charset'=>'utf8',
+			),        
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors
 			'errorAction'=>'site/error',

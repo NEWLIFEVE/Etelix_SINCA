@@ -129,7 +129,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'name' => 'Puesto',
-            'value' => '$data->Puesto',
+            'value' => 'NovedadLocutorio::getLocutorioRow($data->Id)',
             'type' => 'text',
             'htmlOptions' => array(
                 'style' => 'text-align: center;',

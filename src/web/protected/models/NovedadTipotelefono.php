@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "novedad_locutorio".
+ * This is the model class for table "novedad_tipotelefono".
  *
- * The followings are the available columns in table 'novedad_locutorio':
- * @property integer $id
+ * The followings are the available columns in table 'novedad_tipotelefono':
+ * @property integer $Id
  * @property integer $NOVEDAD_Id
- * @property integer $LOCUTORIO_Id
+ * @property integer $TIPOTELEFONO_Id
  *
  * The followings are the available model relations:
  * @property Novedad $nOVEDAD
- * @property Locutorio $lOCUTORIO
+ * @property TipoNumeroTelefono $tIPOTELEFONO
  */
-class NovedadLocutorio extends CActiveRecord
+class NovedadTipotelefono extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'novedad_locutorio';
+		return 'novedad_tipotelefono';
 	}
 
 	/**
@@ -30,11 +30,11 @@ class NovedadLocutorio extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('NOVEDAD_Id, LOCUTORIO_Id', 'required'),
-			array('NOVEDAD_Id, LOCUTORIO_Id', 'numerical', 'integerOnly'=>true),
+			array('NOVEDAD_Id, TIPOTELEFONO_Id', 'required'),
+			array('NOVEDAD_Id, TIPOTELEFONO_Id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, NOVEDAD_Id, LOCUTORIO_Id', 'safe', 'on'=>'search'),
+			array('Id, NOVEDAD_Id, TIPOTELEFONO_Id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,7 +47,7 @@ class NovedadLocutorio extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'nOVEDAD' => array(self::BELONGS_TO, 'Novedad', 'NOVEDAD_Id'),
-			'lOCUTORIO' => array(self::BELONGS_TO, 'Locutorio', 'LOCUTORIO_Id'),
+			'tIPOTELEFONO' => array(self::BELONGS_TO, 'TipoNumeroTelefono', 'TIPOTELEFONO_Id'),
 		);
 	}
 
@@ -57,9 +57,9 @@ class NovedadLocutorio extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
+			'Id' => 'ID',
 			'NOVEDAD_Id' => 'Novedad',
-			'LOCUTORIO_Id' => 'Locutorio',
+			'TIPOTELEFONO_Id' => 'Tipotelefono',
 		);
 	}
 
@@ -81,9 +81,9 @@ class NovedadLocutorio extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		$criteria->compare('Id',$this->Id);
 		$criteria->compare('NOVEDAD_Id',$this->NOVEDAD_Id);
-		$criteria->compare('LOCUTORIO_Id',$this->LOCUTORIO_Id);
+		$criteria->compare('TIPOTELEFONO_Id',$this->TIPOTELEFONO_Id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -94,35 +94,27 @@ class NovedadLocutorio extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return NovedadLocutorio the static model class
+	 * @return NovedadTipotelefono the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
         
-        public static function getLocutorioRow($id)
+        public static function getTipoTelefonoRow($id)
         {
-          $model_novedad = Novedad::model()->findBySql("SELECT Puesto FROM novedad WHERE Id = $id");
-          $puesto = $model_novedad->Puesto;
-          if($puesto == NULL){
-            
-            $puestos = Array();  
-            $model = self::model()->findAllBySql("SELECT LOCUTORIO_Id FROM novedad_locutorio WHERE NOVEDAD_Id = $id ORDER BY LOCUTORIO_Id ASC");
-            foreach ($model as $key => $value) {
-                $puestos[$key] = $value->LOCUTORIO_Id;
-            }
-            if(!isset($puestos[0]))
-              $puestos_string = '0';
-            elseif(isset($puestos[0]) && $puestos[0] != 11)
-              $puestos_string = implode(",", $puestos);  
-            elseif($puestos[0] == 11)
-              $puestos_string = 'Todas';  
-
-            return $puestos_string;
-
-          }else{
-            return $model_novedad->Puesto;  
+          $tipo_telefono = Array();  
+	  $model = self::model()->findAllBySql("SELECT t.Nombre as TIPOTELEFONO_Id FROM tipo_numero_telefono as t  
+                                                INNER JOIN novedad_tipotelefono as nt ON t.Id = nt.TIPOTELEFONO_Id 
+                                                WHERE nt.NOVEDAD_Id = $id");
+          foreach ($model as $key => $value) {
+              $tipo_telefono[$key] = $value->TIPOTELEFONO_Id;
           }
+          if(!isset($tipo_telefono[0]))
+            $tipo_telefono_string = '0';
+          else
+            $tipo_telefono_string = implode(",", $tipo_telefono);  
+          
+          return $tipo_telefono_string;
         }
 }

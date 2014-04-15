@@ -61,11 +61,13 @@ class NovedadController extends Controller
 					'index',
 					'create',
 					'update',
+                                        'updateNovedad',
 					'admin',
 					'delete',
 					'view',
 					'enviarEmail',
-					'enviarNovedad'
+					'enviarNovedad',
+                                        'estadoNovedades'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(3))
 				),
@@ -117,79 +119,108 @@ class NovedadController extends Controller
 	public function actionCreate()
 	{
 	
-        $model=new Novedad;    
+        $model=new Novedad; 
+        //$model_telefono=new NovedadTipotelefono; 
 
         // Uncomment the following line if AJAX validation is needed
         //$this->performAjaxValidation($model);
                 
         if(isset($_POST['Novedad']))
         {
-            var_dump($_POST['Novedad']);
-//            $model->attributes=$_POST['Novedad'];
-//            $model->users_id=Yii::app()->user->id;
-//            $model->Fecha=date("Y-m-d",time());
-//            $model->Hora=date("H:i:s",time());
-//            if($model->save())
-//            {
-//            	$html="<div style='padding:auto 10% auto 10%;'>".
-//                    "<h1 style='border: 0 none; font:150% Arial,Helvetica,sans-serif; margin: 0;".
-//                    "padding: 5; vertical-align: baseline;".
-//                    "background: url('http://fullredperu.com/themes/mattskitchen/img/line_hor.gif')".
-//                    "repeat-x scroll 0 100% transparent;'>".
-//                    "Reporte de Novedad/Falla".
-//                    "</h1>".
-//                    "<br/>".
-//                    "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>ID:  </td>".
-//                    "<td style='width:50%;'>".$model->Id."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#e5f1f4;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Nombre de Cabina:  </td>".
-//                    "<td style='width:50%;'>".Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id)."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Tipo de Novedad:   </td>".
-//                    "<td style='width:50%;'>".$model->tIPONOVEDAD->Nombre. "</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#e5f1f4;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Fecha: </td>".
-//                    "<td style='width:50%;'>".$model->Fecha."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Hora: </td>".
-//                    "<td style='width:50%;'>".$model->Hora."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#e5f1f4;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Descripción: </td>".
-//                    "<td style='width:50%;'>".$model->Descripcion."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Número Telefónico: </td>".
-//                    "<td style='width:50%;'>".$model->Num."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#e5f1f4;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Puesto de la Cabina: </td>".
-//                    "<td style='width:50%;'>".$model->Puesto."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Login Usuario: </td>".
-//                    "<td style='width:50%;'>".Yii::app()->getModule('user')->user($model->users_id)->username."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#e5f1f4;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Correo Electrónico Usuario: </td>".
-//                    "<td style='width:50%;'>".Yii::app()->user->email."</td>".
-//                    "</tr>".
-//                    "</table>".
-//                    "</div>";
-//                $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
-//                $_POST ['html']=$html;
-//                $_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
-//
-//                Yii::app()->correo->sendEmail($html,$_POST ['correoUsuario'],$_POST['asunto']);
-//                Yii::app()->user->setFlash('success', "*Su Observacion fue enviada satisfactoriamente, en breve le daremos una respuesta*");
-//                $this->render('view', array('model' => $model,));
-//            }
+//            var_dump($_POST['Novedad']);
+            
+            $model->attributes=$_POST['Novedad'];
+            $this->performAjaxValidation($model);
+            
+            
+            $model->users_id=Yii::app()->user->id;
+            $model->Fecha=date("Y-m-d",time());
+            $model->Hora=date("H:i:s",time());
+            
+            $model->Descripcion=$_POST['Novedad']['Descripcion'];
+            
+            if(isset($_POST['Novedad']['Num']) && $_POST['Novedad']['Num'] != ''){
+                $model->Num=$_POST['Novedad']['Num'];
+            }else{
+                $model->Num=NULL;
+            }
+            
+            $model->Puesto=NULL;
+            $model->TIPONOVEDAD_Id=$_POST['Novedad']['TIPONOVEDAD_Id'];
+            
+            $model->STATUS_Id=1;
+
+            if($model->save())
+            {            
+                
+                $this->saveLocutorio($_POST['Novedad']['Puesto'],$model->Id);
+                $this->saveTelefono($model->Id,$_POST['Novedad']['TIPOTELEFONO_Id']);
+                
+            	$html="<div style='padding:auto 10% auto 10%;'>".
+                    "<h1 style='border: 0 none; font:150% Arial,Helvetica,sans-serif; margin: 0;".
+                    "padding: 5; vertical-align: baseline;".
+                    "background: url('http://fullredperu.com/themes/mattskitchen/img/line_hor.gif')".
+                    "repeat-x scroll 0 100% transparent;'>".
+                    "Reporte de Novedad/Falla".
+                    "</h1>".
+                    "<br/>".
+                    "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
+                    "<tr style='background-color:#f8f8f8;'>".
+                    "<td style='font-weight:bold;width:30%;'>ID:  </td>".
+                    "<td style='width:50%;'>".$model->Id."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#e5f1f4;'>".
+                    "<td style='font-weight:bold;width:30%;'>Nombre de Cabina:  </td>".
+                    "<td style='width:50%;'>".Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id)."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#f8f8f8;'>".
+                    "<td style='font-weight:bold;width:30%;'>Tipo de Novedad:   </td>".
+                    "<td style='width:50%;'>".$model->tIPONOVEDAD->Nombre. "</td>".
+                    "</tr>".
+                    "<tr style='background-color:#e5f1f4;'>".
+                    "<td style='font-weight:bold;width:30%;'>Fecha: </td>".
+                    "<td style='width:50%;'>".$model->Fecha."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#f8f8f8;'>".
+                    "<td style='font-weight:bold;width:30%;'>Hora: </td>".
+                    "<td style='width:50%;'>".$model->Hora."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#e5f1f4;'>".
+                    "<td style='font-weight:bold;width:30%;'>Descripción: </td>".
+                    "<td style='width:50%;'>".$model->Descripcion."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#f8f8f8;'>".
+                    "<td style='font-weight:bold;width:30%;'>Número Telefónico: </td>".
+                    "<td style='width:50%;'>".$model->Num."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#e5f1f4;'>".
+                    "<td style='font-weight:bold;width:30%;'>Tipo de Número Telefónico: </td>".
+                    "<td style='width:50%;'>".NovedadTipotelefono::getTipoTelefonoRow($model->Id)."</td>".
+                    "</tr>".    
+                    "<tr style='background-color:#f8f8f8;'>".
+                    "<td style='font-weight:bold;width:30%;'>Puesto de la Cabina: </td>".
+                    "<td style='width:50%;'>".NovedadLocutorio::getLocutorioRow($model->Id)."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#e5f1f4;'>".
+                    "<td style='font-weight:bold;width:30%;'>Login Usuario: </td>".
+                    "<td style='width:50%;'>".Yii::app()->getModule('user')->user($model->users_id)->username."</td>".
+                    "</tr>".
+                    "<tr style='background-color:#f8f8f8;'>".
+                    "<td style='font-weight:bold;width:30%;'>Correo Electrónico Usuario: </td>".
+                    "<td style='width:50%;'>".Yii::app()->user->email."</td>".
+                    "</tr>".
+                    "</table>".
+                    "</div>";
+                $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
+                $_POST['html']=$html;
+                //$_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
+                $_POST['correoUsuario']="pnfiuty.rramirez@gmail.com";
+
+                Yii::app()->correo->sendEmail($html,$_POST['correoUsuario'],$_POST['asunto']);
+                Yii::app()->user->setFlash('success', "*Su Observacion fue enviada satisfactoriamente, en breve le daremos una respuesta*");
+                
+                $this->redirect(array('view','id'=>$model->Id));
+            }
         }
         
         $model->unsetAttributes();
@@ -221,6 +252,57 @@ class NovedadController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionUpdateNovedad()
+        {
+            $model=new Novedad;
+            $idBalancesActualizados='0A';
+            $cont=-1;
+            foreach($_POST as $campo => $valor)
+            {
+                $id=substr($campo,strpos($campo ,'_')+1);
+                if($cont==-1)
+                {
+                    $cont++;
+                    $idRegistros[$cont]=$id;
+                }
+                if($idRegistros[$cont]!=$id)
+                {
+                    $cont++;
+                    $idRegistros[$cont]=$id;
+                }
+            }
+            foreach($idRegistros as $id)
+            {
+                $modelAux = Novedad::model()->findByPk($id);
+                if(isset($_POST['status_'.$id]) && $_POST['status_'.$id]==2 && isset($_POST['Observaciones_'.$id]) && $_POST['Observaciones_'.$id] !="")
+                {
+                    $modelAux->DESTINO_Id= DestinationInt::getId($_POST['Destino_'.$id]);
+                    $modelAux->STATUS_Id=$_POST['status_'.$id];
+                    $modelAux->Observaciones=$_POST['Observaciones_'.$id];
+      
+                    if($modelAux->update())
+                    {
+                        $idBalancesActualizados.=$modelAux->Id.'A';
+                    }
+                }
+                elseif(isset($_POST['status_'.$id]) && $_POST['status_'.$id] <2 && $_POST['status_'.$id] > 0)
+                {
+                    $modelAux->DESTINO_Id=NULL;
+                    $modelAux->STATUS_Id=$_POST['status_' . $id];
+                    $modelAux->Observaciones=NULL;
+
+                    if($modelAux->update())
+                    {
+                        $idBalancesActualizados.=$modelAux->Id.'A';
+                    }
+                }
+            }
+            //$this->redirect(array('mostrarFinal','id'=>$model->Id,'idBalancesActualizados' => $idBalancesActualizados)); 
+            $this->redirect('estadoNovedades', array(
+                'model' => $model,
+            ));
+        }
 
 	/**
 	 * Deletes a particular model.
@@ -257,6 +339,17 @@ class NovedadController extends Controller
                 if(isset($_GET['Novedad'])) $model->attributes=$_GET['Novedad'];
 
                 $this->render('admin', array(
+                    'model'=>$model,
+                ));
+	}
+        
+        public function actionEstadoNovedades()
+	{
+                $model=new Novedad('search');
+                $model->unsetAttributes();  // clear any default values
+                if(isset($_GET['Novedad'])) $model->attributes=$_GET['Novedad'];
+
+                $this->render('estadoNovedades', array(
                     'model'=>$model,
                 ));
 	}
@@ -328,6 +421,7 @@ class NovedadController extends Controller
     		return array(
                 array('label'=>'Reportar Novedad/Falla', 'url'=>array('create')),
                 array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
+                array('label'=>'Estado de Novedades/Fallas', 'url'=>array('estadoNovedades')),
                 );
     	}
     	if($tipoUsuario==5)
@@ -344,4 +438,41 @@ class NovedadController extends Controller
                 );
     	}       
     }
+    
+    public function saveLocutorio($array_locutorio,$novedad_id)
+    {
+        if(!isset($array_locutorio[0]) || $array_locutorio[0] == NULL || $array_locutorio[0] == ''){
+            
+        }elseif($array_locutorio[0] != 11){
+            for($i=0;$i<count($array_locutorio);$i++) {
+                $model_locutorio = new NovedadLocutorio;
+                $model_locutorio->NOVEDAD_Id = $novedad_id;
+                $model_locutorio->LOCUTORIO_Id = $array_locutorio[$i];
+
+                $model_locutorio->save(false);
+            }
+        }elseif($array_locutorio[0] == 11){
+            $model_locutorio = new NovedadLocutorio;
+            $model_locutorio->NOVEDAD_Id = $novedad_id;
+            $model_locutorio->LOCUTORIO_Id = 11;
+
+            $model_locutorio->save(false);
+        }
+    }
+    
+    public function saveTelefono($novedad_id,$tipo_telefono)
+    {
+        if(isset($tipo_telefono) && $tipo_telefono != ''){
+            $model_telefono = new NovedadTipotelefono;
+            $model_telefono->NOVEDAD_Id = $novedad_id;
+            $model_telefono->TIPOTELEFONO_Id = $tipo_telefono;
+            $model_telefono->save(false);
+        }
+    }
+    
+    
+    
+    
+    
+    
 }

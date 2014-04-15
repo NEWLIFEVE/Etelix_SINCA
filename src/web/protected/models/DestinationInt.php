@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "novedad_locutorio".
+ * This is the model class for table "destination_int".
  *
- * The followings are the available columns in table 'novedad_locutorio':
+ * The followings are the available columns in table 'destination_int':
  * @property integer $id
- * @property integer $NOVEDAD_Id
- * @property integer $LOCUTORIO_Id
+ * @property string $name
+ * @property integer $id_geographic_zone
  *
  * The followings are the available model relations:
- * @property Novedad $nOVEDAD
- * @property Locutorio $lOCUTORIO
+ * @property GeographicZone $idGeographicZone
+ * @property Balance[] $balances
  */
-class NovedadLocutorio extends CActiveRecord
+class DestinationInt extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'novedad_locutorio';
+		return 'destination_int';
 	}
 
 	/**
@@ -30,11 +30,12 @@ class NovedadLocutorio extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('NOVEDAD_Id, LOCUTORIO_Id', 'required'),
-			array('NOVEDAD_Id, LOCUTORIO_Id', 'numerical', 'integerOnly'=>true),
+			array('name', 'required'),
+			array('id_geographic_zone', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, NOVEDAD_Id, LOCUTORIO_Id', 'safe', 'on'=>'search'),
+			array('id, name, id_geographic_zone', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,8 +47,8 @@ class NovedadLocutorio extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'nOVEDAD' => array(self::BELONGS_TO, 'Novedad', 'NOVEDAD_Id'),
-			'lOCUTORIO' => array(self::BELONGS_TO, 'Locutorio', 'LOCUTORIO_Id'),
+			'idGeographicZone' => array(self::BELONGS_TO, 'GeographicZone', 'id_geographic_zone'),
+			'balances' => array(self::HAS_MANY, 'Balance', 'id_destination_int'),
 		);
 	}
 
@@ -58,8 +59,8 @@ class NovedadLocutorio extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'NOVEDAD_Id' => 'Novedad',
-			'LOCUTORIO_Id' => 'Locutorio',
+			'name' => 'Name',
+			'id_geographic_zone' => 'Id Geographic Zone',
 		);
 	}
 
@@ -82,8 +83,8 @@ class NovedadLocutorio extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('NOVEDAD_Id',$this->NOVEDAD_Id);
-		$criteria->compare('LOCUTORIO_Id',$this->LOCUTORIO_Id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('id_geographic_zone',$this->id_geographic_zone);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,38 +92,61 @@ class NovedadLocutorio extends CActiveRecord
 	}
 
 	/**
+	 * @return CDbConnection the database connection used for this class
+	 */
+	public function getDbConnection()
+	{
+		return Yii::app()->soriDB;
+	}
+
+	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return NovedadLocutorio the static model class
+	 * @return DestinationInt the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
         
-        public static function getLocutorioRow($id)
-        {
-          $model_novedad = Novedad::model()->findBySql("SELECT Puesto FROM novedad WHERE Id = $id");
-          $puesto = $model_novedad->Puesto;
-          if($puesto == NULL){
+        public static function getListDestination()
+	{
+		$model = DestinationInt::model()->findAll();
+                $list = '';
+
+                $list.= "<datalist id='destino'>";
+
+                foreach ($model as $value) {
+                    $list.= "<option value='$value->name'>";
+                }
+
+                $list.= "</datalist>";
+
+                return $list;
+	}
+        
+        public static function getId($nombre){
             
-            $puestos = Array();  
-            $model = self::model()->findAllBySql("SELECT LOCUTORIO_Id FROM novedad_locutorio WHERE NOVEDAD_Id = $id ORDER BY LOCUTORIO_Id ASC");
-            foreach ($model as $key => $value) {
-                $puestos[$key] = $value->LOCUTORIO_Id;
-            }
-            if(!isset($puestos[0]))
-              $puestos_string = '0';
-            elseif(isset($puestos[0]) && $puestos[0] != 11)
-              $puestos_string = implode(",", $puestos);  
-            elseif($puestos[0] == 11)
-              $puestos_string = 'Todas';  
-
-            return $puestos_string;
-
-          }else{
-            return $model_novedad->Puesto;  
-          }
+		if($nombre != null)
+		{
+			$model=self::model()->find('name=:nombre',array(':nombre'=>$nombre));
+                        if($model != null)
+                            return $model->id;
+                        else
+                            return NULL;
+			
+		}
         }
+        
+        public static function getNombre($id){
+            
+		if($id != null)
+		{
+			$model=self::model()->find('id=:id',array(':id'=>$id));
+			return $model->name;
+			
+		}
+        }
+        
 }

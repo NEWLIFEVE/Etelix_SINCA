@@ -3,7 +3,7 @@ $(document).ready(function() {
 
 
 
-$("input[class='Pagada']:checked").each(function() {
+    $("input[class='Pagada']:checked").each(function() {
         $(this).parents("tr:first").find("input[id^='NumeroTransferencia_']").removeAttr("disabled");
         $(this).parents("tr:first").find("select[id^='Cuenta_']").removeAttr("disabled");
         $(this).parents("tr:first").find("input[id^='FechaTransferencia_']").removeAttr("disabled");
@@ -26,7 +26,13 @@ $("input[class='Pagada']:checked").each(function() {
         $(this).parents("tr:first").find("input[id^='FechaTransferencia_']").attr('readonly', 'readonly');
     });
     
-
+    
+    $("select[id^='status_'].Estatus").click(function() {
+        $(this).parents("tr:first").find("input[id^='NumeroTransferencia_']").removeAttr("disabled");
+        $(this).parents("tr:first").find("select[id^='Cuenta_']").removeAttr("disabled");
+        $(this).parents("tr:first").find("input[id^='FechaTransferencia_']").removeAttr("disabled");
+        $(this).parents("tr:first").find("input[id^='FechaTransferencia_']").attr('readonly', 'readonly');
+    });
     
     $("input[id^='FechaTransferencia_']").each(function() {
         if ($(this).val().length) {
