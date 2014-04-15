@@ -47,10 +47,24 @@ echo CHtml::endForm();
             ),
             'Descripcion',
             'Num',
-            'Puesto',
+            //MUESTRA EL TELEFONO CON SU TIPO
+            array(
+                'name'=>'Tipo de Llamada',
+                'value'=> NovedadTipotelefono::getTipoTelefonoRow($model->Id),
+            ),
+            //MUESTRA LOS PUESTOS
+            array(
+                'type'=>'raw',
+                'name'=>'Puestos',
+                'value'=>  NovedadLocutorio::getLocutorioRow($model->Id),
+            ),
             array(
                 'name' => 'users_id',
                 'value' => $model->users->username,
+            ),
+            array(
+                    'name'=>'Estatus',
+                    'value'=> ($model->STATUS_Id == 1) ? 'Abierto' : 'Cerrado',
             ),
         ),
     ));

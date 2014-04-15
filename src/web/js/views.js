@@ -33,6 +33,11 @@ var selectfecha = function()
     this.objeto=null;
 }
 
+var selectfechaCompleta = function()
+{
+    this.objeto=null;
+}
+
 selectfecha.prototype.escoge=function(id)
 {
     var objeto=$(id);
@@ -49,6 +54,39 @@ selectfecha.prototype.escoge=function(id)
                 var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val(); 
                 var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val(); 
                 $(this).val($.datepicker.formatDate('yy-mm', new Date(year, month, 1)));
+            }
+        });
+        
+        objeto.focus(function()
+        {
+            $(".ui-datepicker-calendar").hide();
+            $("#ui-datepicker-div").position({
+                my: "center top",
+                at: "center bottom",
+                of: $(this)
+            });    
+        });
+    }
+
+}
+
+selectfechaCompleta.prototype.escoge=function(id)
+{
+    var objeto=$(id);
+    console.dir(objeto);
+    if(objeto.length>0){
+        objeto.datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            changeDay: true,
+            showButtonPanel: true,
+
+            onClose: function(dateText, inst)
+            {
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val(); 
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val(); 
+                $(this).val($.datepicker.formatDate('yy-mm-dd', new Date(year, month, 1)));
             }
         });
         
@@ -428,9 +466,11 @@ var totales=new totalGridView();
 var imprime=new imprimir();
 var pronostico=new totalPronostico('.grid-view');
 var datepicker=new selectfecha();
+var datepicker2=new selectfechaCompleta();
 
 $(document).ready(function()
 {
+    datepicker2.escoge("input#dateMonth2");
     datepicker.escoge("input#dateMonth");
     datepicker.escoge("input#FechaMes");
     totales.run();

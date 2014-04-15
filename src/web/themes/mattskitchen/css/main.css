@@ -1278,4 +1278,18 @@ background-color:#ff9900;
 
 }
 
+#Novedad_TIPOTELEFONO_Id label, #Novedad_Puesto label
+{
+    display: inline;
+}
+
+#Novedad_Puesto
+{
+    width: 100px !important;
+}
+
+section {
+    display: table !important;
+}
+
 /*FIN*/

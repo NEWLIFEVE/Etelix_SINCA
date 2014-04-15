@@ -91,4 +91,8 @@ class Tiponovedad extends CActiveRecord
             return CHtml::listData(Tiponovedad::model()->findAll(), 'Id', 'Nombre');
         }
         
+        public static function getListNombreporStatus($status) {
+            return CHtml::listData(Tiponovedad::model()->findAllBySql("SELECT * FROM tiponovedad WHERE status = $status ORDER BY Nombre = 'Otra'"), 'Id', 'Nombre');
+        }
+        
 }
