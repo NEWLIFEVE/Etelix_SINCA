@@ -25,7 +25,8 @@ else
 $año = date("Y", strtotime($mes));
 $mes2 = date("m", strtotime($mes));
         
-$sql="SELECT d.FechaMes as FechaMes, d.beneficiario as beneficiario, d.Monto as Monto, d.CABINA_Id as CABINA_Id
+$sql="SELECT d.FechaMes as FechaMes, d.beneficiario as beneficiario, d.Monto as Monto, 
+      d.CABINA_Id as CABINA_Id, t.Nombre as nombreTipoDetalle
       FROM detallegasto as d
       INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
       INNER JOIN category as c ON c.id = t.category_id
@@ -100,6 +101,7 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
 if (count($model)> 0) { ?>
 <table id="tablaNomina" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
     <thead>
+        <th style="background: none;"><h3></h3></th>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>
         <th style="background-color: #ff9900;"><h3>Chimbote</h3></th>
         <th style="background-color: #ff9900;"><h3>Etelix-Peru</h3></th>
@@ -129,11 +131,13 @@ if (count($model)> 0) { ?>
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
     </tr>
  <?php    
  
         $row="<tr style='height: em; background-color: #DADFE4;'>
-                <td></td>
+                <td style='background-color: none;'></td>
+                <td ></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -184,7 +188,7 @@ if (count($model)> 0) { ?>
 
                             }else{
                                 
-                                $content.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->beneficiario</h3></td>";
+                                $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->beneficiario</h3></td>";
                                 $content.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     
                             }
@@ -192,7 +196,7 @@ if (count($model)> 0) { ?>
                     if ($count>0){
                         $content.="<td></td>";
                     }else{
-                        $content.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->beneficiario</h3></td>";
+                        $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->beneficiario</h3></td>";
                     }
                 }
                 $count++;
@@ -212,7 +216,7 @@ if (count($model)> 0) { ?>
     // TOTALES SOLES         
     echo "<tr>
         
-            <td style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Soles</h3></td>";
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Soles</h3></td>";
             $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 AND id != 19 ORDER BY nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             foreach ($cabinas as $key => $cabina) {
@@ -243,7 +247,7 @@ if (count($model)> 0) { ?>
     // TOTALES DOLARES         
     echo "<tr>
         
-            <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Dolares</h3></td>";
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total Dolares</h3></td>";
          
             foreach ($cabinas as $key => $cabina) {
                 $sqlTotales = "SELECT sum(d.Monto) as MontoD
@@ -271,12 +275,27 @@ if (count($model)> 0) { ?>
             }
        
                   
-            echo "</tr>";     
-    echo $row;        
+            echo "</tr> 
+             <tr>
+                <td style='background: none;border:  0px rgb(233, 224, 224) solid !important;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
+              </tr>";     
+           
     // GRAN TOTALES SOLES         
     echo "<tr>
         
-            <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Total Soles</h3></td>";
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Total Soles</h3></td>";
 
                 $sqlTotales = "SELECT sum(d.Monto) as MontoS
                                   FROM detallegasto as d
@@ -307,7 +326,7 @@ if (count($model)> 0) { ?>
     // GRAN TOTALES DOLARES         
     echo "<tr>
         
-            <td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Total Dolares</h3></td>";
+            <td style='border:  0px rgb(233, 224, 224) solid !important; '></td><td style='color: #FFF;width: 120px; background: #00992B;font-size:10px;'><h3>Gran Total Dolares</h3></td>";
 
                 $sqlTotales = "SELECT sum(d.Monto) as MontoD
                                   FROM detallegasto as d

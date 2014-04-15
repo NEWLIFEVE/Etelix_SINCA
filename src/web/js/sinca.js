@@ -27,7 +27,8 @@ $(document).ready(function()
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
-    
+
+    $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
 });
     

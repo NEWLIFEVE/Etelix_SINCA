@@ -349,7 +349,7 @@ if (count($model)> 0) { ?>
        
                   
             echo "</tr>";     
-    echo $row;        
+          
     
     ?>
     
