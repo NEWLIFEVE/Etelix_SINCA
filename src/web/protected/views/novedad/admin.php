@@ -2,10 +2,7 @@
 /* @var $this NovedadController */
 /* @var $model Novedad */
 
-$this->breadcrumbs = array(
-    'Novedads' => array('index'),
-    'Manage',
-);
+
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = NovedadController::controlAcceso($tipoUsuario);
 

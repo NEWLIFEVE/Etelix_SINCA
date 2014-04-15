@@ -133,8 +133,9 @@ class Users extends CActiveRecord
                         
                         for ($i = 0; $i < $id->count(); $i++) {
                             $arreglo[$i] = $id->readColumn(0);
+//                            
                         } 
-                        return $arreglo;
+                return $arreglo;
             }
                             
         public static function getListUsers($cabina)

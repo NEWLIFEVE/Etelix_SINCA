@@ -12,7 +12,7 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
 
 ?>
 
-<h1>Detalle del Gasto #<?php echo $model->Id;?></h1>
+<h1>Detalle del Ingreso #<?php echo $model->Id;?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -22,10 +22,10 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
                     'name'=>'CABINA_Id',
                     'value'=>$model->cABINA->Nombre,
                 ),
-             array(
-                    'name'=>'USERS_Id',
-                    'value'=>$model->uSERS->username,
-                ),
+//             array(
+//                    'name'=>'USERS_Id',
+//                    'value'=>$model->uSERS->username,
+//                ),
              array(
                     'name'=>'TIPOINGRESO_Id',
                     'value'=>$model->tIPOINGRESO->Nombre,

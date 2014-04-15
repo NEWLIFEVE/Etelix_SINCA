@@ -32,6 +32,12 @@ class Detalleingreso extends CActiveRecord
         public $Cabina;
         public $Tipoingreso;
         public $Cuenta;
+        public $TSoles;
+        public $TDolares;
+        public $MontoD;
+        public $MontoS;
+        public $MontoDolares;
+        public $MontoSoles;
 
 
         public function tableName()
@@ -147,4 +153,16 @@ class Detalleingreso extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function montoGasto($moneda)
+        {     
+            $mon;
+            if($moneda == null){
+                $mon = '00.00';
+            }else{
+                $mon = $moneda;
+            }
+
+            return $mon;
+        }
 }

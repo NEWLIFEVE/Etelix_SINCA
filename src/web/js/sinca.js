@@ -19,12 +19,16 @@ $(document).ready(function()
     changeCheckbox(1);
     changeCheckbox(2);
     changeCheckbox(3);
+    
+    changeCheckboxCabinas(1);
+    changeCheckboxCabinas(2);
     changeStatus();
     canbioCuenta();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
-    
+
+    $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
 });
     
@@ -983,6 +987,9 @@ $(document).ready(function()
         if(gridview=='tabla2'){
             name = 'SINCA Matriz de Gastos Evolucion'+cabina+' '+fecha;
         }
+        if(gridview=='tablaIngresos'){
+            name = 'SINCA Matriz de Ingresos'+fecha;
+        }
         if(gridview=='tabla3'){
             name = 'SINCA Tablero de Control de Actividades'+fecha;
         }
@@ -1189,7 +1196,7 @@ $(document).ready(function()
                 
                 resetField(false);
                 
-                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Pago a Empleado' || selc_tipo_gasto == 'Nuevo..')){
+                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno')){
                         //Capturar Seleccion de la Cabina
                         $("#Detallegasto_CABINA_Id").change(function () {
                         var selc_categoria = $("#Detallegasto_category option:selected").text();
@@ -1197,7 +1204,7 @@ $(document).ready(function()
                         var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
                         var id_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").val();
                         
-                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Nuevo..' || selc_tipo_gasto == 'Pago a Empleado')){     
+                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno')){     
                         $("#Detallegasto_Monto").val('');     
                         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
                         
@@ -1277,6 +1284,39 @@ $(document).ready(function()
     
    
 
+    }
+    
+    function enableHoursCabinas(day){
+        
+        var checkbox = $('#Cabina_day_'+day).attr('checked');
+        if(day == 1){
+            if(checkbox != 'checked'){
+                $('#Cabina_HoraIni').prop('disabled', true);
+                $('#Cabina_HoraFin').prop('disabled', true);        
+            }else{
+                $('#Cabina_HoraIni').prop('disabled', false);
+                $('#Cabina_HoraFin').prop('disabled', false); 
+            }
+        }else{
+            if(checkbox != 'checked'){
+                $('#Cabina_HoraIniDom').prop('disabled', true);
+                $('#Cabina_HoraFinDom').prop('disabled', true);        
+            }else{
+                $('#Cabina_HoraIniDom').prop('disabled', false);
+                $('#Cabina_HoraFinDom').prop('disabled', false); 
+            }
+        }
+        
+    }
+    
+    function changeCheckboxCabinas(day){
+        
+        enableHoursCabinas(day);
+        $('#Cabina_day_'+day).change(function () {
+
+                enableHoursCabinas(day);
+
+        });
     }
     
     function resetField(beneficiario){

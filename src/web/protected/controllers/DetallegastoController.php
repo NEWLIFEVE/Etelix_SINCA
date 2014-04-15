@@ -165,11 +165,24 @@ class DetallegastoController extends Controller {
             if(isset($_POST['Detallegasto']['nombreTipoDetalle']) && $_POST['Detallegasto']['nombreTipoDetalle']!= ""){
                 $model->TIPOGASTO_Id = Tipogasto::getIdGasto($_POST['Detallegasto']['nombreTipoDetalle'],$_POST['Detallegasto']['category']);
             }else{
-
                 $model->TIPOGASTO_Id=$_POST['Detallegasto']['TIPOGASTO_Id'];
             }
-            if($model->save())
-                $this->redirect(array('view', 'id' => $model->Id));
+            
+            $tipoGasto = $_POST['Detallegasto']['TIPOGASTO_Id'];
+            $cabina = $_POST['Detallegasto']['CABINA_Id'];
+            $maneda = $_POST['Detallegasto']['moneda'];
+            $mes = $_POST['Detallegasto']['FechaMes']."-01";
+            $beneficiario = $_POST['Detallegasto']['beneficiario'];
+            
+            $varificar = Detallegasto::verificarGasto($tipoGasto,$cabina,$maneda,$mes,$beneficiario);
+            
+            if($varificar == false){
+                if($model->save())
+                    $this->redirect(array('view', 'id' => $model->Id));
+            }else{
+                    Yii::app()->user->setFlash('error',"Este Gasto ya Fue Declarado.");
+                    $this->redirect(array('create'));
+            }
         }
 
         $this->render('create', array(
@@ -523,11 +536,17 @@ class DetallegastoController extends Controller {
         if($tipoUsuario==2)
         {
             return array(
+                 array('label'=>'__________INGRESOS___________','url'=>array('')),
+                array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
+                array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
+                array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
-                array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
+              //  array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),
                 array('label' => 'Estado de Gastos', 'url' => array('detallegasto/estadoGastos')),
                 array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
-               array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
+                array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
             );
         }
         /* ADMINISTRADOR */
@@ -537,6 +556,7 @@ class DetallegastoController extends Controller {
                 array('label'=>'__________INGRESOS___________','url'=>array('')),
                 array('label' => 'Declarar Ingreso', 'url' => array('detalleingreso/createIngreso')),
                 array('label' => 'Administrar Ingresos', 'url' => array('detalleingreso/adminIngreso')),
+                array('label' => 'Matriz de Ingresos', 'url' => array('detalleingreso/matrizIngresos')),
                 array('label'=>'__________GASTOS___________','url'=>array('')),
                 array('label' => 'Declarar Gasto', 'url' => array('detallegasto/create')),
                 array('label' => 'Administrar Gastos', 'url' => array('detallegasto/admin')),

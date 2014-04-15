@@ -1,5 +1,5 @@
 <?php 
-date_default_timezone_set('America/Caracas'); 
+date_default_timezone_set('America/Lima'); 
 //Definimos nuestro servidor de produccion 
 define('SERVER_NAME_PROD','sinca.sacet.com.ve'); 
 //Definimos nuestro servidor de preproduccion 
@@ -28,6 +28,5 @@ switch ($server)
 		defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 		break;
 }
-
 require_once($yii);
 Yii::createWebApplication($config)->run();
