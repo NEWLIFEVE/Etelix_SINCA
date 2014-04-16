@@ -17,6 +17,9 @@ class NovedadLocutorio extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+         public $Puesto;
+    
+    
 	public function tableName()
 	{
 		return 'novedad_locutorio';

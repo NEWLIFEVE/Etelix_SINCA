@@ -5,12 +5,12 @@
 */
 $mes=date("Y-m-d");
 $cabina=NULL;
-$status=1;
+$status=0;
 if(isset($_POST["boton"]) && $_POST["boton"]== "Resetear Valores")
 {
     Yii::app()->user->setState('mesSesion',date("Y-m-d"));
     Yii::app()->user->setState('cabinaSesion',NULL);
-    Yii::app()->user->setState('rbtnStatusSesion',1);
+    Yii::app()->user->setState('rbtnStatusSesion',0);
     
     $mes=Yii::app()->user->getState('mesSesion');
     $cabina = Yii::app()->user->getState('cabinaSesion');
@@ -82,7 +82,7 @@ $('.search-form form').submit(function(){
 <div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
-        Estado de Novedades/Fallas <br>
+        Estado de Fallas
         <?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina).' - ' : ""; ?>
         <?php echo date("d/m/Y",strtotime($mes)); ?>
         <?php echo $status != NULL ? " - ".$estatus : ""; ?>
@@ -108,7 +108,7 @@ $('.search-form form').submit(function(){
         <div style="float: left;width: 19%;padding-top: 1%;padding-left: 4%;">
             <div>
                 <label for="dateMonth2">
-                    Seleccione un Mes:
+                    Seleccione un Día:
                 </label>
             </div>
             <div>

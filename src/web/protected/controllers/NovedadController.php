@@ -67,7 +67,8 @@ class NovedadController extends Controller
 					'view',
 					'enviarEmail',
 					'enviarNovedad',
-                                        'estadoNovedades'
+                                        'estadoNovedades',
+                                        'matrizNovedad'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(3))
 				),
@@ -343,6 +344,17 @@ class NovedadController extends Controller
                 ));
 	}
         
+        public function actionMatrizNovedad()
+	{
+                $model=new Novedad('search');
+                $model->unsetAttributes();  // clear any default values
+                if(isset($_GET['Novedad'])) $model->attributes=$_GET['Novedad'];
+
+                $this->render('matrizNovedad', array(
+                    'model'=>$model,
+                ));
+	}
+        
         public function actionEstadoNovedades()
 	{
                 $model=new Novedad('search');
@@ -419,9 +431,10 @@ class NovedadController extends Controller
     	if($tipoUsuario==3)
     	{
     		return array(
-                array('label'=>'Reportar Novedad/Falla', 'url'=>array('create')),
-                array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
-                array('label'=>'Estado de Novedades/Fallas', 'url'=>array('estadoNovedades')),
+                array('label'=>'Reportar Falla', 'url'=>array('create')),
+                array('label'=>'Administrar Fallas', 'url'=>array('admin')),
+                array('label'=>'Estado de Fallas', 'url'=>array('estadoNovedades')),
+                array('label'=>'Matriz General de Fallas', 'url'=>array('matrizNovedad')),    
                 );
     	}
     	if($tipoUsuario==5)

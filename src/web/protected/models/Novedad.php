@@ -146,19 +146,26 @@ class Novedad extends CActiveRecord
                 
                 if($vista=='estadoNovdad')
                 {
-                    if(isset($mes) && $mes != '' || isset($status) && $status != ''){
+                    if((isset($mes) && $mes != '') || (isset($status) && $status != '')){
                         $criteria->condition="Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY) AND STATUS_Id=$status";  
                     }
                     
                     if(isset($cabina) && $cabina != ''){
                         $criteria->join ='INNER JOIN users as u ON u.id = t.users_id';
-                        $criteria->condition="(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND t.STATUS_Id=$status AND u.CABINA_Id=$cabina";  
+                        if(isset($status) && $status != '')
+                           $criteria->condition="(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND t.STATUS_Id=$status AND u.CABINA_Id=$cabina";  
+                        else
+                           $criteria->condition="(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND u.CABINA_Id=$cabina";   
+                    }elseif(!isset($cabina) && $cabina == ''){
+                        $criteria->condition="Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)";
                     }
+                    
+                    
                 }
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        'sort'=>array('defaultOrder'=>'Fecha DESC'),
+                        'sort'=>array('defaultOrder'=>'Fecha DESC, STATUS_ID DESC'),
 		));
 	}
         
@@ -178,6 +185,50 @@ class Novedad extends CActiveRecord
             {
                 return FALSE;
             }
+        }
+        
+        public static function getLocutorioOldTable($cabina_id,$tipo_novedad,$fecha)
+        {
+          $model_novedad = Novedad::model()->findBySql("SELECT n.Puesto as Puesto
+                                                        FROM novedad as n
+                                                        INNER JOIN tiponovedad as t ON t.Id = n.TIPONOVEDAD_Id
+                                                        INNER JOIN users as u ON u.id = n.users_id
+                                                        WHERE u.CABINA_Id = $cabina_id
+                                                        AND t.Nombre = '$tipo_novedad'
+                                                        AND n.Fecha = '$fecha';");
+          $puesto = $model_novedad;
+          if($puesto == NULL){
+              return false;
+          }else{
+              return $model_novedad->Puesto;  
+          }
+        }
+        
+        public static function getLocutorioNewTable($cabina_id,$tipo_novedad,$fecha)
+        {
+          
+            $model = NovedadLocutorio::model()->findAllBySql("SELECT nl.LOCUTORIO_Id
+                                                  FROM novedad_locutorio as nl
+                                                  INNER JOIN novedad as n ON n.Id = nl.NOVEDAD_Id
+                                                  INNER JOIN tiponovedad as t ON t.Id = n.TIPONOVEDAD_Id
+                                                  INNER JOIN users as u ON u.id = n.users_id
+                                                  WHERE u.CABINA_Id = $cabina_id
+                                                  AND t.Nombre = '$tipo_novedad'
+                                                  AND n.Fecha = '$fecha'
+                                                  ORDER BY nl.LOCUTORIO_Id;");
+            foreach ($model as $key => $value) {
+                $puestos[$key] = $value->LOCUTORIO_Id;
+            }
+            if(!isset($puestos[0]))
+              $puestos_string = '';
+            elseif(isset($puestos[0]) && $puestos[0] != 11)
+              $puestos_string = implode(",", $puestos);  
+            elseif($puestos[0] == 11)
+              $puestos_string = 'Todas';  
+
+            return $puestos_string;
+
+          
         }
         
 }
