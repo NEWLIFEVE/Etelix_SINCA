@@ -187,12 +187,12 @@ if (count($model)> 0) { ?>
 
                             if ($count>0){
                                 
-                                $content.="<td style='width: 80px;color: #; $fondo; font-size:10px;'>$MontoGasto</td>";
+                                $content.="<td style='width: 80px;color: #; $fondo; font-size:12px;'>$MontoGasto</td>";
 
                             }else{
                                 
                                 $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->TipoNovedad</h3></td>";
-                                $content.="<td style='width: 80px;color: #; $fondo; font-size:10px;'>$MontoGasto</td>";
+                                $content.="<td style='width: 80px;color: #; $fondo; font-size:12px;'>$MontoGasto</td>";
                             }
                 }  else {
                     if ($count>0){

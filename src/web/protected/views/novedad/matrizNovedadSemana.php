@@ -179,7 +179,7 @@ if (count($model)> 0) { ?>
               if($Total_Fallas == false)
                     $Total_Fallas = Novedad::getLocutorioTotalesCabinaNew($gasto->Id,$dia_array[$i]);
               
-              $content.="<td style='width: 80px;color: #; font-size:10px;'>".$Total_Fallas."</td>";
+              $content.="<td style='width: 80px;color: #; font-size:12px;'>".$Total_Fallas."</td>";
             }
 
             $tr.="<tr id='ordenPago'> 
@@ -202,7 +202,7 @@ if (count($model)> 0) { ?>
                 if($Totales == false)
                     $Totales = Novedad::getLocutorioTotalesNew($dia_array[$i]);
                  
-                echo "<td style='width: 80px;color: #;background-color: #DADFE4; font-size:10px;'>".$Totales."</td>";
+                echo "<td style='width: 80px;color: #;background-color: #DADFE4; font-size:12px;'>".$Totales."</td>";
              }    
                  
            echo "</tr>";      
