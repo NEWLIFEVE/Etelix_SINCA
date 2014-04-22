@@ -127,7 +127,18 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
-
+    public function matrizNovedad($mes,$nombre)
+    {
+        $var= matrizNovedad::reporte($mes,$nombre);    
+        return $var;
+    }
+    
+    public function matrizNovedadSemana($mes,$nombre)
+    {
+        $var= matrizNovedadSemana::reporte($mes,$nombre);    
+        return $var;
+    }
+    
     public function matrizGastosEvolucion($mes,$cabina,$nombre,$type)
     {
         $var= matrizGastosEvolucion::reporte($mes,$cabina,$nombre,$type);    

@@ -394,8 +394,13 @@ class SiteController extends Controller
         }
         if($_GET['table']=='estadonovedad-grid')
         {
-            $files['estadoFalla']['name']=$_GET['name'];
+            $files['estadoFalla']['name']=str_replace("/","_",$_GET['name']);
             $files['estadoFalla']['body']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+        }
+        if($_GET['table']=='tablaNovedadSemana')
+        {
+            $files['matrizFallaTT']['name']=str_replace("/","_",$_GET['name']);
+            $files['matrizFallaTT']['body']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
         }
         
         foreach($files as $key => $file)
@@ -569,10 +574,17 @@ class SiteController extends Controller
         }
         if($_GET['table']=='estadonovedad-grid')
         {
-            $files['estadoFalla']['name']=$_GET['name'];
+            $files['estadoFalla']['name']=str_replace("/","_",$_GET['name']);
             $files['estadoFalla']['body']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
             $files['estadoFalla']['excel']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
             $files['estadoFalla']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadoFalla']['name'].".xls";
+        }
+        if($_GET['table']=='tablaNovedadSemana')
+        {
+            $files['matrizFallaTT']['name']=str_replace("/","_",$_GET['name']);
+            $files['matrizFallaTT']['body']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
+            $files['matrizFallaTT']['excel']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
+            $files['matrizFallaTT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizFallaTT']['name'].".xls";
         }
         
         foreach($files as $key => $file)
@@ -677,6 +689,10 @@ class SiteController extends Controller
         if($_GET['table']=='estadonovedad-grid')
         {
             echo Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+        }
+        if($_GET['table']=='tablaNovedadSemana')
+        {
+            echo Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
         }
     }
     

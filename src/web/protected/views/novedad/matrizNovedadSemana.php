@@ -42,7 +42,7 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
 <h1>
     <span class="enviar">
         Matriz Total de TT´s por Cabina  
-        <?php echo $mes; ?>
+        <?php echo '<font style="font-size:20px;">('.date('Y-m-j',strtotime("-6 day",strtotime($mes))).'/'.$mes.')</font>'; ?>
     </span>
     <span>
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoMatriz" />
@@ -109,7 +109,7 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
 </div>
 -->
 <br>
-<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
+<div id="fecha" style="display: none;"><?php echo '('.date('Y-m-j',strtotime("-6 day",strtotime($mes))).'/'.$mes.')';?></div>
 <div id="fecha2" style="display: none;"><?php echo $mes;?></div>
 
 <?php 
@@ -127,7 +127,7 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
 <?php 
 
 if (count($model)> 0) { ?>
-<table id="tablaNomina" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
+<table id="tablaNovedadSemana" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
     <thead>
         
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>

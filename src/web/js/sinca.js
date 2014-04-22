@@ -1072,7 +1072,10 @@ $(document).ready(function()
             name = 'SINCA Reteso Movimientos'+cabina+' '+fecha;
         }
         if(gridview=='estadonovedad-grid'){
-            name = 'SINCA Estado de Fallas'+cabina+' '+"<font style='font-size:14px;'>"+fecha+'</font>';
+            name = 'SINCA Estado de Fallas'+cabina+' '+fecha;
+        }
+        if(gridview=='tablaNovedadSemana'){
+            name = 'SINCA Matriz Total de TTs por Cabina'+fecha;
         }
         
         return name;   

@@ -222,18 +222,23 @@ class Novedad extends CActiveRecord
         
         public static function getLocutorioTotalesCabinaNew($cabina_id,$fecha)
         {
-          $model_novedad = Novedad::model()->findBySql("SELECT IF(COUNT(nl.LOCUTORIO_Id)=0,'',COUNT(nl.LOCUTORIO_Id)) as PuestoTotal
+          $model_novedad = NovedadLocutorio::model()->findAllBySql("SELECT nl.LOCUTORIO_Id as LOCUTORIO_Id
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
                                                         INNER JOIN novedad_locutorio as nl ON nl.NOVEDAD_Id = n.Id
                                                         WHERE u.CABINA_Id = $cabina_id
                                                         AND n.Fecha = '$fecha';");
-          $puesto = $model_novedad;
-          if($puesto == NULL){
-              return '';
-          }else{
-              return $model_novedad->PuestoTotal;  
+          foreach ($model_novedad as $key => $value) {
+              $puestos[$key] = $value->LOCUTORIO_Id;
           }
+          if(!isset($puestos[0]))
+              $puestos_string = '';
+            elseif(isset($puestos[0]) && $puestos[0] != 11)
+              $puestos_string = count($puestos);  
+            elseif($puestos[0] == 11)
+              $puestos_string = 'Todas';  
+
+            return $puestos_string;
         }
         
         public static function getLocutorioTotalesOld($fecha)
@@ -252,17 +257,24 @@ class Novedad extends CActiveRecord
         
         public static function getLocutorioTotalesNew($fecha)
         {
-          $model_novedad = Novedad::model()->findBySql("SELECT COUNT(nl.LOCUTORIO_Id) as PuestoTotal
+          $model_novedad = NovedadLocutorio::model()->findAllBySql("SELECT nl.LOCUTORIO_Id as LOCUTORIO_Id
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
                                                         INNER JOIN novedad_locutorio as nl ON nl.NOVEDAD_Id = n.Id
                                                         WHERE n.Fecha = '$fecha';");
-          $puesto = $model_novedad;
-          if($puesto == NULL){
-              return '';
-          }else{
-              return $model_novedad->PuestoTotal;  
+
+          foreach ($model_novedad as $key => $value) {
+              $puestos[$key] = $value->LOCUTORIO_Id;
           }
+          if(!isset($puestos[0]))
+              $puestos_string = '0';
+            elseif(isset($puestos[0]) && $puestos[0] != 11)
+              $puestos_string = count($puestos);  
+            elseif($puestos[0] == 11)
+              $puestos_string = 'Todas';  
+
+            return $puestos_string;
+            
         }
         
         public static function getLocutorioNewTable($cabina_id,$tipo_novedad,$fecha)
