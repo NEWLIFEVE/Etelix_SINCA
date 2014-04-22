@@ -53,11 +53,11 @@ else
     }
     if($status==1)
     {
-        $estatus='(Abierto)';
+        $estatus='<font style="font-size:20px;">(Abierto)</font>';
     }
     if($status==2)
     {
-        $estatus='(Cerrado)';
+        $estatus='<font style="font-size:20px;">(Cerrado)</font>';
     }
 }
 $año = date("Y", strtotime($mes));
@@ -84,7 +84,7 @@ $('.search-form form').submit(function(){
     <span class="enviar">
         Estado de Fallas
         <?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina).' - ' : ""; ?>
-        <?php echo $mes; ?>
+        <?php echo '<font style="font-size:20px;">('.date('Y-m-j',strtotime("-6 day",strtotime($mes))).'/'.$mes.')</font>'; ?>
         <?php echo $status != NULL ? " - ".$estatus : ""; ?>
     </span>
     <span>
@@ -157,7 +157,7 @@ $('.search-form form').submit(function(){
     </div>
     
 </form>
-<div id="fecha" style="display: none;"><?php echo $mes;?></div>
+<div id="fecha" style="display: none;"><?php echo '('.date('Y-m-j',strtotime("-6 day",strtotime($mes))).'/'.$mes.')';?></div>
 <div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <div id="status" style="display: none;"><?php echo $status != NULL ? $status : "";?></div>
 

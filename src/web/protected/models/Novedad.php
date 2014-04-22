@@ -205,11 +205,27 @@ class Novedad extends CActiveRecord
           }
         }
         
-        public static function getLocutorioTotalesCabina($cabina_id,$fecha)
+        public static function getLocutorioTotalesCabinaOld($cabina_id,$fecha)
         {
           $model_novedad = Novedad::model()->findBySql("SELECT IF(COUNT(n.Puesto)=0,'',COUNT(n.Puesto)) as PuestoTotal
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
+                                                        WHERE u.CABINA_Id = $cabina_id
+                                                        AND n.Fecha = '$fecha';");
+          $puesto = $model_novedad;
+          if($puesto == NULL){
+              return false;
+          }else{
+              return $model_novedad->PuestoTotal;  
+          }
+        }
+        
+        public static function getLocutorioTotalesCabinaNew($cabina_id,$fecha)
+        {
+          $model_novedad = Novedad::model()->findBySql("SELECT IF(COUNT(nl.LOCUTORIO_Id)=0,'',COUNT(nl.LOCUTORIO_Id)) as PuestoTotal
+                                                        FROM novedad as n
+                                                        INNER JOIN users as u ON u.id = n.users_id
+                                                        INNER JOIN novedad_locutorio as nl ON nl.NOVEDAD_Id = n.Id
                                                         WHERE u.CABINA_Id = $cabina_id
                                                         AND n.Fecha = '$fecha';");
           $puesto = $model_novedad;
@@ -220,11 +236,26 @@ class Novedad extends CActiveRecord
           }
         }
         
-        public static function getLocutorioTotales($fecha)
+        public static function getLocutorioTotalesOld($fecha)
         {
           $model_novedad = Novedad::model()->findBySql("SELECT COUNT(n.Puesto) as PuestoTotal
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
+                                                        WHERE n.Fecha = '$fecha';");
+          $puesto = $model_novedad;
+          if($puesto == NULL){
+              return '';
+          }else{
+              return $model_novedad->PuestoTotal;  
+          }
+        }
+        
+        public static function getLocutorioTotalesNew($fecha)
+        {
+          $model_novedad = Novedad::model()->findBySql("SELECT COUNT(nl.LOCUTORIO_Id) as PuestoTotal
+                                                        FROM novedad as n
+                                                        INNER JOIN users as u ON u.id = n.users_id
+                                                        INNER JOIN novedad_locutorio as nl ON nl.NOVEDAD_Id = n.Id
                                                         WHERE n.Fecha = '$fecha';");
           $puesto = $model_novedad;
           if($puesto == NULL){

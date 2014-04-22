@@ -117,7 +117,7 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
     $dia_array = Array();
     for($i=6;$i>=0;$i--){
          
-        $dia_array[$i] = date ( 'Y-m-j' , strtotime("-$i day",strtotime($mes)) );
+        $dia_array[$i] = date('Y-m-j',strtotime("-$i day",strtotime($mes)));
     } 
     //var_dump($dia_array);
     
@@ -174,7 +174,12 @@ if (count($model)> 0) { ?>
             $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->Nombre</h3></td>";
 
             for($i=6;$i>=0;$i--){ 
-              $content.="<td style='width: 80px;color: #; font-size:10px;'>".Novedad::getLocutorioTotalesCabina($gasto->Id,$dia_array[$i])."</td>";
+                
+              $Total_Fallas = Novedad::getLocutorioTotalesCabinaOld($gasto->Id,$dia_array[$i]);  
+              if($Total_Fallas == false)
+                    $Total_Fallas = Novedad::getLocutorioTotalesCabinaNew($gasto->Id,$dia_array[$i]);
+              
+              $content.="<td style='width: 80px;color: #; font-size:10px;'>".$Total_Fallas."</td>";
             }
 
             $tr.="<tr id='ordenPago'> 
@@ -192,7 +197,12 @@ if (count($model)> 0) { ?>
     echo "<tr id='TotalesNovedad'> 
     <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total</h3></td>";
              for($i=6;$i>=0;$i--){ 
-                echo "<td style='width: 80px;color: #;background-color: #DADFE4; font-size:10px;'>".Novedad::getLocutorioTotales($dia_array[$i])."</td>";
+                 
+                $Totales =  Novedad::getLocutorioTotalesOld($dia_array[$i]);
+                if($Totales == false)
+                    $Totales = Novedad::getLocutorioTotalesNew($dia_array[$i]);
+                 
+                echo "<td style='width: 80px;color: #;background-color: #DADFE4; font-size:10px;'>".$Totales."</td>";
              }    
                  
            echo "</tr>";      
