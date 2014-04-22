@@ -157,7 +157,7 @@ $('.search-form form').submit(function(){
     </div>
     
 </form>
-<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
+<div id="fecha" style="display: none;"><?php echo $mes;?></div>
 <div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <div id="status" style="display: none;"><?php echo $status != NULL ? $status : "";?></div>
 
@@ -262,7 +262,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         array(
             'name'=>'Observaciones',
             'type'=>'raw',
-            'value'=>'CHtml::textArea("Observaciones_$data->Id",$data->Observaciones,array("style"=>"width:200px;height: 50px;"))',
+            'value'=>'CHtml::textArea("Observaciones_$data->Id",$data->Observaciones,array("style"=>"width:200px;height: 50px;resize: none;"))',
             'htmlOptions'=>array(
                 "width"=>"65px"
             )

@@ -68,7 +68,8 @@ class NovedadController extends Controller
 					'enviarEmail',
 					'enviarNovedad',
                                         'estadoNovedades',
-                                        'matrizNovedad'
+                                        'matrizNovedad',
+                                        'matrizNovedadSemana'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(3))
 				),
@@ -355,6 +356,17 @@ class NovedadController extends Controller
                 ));
 	}
         
+        public function actionMatrizNovedadSemana()
+	{
+                $model=new Novedad('search');
+                $model->unsetAttributes();  // clear any default values
+                if(isset($_GET['Novedad'])) $model->attributes=$_GET['Novedad'];
+
+                $this->render('matrizNovedadSemana', array(
+                    'model'=>$model,
+                ));
+	}
+        
         public function actionEstadoNovedades()
 	{
                 $model=new Novedad('search');
@@ -434,7 +446,8 @@ class NovedadController extends Controller
                 array('label'=>'Reportar Falla', 'url'=>array('create')),
                 array('label'=>'Administrar Fallas', 'url'=>array('admin')),
                 array('label'=>'Estado de Fallas', 'url'=>array('estadoNovedades')),
-                array('label'=>'Matriz General de Fallas', 'url'=>array('matrizNovedad')),    
+                array('label'=>'Matriz General de Fallas', 'url'=>array('matrizNovedad')), 
+                array('label'=>'Total TT´s por Cabina', 'url'=>array('matrizNovedadSemana')),     
                 );
     	}
     	if($tipoUsuario==5)

@@ -1071,6 +1071,9 @@ $(document).ready(function()
         if(gridview=='DetailretesoMov'){
             name = 'SINCA Reteso Movimientos'+cabina+' '+fecha;
         }
+        if(gridview=='estadonovedad-grid'){
+            name = 'SINCA Estado de Fallas'+cabina+' '+fecha;
+        }
         
         return name;   
     }

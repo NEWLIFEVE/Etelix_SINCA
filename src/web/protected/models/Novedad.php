@@ -27,6 +27,7 @@ class Novedad extends CActiveRecord
     public $Falla;
     public $Locutorio;
     public $Destino;
+    public $PuestoTotal;
 
 
     public static function model($className=__CLASS__)
@@ -201,6 +202,35 @@ class Novedad extends CActiveRecord
               return false;
           }else{
               return $model_novedad->Puesto;  
+          }
+        }
+        
+        public static function getLocutorioTotalesCabina($cabina_id,$fecha)
+        {
+          $model_novedad = Novedad::model()->findBySql("SELECT IF(COUNT(n.Puesto)=0,'',COUNT(n.Puesto)) as PuestoTotal
+                                                        FROM novedad as n
+                                                        INNER JOIN users as u ON u.id = n.users_id
+                                                        WHERE u.CABINA_Id = $cabina_id
+                                                        AND n.Fecha = '$fecha';");
+          $puesto = $model_novedad;
+          if($puesto == NULL){
+              return '';
+          }else{
+              return $model_novedad->PuestoTotal;  
+          }
+        }
+        
+        public static function getLocutorioTotales($fecha)
+        {
+          $model_novedad = Novedad::model()->findBySql("SELECT COUNT(n.Puesto) as PuestoTotal
+                                                        FROM novedad as n
+                                                        INNER JOIN users as u ON u.id = n.users_id
+                                                        WHERE n.Fecha = '$fecha';");
+          $puesto = $model_novedad;
+          if($puesto == NULL){
+              return '';
+          }else{
+              return $model_novedad->PuestoTotal;  
           }
         }
         
