@@ -7,18 +7,18 @@ $mes=date("Y-m-d");
 
 if(isset($_POST["boton"]) && $_POST["boton"]== "Resetear Valores")
 {
-    Yii::app()->user->setState('mesSesionM',date("Y-m-d"));
+    Yii::app()->user->setState('mesSesionMS',date("Y-m-d"));
 }
 else
 {
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
     {
-        Yii::app()->user->setState('mesSesionM',$_POST["formFecha"]);
-        $mes=Yii::app()->user->getState('mesSesionM');
+        Yii::app()->user->setState('mesSesionMS',$_POST["formFecha"]);
+        $mes=Yii::app()->user->getState('mesSesionMS');
     }
-    elseif(strlen(Yii::app()->user->getState('mesSesionM')) && Yii::app()->user->getState('mesSesionM')!="")
+    elseif(strlen(Yii::app()->user->getState('mesSesionMS')) && Yii::app()->user->getState('mesSesionMS')!="")
     {
-        $mes = Yii::app()->user->getState('mesSesionM');
+        $mes = Yii::app()->user->getState('mesSesionMS');
     } 
 }
         
@@ -41,7 +41,7 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
 <div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
-        Total TT´s por Cabina  
+        Matriz Total de TT´s por Cabina  
         <?php echo $mes; ?>
     </span>
     <span>

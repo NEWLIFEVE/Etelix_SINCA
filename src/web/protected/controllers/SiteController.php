@@ -392,6 +392,11 @@ class SiteController extends Controller
             $files['adminIngreso']['name']=$_GET['name'];
             $files['adminIngreso']['body']=Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],true);     
         }
+        if($_GET['table']=='estadonovedad-grid')
+        {
+            $files['estadoFalla']['name']=$_GET['name'];
+            $files['estadoFalla']['body']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+        }
         
         foreach($files as $key => $file)
         {
@@ -562,6 +567,13 @@ class SiteController extends Controller
             $files['adminIngreso']['excel']=Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],true);
             $files['adminIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['adminIngreso']['name'].".xls";               
         }
+        if($_GET['table']=='estadonovedad-grid')
+        {
+            $files['estadoFalla']['name']=$_GET['name'];
+            $files['estadoFalla']['body']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+            $files['estadoFalla']['excel']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+            $files['estadoFalla']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadoFalla']['name'].".xls";
+        }
         
         foreach($files as $key => $file)
         {   
@@ -661,6 +673,10 @@ class SiteController extends Controller
         if($_GET['table']=='detalleingreso-grid')
         {
             echo Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],false);
+        }
+        if($_GET['table']=='estadonovedad-grid')
+        {
+            echo Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
         }
     }
     

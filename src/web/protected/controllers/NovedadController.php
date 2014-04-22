@@ -447,7 +447,7 @@ class NovedadController extends Controller
                 array('label'=>'Administrar Fallas', 'url'=>array('admin')),
                 array('label'=>'Estado de Fallas', 'url'=>array('estadoNovedades')),
                 array('label'=>'Matriz General de Fallas', 'url'=>array('matrizNovedad')), 
-                array('label'=>'Total TT´s por Cabina', 'url'=>array('matrizNovedadSemana')),     
+                array('label'=>'Matriz Total de TT´s por Cabina', 'url'=>array('matrizNovedadSemana')),     
                 );
     	}
     	if($tipoUsuario==5)

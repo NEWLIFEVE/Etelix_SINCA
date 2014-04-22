@@ -261,4 +261,12 @@ class Novedad extends CActiveRecord
           
         }
         
+        public static function getStatus($status)
+        {
+            if($status == 1)
+                return 'Abierto';
+            else
+                return 'Cerrado';
+        }        
+        
 }

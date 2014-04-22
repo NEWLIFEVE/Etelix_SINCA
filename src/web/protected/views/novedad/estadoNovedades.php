@@ -84,7 +84,7 @@ $('.search-form form').submit(function(){
     <span class="enviar">
         Estado de Fallas
         <?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina).' - ' : ""; ?>
-        <?php echo date("d/m/Y",strtotime($mes)); ?>
+        <?php echo $mes; ?>
         <?php echo $status != NULL ? " - ".$estatus : ""; ?>
     </span>
     <span>
@@ -200,7 +200,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         ),
         array(
             'name'=>'Fecha',
-            'value'=>'Utility::cambiarFormatoFecha($data->Fecha)',
+            'value'=>'$data->Fecha',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
                 'attribute'=>'Fecha',
@@ -221,7 +221,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                     )
                 ),true),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;',
+                'style'=>'text-align: center;width:65px;',
                 )
             ),
         array(
