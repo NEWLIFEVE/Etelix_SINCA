@@ -402,6 +402,11 @@ class SiteController extends Controller
             $files['matrizFallaTT']['name']=str_replace("/","_",$_GET['name']);
             $files['matrizFallaTT']['body']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
         }
+        if($_GET['table']=='tablaNovedad')
+        {
+            $files['matrizFalla']['name']=$_GET['name'];
+            $files['matrizFalla']['body']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
+        }
         
         foreach($files as $key => $file)
         {
@@ -586,6 +591,13 @@ class SiteController extends Controller
             $files['matrizFallaTT']['excel']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
             $files['matrizFallaTT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizFallaTT']['name'].".xls";
         }
+        if($_GET['table']=='tablaNovedad')
+        {
+            $files['matrizFalla']['name']=$_GET['name'];
+            $files['matrizFalla']['body']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
+            $files['matrizFalla']['excel']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
+            $files['matrizFalla']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizFalla']['name'].".xls";
+        }
         
         foreach($files as $key => $file)
         {   
@@ -693,6 +705,10 @@ class SiteController extends Controller
         if($_GET['table']=='tablaNovedadSemana')
         {
             echo Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
+        }
+        if($_GET['table']=='tablaNovedad')
+        {
+            echo Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
         }
     }
     

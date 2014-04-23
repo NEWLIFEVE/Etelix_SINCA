@@ -79,7 +79,7 @@ class matrizNovedadSemana extends Reportes
                       if($Total_Fallas == false)
                             $Total_Fallas = Novedad::getLocutorioTotalesCabinaNew($gasto->Id,$dia_array[$i]);
 
-                      $content.="<td style='width: 80px;color: #000000;text-align:center; font-size:10px;$borde'>".$Total_Fallas."</td>";
+                      $content.="<td style='width: 80px;text-align:center; font-size:10px;$borde'>".$Total_Fallas."</td>";
                     }
 
                      $tr.="<tr id='ordenPago'> 

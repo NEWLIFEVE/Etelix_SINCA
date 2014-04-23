@@ -114,12 +114,12 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
 </div>
 -->
 <br>
-<div id="fecha" style="display: none;"><?php echo date('Ym',strtotime($mes));?></div>
+<div id="fecha" style="display: none;"><?php echo $mes;?></div>
 <div id="fecha2" style="display: none;"><?php echo $mes;?></div>
 <?php 
 
 if (count($model)> 0) { ?>
-<table id="tablaNomina" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
+<table id="tablaNovedad" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
     <thead>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>
         <th style="background-color: #ff9900;"><h3>Chimbote</h3></th>

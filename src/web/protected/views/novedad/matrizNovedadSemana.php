@@ -29,7 +29,6 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
 ?>
 <script>
     $(document).ready(function(){
-
         $("#mostrarFormulas").click(function(){
             $("#tablaFormulas").slideToggle("slow");
         });
@@ -135,9 +134,9 @@ if (count($model)> 0) { ?>
         
         for($i=6;$i>=0;$i--){ 
             if(date("w", strtotime($dia_array[$i])) != 5)
-                echo "<th style='background-color: #ff9900;'><h3>$dia_array[$i]</h3></th>";
+                echo "<th style='background-color: #ff9900;font-size:12px;'><h3>$dia_array[$i]</h3></th>";
             else
-                echo "<th style='background-color: #00992B;'><h3>$dia_array[$i]</h3></th>";
+                echo "<th style='background-color: #00992B;font-size:12px;'><h3>$dia_array[$i]</h3></th>";
         } 
         
          ?>

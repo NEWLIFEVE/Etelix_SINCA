@@ -1077,6 +1077,9 @@ $(document).ready(function()
         if(gridview=='tablaNovedadSemana'){
             name = 'SINCA Matriz Total de TTs por Cabina'+fecha;
         }
+        if(gridview=='tablaNovedad'){
+            name = 'SINCA Matriz General de Fallas'+fecha;
+        }
         
         return name;   
     }
