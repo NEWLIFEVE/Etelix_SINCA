@@ -49,42 +49,21 @@ class matrizNovedad extends Reportes
                                     <img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' />
                                 </center>
                             </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Chimbote</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Etelix-Peru</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Huancayo</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 01</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 03</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Piura</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Pucallpa</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Surquillo</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Tarapoto</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 01</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 03</h3>
-                            </th>
-                        </thead>
+                            ";
+                
+                $nombre_cabinas = Cabina::model()->findAllBySQL("SELECT Nombre FROM cabina 
+                                      WHERE status=1 AND Nombre!='ZPRUEBA' AND Nombre != 'COMUN CABINA'
+                                      ORDER BY Nombre;");
+                
+                foreach ($nombre_cabinas as $key => $value) {
+                    $cabinass[$key] = $value->Nombre;
+                    $tr.= "<th style='width: 80px;background: #ff9900;text-align: center;$borde'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".$cabinass[$key]."</h3></th>";
+                }
+                            
+                            $tr.= "</thead>
                         <tbody>
                             <tr>
+                                <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>

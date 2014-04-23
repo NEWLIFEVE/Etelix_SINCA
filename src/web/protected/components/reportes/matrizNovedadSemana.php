@@ -55,9 +55,10 @@ class matrizNovedadSemana extends Reportes
                                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$dia_array[$i]</h3>
                                            </th>";
                             }
-                        $tr.="</thead>
+                        $tr.="<th style='background-color: #ff9900;$borde'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total por Cabina</h3></th></thead>
                         <tbody>
                             <tr>
+                                <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
                                 <td style='height: em; background-color: #DADFE4;'></td>
@@ -75,37 +76,36 @@ class matrizNovedadSemana extends Reportes
 
                     for($i=6;$i>=0;$i--){ 
 
-                      $Total_Fallas = Novedad::getLocutorioTotalesCabinaOld($gasto->Id,$dia_array[$i]);  
-                      if($Total_Fallas == false)
-                            $Total_Fallas = Novedad::getLocutorioTotalesCabinaNew($gasto->Id,$dia_array[$i]);
+                      $Total_Fallas = Novedad::getLocutorioTotalesCabinas($gasto->Id,$dia_array[$i]);  
 
                       $content.="<td style='width: 80px;text-align:center; font-size:10px;$borde'>".$Total_Fallas."</td>";
                     }
-
+                    $Total_Cabinas = Novedad::getTotalesCabina($gasto->Id,$dia_array[6],$dia_array[0]); 
+                    
                      $tr.="<tr id='ordenPago'> 
 
                          $content     
+                         <td style='width: 80px;text-align:center; font-size:10px;background-color: #DADFE4;$borde'>".$Total_Cabinas."</td>     
 
                      </tr>";
             
                 }
                 
-                $tr.= $row;
+                //$tr.= $row;
 
                 $tr.= "<tr id='TotalesNovedad'> 
                 <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;$borde'>
-                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total</h3>
+                            <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total por Dia</h3>
                 </td>";
+                $TotalTotales = 0;
                 for($i=6;$i>=0;$i--){ 
 
-                   $Totales =  Novedad::getLocutorioTotalesOld($dia_array[$i]);
-                   if($Totales == false)
-                       $Totales = Novedad::getLocutorioTotalesNew($dia_array[$i]);
-
+                   $Totales =  Novedad::getTotalesDias($dia_array[$i]);
+                   $TotalTotales = $TotalTotales + $Totales;
                    $tr.= "<td style='width: 80px;background-color: #DADFE4; font-size:10px;text-align:center;$borde'>".$Totales."</td>";
                 }    
                  
-                $tr.= "</tr></tbody></table>"; 
+                $tr.= "<td style='color: #FFFFFF; height: em; background-color: #1967B2;font-size:10px;text-align:center;$borde'>".$TotalTotales."</td></tr></tbody></table>"; 
 
                 return $tr;
             }

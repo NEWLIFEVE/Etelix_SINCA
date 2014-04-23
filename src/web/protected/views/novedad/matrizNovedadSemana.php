@@ -141,9 +141,12 @@ if (count($model)> 0) { ?>
         
          ?>
         
+        <th style='background-color: #ff9900;font-size:12px;'><h3>Total por Cabina</h3></th>
+        
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -164,6 +167,7 @@ if (count($model)> 0) { ?>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
               </tr>";
  
         foreach ($model as $key => $gasto) {
@@ -174,16 +178,20 @@ if (count($model)> 0) { ?>
 
             for($i=6;$i>=0;$i--){ 
                 
-              $Total_Fallas = Novedad::getLocutorioTotalesCabinaOld($gasto->Id,$dia_array[$i]);  
-              if($Total_Fallas == false)
-                    $Total_Fallas = Novedad::getLocutorioTotalesCabinaNew($gasto->Id,$dia_array[$i]);
+              $Total_Fallas = Novedad::getLocutorioTotalesCabinas($gasto->Id,$dia_array[$i]);  
               
               $content.="<td style='width: 80px;color: #; font-size:12px;'>".$Total_Fallas."</td>";
             }
+            
+            $Total_Cabinas = Novedad::getTotalesCabina($gasto->Id,$dia_array[6],$dia_array[0]);  
 
             $tr.="<tr id='ordenPago'> 
 
-                 $content     
+                 $content   
+                 
+
+
+                 <td style='height: em; background-color: #DADFE4;'>".$Total_Cabinas."</td> 
 
              </tr>";
             
@@ -191,20 +199,21 @@ if (count($model)> 0) { ?>
 
          }
     
-    echo $row;
+    //echo $row;
     
     echo "<tr id='TotalesNovedad'> 
-    <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total</h3></td>";
-             for($i=6;$i>=0;$i--){ 
+    <td rowspan='1' style='color: #FFF;width: 120px; background: #ff9900;font-size:10px;'><h3>Total por Día</h3></td>";
+            
+            $TotalTotales = 0;
+    
+            for($i=6;$i>=0;$i--){ 
                  
-                $Totales =  Novedad::getLocutorioTotalesOld($dia_array[$i]);
-                if($Totales == false)
-                    $Totales = Novedad::getLocutorioTotalesNew($dia_array[$i]);
-                 
+                $Totales =  Novedad::getTotalesDias($dia_array[$i]);
+                $TotalTotales = $TotalTotales + $Totales;
                 echo "<td style='width: 80px;color: #;background-color: #DADFE4; font-size:12px;'>".$Totales."</td>";
              }    
                  
-           echo "</tr>";      
+           echo "<td style='color: #FFFFFF; height: em; background-color: #1967B2;'>".$TotalTotales."</td></tr>";      
 
     ?>
     

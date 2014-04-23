@@ -103,22 +103,24 @@ if (count($model)> 0) { ?>
     <thead>
         <th style="background: none;"><h3></h3></th>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>
-        <th style="background-color: #ff9900;"><h3>Chimbote</h3></th>
-        <th style="background-color: #ff9900;"><h3>Etelix-Peru</h3></th>
-        <th style="background-color: #ff9900;"><h3>Huancayo</h3></th>
-        <th style="background-color: #ff9900;"><h3>Iquitos 01</h3></th>
-        <th style="background-color: #ff9900;"><h3>Iquitos 03</h3></th>
-        <th style="background-color: #ff9900;"><h3>Piura</h3></th>
-        <th style="background-color: #ff9900;"><h3>Pucallpa</h3></th>
-        <th style="background-color: #ff9900;"><h3>Surquillo</h3></th>
-        <th style="background-color: #ff9900;"><h3>Tarapoto</h3></th>
-        <th style="background-color: #ff9900;"><h3>Trujillo 01</h3></th>
-        <th style="background-color: #ff9900;"><h3>Trujillo 03</h3></th>
+        <?php 
+
+        $nombre_cabinas = Cabina::model()->findAllBySQL("SELECT Nombre FROM cabina 
+                                      WHERE status=1 AND Nombre!='ZPRUEBA' AND Nombre!='COMUN CABINA' 
+                                      ORDER BY Nombre;");
+        
+        foreach ($nombre_cabinas as $key => $value) {
+            $cabinass[$key] = $value->Nombre;
+            echo "<th style='background-color: #ff9900;'><h3>".$cabinass[$key]."</h3></th>";
+        }
+
+        ?>
         <!-- <th style="background-color: #ff9900;"><h3>Comun Cabina</h3></th> -->
         
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -149,6 +151,7 @@ if (count($model)> 0) { ?>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
               </tr>";
  
         foreach ($model as $key => $gasto) {
@@ -158,7 +161,7 @@ if (count($model)> 0) { ?>
         $MTD="";
         
           
-            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre";
+            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18 ORDER BY Nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
@@ -278,6 +281,7 @@ if (count($model)> 0) { ?>
             echo "</tr> 
              <tr>
                 <td style='background: none;border:  0px rgb(233, 224, 224) solid !important;'></td>
+                <td style='height: em; background-color: #DADFE4;'></td>
                 <td style='height: em; background-color: #DADFE4;'></td>
                 <td style='height: em; background-color: #DADFE4;'></td>
                 <td style='height: em; background-color: #DADFE4;'></td>

@@ -282,7 +282,12 @@ class NovedadController extends Controller
                     $modelAux->DESTINO_Id= DestinationInt::getId($_POST['Destino_'.$id]);
                     $modelAux->STATUS_Id=$_POST['status_'.$id];
                     $modelAux->Observaciones=$_POST['Observaciones_'.$id];
-      
+                    
+                    if($modelAux->FechaCierre == NULL && $modelAux->HoraCierre == NULL){
+                        $modelAux->FechaCierre=date('Y-m-d',time());
+                        $modelAux->HoraCierre=date('H:i:s',time());
+                    }
+  
                     if($modelAux->update())
                     {
                         $idBalancesActualizados.=$modelAux->Id.'A';
@@ -293,6 +298,8 @@ class NovedadController extends Controller
                     $modelAux->DESTINO_Id=NULL;
                     $modelAux->STATUS_Id=$_POST['status_' . $id];
                     $modelAux->Observaciones=NULL;
+                    $modelAux->FechaCierre=NULL;
+                    $modelAux->HoraCierre=NULL;
 
                     if($modelAux->update())
                     {

@@ -190,13 +190,14 @@ class Novedad extends CActiveRecord
         
         public static function getLocutorioOldTable($cabina_id,$tipo_novedad,$fecha)
         {
-          $model_novedad = Novedad::model()->findBySql("SELECT n.Puesto as Puesto
+          $model_novedad = Novedad::model()->findBySql("SELECT DISTINCT(n.Puesto) as Puesto
                                                         FROM novedad as n
                                                         INNER JOIN tiponovedad as t ON t.Id = n.TIPONOVEDAD_Id
                                                         INNER JOIN users as u ON u.id = n.users_id
                                                         WHERE u.CABINA_Id = $cabina_id
                                                         AND t.Nombre = '$tipo_novedad'
-                                                        AND n.Fecha = '$fecha';");
+                                                        AND n.Fecha = '$fecha'
+                                                        AND n.Puesto != 0;");
           $puesto = $model_novedad;
           if($puesto == NULL){
               return false;
@@ -205,9 +206,10 @@ class Novedad extends CActiveRecord
           }
         }
         
-        public static function getLocutorioTotalesCabinaOld($cabina_id,$fecha)
+        //OBTENER LOS TOTALES POR CABINA Y LOCUTORIO
+        public static function getLocutorioTotalesCabinas($cabina_id,$fecha)
         {
-          $model_novedad = Novedad::model()->findBySql("SELECT IF(COUNT(n.Puesto)=0,'',COUNT(n.Puesto)) as PuestoTotal
+          $model_novedad = Novedad::model()->findBySql("SELECT IF(COUNT(n.Id)=0,'',COUNT(n.Id)) as PuestoTotal
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
                                                         WHERE u.CABINA_Id = $cabina_id
@@ -220,30 +222,10 @@ class Novedad extends CActiveRecord
           }
         }
         
-        public static function getLocutorioTotalesCabinaNew($cabina_id,$fecha)
+        //TOTALES DE FALLAS POR DIA
+        public static function getTotalesDias($fecha)
         {
-          $model_novedad = NovedadLocutorio::model()->findAllBySql("SELECT nl.LOCUTORIO_Id as LOCUTORIO_Id
-                                                        FROM novedad as n
-                                                        INNER JOIN users as u ON u.id = n.users_id
-                                                        INNER JOIN novedad_locutorio as nl ON nl.NOVEDAD_Id = n.Id
-                                                        WHERE u.CABINA_Id = $cabina_id
-                                                        AND n.Fecha = '$fecha';");
-          foreach ($model_novedad as $key => $value) {
-              $puestos[$key] = $value->LOCUTORIO_Id;
-          }
-          if(!isset($puestos[0]))
-              $puestos_string = '';
-            elseif(isset($puestos[0]) && $puestos[0] != 11)
-              $puestos_string = count($puestos);  
-            elseif($puestos[0] == 11)
-              $puestos_string = 'Todas';  
-
-            return $puestos_string;
-        }
-        
-        public static function getLocutorioTotalesOld($fecha)
-        {
-          $model_novedad = Novedad::model()->findBySql("SELECT COUNT(n.Puesto) as PuestoTotal
+          $model_novedad = Novedad::model()->findBySql("SELECT COUNT(n.Id) as PuestoTotal
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
                                                         WHERE n.Fecha = '$fecha';");
@@ -255,28 +237,24 @@ class Novedad extends CActiveRecord
           }
         }
         
-        public static function getLocutorioTotalesNew($fecha)
+        //OBTENER LAS FALLAS TOTALES POR CABINA
+        public static function getTotalesCabina($cabina_id,$fecha_primera,$fecha_ultima)
         {
-          $model_novedad = NovedadLocutorio::model()->findAllBySql("SELECT nl.LOCUTORIO_Id as LOCUTORIO_Id
+          $model_novedad = Novedad::model()->findBySql("SELECT COUNT(n.Id) as PuestoTotal
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
-                                                        INNER JOIN novedad_locutorio as nl ON nl.NOVEDAD_Id = n.Id
-                                                        WHERE n.Fecha = '$fecha';");
-
-          foreach ($model_novedad as $key => $value) {
-              $puestos[$key] = $value->LOCUTORIO_Id;
+                                                        WHERE u.CABINA_Id = $cabina_id
+                                                        AND n.Fecha <= '$fecha_ultima'
+                                                        AND n.Fecha >= '$fecha_primera';");
+          $puesto = $model_novedad;
+          if($puesto == NULL){
+              return '';
+          }else{
+              return $model_novedad->PuestoTotal;  
           }
-          if(!isset($puestos[0]))
-              $puestos_string = '0';
-            elseif(isset($puestos[0]) && $puestos[0] != 11)
-              $puestos_string = count($puestos);  
-            elseif($puestos[0] == 11)
-              $puestos_string = 'Todas';  
-
-            return $puestos_string;
-            
         }
         
+        //OBTENER LOS LOCUTORIOS DE LA NUEVA TABLA CON RELACION MUCHOS A MUCHOS
         public static function getLocutorioNewTable($cabina_id,$tipo_novedad,$fecha)
         {
           

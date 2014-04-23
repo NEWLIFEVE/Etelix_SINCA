@@ -104,18 +104,20 @@ if (count($model)> 0) { ?>
     <thead>
         <th style="background: none;"><h3></h3></th>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>
-        <th style="background-color: #ff9900;"><h3>Chimbote</h3></th>
-        <th style="background-color: #ff9900;"><h3>Etelix-Peru</h3></th>
-        <th style="background-color: #ff9900;"><h3>Huancayo</h3></th>
-        <th style="background-color: #ff9900;"><h3>Iquitos 01</h3></th>
-        <th style="background-color: #ff9900;"><h3>Iquitos 03</h3></th>
-        <th style="background-color: #ff9900;"><h3>Piura</h3></th>
-        <th style="background-color: #ff9900;"><h3>Pucallpa</h3></th>
-        <th style="background-color: #ff9900;"><h3>Surquillo</h3></th>
-        <th style="background-color: #ff9900;"><h3>Tarapoto</h3></th>
-        <th style="background-color: #ff9900;"><h3>Trujillo 01</h3></th>
-        <th style="background-color: #ff9900;"><h3>Trujillo 03</h3></th>
-        <th style="background-color: #ff9900;"><h3>Comun Cabina</h3></th>
+        
+        <?php 
+
+        $nombre_cabinas = Cabina::model()->findAllBySQL("SELECT Nombre FROM cabina 
+                                      WHERE status=1 AND Nombre!='ZPRUEBA' 
+                                      ORDER BY Nombre = 'COMUN CABINA', Nombre;");
+        
+        foreach ($nombre_cabinas as $key => $value) {
+            $cabinass[$key] = $value->Nombre;
+            echo "<th style='background-color: #ff9900;'><h3>".$cabinass[$key]."</h3></th>";
+        }
+
+        ?>
+        
         <th style='background: #DADFE4;width: 0px;'></th>
         <th style="background-color: #ff9900;"><h3>Total Soles</h3></th>
         <th style="background-color: #ff9900;"><h3>Total Dolares</h3></th>
@@ -140,11 +142,13 @@ if (count($model)> 0) { ?>
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
     </tr>
  <?php    
  
         $row="<tr style='height: em; background-color: #DADFE4;'>
                 <td style='background-color: none;'></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
