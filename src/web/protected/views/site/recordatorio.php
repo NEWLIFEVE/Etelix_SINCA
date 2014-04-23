@@ -46,6 +46,8 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
 $sqlCP3 = Cabina::model()->findBySql("SELECT Id, Nombre, HoraIni, HoraFin, HoraIniDom, HoraFinDom FROM cabina WHERE Id = $cabina_id");
                 
 
+//SALDO DE APERTURA
+
 $connection = Yii::app()->db;
 $command = $connection->createCommand($sqlCP1);
 $command->bindValue(":cabina", $user_id); // bind de parametro cabina del user
@@ -55,21 +57,20 @@ $id = $command->query(); // execute a query SQL
 
 if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
 
+    if ($id->count()) {
 
-if ($id->count()) {
-
-    $hora = $id->readColumn(0); 
-    if(($diaMostrar != 'Domingo' && $hora > $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora > $sqlCP3->HoraIniDom)){ 
-      echo $hora;
-    }else{  
-
-    }            
-} else { 
-   echo "<p><h3 class='ocultar_linea'>Apertura de Cabina Tarde</h3></p>";
-} 
+        $hora = $id->readColumn(0); 
+        if(($diaMostrar != 'Domingo' && $hora > $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora > $sqlCP3->HoraIniDom)){ 
+          echo "<p><h3 class='ocultar_linea'>- Apertura de Cabina Tarde</h3></p>";
+        }else{  
+          echo "";
+        }            
+    } else { 
+        echo "<p><h3 class='ocultar_linea'>- Apertura de Cabina No Declarada</h3></p>";
+    } 
 
 }else{ 
-
+    echo "";
 }
 
 

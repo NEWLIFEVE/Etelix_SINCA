@@ -148,14 +148,18 @@ class Novedad extends CActiveRecord
                 if($vista=='estadoNovdad')
                 {
                     
+                    if(isset($mes) && $mes != '')
+                        $criteria->addCondition("(Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY))"); 
+                    
                     if(isset($cabina) && $cabina != ''){
                         $criteria->join ='INNER JOIN users as u ON u.id = t.users_id';
+                        $criteria->addCondition("(Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY))"); 
                         if(isset($status) && $status != '')
-                           $criteria->condition="(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND t.STATUS_Id=$status AND u.CABINA_Id=$cabina";  
+                           $criteria->addCondition("(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND t.STATUS_Id=$status AND u.CABINA_Id=$cabina");  
                         else
-                           $criteria->condition="(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND u.CABINA_Id=$cabina";   
+                           $criteria->addCondition("(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND u.CABINA_Id=$cabina");   
                     }elseif((!isset($cabina) && $cabina == '') && (isset($status) && $status != '')){
-                        $criteria->condition="Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY) AND STATUS_Id=$status";
+                        $criteria->addCondition("Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY) AND STATUS_Id=$status");
                     }
                     
                     
@@ -163,7 +167,7 @@ class Novedad extends CActiveRecord
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        'sort'=>array('defaultOrder'=>'Fecha DESC, STATUS_ID DESC'),
+                        'sort'=>array('defaultOrder'=>'Fecha DESC, STATUS_ID ASC'),
 		));
 	}
         
@@ -292,7 +296,7 @@ class Novedad extends CActiveRecord
             
 		if($status == 1)
 		{
-		   return CHtml::textArea("Observaciones_$id",$observacion,array("style"=>"width:200px;height: 50px;resize: none;"));	
+		   return CHtml::textArea("Observaciones_$id",$observacion,array("style"=>"width:98%;height: 50px;resize: none;"));	
 		}
                 else
                 {

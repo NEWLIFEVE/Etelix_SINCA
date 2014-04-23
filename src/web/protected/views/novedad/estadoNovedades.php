@@ -117,6 +117,7 @@ $('.search-form form').submit(function(){
                 $this->widget('zii.widgets.jui.CJuiDatePicker', 
                                 array(
                                 'language' => 'es', 
+                                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',    
                                 'model' =>$model,
                                 //'value' =>date('d/m/Y',strtotime($model->admission_date)),
                                 'attribute'=>'Fecha', 
@@ -177,7 +178,6 @@ echo Yii::app()->request->baseUrl;
 echo CHtml::beginForm(Yii::app()->createUrl('novedad/UpdateNovedad'), 'post', array('name' => 'actualizar', 'id' => 'Form'));
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'estadonovedad-grid',
-    'updateSelector' => '{sort}',
     'htmlOptions'=>array(
         'class'=>'grid-view ReporteDepositos',
         'rel'=>'total',
@@ -199,31 +199,33 @@ $this->widget('zii.widgets.grid.CGridView',array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
-            'name'=>'Fecha',
-            'value'=>'$data->Fecha',
-            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'model'=>$model,
-                'attribute'=>'Fecha',
-                'language'=>'es',
-                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
-                'htmlOptions'=>array(
-                    'id'=>'datepicker_for_Fecha',
-                    'size'=>'10'
-                    ),
-                'defaultOptions'=>array(
-                    'showOn'=>'focus',
-                    'dateFormat'=>'yy-mm-dd',
-                    'showOtherMonths'=>true,
-                    'selectOtherMonths'=>true,
-                    'changeMonth'=>true,
-                    'changeYear'=>true,
-                    'showButtonPanel'=>true
-                    )
-                ),true),
-            'htmlOptions'=>array(
-                'style'=>'text-align: center;width:65px;',
-                )
-            ),
+                        'name'=>'Fecha',
+                        'id'=>'Fecha',
+                        'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                          'model'=>$model,
+                          'attribute'=>'Fecha',
+                          'language'=>'es',
+                          'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
+                          'htmlOptions'=>array(
+                            'id'=>'datepicker_for_Fecha',
+                            'size'=>'10',
+                            ),
+                          'defaultOptions'=>array(
+                            'showOn'=>'focus',
+                            'dateFormat'=>'yy-mm-dd',
+                            'showOtherMonths'=>true,
+                            'selectOtherMonths'=>true,
+                            'changeMonth'=>true,
+                            'changeYear'=>true,
+                            'showButtonPanel'=>true,
+                            )
+                          ),
+                        true),
+                        'htmlOptions'=>array(
+                          'style'=>'text-align: center;',
+                          'id'=>'fecha',
+                          ),
+                        ),
         array(
             'name'=>'Cabina',
             'value'=>'Cabina::getNombreCabina(Yii::app()->getModule("user")->user($data->users_id)->CABINA_Id)',
@@ -257,7 +259,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'type'=>'raw',
             'value'=>'DestinationInt::changeByStatus($data->STATUS_Id,$data->Id,$data->DESTINO_Id)',
             'htmlOptions'=>array(
-                "width"=>"200px"
+                "width"=>"200px",
+                'style' => 'text-align: center;',
             )
         ),
         array(
@@ -265,7 +268,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'type'=>'raw',
             'value'=> 'Novedad::changeObservacionByStatus($data->STATUS_Id,$data->Id,$data->Observaciones)',
             'htmlOptions'=>array(
-                "width"=>"300px"
+                "width"=>"300px",
+                'style' => 'text-align: center;',
             )
         ),
         array(
@@ -289,8 +293,9 @@ echo CHTML::submitButton('Guardar en BD');
 echo "</span>";
 echo CHtml::endForm();
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
-function reinstallDatePicker(id, data) {
-    $('#datepicker_for_Fecha').datepicker();
-}
-");
+            function reinstallDatePicker(id, data)
+            {
+              $('#datepicker_for_Fecha').datepicker();
+            }
+          ");
 ?>
