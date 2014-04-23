@@ -32,7 +32,6 @@ $(document).ready(function()
 
     $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
-    
 
     
 });

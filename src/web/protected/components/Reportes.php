@@ -15,6 +15,7 @@ class Reportes extends CApplicationComponent
      * @param array $ids
      * @return string
      */
+    
     public function balanceAdmin($ids,$name,$type)
     {
         $var=  balanceAdmin::reporte($ids,$name,$type);
