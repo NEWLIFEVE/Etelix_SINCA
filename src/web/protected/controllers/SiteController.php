@@ -36,6 +36,13 @@ class SiteController extends Controller
         // using the default layout 'protected/views/layouts/main.php'
         $this->render('index');
     }
+    
+    public function actionRecordatorio()
+    {
+        // renders the view file 'protected/views/site/index.php'
+        // using the default layout 'protected/views/layouts/main.php'
+        $this->render('recordatorio');
+    }
 
     /**
      * This is the action to handle external exceptions.
@@ -131,6 +138,33 @@ class SiteController extends Controller
      * @access public
      * @static
      */
+    
+    public static function renderUser()
+    {
+        $tipoUsuario= Users::TipoUsuario(Yii::app()->user->id);
+        /* OPERADOR DE CABINA */
+        switch ($tipoUsuario) {
+            case 1: return '/log/createInicioJornada';
+            break;
+            case 2: return '/balance/index';
+            break;
+            case 3: return '/balance/controlPanel';
+            break;
+            case 4: return '/balance/reporteDepositos';
+            break;
+            case 5: return '/balance/controlPanel';
+            break;
+            case 6: return '/balance/controlPanel';
+            break;
+            case 7: return '/nomina/adminEmpleado';
+            break;
+            case 8: return '/novedad/admin';
+            break;
+        }
+
+    }
+    
+    
     public static function controlAcceso($tipoUsuario)
     {
         $idUsuario=Yii::app()->user->id;

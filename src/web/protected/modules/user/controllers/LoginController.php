@@ -2,6 +2,7 @@
 <?php
 
 Yii::import('webroot.protected.controllers.LogController');
+Yii::import('webroot.protected.controllers.SiteController');
 
 class LoginController extends Controller {
 
@@ -24,7 +25,7 @@ class LoginController extends Controller {
                         $this->redirect(Yii::app()->controller->module->returnUrl);
                     else
                     //$this->redirect(Yii::app()->user->returnUrl);
-                        $this->redirect(Yii::app()->createAbsoluteUrl('site/index'));
+                        $this->redirect(Yii::app()->createAbsoluteUrl(SiteController::renderUser()));
                 }
             }
             // display the login form
