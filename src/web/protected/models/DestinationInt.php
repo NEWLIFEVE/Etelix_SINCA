@@ -149,4 +149,16 @@ class DestinationInt extends CActiveRecord
 		}
         }
         
+        public static function changeByStatus($status,$id,$destino){
+            
+		if($status == 1)
+		{
+		   return CHtml::textField("Destino_$id",DestinationInt::getNombre($destino),array("style"=>"width:200px;","list"=>"destino"));	
+		}
+                else
+                {
+                    return self::getNombre($destino);
+                }
+        }
+        
 }

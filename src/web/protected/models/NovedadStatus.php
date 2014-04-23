@@ -100,4 +100,12 @@ class NovedadStatus extends CActiveRecord
 	{
 		return CHtml::listData(NovedadStatus::model()->findAll(), 'Id', 'Nombre');
 	}
+        
+        public static function getStatusName($status)
+	{
+		if($status == 1)
+                    return 'Abierto';
+                else
+                    return 'Cerrado';
+	}
 }

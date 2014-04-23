@@ -147,9 +147,6 @@ class Novedad extends CActiveRecord
                 
                 if($vista=='estadoNovdad')
                 {
-                    if((isset($mes) && $mes != '') || (isset($status) && $status != '')){
-                        $criteria->condition="Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY) AND STATUS_Id=$status";  
-                    }
                     
                     if(isset($cabina) && $cabina != ''){
                         $criteria->join ='INNER JOIN users as u ON u.id = t.users_id';
@@ -157,8 +154,8 @@ class Novedad extends CActiveRecord
                            $criteria->condition="(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND t.STATUS_Id=$status AND u.CABINA_Id=$cabina";  
                         else
                            $criteria->condition="(t.Fecha <= '$mes' AND t.Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)) AND u.CABINA_Id=$cabina";   
-                    }elseif(!isset($cabina) && $cabina == ''){
-                        $criteria->condition="Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY)";
+                    }elseif((!isset($cabina) && $cabina == '') && (isset($status) && $status != '')){
+                        $criteria->condition="Fecha <= '$mes' AND Fecha >= DATE_SUB('$mes', INTERVAL 6 DAY) AND STATUS_Id=$status";
                     }
                     
                     
@@ -228,6 +225,7 @@ class Novedad extends CActiveRecord
           $model_novedad = Novedad::model()->findBySql("SELECT COUNT(n.Id) as PuestoTotal
                                                         FROM novedad as n
                                                         INNER JOIN users as u ON u.id = n.users_id
+                                                        INNER JOIN cabina as c ON c.Id = u.CABINA_Id
                                                         WHERE n.Fecha = '$fecha';");
           $puesto = $model_novedad;
           if($puesto == NULL){
@@ -288,6 +286,30 @@ class Novedad extends CActiveRecord
                 return 'Abierto';
             else
                 return 'Cerrado';
-        }        
+        }
+        
+        public static function changeObservacionByStatus($status,$id,$observacion){
+            
+		if($status == 1)
+		{
+		   return CHtml::textArea("Observaciones_$id",$observacion,array("style"=>"width:200px;height: 50px;resize: none;"));	
+		}
+                else
+                {
+                    return $observacion;
+                }
+        }
+        
+        public static function changeStatusByStatus($status,$id,$status_actual){
+            
+		if($status == 1)
+		{
+		   return CHtml::dropDownList("status_$id", $status_actual, NovedadStatus::getListStatus(), array("style"=>"width:70px;","class"=>"Estatus"));	
+		}
+                else
+                {
+                    return NovedadStatus::getStatusName($status_actual);
+                }
+        }
         
 }

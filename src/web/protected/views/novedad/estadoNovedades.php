@@ -248,40 +248,36 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'type' => 'text',
             //'filter' => Tiponovedad::getListNombre(),
             'htmlOptions' => array(
+                "width"=>"65px",
                 'style' => 'text-align: center;',
             ),
         ),
         array(
             'name'=>'Destino',
             'type'=>'raw',
-            'value'=>'CHtml::textField("Destino_$data->Id",DestinationInt::getNombre($data->DESTINO_Id),array("style"=>"width:200px;","list"=>"destino"))',
+            'value'=>'DestinationInt::changeByStatus($data->STATUS_Id,$data->Id,$data->DESTINO_Id)',
             'htmlOptions'=>array(
-                "width"=>"65px"
+                "width"=>"200px"
             )
         ),
         array(
             'name'=>'Observaciones',
             'type'=>'raw',
-            'value'=>'CHtml::textArea("Observaciones_$data->Id",$data->Observaciones,array("style"=>"width:200px;height: 50px;resize: none;"))',
+            'value'=> 'Novedad::changeObservacionByStatus($data->STATUS_Id,$data->Id,$data->Observaciones)',
             'htmlOptions'=>array(
-                "width"=>"65px"
+                "width"=>"300px"
             )
         ),
         array(
             'name'=>'status',
             'type'=>'raw',
-            'value'=>'CHtml::dropDownList("status_$data->Id", $data->STATUS_Id, NovedadStatus::getListStatus(), array("style"=>"width:70px;","class"=>"Estatus"))',
+            'value'=>'Novedad::changeStatusByStatus($data->STATUS_Id,$data->Id,$data->STATUS_Id)',
             'filter' => NovedadStatus::getListStatus(),
             'htmlOptions'=>array(
                 'style'=>'text-align: center',
                 "width"=>"50px"
                 )
-            ),
-        array(
-            'header'=>'Detalle',
-            'class'=>'CButtonColumn',
-            'buttons'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo)
-        )
+            )
     )
 )
         );
