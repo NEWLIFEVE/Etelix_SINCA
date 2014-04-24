@@ -144,7 +144,7 @@ class SiteController extends Controller
         $tipoUsuario= Users::TipoUsuario(Yii::app()->user->id);
         /* OPERADOR DE CABINA */
         switch ($tipoUsuario) {
-            case 1: return '/log/createInicioJornada';
+            case 1: return '/site/recordatorio';
             break;
             case 2: return '/balance/index';
             break;

@@ -40,10 +40,6 @@ $sqlCP3 = Cabina::model()->findBySql("SELECT Id, Nombre, HoraIni, HoraFin, HoraI
 declare el saldo de cierre y la hora de fin de jornada. El empleado que no declare
 los datos solicitados ser&aacute; penalizado.</p>
 
-<p>Agradeciendo su colaboraci&oacute;n para el desarrollo de la empresa nos despedimos.</p>
-
-<p>Copyright 2013 by <a href="www.sacet.com.ve">www.sacet.com.ve</a> Legal privacy</p>
-
 <br>
 
 <?php
@@ -80,16 +76,16 @@ if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Do
         if(($diaMostrar != 'Domingo' && $hora > $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora > $sqlCP3->HoraIniDom)){ 
           
             if($diaMostrar != 'Domingo')
-                $ini_jornada = "<p><h3 class='ocultar_linea'>- Apertura de Cabina Tarde ($sqlCP3->HoraIni/$hora.':00')</h3></p>";
+                $ini_jornada = "<p>- Apertura de Cabina Tarde ($sqlCP3->HoraIni/$hora.':00')</p>";
             else
-                $ini_jornada = "<p><h3 class='ocultar_linea'>- Apertura de Cabina Tarde ($sqlCP3->HoraIniDom/$hora.':00')</h3></p>";
+                $ini_jornada = "<p>- Apertura de Cabina Tarde ($sqlCP3->HoraIniDom/$hora.':00')</p>";
 
         }else{  
           $ini_jornada = "";
         }       
         
     } else { 
-        $ini_jornada = "<p><h3 class='ocultar_linea'>- Apertura de Cabina No Declarada</h3></p>";
+        $ini_jornada = "<p>- Apertura de Cabina No Declarada</p>";
     } 
 
 }else{ 
@@ -111,7 +107,7 @@ if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Do
     if ($id->count()) {
         $saldo_apertura = "";
      } else { 
-        $saldo_apertura = "<p><h3 class='ocultar_linea'>- Saldo de Apertura No Declarado</h3></p>";
+        $saldo_apertura = "<p>- Saldo de Apertura No Declarado</p>";
     }
 
 }else{ 
@@ -133,7 +129,7 @@ if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Do
     if ($id->count()) {
         $ventas_llamadas = "";
      } else { 
-        $ventas_llamadas = "<p><h3 class='ocultar_linea'>- Ventas de Llamadas No Declaradas</h3></p>";
+        $ventas_llamadas = "<p>- Ventas de Llamadas No Declaradas</p>";
     }
 
 }else{ 
@@ -155,7 +151,7 @@ if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Do
     if ($id->count()) {
         $depositos = "";
      } else { 
-        $depositos = "<p><h3 class='ocultar_linea'>- Depositos No Declarados</h3></p>";
+        $depositos = "<p>- Depositos No Declarados</p>";
     }
 
 }else{ 
@@ -177,7 +173,7 @@ if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Do
     if ($id->count()) {
         $saldo_cierre = "";
      } else { 
-        $saldo_cierre = "<p><h3 class='ocultar_linea'>- Saldo de Cierre No Declarado</h3></p>";
+        $saldo_cierre = "<p>- Saldo de Cierre No Declarado</p>";
     }
 
 }else{ 
@@ -201,15 +197,15 @@ if(($diaMostrar != 'Domingo' && $sqlCP3->HoraFin != null) || ($diaMostrar == 'Do
         if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){ 
           
             if($diaMostrar != 'Domingo')
-                $fin_jornada = "<p><h3 class='ocultar_linea'>- Cierre de Cabina Temprano ($sqlCP3->HoraFin/$hora2.':00')</h3></p>";
+                $fin_jornada = "<p>- Cierre de Cabina Temprano ($sqlCP3->HoraFin/$hora2.':00')</p>";
             else
-                $fin_jornada = "<p><h3 class='ocultar_linea'>- Cierre de Cabina Temprano ($sqlCP3->HoraFinDom/$hora2.':00')</h3></p>";
+                $fin_jornada = "<p>- Cierre de Cabina Temprano ($sqlCP3->HoraFinDom/$hora2.':00')</p>";
         }else{  
           $fin_jornada = "";
         }       
         
     } else { 
-        $fin_jornada = "<p><h3 class='ocultar_linea'>- Cierre de Cabina No Declarado</h3></p>";
+        $fin_jornada = "<p>- Cierre de Cabina No Declarado</p>";
     } 
 
 }else{ 
