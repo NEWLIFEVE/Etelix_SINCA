@@ -47,6 +47,10 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoMatriz" />
         <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelMatriz" />
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonMatriz' />
+        
+        
+        <img id="excel" title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' />
+        
     </span>
 </h1>
 <form name="Detallegasto" method="post" action="<?php echo Yii::app()->createAbsoluteUrl('novedad/matrizNovedadSemana') ?>">

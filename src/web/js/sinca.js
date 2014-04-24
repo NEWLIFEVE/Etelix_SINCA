@@ -32,7 +32,11 @@ $(document).ready(function()
 
     $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
-
+    $('img#excel').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
+     { 
+         window.open('/site/ex','_top');
+         
+     });
     
 });
     

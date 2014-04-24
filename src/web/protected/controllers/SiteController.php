@@ -64,6 +64,11 @@ class SiteController extends Controller
     {
         $this->render('sessionFinished','');
     }
+    
+    public function actionEx()
+    {
+        $this->render('../../components/reportes/reporteConsolidado');
+    }
 
     /**
      * Displays the contact page
