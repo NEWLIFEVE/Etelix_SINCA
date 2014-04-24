@@ -32,12 +32,6 @@ $(document).ready(function()
 
     $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
-    $('img#excel').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
-     { 
-         window.open('/site/ex','_top');
-         
-     });
-    
 });
     
     function changeStatusNovedad()
@@ -391,6 +385,64 @@ $(document).ready(function()
                                     success:  function (response) {
                                             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
                                              setTimeout("window.open('/site/excel?table="+gridview+'&date='+date+'&name='+name+"','_top');",500);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  }).responseText;
+
+             //alert(response);
+             
+
+             }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#loading").css("display", "none");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+
+        });
+        $('img.botonExcelConsolidado').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
+        {    
+
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+             
+            var gridview = 'reporteConsolidado';
+            var name = genNameFile(gridview);
+            var mes = $('div#fecha2').text();
+            //Creamos la variable que contiene la tabla generada.
+            if($('div#fecha2').length){
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/excel?name="+name+"&table="+gridview+"&mes="+mes,    
+                                    async: true,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout("window.open('/site/excel?name="+name+"&table="+gridview+"&mes="+mes+"','_top');",500);
 
                                              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
                                              $("#complete").html("Archivo Excel Generado... !!");
@@ -1083,7 +1135,10 @@ $(document).ready(function()
         if(gridview=='tablaNovedad'){
             name = 'SINCA Matriz General de Fallas'+fecha;
         }
-        
+        if(gridview=='reporteConsolidado'){
+            name = 'SINCA Consolidado Fallas'+fecha;
+        }
+
         return name;   
     }
 

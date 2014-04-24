@@ -16,15 +16,21 @@ class Reportes extends CApplicationComponent
      * @return string
      */
     
-    public function balanceAdmin($ids,$name,$type)
+    public function reporteConsolidado($day,$name)
     {
-        $var=  balanceAdmin::reporte($ids,$name,$type);
+        $var=  reporteConsolidado::reporte($day,$name);
         return $var;
     }
     
     /**
      * Documentacion va aqui
      */
+    
+    public function balanceAdmin($ids,$name,$type)
+    {
+        $var=  balanceAdmin::reporte($ids,$name,$type);
+        return $var;
+    }
 
     public function libroVenta($ids,$name,$type)
 

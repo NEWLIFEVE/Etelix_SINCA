@@ -64,11 +64,6 @@ class SiteController extends Controller
     {
         $this->render('sessionFinished','');
     }
-    
-    public function actionEx()
-    {
-        $this->render('../../components/reportes/reporteConsolidado');
-    }
 
     /**
      * Displays the contact page
@@ -319,6 +314,7 @@ class SiteController extends Controller
      * ACCIONES PARA EXPORTAR A EXCEL, ENVIAR CORREO ELECTRONICO E IMPIRMIR (LLAMAN A LAS FUNCIONES CORRESPONDIENTES)
      * @access public
      */
+
     public function actionExcel()
     {
         $files=array();
@@ -445,6 +441,10 @@ class SiteController extends Controller
         {
             $files['matrizFalla']['name']=$_GET['name'];
             $files['matrizFalla']['body']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
+        }
+        if($_GET['table']=='reporteConsolidado')
+        {
+            Yii::app()->reporte->reporteConsolidado($_GET['mes'],str_replace("/","_",$_GET['name']));
         }
         
         foreach($files as $key => $file)

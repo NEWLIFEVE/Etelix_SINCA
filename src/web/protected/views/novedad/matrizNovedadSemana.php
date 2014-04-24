@@ -49,7 +49,7 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonMatriz' />
         
         
-        <img id="excel" title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' />
+        <img id="excel" title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' class="botonExcelConsolidado" />
         
     </span>
 </h1>
