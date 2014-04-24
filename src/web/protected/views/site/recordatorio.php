@@ -31,21 +31,39 @@ $sqlCP3 = Cabina::model()->findBySql("SELECT Id, Nombre, HoraIni, HoraFin, HoraI
 ?>
 <!-- <h1>Bienvenido a <i><?php //echo CHtml::encode(Yii::app()->name); ?></i></h1> -->
 <h1 class="ocultar_linea">Bienvenido a SINCA</h1>
-<h1 class="ocultar_linea">Recordatorio</h1>
+<br>
+<h1>Recordatorio</h1>
 
+<h3 class="ocultar_linea">Estimados empleados</h3>
 
-<br><br>
-<p> <h1 class="ocultar_linea">Fallas Cometidas</h1></p>
+<p>Les recordamos que es necesario y obligatorio que el empleado encargado de cerrar la cabina 
+declare el saldo de cierre y la hora de fin de jornada. El empleado que no declare
+los datos solicitados ser&aacute; penalizado.</p>
 
+<p>Agradeciendo su colaboraci&oacute;n para el desarrollo de la empresa nos despedimos.</p>
 
-<p> <h3 class="ocultar_linea">El Día de Ayer (<?php echo $fechaActual;?>) la Cabina "<?php echo $cabina_nombre; ?>" 
-Incumplio con las Siguientes Actividades: </h3></p>
+<p>Copyright 2013 by <a href="www.sacet.com.ve">www.sacet.com.ve</a> Legal privacy</p>
+
 <br>
 
 <?php
 
+$mensaje = '';
+
+$ini_jornada = '';
+$saldo_apertura = '';
+$ventas_llamadas = '';
+$depositos = '';
+$saldo_cierre = '';
+$fin_jornada = '';
+
 
 /********************************INICIO JORNADA*******************************************************/
+
+$mensaje = "<p> <h1>Faltas Cometidas</h1></p> 
+<p> <h3 class='ocultar_linea'>El Día de Ayer ($fechaActual) la Cabina '$cabina_nombre' 
+Incumplio con las Siguientes Actividades: </h3></p>
+<br>";
 
 $connection = Yii::app()->db;
 $command = $connection->createCommand($sqlCP1);
@@ -60,17 +78,22 @@ if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Do
 
         $hora = $id->readColumn(0); 
         if(($diaMostrar != 'Domingo' && $hora > $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora > $sqlCP3->HoraIniDom)){ 
-          echo "<p><h3 class='ocultar_linea'>- Apertura de Cabina Tarde ($sqlCP3->HoraIni/$hora)</h3></p>";
+          
+            if($diaMostrar != 'Domingo')
+                $ini_jornada = "<p><h3 class='ocultar_linea'>- Apertura de Cabina Tarde ($sqlCP3->HoraIni/$hora.':00')</h3></p>";
+            else
+                $ini_jornada = "<p><h3 class='ocultar_linea'>- Apertura de Cabina Tarde ($sqlCP3->HoraIniDom/$hora.':00')</h3></p>";
+
         }else{  
-          echo "";
+          $ini_jornada = "";
         }       
         
     } else { 
-        echo "<p><h3 class='ocultar_linea'>- Apertura de Cabina No Declarada</h3></p>";
+        $ini_jornada = "<p><h3 class='ocultar_linea'>- Apertura de Cabina No Declarada</h3></p>";
     } 
 
 }else{ 
-    echo "";
+    $ini_jornada = "";
 }
 
 /********************************SALDO APERTURA*******************************************************/    
@@ -86,13 +109,13 @@ $id = $command->query(); // execute a query SQL
 if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
 
     if ($id->count()) {
-        echo "";
+        $saldo_apertura = "";
      } else { 
-        echo "<p><h3 class='ocultar_linea'>- Saldo de Apertura No Declarado</h3></p>";
+        $saldo_apertura = "<p><h3 class='ocultar_linea'>- Saldo de Apertura No Declarado</h3></p>";
     }
 
 }else{ 
-    echo "";
+    $saldo_apertura = "";
 }
 
 /********************************LLAMADAS*******************************************************/
@@ -108,16 +131,113 @@ $id = $command->query(); // execute a query SQL
 if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
 
     if ($id->count()) {
-        echo "";
+        $ventas_llamadas = "";
      } else { 
-        echo "<p><h3 class='ocultar_linea'>- Ventas de Llamadas No Declaradas</h3></p>";
+        $ventas_llamadas = "<p><h3 class='ocultar_linea'>- Ventas de Llamadas No Declaradas</h3></p>";
     }
 
 }else{ 
-    echo "";
+    $ventas_llamadas = "";
+}
+
+/********************************DEPOSITOS*******************************************************/
+
+$connection = Yii::app()->db;
+$command = $connection->createCommand($sqlCP);
+$command->bindValue(":cabina", $cabina_id); // bind de parametro cabina del user
+$command->bindValue(":accion", 4); // bind de parametro cabina del user
+$command->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario  
+$command->bindValue(":fechaesp", $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
+$id = $command->query(); // execute a query SQL
+
+if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+
+    if ($id->count()) {
+        $depositos = "";
+     } else { 
+        $depositos = "<p><h3 class='ocultar_linea'>- Depositos No Declarados</h3></p>";
+    }
+
+}else{ 
+    $depositos = "";
+}
+
+/********************************SALDO CIERRE*******************************************************/
+
+$connection = Yii::app()->db;
+$command = $connection->createCommand($sqlCP1);
+$command->bindValue(":cabina", $cabina_id); // bind de parametro cabina del user
+$command->bindValue(":accion", 8); // bind de parametro cabina del user
+$command->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario   
+//$command->bindValue(":fechaesp", $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
+$id = $command->query(); // execute a query SQL
+
+if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+
+    if ($id->count()) {
+        $saldo_cierre = "";
+     } else { 
+        $saldo_cierre = "<p><h3 class='ocultar_linea'>- Saldo de Cierre No Declarado</h3></p>";
+    }
+
+}else{ 
+    $saldo_cierre = "";
+}
+
+/********************************FIN JORNADA*******************************************************/
+
+$connection2 = Yii::app()->db;
+$command2 = $connection2->createCommand($sqlCP2);
+$command2->bindValue(":cabina", $cabina_id); // bind de parametro cabina del user
+$command2->bindValue(":accion", 10); // bind de parametro cabina del user
+$command2->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
+$id2 = $command2->query(); // execute a query SQL
+
+if(($diaMostrar != 'Domingo' && $sqlCP3->HoraFin != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraFinDom != null)){
+
+    if ($id2->count()) {
+
+        $hora2 = $id2->readColumn(0); 
+        if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){ 
+          
+            if($diaMostrar != 'Domingo')
+                $fin_jornada = "<p><h3 class='ocultar_linea'>- Cierre de Cabina Temprano ($sqlCP3->HoraFin/$hora2.':00')</h3></p>";
+            else
+                $fin_jornada = "<p><h3 class='ocultar_linea'>- Cierre de Cabina Temprano ($sqlCP3->HoraFinDom/$hora2.':00')</h3></p>";
+        }else{  
+          $fin_jornada = "";
+        }       
+        
+    } else { 
+        $fin_jornada = "<p><h3 class='ocultar_linea'>- Cierre de Cabina No Declarado</h3></p>";
+    } 
+
+}else{ 
+    $fin_jornada = "";
 }
 
 
+/********************************MENSAJE*******************************************************/
 
+if($ini_jornada != '' || $saldo_apertura != '' || $ventas_llamadas != '' || 
+   $depositos != '' || $saldo_cierre != '' || $fin_jornada != ''){
+    
+    
+    echo $mensaje;
+    
+    if($ini_jornada != '')
+        echo $ini_jornada;
+    if($saldo_apertura != '')
+        echo $saldo_apertura;
+    if($ventas_llamadas != '')
+        echo $ventas_llamadas;
+    if($depositos != '')
+        echo $depositos;
+    if($saldo_cierre != '')
+        echo $saldo_cierre;
+    if($fin_jornada != '')
+        echo $fin_jornada;
+    
+}
 
 ?>
