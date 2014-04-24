@@ -25,7 +25,7 @@ $(document).ready(function()
     changeCheckboxLocutorio();
     changeStatus();
     canbioCuenta();
-    changeStatusNovedad();
+//    changeStatusNovedad();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });

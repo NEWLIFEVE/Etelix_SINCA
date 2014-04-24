@@ -215,8 +215,15 @@ class NovedadController extends Controller
                     "</div>";
                 $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
                 $_POST['html']=$html;
-                //$_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
-                $_POST['correoUsuario']="pnfiuty.rramirez@gmail.com";
+                
+                if(!YII_DEBUG)
+                {
+                    $_POST ['correoUsuario']="fallascabinasperu@sacet.biz";
+                }
+                else
+                {
+                    $_POST['correoUsuario']="auto@sacet.biz";
+                }
 
                 Yii::app()->correo->sendEmail($html,$_POST['correoUsuario'],$_POST['asunto']);
                 Yii::app()->user->setFlash('success', "*Su Observacion fue enviada satisfactoriamente, en breve le daremos una respuesta*");

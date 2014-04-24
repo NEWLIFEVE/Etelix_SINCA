@@ -5,7 +5,7 @@
     background: none;
 }
  .resaltado{
-     background-color: #00992B  ! important;
+     background-color: #00992B ! important;
      color: #FFFFFF;
  }
  
@@ -1280,6 +1280,9 @@ background-color:#ff9900;
 
 }
 
+<<<<<<< HEAD
+/*FIN*/
+=======
 #Novedad_TIPOTELEFONO_Id label, #Novedad_Puesto label
 {
     display: inline;
@@ -1295,3 +1298,4 @@ section {
 }
 
 /*FIN*/
+>>>>>>> dev
