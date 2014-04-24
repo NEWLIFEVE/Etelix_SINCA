@@ -43,7 +43,6 @@ PHPExcel_Shared_String::buildCharacterSets();
  * @package     PHPExcel
  * @copyright   Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-
 class PHPExcel_Autoloader
 {
     /**
@@ -52,32 +51,35 @@ class PHPExcel_Autoloader
      */
     public static function Register() {
         if (function_exists('__autoload')) {
-            //  Register any existing autoloader function with SPL, so we don't get any clashes
+            //    Register any existing autoloader function with SPL, so we don't get any clashes
             spl_autoload_register('__autoload');
         }
-        $registered = false;
-        if(self::beforeAutoloadRegister()) {
-            //  Register ourselves with SPL
-            $registered = spl_autoload_register(array('PHPExcel_Autoloader', 'Load'), true, true);
-            self::afterAutoloadRegister();
-        }
-        
-        return $registered;
-    }   //  function Register()
+        //    Register ourselves with SPL
+        return spl_autoload_register(array('PHPExcel_Autoloader', 'Load'));
+    }   //    function Register()
 
-    private static function beforeAutoloadRegister()
-    {
-        //fix for usage in Yii framework v1.1.x (unregister Yii's autoloader)
-        if(class_exists('YiiBase') && method_exists('YiiBase','autoload'))
-            spl_autoload_unregister(array('YiiBase', 'autoload'));
-        
-        return true;
-    }
-    private static function afterAutoloadRegister()
-    {
-        //fix for usage in Yii framework v1.1.x (re-register Yii's autoloader)
-        if(class_exists('YiiBase') && method_exists('YiiBase','autoload'))
-            spl_autoload_register(array('YiiBase', 'autoload'));
-    }  //    function Load()
+
+    /**
+     * Autoload a class identified by name
+     *
+     * @param    string    $pClassName        Name of the object to load
+     */
+    public static function Load($pClassName){
+        if ((class_exists($pClassName,FALSE)) || (strpos($pClassName, 'PHPExcel') !== 0)) {
+            //    Either already loaded, or not a PHPExcel class request
+            return FALSE;
+        }
+
+        $pClassFilePath = PHPEXCEL_ROOT .
+                          str_replace('_',DIRECTORY_SEPARATOR,$pClassName) .
+                          '.php';
+
+        if ((file_exists($pClassFilePath) === FALSE) || (is_readable($pClassFilePath) === FALSE)) {
+            //    Can't load
+            return FALSE;
+        }
+
+        require($pClassFilePath);
+    }   //    function Load()
 
 }
