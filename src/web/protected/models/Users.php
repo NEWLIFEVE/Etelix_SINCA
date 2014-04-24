@@ -124,19 +124,26 @@ class Users extends CActiveRecord
 		));
 	}
         
-         public static function UsuariosPorTipo($tipoUsuario)
-            {
-               $sql="SELECT username FROM users where tipo IN ($tipoUsuario);";
-                        $connection=Yii::app()->db; 
-                        $command=$connection->createCommand($sql);       
-                        $id=$command->query(); // execute a query SQL
-                        
-                        for ($i = 0; $i < $id->count(); $i++) {
-                            $arreglo[$i] = $id->readColumn(0);
+        public static function UsuariosPorTipo($tipoUsuario)
+        {
+           $sql="SELECT username FROM users where tipo IN ($tipoUsuario);";
+                    $connection=Yii::app()->db; 
+                    $command=$connection->createCommand($sql);       
+                    $id=$command->query(); // execute a query SQL
+
+                    for ($i = 0; $i < $id->count(); $i++) {
+                        $arreglo[$i] = $id->readColumn(0);
 //                            
-                        } 
-                return $arreglo;
-            }
+                    } 
+            return $arreglo;
+        }
+        
+        public static function TipoUsuario($id)
+        {
+           $sql="SELECT tipo FROM users where id = $id;";
+           $model = self::model()->findBySql($sql);         
+            return $model->tipo;
+        }
                             
         public static function getListUsers($cabina)
     {

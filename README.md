@@ -3,6 +3,17 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Realese 1.8.2
+    - Modificar el Horario de las Cabinas
+    - El Panel de Control ahora indica “Dia No Laborable”, para aquellas cabinas que no trabajen los domingos.
+    - Nueva interfaz para reportar Fallas
+    - Reporte de Estado de Fallas, permite Cerrar el TT, agregar una observación e indicar el destino relacionado a la falla. 
+    - Reporte de Matriz General de Fallas, por dia.
+    - Reporte de Matriz de Total de TT’s por Cabina.
+    - Exportablñes para todos los reportes de Fallas.
+    - Eliminada pantalla de bienvenida, después de autenticarse el usuario es llevado a una pantalla dependiendo de su ROL. (Ej: un usuario tipo Socio es llevado directamente a la pantalla del Tablero de Control, mientras que un operador de Cabina va directamente a la pantalla de Declarar Inicio de Jornada Laboral).
+
+
 Realese 1.8.1
     - Nuevo MVC Ingresos
     - Nuevo tipo de UYsuario NOC, solo ve Novedades/Fallas

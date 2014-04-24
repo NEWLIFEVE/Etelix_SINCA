@@ -19,15 +19,66 @@ $(document).ready(function()
     changeCheckbox(1);
     changeCheckbox(2);
     changeCheckbox(3);
+    
+    changeCheckboxCabinas(1);
+    changeCheckboxCabinas(2);
+    changeCheckboxLocutorio();
     changeStatus();
     canbioCuenta();
+//    changeStatusNovedad();
     $("#Detallegasto_category").change(function () {
             selectGasto();
     });
+
+    $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
+
     
 });
     
+    function changeStatusNovedad()
+    {
+        
+          $("select[id^='status_'].Estatus").each(function(){
+
+            var id = '';
+            var id_numero = '';
+            var estatus = '';
+
+            id = $(this).attr('id');
+            estatus = $(this).val();
+            id_numero = id.split("status_");
+
+            if(estatus == '2'){
+                $('textarea#Observaciones_'+id_numero[1]).attr('readonly', 'readonly');
+                $('input#Destino_'+id_numero[1]).attr('readonly', 'readonly');
+            }else{
+                $('textarea#Observaciones_'+id_numero[1]).removeAttr('disabled');
+                $('input#Destino_'+id_numero[1]).removeAttr('readonly');
+            }
+
+          });
+            
+        $("select[id^='status_'].Estatus").change(function(){
+
+            var id = '';
+            var id_numero = '';
+            var estatus = '';
+
+            id = $(this).attr('id');
+            estatus = $(this).val();
+            id_numero = id.split("status_");
+
+            if(estatus == '2'){
+                $('textarea#Observaciones_'+id_numero[1]).attr('readonly', 'readonly');
+                $('input#Destino_'+id_numero[1]).attr('readonly', 'readonly');
+            }else{
+                $('textarea#Observaciones_'+id_numero[1]).removeAttr('readonly');
+                $('input#Destino_'+id_numero[1]).removeAttr('readonly');
+            }
+
+         });
+    }
     
     function newEC(){
         $('img.botonAgregar').on('click',function(event)
@@ -983,6 +1034,9 @@ $(document).ready(function()
         if(gridview=='tabla2'){
             name = 'SINCA Matriz de Gastos Evolucion'+cabina+' '+fecha;
         }
+        if(gridview=='tablaIngresos'){
+            name = 'SINCA Matriz de Ingresos'+fecha;
+        }
         if(gridview=='tabla3'){
             name = 'SINCA Tablero de Control de Actividades'+fecha;
         }
@@ -1015,6 +1069,15 @@ $(document).ready(function()
         }
         if(gridview=='DetailretesoMov'){
             name = 'SINCA Reteso Movimientos'+cabina+' '+fecha;
+        }
+        if(gridview=='estadonovedad-grid'){
+            name = 'SINCA Estado de Fallas'+cabina+' '+fecha;
+        }
+        if(gridview=='tablaNovedadSemana'){
+            name = 'SINCA Matriz Total de TTs por Cabina'+fecha;
+        }
+        if(gridview=='tablaNovedad'){
+            name = 'SINCA Matriz General de Fallas'+fecha;
         }
         
         return name;   
@@ -1189,7 +1252,7 @@ $(document).ready(function()
                 
                 resetField(false);
                 
-                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Pago a Empleado' || selc_tipo_gasto == 'Nuevo..')){
+                    if(selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno')){
                         //Capturar Seleccion de la Cabina
                         $("#Detallegasto_CABINA_Id").change(function () {
                         var selc_categoria = $("#Detallegasto_category option:selected").text();
@@ -1197,7 +1260,7 @@ $(document).ready(function()
                         var selc_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").text();
                         var id_tipo_gasto = $("#Detallegasto_TIPOGASTO_Id option:selected").val();
                         
-                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto == 'Nuevo..' || selc_tipo_gasto == 'Pago a Empleado')){     
+                        if(selc_cabina != 'Seleccionar..' && selc_categoria == 'NOMINA' && (selc_tipo_gasto != 'Seleccione uno')){     
                         $("#Detallegasto_Monto").val('');     
                         $("#Detallegasto_moneda option[value='empty']").attr("selected", "selected");    
                         
@@ -1279,6 +1342,39 @@ $(document).ready(function()
 
     }
     
+    function enableHoursCabinas(day){
+        
+        var checkbox = $('#Cabina_day_'+day).attr('checked');
+        if(day == 1){
+            if(checkbox != 'checked'){
+                $('#Cabina_HoraIni').prop('disabled', true);
+                $('#Cabina_HoraFin').prop('disabled', true);        
+            }else{
+                $('#Cabina_HoraIni').prop('disabled', false);
+                $('#Cabina_HoraFin').prop('disabled', false); 
+            }
+        }else{
+            if(checkbox != 'checked'){
+                $('#Cabina_HoraIniDom').prop('disabled', true);
+                $('#Cabina_HoraFinDom').prop('disabled', true);        
+            }else{
+                $('#Cabina_HoraIniDom').prop('disabled', false);
+                $('#Cabina_HoraFinDom').prop('disabled', false); 
+            }
+        }
+        
+    }
+    
+    function changeCheckboxCabinas(day){
+        
+        enableHoursCabinas(day);
+        $('#Cabina_day_'+day).change(function () {
+
+                enableHoursCabinas(day);
+
+        });
+    }
+    
     function resetField(beneficiario){
         $("#Detallegasto_Monto").val(''); 
         $("#Detallegasto_beneficiario").val('');
@@ -1336,6 +1432,27 @@ $(document).ready(function()
         $('#EmployeeHours_day_'+day).change(function () {
         
                 enableHours(day);
+
+        });
+    }
+    
+    function changeCheckboxLocutorio(){
+        
+        //desactivarLocutorio();
+        $('#Novedad_Puesto_10').change(function () {
+
+           var checkbox = $(this).attr('checked');
+            if(checkbox == 'checked'){
+                for(var i = 0;i<10;i++){
+                    $('#Novedad_Puesto_'+i).prop('disabled', true);
+                    $('#Novedad_Puesto_'+i).attr('checked', true);
+                }
+            }else{
+                for(var i = 0;i<10;i++){
+                    $('#Novedad_Puesto_'+i).prop('disabled', false);
+                    $('#Novedad_Puesto_'+i).attr('checked', false);
+                } 
+            }
 
         });
     }

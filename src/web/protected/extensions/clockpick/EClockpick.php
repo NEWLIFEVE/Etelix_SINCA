@@ -10,7 +10,7 @@
  *	@change timePickerOnly - isset -> check on boolean
  * @change internationalisation changes
  */
-
+Yii::import('zii.widgets.jui.CJuiInputWidget');
 
 /**
  * EJuiDateTinePicker displays a datetimepicker.

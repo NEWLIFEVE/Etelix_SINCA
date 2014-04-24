@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 
 <h1>
     <span class="enviar">
-        Administrar Novedades/Fallas
+        Administrar Fallas
     </span> 
     <span>
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
@@ -129,7 +129,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'name' => 'Puesto',
-            'value' => '$data->Puesto',
+            'value' => 'NovedadLocutorio::getLocutorioRow($data->Id)',
             'type' => 'text',
             'htmlOptions' => array(
                 'style' => 'text-align: center;',
@@ -138,7 +138,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'header'=>'Detalle',
             'class' => 'CButtonColumn',
-            'buttons' => Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+            'buttons' => Utility::verParcial(1),
         ),
     ),
 ));

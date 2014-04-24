@@ -288,7 +288,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 <div align="center" style="width:80px;"><?php echo $nombre[$i];//$cabinas->readColumn(1); ?></div>
         </td>
         
-            <td><?php 
+            <?php 
 /********************************INICIO JORNADA*******************************************************/
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP1);
@@ -296,24 +296,29 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $command->bindValue(":accion", 9); // bind de parametro cabina del user
                 $command->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 $id = $command->query(); // execute a query SQL
-                if ($id->count()) {
-                    ?>
                 
-                    <!-- COMPARA LA HORA DE INICIO DE JORDADA CON LA HORA DE INICIO NORMAL DE LA CABINA -->
-                    <?php $hora = $id->readColumn(0); 
-                          if(($diaMostrar != 'Domingo' && $hora <= $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora <= $sqlCP3->HoraIniDom)){                               ?>
-                                <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo $hora; ?></div>
-                    <?php }else{  ?>
-                                <div align="center" style="color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;"><img src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' style="width:16px;height: 16px;"/> <?php echo $hora; ?></div>
-                    <?php }  ?> 
-                     
-                <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                     <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
-                    <?php
-                }?>
-            </td>
-            <td><?php 
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                    
+                
+                    if ($id->count()) { ?>
+
+                        <!-- COMPARA LA HORA DE INICIO DE JORDADA CON LA HORA DE INICIO NORMAL DE LA CABINA -->
+                        <?php $hora = $id->readColumn(0); 
+                              if(($diaMostrar != 'Domingo' && $hora > $sqlCP3->HoraIni) || ($diaMostrar == 'Domingo' && $hora > $sqlCP3->HoraIniDom)){  ?>
+                                    <td><div align="center" style="color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;"><img src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' style="width:16px;height: 16px;"/> <?php echo $hora; ?></div></td>
+                        <?php }else{  ?> 
+                                    <td><div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo $hora; ?></div></td>
+                        <?php }?>            
+                    <?php } else { ?>
+                        <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div></td>
+                         <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
+                    <?php } 
+                    
+                }else{ ?>
+                    <td colspan="6" style="height: 32px;"><div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:25px;"><img src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/house.png' style="width:20px;height: 20px;"/><?php echo ' No Laborable'; ?></div></td>
+                <?php } ?>
+
+            <?php 
 /********************************SALDO APERTURA*******************************************************/            
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP1);
@@ -322,15 +327,20 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $command->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 //$command->bindValue(":fechaesp", $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 $id = $command->query(); // execute a query SQL
+                
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
-            
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div></td>
                 <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div></td>
                     <?php
-                }?>
-            </td>
+                      }
+                
+                }else{ ?>
+                    
+                <?php } ?>
             
 <!--            <td><?php if ($post->SaldoApMov !== null) {
                 ?>
@@ -341,7 +351,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     ?>
             </td>-->
             
-            <td><?php 
+            <?php 
 /********************************LLAMADAS*******************************************************/
                 $connection = Yii::app()->db;
                 $command = $connection->createCommand($sqlCP);
@@ -350,16 +360,20 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $command->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario 
                 $command->bindValue(":fechaesp", $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
                 $id = $command->query(); // execute a query SQL
+                
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
-            
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div></td>
                 <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                     <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div></td>
                     <?php
-                }?>
-            </td>
+                      }
+                
+                }else{ ?>
+                    
+                <?php } ?>
             
             <!--<td><?php if ($post->FechaIngresoLlamadas !== null) {
                 ?>
@@ -370,7 +384,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     ?>            
             </td>-->
             
-            <td><?php 
+            <?php 
 /********************************DEPOSITOS*******************************************************/
             
                 $connection = Yii::app()->db;
@@ -380,16 +394,21 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $command->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario  
                 $command->bindValue(":fechaesp", $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
                 $id = $command->query(); // execute a query SQL
+                
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
-            
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div></td>
                 <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                     <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div></td>
                     <?php
-                }?>
-            </td>
+                      }
+                
+                }else{ ?>
+                    
+                <?php } ?>
+            
             
 <!--            <td><?php if ($post->FechaIngresoDeposito !== null) {
                 ?>
@@ -400,7 +419,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     ?>            
             </td>-->
             
-            <td><?php 
+            <?php 
 /********************************SALDO CIERRE*******************************************************/
            
                 $connection = Yii::app()->db;
@@ -410,16 +429,21 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $command->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario   
                 //$command->bindValue(":fechaesp", $fechaAyer, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario
                 $id = $command->query(); // execute a query SQL
+                
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraIni != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraIniDom != null)){
+                
                 if ($id->count()) {
                     ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
-            
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div></td>
                 <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                     <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
+                          <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div></td>
                     <?php
-                }?>
-            </td>
+                      }
+                
+                }else{ ?>
+                    
+                <?php } ?>
+         
             
 <!--            <td><?php if ($post->SaldoCierreMov !== null) {
                 ?>
@@ -430,7 +454,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     ?>            
             </td>-->
             
-            <td><?php 
+            <?php 
 /********************************FIN JORNADA*******************************************************/
          
                 $connection2 = Yii::app()->db;
@@ -439,23 +463,28 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $command2->bindValue(":accion", 10); // bind de parametro cabina del user
                 $command2->bindValue(":fecha", $fechaActual, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
                 $id2 = $command2->query(); // execute a query SQL
-                if ($id2->count()) {
-                    ?>
+                
+                if(($diaMostrar != 'Domingo' && $sqlCP3->HoraFin != null) || ($diaMostrar == 'Domingo' && $sqlCP3->HoraFinDom != null)){
                     
-                    <!-- COMPARA LA HORA DE FIN DE JORDADA CON LA HORA DE FIN NORMAL DE LA CABINA -->
-                    <?php $hora2 = $id2->readColumn(0); 
-                          if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  ?>
-                                <div align="center" style="color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;"><img src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' style="width:16px;height: 16px;"/> <?php echo $hora2; ?></div>
-                   <?php }else{  ?>
-                                <div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo $hora2; ?></div>
-                    <?php }  ?> 
-                                
-                                
-                <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                    <?php
-                } ?>            
-            </td>
+                
+                    if ($id2->count()) { ?>
+
+                        <!-- COMPARA LA HORA DE INICIO DE JORDADA CON LA HORA DE INICIO NORMAL DE LA CABINA -->
+                        <?php $hora2 = $id2->readColumn(0); 
+                              if(($diaMostrar != 'Domingo' && $hora2.':00' < $sqlCP3->HoraFin) || ($diaMostrar == 'Domingo' && $hora2.':00' < $sqlCP3->HoraFinDom)){  ?>
+                                    <td><div align="center" style="color:#ff9900; font-family:'Trebuchet MS', cursive; font-size:20px;"><img src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' style="width:16px;height: 16px;"/> <?php echo $hora2; ?></div></td>
+                        <?php }else{  ?> 
+                                    <td><div align="center" style="color:#36C; font-family:'Trebuchet MS', cursive; font-size:20px;"><?php echo $hora2; ?></div></td>
+                        <?php }?>            
+                    <?php } else { ?>
+                        <td><div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div></td>
+                         <!--<td style="color:#36C; font-family:'Comic Sans MS', cursive; font-size:12px;">08:00:00</td>-->
+                    <?php } 
+                    
+                }else{ ?>
+
+                <?php } ?>
+
         </tr>
 
 <?php } ?>

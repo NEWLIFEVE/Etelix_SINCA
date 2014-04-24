@@ -36,6 +36,13 @@ class SiteController extends Controller
         // using the default layout 'protected/views/layouts/main.php'
         $this->render('index');
     }
+    
+    public function actionRecordatorio()
+    {
+        // renders the view file 'protected/views/site/index.php'
+        // using the default layout 'protected/views/layouts/main.php'
+        $this->render('recordatorio');
+    }
 
     /**
      * This is the action to handle external exceptions.
@@ -131,6 +138,33 @@ class SiteController extends Controller
      * @access public
      * @static
      */
+    
+    public static function renderUser()
+    {
+        $tipoUsuario= Users::TipoUsuario(Yii::app()->user->id);
+        /* OPERADOR DE CABINA */
+        switch ($tipoUsuario) {
+            case 1: return '/log/createInicioJornada';
+            break;
+            case 2: return '/balance/index';
+            break;
+            case 3: return '/balance/controlPanel';
+            break;
+            case 4: return '/balance/reporteDepositos';
+            break;
+            case 5: return '/balance/controlPanel';
+            break;
+            case 6: return '/balance/controlPanel';
+            break;
+            case 7: return '/nomina/adminEmpleado';
+            break;
+            case 8: return '/novedad/admin';
+            break;
+        }
+
+    }
+    
+    
     public static function controlAcceso($tipoUsuario)
     {
         $idUsuario=Yii::app()->user->id;
@@ -141,7 +175,7 @@ class SiteController extends Controller
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>array('/log/createInicioJornada'),'label'=>'Declarar','visible'=>!Yii::app()->user->isGuest),
-                array('url'=>array('/novedad/create'),'label'=>'Novedades/Fallas','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/novedad/create'),'label'=>'Fallas','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/'.Cabina::getNombreCabina(Yii::app()->getModule('user')->user($idUsuario)->CABINA_Id).')','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->profileUrl,'label'=>Yii::app()->getModule('user')->t("Profile"),'visible'=>!Yii::app()->user->isGuest),
                 );
@@ -168,7 +202,7 @@ class SiteController extends Controller
                 array('url'=>array('/balance/controlPanel'),'label'=>'Balances','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest),
-                array('url'=>array('/novedad/admin'),'label'=>'Novedades/Fallas','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/novedad/admin'),'label'=>'Fallas','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/log/admin'),'label'=>'Log','visible'=>!Yii::app()->user->isGuest),
                 array('url' => array('/nomina/adminEmpleado'), 'label' => 'Nomina', 'visible' => !Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/Admin)','visible'=>!Yii::app()->user->isGuest),
@@ -193,10 +227,12 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/controlPanel'),'label'=>'Reportes','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/balance/controlPanel'),'label'=>'Balances','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest),
-                array('url'=>array('/novedad/admin'),'label'=>'Novedades/Fallas','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/novedad/admin'),'label'=>'Fallas','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/log/admin'),'label'=>'Log','visible'=>!Yii::app()->user->isGuest),
+                array('url' => array('/nomina/adminEmpleado'), 'label' => 'Nomina', 'visible' => !Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/Socio)','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->profileUrl,'label'=>Yii::app()->getModule('user')->t("Profile"),'visible'=>!Yii::app()->user->isGuest),
                 );
@@ -234,7 +270,7 @@ class SiteController extends Controller
                 //array('label' => 'Home', 'url' => array('/site/index')),
                 array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
                 array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
-                array('url'=>array('/novedad/admin'),'label'=>'Novedades/Fallas','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/novedad/admin'),'label'=>'Fallas','visible'=>!Yii::app()->user->isGuest),
                 array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->getModule('user')->user($idUsuario)->username . '/NOC)', 'visible' => !Yii::app()->user->isGuest),
                 array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
             
@@ -326,6 +362,11 @@ class SiteController extends Controller
             $files['matriz']['name']=$_GET['name'];
             $files['matriz']['body']=Yii::app()->reporte->matrizGastos($_GET['mes'],$_GET['name'],true);
         }
+        if($_GET['table']=='tablaIngresos')
+        {
+            $files['matrizIngreso']['name']=$_GET['name'];
+            $files['matrizIngreso']['body']=Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],$_GET['name'],false);
+        }
         if($_GET['table']=='tabla2'){
             $files['matrizE']['name']=$_GET['name'];
             $files['matrizE']['body']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
@@ -384,6 +425,21 @@ class SiteController extends Controller
         {
             $files['adminIngreso']['name']=$_GET['name'];
             $files['adminIngreso']['body']=Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],true);     
+        }
+        if($_GET['table']=='estadonovedad-grid')
+        {
+            $files['estadoFalla']['name']=str_replace("/","_",$_GET['name']);
+            $files['estadoFalla']['body']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+        }
+        if($_GET['table']=='tablaNovedadSemana')
+        {
+            $files['matrizFallaTT']['name']=str_replace("/","_",$_GET['name']);
+            $files['matrizFallaTT']['body']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
+        }
+        if($_GET['table']=='tablaNovedad')
+        {
+            $files['matrizFalla']['name']=$_GET['name'];
+            $files['matrizFalla']['body']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
         }
         
         foreach($files as $key => $file)
@@ -471,6 +527,13 @@ class SiteController extends Controller
             $files['matrizE']['excel']=Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],true);
             $files['matrizE']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizE']['name'].".xls";
         }
+        if($_GET['table']=='tablaIngresos')
+        {
+            $files['matrizIngreso']['name']=$_GET['name'];
+            $files['matrizIngreso']['body']=Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],$_GET['name'],false);
+            $files['matrizIngreso']['excel']=Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],$_GET['name'],true);
+            $files['matrizIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizIngreso']['name'].".xls";
+        }
         if($_GET['table']=='tabla3')
         {
             $files['TableroA']['name']=$_GET['name'];
@@ -548,6 +611,27 @@ class SiteController extends Controller
             $files['adminIngreso']['excel']=Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],true);
             $files['adminIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['adminIngreso']['name'].".xls";               
         }
+        if($_GET['table']=='estadonovedad-grid')
+        {
+            $files['estadoFalla']['name']=str_replace("/","_",$_GET['name']);
+            $files['estadoFalla']['body']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+            $files['estadoFalla']['excel']=Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+            $files['estadoFalla']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['estadoFalla']['name'].".xls";
+        }
+        if($_GET['table']=='tablaNovedadSemana')
+        {
+            $files['matrizFallaTT']['name']=str_replace("/","_",$_GET['name']);
+            $files['matrizFallaTT']['body']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
+            $files['matrizFallaTT']['excel']=Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
+            $files['matrizFallaTT']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizFallaTT']['name'].".xls";
+        }
+        if($_GET['table']=='tablaNovedad')
+        {
+            $files['matrizFalla']['name']=$_GET['name'];
+            $files['matrizFalla']['body']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
+            $files['matrizFalla']['excel']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
+            $files['matrizFalla']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizFalla']['name'].".xls";
+        }
         
         foreach($files as $key => $file)
         {   
@@ -604,6 +688,10 @@ class SiteController extends Controller
         {
             echo Yii::app()->reporte->matrizGastosEvolucion($_GET['mes'],$_GET['cabina'],$_GET['name'],false);
         } 
+        if($_GET['table']=='tablaIngresos')
+        {
+            echo Yii::app()->reporte->matrizIngresos($_GET['mes'],$_GET['name'],false);
+        } 
         if($_GET['table']=='tabla3')
         {
             echo Yii::app()->reporte->tableroControl($_GET['date'],$_GET['name']);
@@ -643,6 +731,18 @@ class SiteController extends Controller
         if($_GET['table']=='detalleingreso-grid')
         {
             echo Yii::app()->reporte->adminIngreso($_GET['ids'],$_GET['name'],false);
+        }
+        if($_GET['table']=='estadonovedad-grid')
+        {
+            echo Yii::app()->reporte->estadoNovedades($_GET['ids'],$_GET['name']);
+        }
+        if($_GET['table']=='tablaNovedadSemana')
+        {
+            echo Yii::app()->reporte->matrizNovedadSemana($_GET['mes'],$_GET['name']);
+        }
+        if($_GET['table']=='tablaNovedad')
+        {
+            echo Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
         }
     }
     

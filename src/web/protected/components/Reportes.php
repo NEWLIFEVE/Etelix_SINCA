@@ -15,6 +15,7 @@ class Reportes extends CApplicationComponent
      * @param array $ids
      * @return string
      */
+    
     public function balanceAdmin($ids,$name,$type)
     {
         $var=  balanceAdmin::reporte($ids,$name,$type);
@@ -91,6 +92,12 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
 
+    public function estadoNovedades($ids,$name)
+    {
+        $var= estadoNovedades::reporte($ids,$name);
+        return $var;
+    }
+    
     public function estadoGasto($ids,$name,$type)
     {
         $var= estadoGasto::reporte($ids,$name,$type);
@@ -109,13 +116,30 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function matrizIngresos($ids,$nombre,$type)
+    {
+        $var= matrizIngresos::reporte($ids,$nombre,$type);    
+        return $var;
+    }
+    
     public function matrizNomina($mes,$nombre,$type)
     {
         $var= matrizNomina::reporte($mes,$nombre,$type);    
         return $var;
     }
     
-
+    public function matrizNovedad($mes,$nombre)
+    {
+        $var= matrizNovedad::reporte($mes,$nombre);    
+        return $var;
+    }
+    
+    public function matrizNovedadSemana($mes,$nombre)
+    {
+        $var= matrizNovedadSemana::reporte($mes,$nombre);    
+        return $var;
+    }
+    
     public function matrizGastosEvolucion($mes,$cabina,$nombre,$type)
     {
         $var= matrizGastosEvolucion::reporte($mes,$cabina,$nombre,$type);    
@@ -379,6 +403,20 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Numero de Transferencia</th>   
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Fecha de Transferencia</th> 
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Cuenta</th>     
+                            </tr>
+                        </thead>';
+
+                break;
+            case "estadoNovedades":
+                $header='<thead>
+                            <tr >
+                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Fecha</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Falla</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Locutorio(s)</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Destino</th> 
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Observaciones</th>   
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Estatus</th> 
                             </tr>
                         </thead>';
 

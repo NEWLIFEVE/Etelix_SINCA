@@ -314,4 +314,40 @@ class Detallegasto extends CActiveRecord
             }
          }
     }
+    
+    public static function verificarGasto($tipoGasto, $cabina, $maneda, $mes, $beneficiario){
+        
+        if($tipoGasto != 75){
+            if($tipoGasto != null && $cabina != null && $maneda != null && $mes != null)
+            {
+                    $model=self::model()->find('TIPOGASTO_Id=:TIPOGASTO_Id AND CABINA_Id=:CABINA_Id AND moneda=:moneda AND FechaMes=:FechaMes',
+                                         array(':TIPOGASTO_Id'=>$tipoGasto,':CABINA_Id'=>$cabina,':moneda'=>$maneda,':FechaMes'=>$mes));
+                    if($model == null)
+                    {
+                            return false;
+                    }
+                    else
+                    {
+                            return true;
+                    }
+            }
+        }else{
+            if($tipoGasto != null && $cabina != null && $maneda != null && $mes != null && $beneficiario != null)
+            {
+                    $model=self::model()->find('TIPOGASTO_Id=:TIPOGASTO_Id AND CABINA_Id=:CABINA_Id '
+                            . '                 AND moneda=:moneda AND FechaMes=:FechaMes AND beneficiario=:beneficiario',
+                                         array(':TIPOGASTO_Id'=>$tipoGasto,':CABINA_Id'=>$cabina,
+                                               ':moneda'=>$maneda,':FechaMes'=>$mes,':beneficiario'=>$beneficiario));
+                    if($model == null)
+                    {
+                            return false;
+                    }
+                    else
+                    {
+                            return true;
+                    }
+            }
+        }
+    }
+    
 }

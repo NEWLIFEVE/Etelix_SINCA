@@ -133,7 +133,6 @@ $this->menu=DetallegastoController::controlAcceso($tipoUsuario);
         $mes_array[$i] = ucwords(strftime("%B", mktime(0, 0, 0, date('m',strtotime($mes))-$i)));
     } 
 
-
     ?>
 
 

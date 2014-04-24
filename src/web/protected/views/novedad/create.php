@@ -17,7 +17,7 @@ $this->menu=NovedadController::controlAcceso($tipoUsuario);
 
 <h1>
     <span class="enviar">
-        Reportar Novedad/Falla
+        Reportar Falla
     </span>
 </h1>
 

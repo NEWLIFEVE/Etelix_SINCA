@@ -121,29 +121,65 @@ class Utility
         $arregloView = array();
         $arregloUpdate = array();
         $arregloDelete = array();
-    	if($userType == 1 || $userType == 5)
-    	{   
-            $arregloView['label']='Detalle';
-            $arregloView['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png";
-            $arregloUpdate['visible']='false';
-            $arregloDelete['visible']='false';
-            $arreglo['view']=$arregloView;
-            $arreglo['update']=$arregloUpdate;
-            $arreglo['delete']=$arregloDelete;
-            return $arreglo;
-    	}
-    	else
-    	{
-            $arregloView['label']='Detalle';
-            $arregloView['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png";
-            $arregloUpdate['label']='Editar';
-            $arregloUpdate['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/update.png";
-            $arregloDelete['visible']='false';
-            $arreglo['view']=$arregloView;
-            $arreglo['update']=$arregloUpdate;
-            $arreglo['delete']=$arregloDelete;
-            return $arreglo;
-    	}
+
+            if($userType == 1 || $userType == 5)
+            {   
+                $arregloView['label']='Detalle';
+                $arregloView['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png";
+                $arregloUpdate['visible']='false';
+                $arregloDelete['visible']='false';
+                $arreglo['view']=$arregloView;
+                $arreglo['update']=$arregloUpdate;
+                $arreglo['delete']=$arregloDelete;
+                return $arreglo;
+            }
+            else
+            {
+                $arregloView['label']='Detalle';
+                $arregloView['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png";
+                $arregloUpdate['label']='Editar';
+                $arregloUpdate['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/update.png";
+                $arregloDelete['visible']='false';
+                $arreglo['view']=$arregloView;
+                $arreglo['update']=$arregloUpdate;
+                $arreglo['delete']=$arregloDelete;
+                return $arreglo;
+            }
+        
+        
+    }
+    
+    public static function verParcial($Type)
+    {
+        $arreglo = array();
+        $arregloView = array();
+        $arregloUpdate = array();
+        $arregloDelete = array();
+        
+            if($Type == 1)
+            {   
+                $arregloView['label']='Detalle';
+                $arregloView['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/view.png";
+                $arregloUpdate['visible']='false';
+                $arregloDelete['visible']='false';
+                $arreglo['view']=$arregloView;
+                $arreglo['update']=$arregloUpdate;
+                $arreglo['delete']=$arregloDelete;
+                return $arreglo;
+            }
+            elseif($Type == 2)
+            {
+                $arregloUpdate['label']='Editar';
+                $arregloUpdate['imageUrl']=Yii::app()->request->baseUrl."/themes/mattskitchen/img/update.png";
+                $arregloView['visible']='false';
+                $arregloDelete['visible']='false';
+                $arreglo['view']=$arregloView;
+                $arreglo['update']=$arregloUpdate;
+                $arreglo['delete']=$arregloDelete;
+                return $arreglo;
+            }
+        
+        
     }
 
     /**

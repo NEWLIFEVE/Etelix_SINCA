@@ -39,6 +39,7 @@ class CabinaController extends Controller
                             'view',
                             'create',
                             'update',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(2),
@@ -49,6 +50,7 @@ class CabinaController extends Controller
                             'view',
                             'create',
                             'update',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(3),
@@ -59,6 +61,7 @@ class CabinaController extends Controller
                             'view',
                             'create',
                             'update',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(4),
@@ -68,6 +71,7 @@ class CabinaController extends Controller
                             'index',
                             'view',
                             'create',
+                            'UpdateHours',
                             'admin',
                         ),
                         'users' => Users::UsuariosPorTipo(5),
@@ -116,22 +120,60 @@ class CabinaController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-
+		$model = $this->loadModel($id);
+                $model_hours = $this->loadModelHours($id);
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+                //var_dump($_POST['Cabina']);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Cabina']))
 		{
-			$model->attributes=$_POST['Cabina'];
+                        //var_dump($_POST['Cabina']);
+                        $model->attributes=$_POST['Cabina'];
+                        if(isset($_POST['Cabina']['day_1']) && $_POST['Cabina']['day_1'] == 1){
+                            $model->HoraIni =Utility::ChangeTime($_POST['Cabina']['HoraIni']);
+                            $model->HoraFin =Utility::ChangeTime($_POST['Cabina']['HoraFin']);
+                        }else{
+                            $model->HoraIni =NULL;
+                            $model->HoraFin =NULL;
+                        }
+                        
+                        if(isset($_POST['Cabina']['day_2']) && $_POST['Cabina']['day_2'] == 1){
+                            $model->HoraIniDom =Utility::ChangeTime($_POST['Cabina']['HoraIniDom']);
+                            $model->HoraFinDom =Utility::ChangeTime($_POST['Cabina']['HoraFinDom']);
+                        }else{
+                            $model->HoraIniDom =NULL;
+                            $model->HoraFinDom =NULL;
+                        }
+                        
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->Id));
 		}
-
+                
 		$this->render('update',array(
 			'model'=>$model,
+                        'model_hours'=>$model_hours
 		));
 	}
+        
+//        public function actionUpdateHours($id)
+//	{
+//		$model=$this->loadModel($id);
+//
+//		// Uncomment the following line if AJAX validation is needed
+//		// $this->performAjaxValidation($model);
+//
+//		if(isset($_POST['Cabina']))
+//		{
+//			$model->attributes=$_POST['Cabina'];
+//			if($model->save())
+//				$this->redirect(array('admin'));
+//		}
+//
+//		$this->render('update',array(
+//			'model'=>$model,
+//		));
+//	}
 
 	/**
 	 * Deletes a particular model.
@@ -182,7 +224,16 @@ class CabinaController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Cabina::model()->findByPk($id);
+		$model=Cabina::model()->findBySql("SELECT Id, Nombre, Codigo, status, DATE_FORMAT(HoraIni,'%h:%i %p') as HoraIni, DATE_FORMAT(HoraFin,'%h:%i %p') as HoraFin, 
+                                                   DATE_FORMAT(HoraIniDom,'%h:%i %p') as HoraIniDom, DATE_FORMAT(HoraFinDom,'%h:%i %p') as HoraFinDom FROM cabina WHERE Id = $id");
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+        
+        public function loadModelHours($id)
+	{
+		$model=Cabina::model()->findBySql("SELECT IF(isnull(HoraIni),0,1) as day_1, IF(isnull(HoraIniDom),0,1) as day_2 FROM cabina WHERE Id = $id");
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
