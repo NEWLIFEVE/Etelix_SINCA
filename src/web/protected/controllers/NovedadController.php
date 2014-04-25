@@ -69,7 +69,8 @@ class NovedadController extends Controller
 					'enviarNovedad',
                                         'estadoNovedades',
                                         'matrizNovedad',
-                                        'matrizNovedadSemana'
+                                        'matrizNovedadSemana',
+                                        'reporteConsolidado'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(3))
 				),
@@ -312,6 +313,9 @@ class NovedadController extends Controller
                         $modelAux->FechaCierre=date('Y-m-d',time());
                         $modelAux->HoraCierre=date('H:i:s',time());
                     }
+                    
+                    if($modelAux->USER_CLOSE_Id == NULL)
+                        $modelAux->USER_CLOSE_Id = Yii::app()->user->id;
   
                     if($modelAux->update())
                     {
@@ -399,6 +403,17 @@ class NovedadController extends Controller
                 ));
 	}
         
+        public function actionReporteConsolidado()
+	{
+                $model=new Novedad('search');
+                $model->unsetAttributes();  // clear any default values
+                if(isset($_GET['Novedad'])) $model->attributes=$_GET['Novedad'];
+
+                $this->render('reporteConsolidado', array(
+                    'model'=>$model,
+                ));
+	}
+        
         public function actionEstadoNovedades()
 	{
                 $model=new Novedad('search');
@@ -479,7 +494,8 @@ class NovedadController extends Controller
                 array('label'=>'Administrar Fallas', 'url'=>array('admin')),
                 array('label'=>'Estado de Fallas', 'url'=>array('estadoNovedades')),
                 array('label'=>'Matriz General de Fallas', 'url'=>array('matrizNovedad')), 
-                array('label'=>'Matriz Total de TT´s por Cabina', 'url'=>array('matrizNovedadSemana')),     
+                array('label'=>'Matriz Total de TT´s por Cabina', 'url'=>array('matrizNovedadSemana')), 
+                array('label'=>'Reporte Consolidado de Fallas', 'url'=>array('reporteConsolidado')),     
                 );
     	}
     	if($tipoUsuario==5)

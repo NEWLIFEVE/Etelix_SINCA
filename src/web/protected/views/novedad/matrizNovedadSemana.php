@@ -22,7 +22,7 @@ else
     } 
 }
         
-$sql="SELECT * FROM cabina WHERE status = 1  AND Id !=18 AND Id !=19 ORDER BY nombre";
+$sql="SELECT * FROM cabina WHERE status = 1  AND Id !=18 AND Id != 19 ORDER BY Nombre;";
 $model = Cabina::model()->findAllBySql($sql);
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=  NovedadController::controlAcceso($tipoUsuario);

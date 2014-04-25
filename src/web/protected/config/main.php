@@ -47,6 +47,7 @@ return array(
 		'application.components.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
+                'application.modules.user.components.PHPExcel.*',
 		'application.components.reportes.*'
 		),
 	'modules'=>array(

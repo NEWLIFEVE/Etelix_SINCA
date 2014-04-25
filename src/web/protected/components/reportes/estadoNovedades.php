@@ -50,7 +50,7 @@ class estadoNovedades extends Reportes
         $sql="SELECT * 
               FROM novedad 
               WHERE Id IN ($ids)
-              ORDER BY Fecha DESC, STATUS_ID DESC";
+              ORDER BY Fecha DESC, STATUS_ID ASC";
         return Novedad::model()->findAllBySql($sql);
     }
 
