@@ -26,22 +26,20 @@ class reporteConsolidado extends Reportes
             $sheet->_genSheetTwo($objPHPExcel,$day);
             
             //TERCERA HOJA (ESTADO DE FALLAS POR DIA)
-            for($i=2;$i<8;$i++){
-                $sheet->_genSheetThree($objPHPExcel,$day,$i);
+            $cantidad_dias = date('j', strtotime($day));
+            for($i=1;$i<($cantidad_dias+1);$i++){
+                $diass = date('Y-m-j',strtotime("-".($cantidad_dias-$i)." day",strtotime($day)));
+                $sheet->_genSheetThree($objPHPExcel,$diass,$i);
             }
-            
-            
             
             //IMPRIMIENDO LOS RESULTADOS
             
             //TITULOS DE LAS HOJAS
             $objPHPExcel->setActiveSheetIndex(0)->setTitle('Total Cabinas');
             $objPHPExcel->setActiveSheetIndex(1)->setTitle('Fallas por Locutorio');
-            
 
-            
-            //HOJA A MOSTRAR POR DEFECTO
-            $objPHPExcel->setActiveSheetIndex(1);
+            //HOJA A MOSTRAR POR DEFECTO (MATRIZ DE FALLAS POR SEMANA)
+            $objPHPExcel->setActiveSheetIndex(0);
             
             //MECANISMO QUE GENERA EL EXCEL
             header("Content-Type: application/vnd.ms-excel");
@@ -83,7 +81,7 @@ class reporteConsolidado extends Reportes
                 'size'  => $size,
                 'name'  => 'Calibri'
         ));
-        $objPHPExcel->getActiveSheet()->getStyle($cells)->applyFromArray($styleArray);
+        $objPHPExcel->getActiveSheet()->getStyle($cells)->applyFromArray($styleArray)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     }
     
     //GENERA LA 1ERA HOJA DEL REPORTE (MATRIZ TOTAL DE TT POR CABINA)
@@ -180,12 +178,13 @@ class reporteConsolidado extends Reportes
             //TITULO
             $objPHPExcel->createSheet(1)->setCellValue('A1', 'SINCA Matriz General de Fallas '.$day);
             $objPHPExcel->setActiveSheetIndex(1)->getStyle("A1")->getFont()->setSize(16);
+            $objPHPExcel->setActiveSheetIndex(1)->mergeCells('A1:F1');
             
             $cols_asrray = Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
                                  'R','S','T','U','V','W','X','Y','Z');
 
             //ANCHO DE CELDAS
-            $objPHPExcel->setActiveSheetIndex(1)->getColumnDimension('A')->setWidth(30);
+            $objPHPExcel->setActiveSheetIndex(1)->getColumnDimension('A')->setAutoSize(true);
             for($i=1;$i<16;$i++){
                 $objPHPExcel->setActiveSheetIndex(1)->getColumnDimension($cols_asrray[$i])->setAutoSize(true);
             }
@@ -206,15 +205,12 @@ class reporteConsolidado extends Reportes
             self::borderColor('A3','E9E0E0',$objPHPExcel);
             self::font('A3','FFFFFF','10',$objPHPExcel);
             
-
             for($i=0;$i<$cantidad_cabinas;$i++){
                 $objPHPExcel->setActiveSheetIndex(1)->setCellValue($cols_asrray[($i+1)].'3', $nombre_cabinass[$i]);
                 self::cellColor($cols_asrray[($i+1)].'3', 'ff9900',$objPHPExcel);
                 self::borderColor($cols_asrray[($i+1)].'3','E9E0E0',$objPHPExcel);
                 self::font($cols_asrray[($i+1)].'3','FFFFFF','10',$objPHPExcel);
             }
-                
-            
 
             //CONTENIDO DE LA MATRIZ (FALLAS POR EL DIA SELECCIONADO)
             $tipos_novedad="SELECT t.Nombre as TipoNovedad
@@ -224,43 +220,111 @@ class reporteConsolidado extends Reportes
                   GROUP BY t.Nombre
                   ORDER BY t.Nombre;";
             $novedades = Novedad::model()->findAllBySql($tipos_novedad);
-            foreach ($novedades as $key => $value) {      
-                
-                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A'.($key+4), $value->TipoNovedad);
-                self::cellColor('A'.($key+4), '1967B2',$objPHPExcel);
-                self::borderColor('A'.($key+4),'E9E0E0',$objPHPExcel);
-                self::font('A'.($key+4),'FFFFFF','10',$objPHPExcel);
+            if($novedades!=NULL){
+                foreach ($novedades as $key => $value) {      
 
-                //CONTENIDO DE LA MATRIZ (LOCUTORIOS POR CABINAS Y FALLAS)
-                $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18 And Id !=19 ORDER BY nombre;";
-                $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
-                foreach ($cabinas as $ke => $cabina) {
+                    $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A'.($key+4), $value->TipoNovedad);
+                    self::cellColor('A'.($key+4), '1967B2',$objPHPExcel);
+                    self::borderColor('A'.($key+4),'E9E0E0',$objPHPExcel);
+                    self::font('A'.($key+4),'FFFFFF','10',$objPHPExcel);
 
-                        $locutorios = Novedad::getLocutorioOldTable($cabina->Id,$value->TipoNovedad,$day);
-                        if($locutorios == false)
-                            $locutorios = Novedad::getLocutorioNewTable($cabina->Id,$value->TipoNovedad,$day);
+                    //CONTENIDO DE LA MATRIZ (LOCUTORIOS POR CABINAS Y FALLAS)
+                    $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18 And Id !=19 ORDER BY nombre;";
+                    $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
+                    foreach ($cabinas as $ke => $cabina) {
 
-                        if ($locutorios!=NULL){
-                            $objPHPExcel->setActiveSheetIndex(1)->setCellValue($cols_asrray[($ke+1)].($key+4), $locutorios);
-                            self::borderColor($cols_asrray[($ke+1)].($key+4),'E9E0E0',$objPHPExcel);
-                        }
-                        
+                            $locutorios = Novedad::getLocutorioOldTable($cabina->Id,$value->TipoNovedad,$day);
+                            if($locutorios == false)
+                                $locutorios = Novedad::getLocutorioNewTable($cabina->Id,$value->TipoNovedad,$day);
+
+                            if ($locutorios!=NULL){
+                                $objPHPExcel->setActiveSheetIndex(1)->setCellValue($cols_asrray[($ke+1)].($key+4), $locutorios);
+                                self::borderColor($cols_asrray[($ke+1)].($key+4),'E9E0E0',$objPHPExcel);
+                                self::font($cols_asrray[($ke+1)].($key+4),'000000','10',$objPHPExcel);
+                            }
+                    }
 
                 }
-
+            }else{
+                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A5', 'No se Reportaron Fallas por el Sistema SINCA para esta Fecha');
+                self::font('A5','000000','12',$objPHPExcel);
+                $objPHPExcel->setActiveSheetIndex(1)->mergeCells('A5:M5');
             }
     }
     
     //GENERA LA 3ERA HOJA DEL REPORTE (ESTADO DE FALLAS POR RANGO)
-    private function _genSheetThree($objPHPExcel,$day,$sheet){
+    private function _genSheetThree($objPHPExcel,$day,$sheets){
         
+            $sheet = $sheets+1;
             //TITULO
-            $objPHPExcel->createSheet($sheet)->setCellValue('A1', 'SINCA Estado de Fallas '.$sheet);
+            $objPHPExcel->createSheet($sheet)->setCellValue('A1', 'SINCA Estado de Fallas '.$day);
             $objPHPExcel->setActiveSheetIndex($sheet)->getStyle("A1")->getFont()->setSize(16);
+            $objPHPExcel->setActiveSheetIndex($sheet)->mergeCells('A1:F1');
             
             //NOMBRE DE LA HOJA
             $objPHPExcel->setActiveSheetIndex($sheet)->setTitle(''.($sheet-1).'');
+            
 
+            //CONTENIDO DE LA TABLA (ESTADO DE FALLAS)
+            $cols_asrray = Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                                 'R','S','T','U','V','W','X','Y','Z');
+            
+            $header = Array('Fecha','Cabina','Falla','Locutorio(s)','Destino','Observaciones','Estatus');
+            
+            $sql="SELECT * FROM novedad WHERE Fecha = '$day' ORDER BY Fecha DESC, STATUS_ID ASC";
+            $model = Novedad::model()->findAllBySql($sql);
+            
+            if($model!=NULL)
+            {
+                for($i=0;$i<7;$i++){
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[$i].'3', $header[$i]);
+                    $objPHPExcel->setActiveSheetIndex($sheet)->getColumnDimension($cols_asrray[$i])->setAutoSize(true);
+                    self::cellColor($cols_asrray[$i].'3', '1967B2',$objPHPExcel);
+                    self::borderColor($cols_asrray[$i].'3','E9E0E0',$objPHPExcel);
+                    self::font($cols_asrray[$i].'3','FFFFFF','10',$objPHPExcel);
+                }
+
+                foreach ($model as $key => $registro)
+                {
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[0].($key+4), $registro->Fecha);
+                    self::font($cols_asrray[0].($key+4),'000000','10',$objPHPExcel);
+                    
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[1].($key+4), Cabina::getNombreCabina(Yii::app()->getModule("user")->user($registro->users_id)->CABINA_Id));
+                    self::font($cols_asrray[1].($key+4),'000000','10',$objPHPExcel);
+                    
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[2].($key+4), $registro->tIPONOVEDAD->Nombre);
+                    self::font($cols_asrray[2].($key+4),'000000','10',$objPHPExcel);
+                    
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[3].($key+4), NovedadLocutorio::getLocutorioRow($registro->Id));
+                    self::font($cols_asrray[3].($key+4),'000000','10',$objPHPExcel);
+                    
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[4].($key+4), DestinationInt::getNombre($registro->DESTINO_Id));
+                    self::font($cols_asrray[4].($key+4),'000000','10',$objPHPExcel);
+                    
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[5].($key+4), $registro->Observaciones);
+                    self::font($cols_asrray[5].($key+4),'000000','10',$objPHPExcel);
+                    
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[6].($key+4), $registro->sTATUS->Nombre);
+                    self::font($cols_asrray[6].($key+4),'000000','10',$objPHPExcel);
+                    
+                }
+
+            }
+            else
+            {
+                for($i=0;$i<7;$i++){
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[$i].'3', $header[$i]);
+                    $objPHPExcel->setActiveSheetIndex($sheet)->getColumnDimension($cols_asrray[$i])->setAutoSize(true);
+                    self::cellColor($cols_asrray[$i].'3', '1967B2',$objPHPExcel);
+                    self::borderColor($cols_asrray[$i].'3','E9E0E0',$objPHPExcel);
+                    self::font($cols_asrray[$i].'3','FFFFFF','10',$objPHPExcel);
+                }
+                
+                $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue('A5', 'No se Reportaron Fallas por el Sistema SINCA para esta Fecha');
+                self::font('A5','000000','12',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex($sheet)->mergeCells('A5:G5');
+            }
 
     }
     

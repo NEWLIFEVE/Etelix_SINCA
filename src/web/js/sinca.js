@@ -442,7 +442,7 @@ $(document).ready(function()
                                     async: true,
                                     success:  function (response) {
                                             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-                                             setTimeout("window.open('/site/excel?name="+name+"&table="+gridview+"&mes="+mes+"','_top');",500);
+                                             setTimeout("window.open('/site/excel?name="+name+"&table="+gridview+"&mes="+mes+"','_top');",0);
 
                                              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
                                              $("#complete").html("Archivo Excel Generado... !!");
@@ -1136,7 +1136,7 @@ $(document).ready(function()
             name = 'SINCA Matriz General de Fallas'+fecha;
         }
         if(gridview=='reporteConsolidado'){
-            name = 'SINCA Consolidado Fallas'+fecha;
+            name = 'SINCA Reporte Consolidado de Fallas'+fecha;
         }
 
         return name;   

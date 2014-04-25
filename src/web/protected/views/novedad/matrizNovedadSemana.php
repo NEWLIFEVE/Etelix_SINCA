@@ -48,8 +48,9 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
         <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelMatriz" />
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonMatriz' />
         
-        
-        <img id="excel" title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/warning.png' class="botonExcelConsolidado" />
+        <br>
+        Exportar Consolidado
+        <img title="Exportar Consolidado a Excel" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png' class="botonExcelConsolidado" />
         
     </span>
 </h1>
