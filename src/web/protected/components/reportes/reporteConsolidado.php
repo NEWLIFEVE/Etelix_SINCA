@@ -6,6 +6,7 @@ class reporteConsolidado extends Reportes
      {
 
             $objPHPExcel = new PHPExcel();
+            $sheet = new reporteConsolidado(); 
 
             $objPHPExcel->
                     getProperties()
@@ -18,7 +19,75 @@ class reporteConsolidado extends Reportes
                             ->setCategory($name);
 
 
-//------------------------------------------------------------------------------------PRIMERA HOJA (MATRIZ DE FALLAS POR SEMANA)
+            //PRIMERA HOJA (MATRIZ DE FALLAS POR SEMANA)
+            $sheet->_genSheetOne($objPHPExcel,$day); 
+
+            //SEGUNDA HOJA (MATRIZ GENERAL DE FALLAS POR DIA)
+            $sheet->_genSheetTwo($objPHPExcel,$day);
+            
+            //TERCERA HOJA (ESTADO DE FALLAS POR DIA)
+            for($i=2;$i<8;$i++){
+                $sheet->_genSheetThree($objPHPExcel,$day,$i);
+            }
+            
+            
+            
+            //IMPRIMIENDO LOS RESULTADOS
+            
+            //TITULOS DE LAS HOJAS
+            $objPHPExcel->setActiveSheetIndex(0)->setTitle('Total Cabinas');
+            $objPHPExcel->setActiveSheetIndex(1)->setTitle('Fallas por Locutorio');
+            
+
+            
+            //HOJA A MOSTRAR POR DEFECTO
+            $objPHPExcel->setActiveSheetIndex(1);
+            
+            //MECANISMO QUE GENERA EL EXCEL
+            header("Content-Type: application/vnd.ms-excel");
+            header("Content-Disposition: attachment;filename='{$name}.xlsx'");
+            header("Cache-Control: max-age=0");
+
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+            $objWriter->save('php://output');
+            exit;
+
+    }
+    
+    //ASIGNA COLOR A UNA CELDA ESPECIFICADA
+    public static function cellColor($cells,$color,$objPHPExcel){
+        $objPHPExcel->getActiveSheet()->getStyle($cells)->getFill()->applyFromArray(array('type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'startcolor' => array('rgb' => $color),'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM),'rgb' => $color)
+        ));
+    }
+    
+    //ASIGNA COLOR AL BORDE DE UNA CELDA ESPECIFICADA
+    public static function borderColor($cells,$color,$objPHPExcel){
+        $styleArray = array(
+               'borders' => array(
+                     'outline' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN,
+                            'color' => array('rgb' => $color),
+                     ),
+               ),
+        );
+        $objPHPExcel->getActiveSheet()->getStyle($cells)->applyFromArray($styleArray);
+    }
+    
+    //ASIGNA LOS VALORES DE COLOR Y TAMAÑO A LA CELDA ESPECIFICADA
+    public static function font($cells,$color,$size,$objPHPExcel){
+        $styleArray = array(
+            'font'  => array(
+                'bold'  => true,
+                'color' => array('rgb' => $color),
+                'size'  => $size,
+                'name'  => 'Calibri'
+        ));
+        $objPHPExcel->getActiveSheet()->getStyle($cells)->applyFromArray($styleArray);
+    }
+    
+    //GENERA LA 1ERA HOJA DEL REPORTE (MATRIZ TOTAL DE TT POR CABINA)
+    private function _genSheetOne($objPHPExcel,$day){
             $sql="SELECT * FROM cabina WHERE status = 1  AND Id !=18 AND Id !=19 ORDER BY nombre";
             $model = Cabina::model()->findAllBySql($sql);
             $cantidad_cabinas = count($model);
@@ -34,7 +103,7 @@ class reporteConsolidado extends Reportes
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
             $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
             for($i=6;$i>=0;$i--){
-                $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[$i])->setWidth(15);
+                $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[$i])->setAutoSize(true);
             }
             
             //TITULO
@@ -102,10 +171,12 @@ class reporteConsolidado extends Reportes
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.($cantidad_cabinas+4), $Gran_Totales);
             self::cellColor('I'.($cantidad_cabinas+4), '1967B2',$objPHPExcel);
             self::borderColor('I'.($cantidad_cabinas+4),'E9E0E0',$objPHPExcel);
-            self::font('I'.($cantidad_cabinas+4),'FFFFFF','10',$objPHPExcel);      
+            self::font('I'.($cantidad_cabinas+4),'FFFFFF','10',$objPHPExcel);  
 
-//------------------------------------------------------------------------------------SEGUNDA HOJA (MATRIZ DE FALLAS POR DIA)
-            
+    }
+    
+    //GENERA LA 2DA HOJA DEL REPORTE (MATRIZ GENERAL POR DIA)
+    private function _genSheetTwo($objPHPExcel,$day){
             //TITULO
             $objPHPExcel->createSheet(1)->setCellValue('A1', 'SINCA Matriz General de Fallas '.$day);
             $objPHPExcel->setActiveSheetIndex(1)->getStyle("A1")->getFont()->setSize(16);
@@ -153,69 +224,44 @@ class reporteConsolidado extends Reportes
                   GROUP BY t.Nombre
                   ORDER BY t.Nombre;";
             $novedades = Novedad::model()->findAllBySql($tipos_novedad);
-            foreach ($novedades as $key => $value) {
-                $novedadess[$key] = $value->TipoNovedad;               
-                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A'.($key+4), $novedadess[$key]);
+            foreach ($novedades as $key => $value) {      
+                
+                $objPHPExcel->setActiveSheetIndex(1)->setCellValue('A'.($key+4), $value->TipoNovedad);
                 self::cellColor('A'.($key+4), '1967B2',$objPHPExcel);
                 self::borderColor('A'.($key+4),'E9E0E0',$objPHPExcel);
                 self::font('A'.($key+4),'FFFFFF','10',$objPHPExcel);
+
+                //CONTENIDO DE LA MATRIZ (LOCUTORIOS POR CABINAS Y FALLAS)
+                $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18 And Id !=19 ORDER BY nombre;";
+                $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
+                foreach ($cabinas as $ke => $cabina) {
+
+                        $locutorios = Novedad::getLocutorioOldTable($cabina->Id,$value->TipoNovedad,$day);
+                        if($locutorios == false)
+                            $locutorios = Novedad::getLocutorioNewTable($cabina->Id,$value->TipoNovedad,$day);
+
+                        if ($locutorios!=NULL){
+                            $objPHPExcel->setActiveSheetIndex(1)->setCellValue($cols_asrray[($ke+1)].($key+4), $locutorios);
+                            self::borderColor($cols_asrray[($ke+1)].($key+4),'E9E0E0',$objPHPExcel);
+                        }
+                        
+
+                }
+
             }
+    }
+    
+    //GENERA LA 3ERA HOJA DEL REPORTE (ESTADO DE FALLAS POR RANGO)
+    private function _genSheetThree($objPHPExcel,$day,$sheet){
+        
+            //TITULO
+            $objPHPExcel->createSheet($sheet)->setCellValue('A1', 'SINCA Estado de Fallas '.$sheet);
+            $objPHPExcel->setActiveSheetIndex($sheet)->getStyle("A1")->getFont()->setSize(16);
             
-            
-            
-            
-            
-            
-            
-//----------------------------------------IMPRIMIENDO LOS RESULTADOS
-            
-            //TITULOS DE LAS HOJAS
-            $objPHPExcel->setActiveSheetIndex(0)->setTitle('Total Cabinas');
-            $objPHPExcel->setActiveSheetIndex(1)->setTitle('Fallas por Locutorio');
-            
-            //HOJA A MOSTRAR POR DEFECTO
-            $objPHPExcel->setActiveSheetIndex(1);
-            
-            //MECANISMO QUE GENERA EL EXCEL
-            header("Content-Type: application/vnd.ms-excel");
-            header("Content-Disposition: attachment;filename='{$name}.xlsx'");
-            header("Cache-Control: max-age=0");
+            //NOMBRE DE LA HOJA
+            $objPHPExcel->setActiveSheetIndex($sheet)->setTitle(''.($sheet-1).'');
 
-            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-            $objWriter->save('php://output');
-            exit;
 
-    }
-    
-    //ASIGNA COLOR A UNA CELDA ESPECIFICADA
-    public static function cellColor($cells,$color,$objPHPExcel){
-        $objPHPExcel->getActiveSheet()->getStyle($cells)->getFill()->applyFromArray(array('type' => PHPExcel_Style_Fill::FILL_SOLID,
-        'startcolor' => array('rgb' => $color),'borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM),'rgb' => $color)
-        ));
-    }
-    
-    //ASIGNA COLOR AL BORDE DE UNA CELDA ESPECIFICADA
-    public static function borderColor($cells,$color,$objPHPExcel){
-        $styleArray = array(
-               'borders' => array(
-                     'outline' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN,
-                            'color' => array('rgb' => $color),
-                     ),
-               ),
-        );
-        $objPHPExcel->getActiveSheet()->getStyle($cells)->applyFromArray($styleArray);
-    }
-    
-    public static function font($cells,$color,$size,$objPHPExcel){
-        $styleArray = array(
-            'font'  => array(
-                'bold'  => true,
-                'color' => array('rgb' => $color),
-                'size'  => $size,
-                'name'  => 'Calibri'
-        ));
-        $objPHPExcel->getActiveSheet()->getStyle($cells)->applyFromArray($styleArray);
     }
     
 }

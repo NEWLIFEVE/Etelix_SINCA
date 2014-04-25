@@ -177,10 +177,12 @@ if (count($model)> 0) { ?>
         $content="";
         
           
-            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY nombre";
+            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18  ORDER BY Nombre;";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
+                
+                //echo $cabina->Id.'<br>';
                 
                 $MontoGasto = Novedad::getLocutorioOldTable($cabina->Id,$gasto->TipoNovedad,$mes);
                 if($MontoGasto == false)
@@ -190,6 +192,7 @@ if (count($model)> 0) { ?>
                                 $fondo = '';
 
                             if ($count>0){
+                                
                                 
                                 $content.="<td style='width: 80px;color: #; $fondo; font-size:12px;'>$MontoGasto</td>";
 

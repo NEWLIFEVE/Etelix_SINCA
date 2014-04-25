@@ -287,6 +287,9 @@ class NovedadController extends Controller
                         $modelAux->FechaCierre=date('Y-m-d',time());
                         $modelAux->HoraCierre=date('H:i:s',time());
                     }
+                    
+                    if($modelAux->USER_CLOSE_Id == NULL)
+                        $modelAux->USER_CLOSE_Id = Yii::app()->user->id;
   
                     if($modelAux->update())
                     {

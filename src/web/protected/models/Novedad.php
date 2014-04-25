@@ -72,6 +72,8 @@ class Novedad extends CActiveRecord
 			'users' => array(self::BELONGS_TO, 'Users', 'users_id'),
                         'novedadTipotelefonos' => array(self::HAS_MANY, 'NovedadTipotelefono', 'NOVEDAD_Id'),
                         'novedadLocutorios' => array(self::HAS_MANY, 'NovedadLocutorio', 'NOVEDAD_Id'),
+                        'uSERCLOSE' => array(self::BELONGS_TO, 'Users', 'USER_CLOSE_Id'),
+			'sTATUS' => array(self::BELONGS_TO, 'NovedadStatus', 'STATUS_Id'),
                 );
 	}
 
@@ -93,6 +95,11 @@ class Novedad extends CActiveRecord
                         'Observaciones' => 'Observaciones',
                         'status' => 'Estatus',
                         'Locutorio'=>'Locutorio(s)',
+                        'STATUS_Id' => 'Estatus',
+			'DESTINO_Id' => 'Destino',
+			'FechaCierre' => 'Fecha de Cierre',
+			'HoraCierre' => 'Hora de Cierre',
+			'USER_CLOSE_Id' => 'User Close',
 		);
 	}
 
@@ -115,6 +122,12 @@ class Novedad extends CActiveRecord
 		$criteria->compare('Puesto',$this->Puesto,true);
 		$criteria->compare('users_id',$this->users_id);
 		$criteria->compare('TIPONOVEDAD_Id',$this->TIPONOVEDAD_Id);
+                $criteria->compare('Observaciones',$this->Observaciones,true);
+		$criteria->compare('STATUS_Id',$this->STATUS_Id);
+		$criteria->compare('DESTINO_Id',$this->DESTINO_Id);
+		$criteria->compare('FechaCierre',$this->FechaCierre,true);
+		$criteria->compare('HoraCierre',$this->HoraCierre,true);
+		$criteria->compare('USER_CLOSE_Id',$this->USER_CLOSE_Id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
