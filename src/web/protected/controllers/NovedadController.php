@@ -74,6 +74,24 @@ class NovedadController extends Controller
 				'users'=>array_merge(Users::UsuariosPorTipo(3))
 				),
 			array(
+				'allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array(
+					'index',
+					'create',
+					'update',
+                                        'updateNovedad',
+					'admin',
+					'delete',
+					'view',
+					'enviarEmail',
+					'enviarNovedad',
+                                        'estadoNovedades',
+                                        'matrizNovedad',
+                                        'matrizNovedadSemana'
+					),
+				'users'=>array_merge(Users::UsuariosPorTipo(8))
+				),
+			array(
 				'allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(
 					'index',
