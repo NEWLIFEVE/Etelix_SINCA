@@ -2,7 +2,7 @@
 
 class reporteConsolidado extends Reportes 
 {
-     public static function reporte($day,$name) 
+     public static function reporte($day,$name,$dir) 
      {
 
             $objPHPExcel = new PHPExcel();
@@ -47,8 +47,13 @@ class reporteConsolidado extends Reportes
             header("Cache-Control: max-age=0");
 
             $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-            $objWriter->save('php://output');
-            exit;
+            if($dir!=NULL){
+                $objWriter->save($dir);
+            }    
+            elseif($dir==NULL){
+                $objWriter->save('php://output');
+                exit;
+            }
 
     }
     

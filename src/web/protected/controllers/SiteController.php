@@ -444,7 +444,7 @@ class SiteController extends Controller
         }
         if($_GET['table']=='reporteConsolidado')
         {
-            Yii::app()->reporte->reporteConsolidado($_GET['mes'],str_replace("/","_",$_GET['name']));
+            Yii::app()->reporte->reporteConsolidado($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
         }
         
         foreach($files as $key => $file)
@@ -637,6 +637,16 @@ class SiteController extends Controller
             $files['matrizFalla']['excel']=Yii::app()->reporte->matrizNovedad($_GET['mes'],$_GET['name']);
             $files['matrizFalla']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['matrizFalla']['name'].".xls";
         }
+        if($_GET['table']=='reporteConsolidado')
+        {
+            $name = str_replace("/","_",$_GET['name']);
+            $dir = Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$name.".xlsx";
+            $dia = $_GET['date'];
+            $cuerpo = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;>".$_GET['name']."<h2>";
+            
+            $body = Yii::app()->reporte->reporteConsolidado($dia,$name,$dir);
+            Yii::app()->correo->sendEmail($cuerpo,$correo,$name,$dir);
+        }
         
         foreach($files as $key => $file)
         {   
@@ -782,4 +792,5 @@ class SiteController extends Controller
             fwrite($fp,$cuerpo);
         }
     }
+    
 }
