@@ -481,7 +481,7 @@ margin-right: 38px;
 .botonCorreo:hover, .botonCorreoPanel:hover, .botonExcel:hover, .botonExcelCompleto:hover, 
 .printButton:hover, .botonExcelTotal:hover, .botonCorreoTotal:hover, .printButtonTotal:hover,
 .botonExcelMatriz:hover, .printButtonMatriz:hover, .botonCorreoMatriz:hover, .botonExcelPanel:hover,
-.printButtonPanel:hover
+.printButtonPanel:hover, .botonCorreoConsolidado:hover, .botonExcelConsolidado:hover
 {
     opacity: 0.5;
 }
