@@ -192,8 +192,9 @@ class DetallegastoController extends Controller {
             $maneda = $_POST['Detallegasto']['moneda'];
             $mes = $_POST['Detallegasto']['FechaMes']."-01";
             $beneficiario = $_POST['Detallegasto']['beneficiario'];
+            $categoria = $_POST['Detallegasto']['category'];
             
-            $varificar = Detallegasto::verificarGasto($tipoGasto,$cabina,$maneda,$mes,$beneficiario);
+            $varificar = Detallegasto::verificarGasto($tipoGasto,$cabina,$maneda,$mes,$beneficiario,$categoria);
             
             if($varificar == false){
                 if($model->save())
