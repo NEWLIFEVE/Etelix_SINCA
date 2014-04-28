@@ -315,9 +315,13 @@ class Detallegasto extends CActiveRecord
          }
     }
     
-    public static function verificarGasto($tipoGasto, $cabina, $maneda, $mes, $beneficiario){
+    public static function verificarGasto($tipoGasto, $cabina, $maneda, $mes, $beneficiario,$categoria){
         
-        if($tipoGasto != 75){
+        if($tipoGasto == 68 || $categoria == 7){
+
+               return false;
+
+        }elseif($tipoGasto != 75){
             if($tipoGasto != null && $cabina != null && $maneda != null && $mes != null)
             {
                     $model=self::model()->find('TIPOGASTO_Id=:TIPOGASTO_Id AND CABINA_Id=:CABINA_Id AND moneda=:moneda AND FechaMes=:FechaMes',
@@ -331,7 +335,7 @@ class Detallegasto extends CActiveRecord
                             return true;
                     }
             }
-        }else{
+        }elseif($tipoGasto == 75){
             if($tipoGasto != null && $cabina != null && $maneda != null && $mes != null && $beneficiario != null)
             {
                     $model=self::model()->find('TIPOGASTO_Id=:TIPOGASTO_Id AND CABINA_Id=:CABINA_Id '
