@@ -143,31 +143,35 @@ class Cabina extends CActiveRecord
     
     public static function getNombreCabina($idCabina)
     {
-    	$criteria = new CDbCriteria;
-    	$criteria->condition = 'Id=:cabina_id';
-    	$criteria->params = array(':cabina_id' => $idCabina);
-    	$resultSet = Cabina::model()->find($criteria);
-    	if(isset($resultSet))
-    	{
-    		return $resultSet->Nombre;
-    	}
-    	else
-    	{
-    		switch(Yii::app()->user->id)
-    		{
-    			case 2:
-    			    return 'gerente';
-    			    break;
-                case 3:
-                    return 'administrador';
-                    break;
-                case 4:
-                    echo "tesorero";
-                    break;
-                case 5:
-                    echo "socio";
-                    break;
+        if($idCabina!=NULL){
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'Id=:cabina_id';
+            $criteria->params = array(':cabina_id' => $idCabina);
+            $resultSet = Cabina::model()->find($criteria);
+            if(isset($resultSet))
+            {
+                    return $resultSet->Nombre;
             }
+            else
+            {
+                    switch(Yii::app()->user->id)
+                    {
+                            case 2:
+                                return 'gerente';
+                                break;
+                    case 3:
+                        return 'administrador';
+                        break;
+                    case 4:
+                        echo "tesorero";
+                        break;
+                    case 5:
+                        echo "socio";
+                        break;
+                }
+            }
+        }else{
+            return '';
         }
     }
     public static function getNombreCabina2($idCabina)
