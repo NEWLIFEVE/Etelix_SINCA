@@ -232,7 +232,7 @@ class NovedadController extends Controller
                     "</tr>".
                     "</table>".
                     "</div>";
-                $_POST['asunto']= 'Reporte de Novedad en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
+                $_POST['asunto']= 'Reporte de Falla en Cabina: '.Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id).' Dia: '.date("d/m/Y",time()).' Hora: '.date("h:i:s A",time());
                 $_POST['html']=$html;
                 
                 if(!YII_DEBUG)
@@ -286,6 +286,7 @@ class NovedadController extends Controller
             $model=new Novedad;
             $idBalancesActualizados='0A';
             $cont=-1;
+            $array_ids = Array();
             foreach($_POST as $campo => $valor)
             {
                 $id=substr($campo,strpos($campo ,'_')+1);
@@ -300,12 +301,13 @@ class NovedadController extends Controller
                     $idRegistros[$cont]=$id;
                 }
             }
-            foreach($idRegistros as $id)
+            foreach($idRegistros as $key => $id)
             {
                 
                 $modelAux = Novedad::model()->findByPk($id);
                 if(isset($_POST['status_'.$id]) && $_POST['status_'.$id]==2 && isset($_POST['Observaciones_'.$id]) && $_POST['Observaciones_'.$id] !="")
                 {
+                    $array_ids[$key] = $modelAux->Id;
                     $modelAux->DESTINO_Id= DestinationInt::getId($_POST['Destino_'.$id]);
                     $modelAux->STATUS_Id=$_POST['status_'.$id];
                     $modelAux->Observaciones=$_POST['Observaciones_'.$id];
@@ -323,43 +325,7 @@ class NovedadController extends Controller
                         $idBalancesActualizados.=$modelAux->Id.'A';
                     }
                     
-//                    $html="<div style='padding:auto 10% auto 10%;'>".
-//                    "<h1 style='border: 0 none; font:150% Arial,Helvetica,sans-serif; margin: 0;".
-//                    "padding: 5; vertical-align: baseline;".
-//                    "background: url('http://fullredperu.com/themes/mattskitchen/img/line_hor.gif')".
-//                    "repeat-x scroll 0 100% transparent;'>".
-//                    "Reporte de Falla".
-//                    "</h1>".
-//                    "<h3>El Siguiente Ticket ha Sido Cerrado:</h3>".        
-//                    "<br/>".
-//                    "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>ID:  </td>".
-//                    "<td style='width:50%;'>".$modelAux->Id."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Tipo de Falla: </td>".
-//                    "<td style='width:50%;'>".$modelAux->tIPONOVEDAD->Nombre. "</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#e5f1f4;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Fecha de Cierre: </td>".
-//                    "<td style='width:50%;'>".$modelAux->FechaCierre."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Hora de Cierre: </td>".
-//                    "<td style='width:50%;'>".$modelAux->HoraCierre."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#e5f1f4;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Observación: </td>".
-//                    "<td style='width:50%;'>".$modelAux->Observaciones."</td>".
-//                    "</tr>".
-//                    "<tr style='background-color:#f8f8f8;'>".
-//                    "<td style='font-weight:bold;width:30%;'>Usuario: </td>".
-//                    "<td style='width:50%;'>".$modelAux->uSERCLOSE->username."</td>".
-//                    "</tr>".
-//                    "</table>".
-//                    "</div>";
-//                    Yii::app()->correo->sendEmail($html,'pnfiuty.rramirez@gmail.com','Cierre de Ticket '.$modelAux->Id);
+                    self::correoCierreFalla($modelAux->users->email,$modelAux);
                 }
                 elseif(isset($_POST['status_'.$id]) && $_POST['status_'.$id] <2 && $_POST['status_'.$id] > 0)
                 {
@@ -375,6 +341,10 @@ class NovedadController extends Controller
                     }
                 }
             }
+            
+            if(isset($array_ids[1]) && $array_ids[1] != '')
+                self::correoCierreFallaCompuesto($array_ids);
+            
             //$this->redirect(array('mostrarFinal','id'=>$model->Id,'idBalancesActualizados' => $idBalancesActualizados)); 
             $this->redirect('estadoNovedades', array(
                 'model' => $model,
@@ -586,6 +556,93 @@ class NovedadController extends Controller
         }
     }
     
+    public function correoCierreFalla($correo,$model)
+    {
+        $cabina = Cabina::getNombreCabina($model->users->CABINA_Id);
+        $asunto= 'Reporte de Cierre de TT en Cabina: '.$cabina.' Dia: '.$model->FechaCierre.' Hora: '.$model->HoraCierre;
+        $html="<tablet>".
+                  "<tr>".
+                          "<td><img src='http://sinca.sacet.com.ve/themes/mattskitchen/img/house1.png'></td>".
+                          "<td><h1 style='font-family: 'Segoe UI Light_', 'Open Sans Light', Verdana, Arial, Helvetica, sans-serif;font-weight: 300;color: #000000;letter-spacing: 0.00em;font-size: 42pt;line-height: 44pt;'>SINCA</h1></td>".
+                  "</tr>".
+                "</table>".
+        "<hr><br>".
+        "<div style='padding:auto 10% auto 10%;'>".
+        "<h1>".
+        "Hola Cabina ".$cabina." ".
+        "</h1>".
+        "<h3>Reporte de TT - ".$cabina." (Cerrado)</h3>".        
+        "<br/>".
+        "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
+        "<tr style='background-color:#f8f8f8;'>".
+        "<td style='font-weight:bold;width:30%;'>Fecha:  </td>".
+        "<td style='width:50%;'>".$model->Fecha."</td>".
+        "</tr>".
+        "<tr style='background-color:#e5f1f4;'>".
+        "<td style='font-weight:bold;width:30%;'>Hora: </td>".
+        "<td style='width:50%;'>".$model->Hora. "</td>".
+        "</tr>".
+        "<tr style='background-color:#f8f8f8;'>".
+        "<td style='font-weight:bold;width:30%;'>Tipo de Falla: </td>".
+        "<td style='width:50%;'>".$model->tIPONOVEDAD->Nombre. "</td>".
+        "</tr>".
+        "<tr style='background-color:#e5f1f4;'>".
+        "<td style='font-weight:bold;width:30%;'>Descripción: </td>".
+        "<td style='width:50%;'>".$model->Descripcion."</td>".
+        "</tr>".
+        "<tr style='background-color:#f8f8f8;'>".
+        "<td style='font-weight:bold;width:30%;'>Número Telefónico: </td>".
+        "<td style='width:50%;'>".$model->Num."</td>".
+        "</tr>".
+        "<tr style='background-color:#e5f1f4;'>".
+        "<td style='font-weight:bold;width:30%;'>Tipo de Número Telefónico: </td>".
+        "<td style='width:50%;'>".NovedadTipotelefono::getTipoTelefonoRow($model->Id)."</td>".
+        "</tr>".    
+        "<tr style='background-color:#f8f8f8;'>".
+        "<td style='font-weight:bold;width:30%;'>Puesto de la Cabina: </td>".
+        "<td style='width:50%;'>".NovedadLocutorio::getLocutorioRow($model->Id)."</td>".
+        "</tr>".
+        "<tr style='background-color:#e5f1f4;'>".
+        "<td style='font-weight:bold;width:30%;'>Usuario que Aperturo la Falla: </td>".
+        "<td style='width:50%;'>".$model->users->username."</td>".
+        "</tr>".
+        "<tr style='background-color:#f8f8f8;'>".
+        "<td style='font-weight:bold;width:30%;'>Usuario que Cerro la Falla: </td>".
+        "<td style='width:50%;'>".$model->uSERCLOSE->username."</td>".
+        "</tr>".
+//        "<tr style='background-color:#f8f8f8;'>".
+//        "<td style='font-weight:bold;width:30%;'>Correo Electrónico del Usuario: </td>".
+//        "<td style='width:50%;'>".$model->users->email."</td>".
+//        "</tr>".
+        "<tr style='background-color:#e5f1f4;'>".
+        "<td style='font-weight:bold;width:30%;'>Destino: </td>".
+        "<td style='width:50%;'>".DestinationInt::getNombre($model->DESTINO_Id)."</td>".
+        "</tr>".
+        "<tr style='background-color:#f8f8f8;'>".
+        "<td style='font-weight:bold;width:30%;'>Observaciones: </td>".
+        "<td style='width:50%;'>".$model->Observaciones."</td>".
+        "</tr>".
+        "</table>".
+        "</div>";
+        Yii::app()->correo->sendEmail($html,$correo,$asunto);
+    }
+    
+    public function correoCierreFallaCompuesto($ids) {
+        
+        if(YII_DEBUG){
+           $correo = 'auto@etelix.com';
+        }else{
+           $correo = 'cabinasperu@etelix.com';
+        }
+        
+        $asunto='SINCA Reporte de Cierre de TT '.date("Y-m-j",time());
+        $nombre='Ticket(s) Cerrados en este Momento';
+        $cuerpo=Yii::app()->reporte->estadoNovedades(implode(",", $ids),$nombre);
+        $ruta=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$asunto.".xls";
+        
+        Yii::app()->excel->genExcel($asunto,utf8_encode($cuerpo),false);
+        Yii::app()->correo->sendEmail($cuerpo,$correo,$asunto,$ruta);
+    }
     
     
     

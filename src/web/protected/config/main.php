@@ -89,6 +89,9 @@ return array(
 		'correo'=>array(
 			'class'=>'application.components.EnviarEmail'
 			),
+                'excel'=>array(
+			'class'=>'application.components.Excel'
+			),        
 		'user'=>array(
 			'class'=>'WebUser',
 			// enable cookie-based authentication

@@ -29,7 +29,7 @@ class ConsolidadoResumidoAutomatico extends CApplicationComponent
             $body = Yii::app()->reporte->reporteConsolidadoResumido($dia,$name,$dir);
             
             if(YII_DEBUG){
-                   $correo = 'pnfiuty.rramirez@gmail.com';
+                   $correo = 'auto@etelix.com';
             }else{
                    $correo = '';
             }
