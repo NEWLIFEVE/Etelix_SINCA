@@ -90,7 +90,7 @@ class Novedad extends CActiveRecord
 			'Num' => 'Número Telefonico',
                         'Puesto'=>'Puesto de la Cabina',
 			'users_id' => 'Usuario',
-			'TIPONOVEDAD_Id' => 'Tipo de Novedad',
+			'TIPONOVEDAD_Id' => 'Tipo de Falla',
                         'TIPOTELEFONO_Id' => 'Tipo de Telefono',
                         'Observaciones' => 'Observaciones',
                         'status' => 'Estatus',

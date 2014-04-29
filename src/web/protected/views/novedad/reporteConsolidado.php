@@ -41,69 +41,74 @@ $this->menu=  NovedadController::controlAcceso($tipoUsuario);
         Reporte Consolidado de Fallas 
         <?php echo $mes; ?>
     </span>
+    <!--
     <span>
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoConsolidado" />
-        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelConsolidado" />
+        <img title="Enviar por Correo" src="<?php //echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoConsolidado" />
+        <img title="Exportar a Excel" src="<?php //echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelConsolidado" />
     </span>
+    -->
 </h1>
-<form name="Detallegasto" method="post" action="<?php echo Yii::app()->createAbsoluteUrl('novedad/reporteConsolidado') ?>">
-    <div style="float: left;width: 36%;padding-top: 1%;padding-left: 4%;">
-        <div style="width: 40em;">
-            <div class="buttons" style="float: right;">
-                <input type="submit" name="boton" value="Actualizar"/>
-                <input type="submit" name="boton" value="Resetear Valores"/>
+<div id="cicloingresosbotons">
+    <div id="botonsExport">
+    <ul>
+        <li style="width: 200px;">
+                Resumido   <img id="CorreoResumido" title="Enviar Consolidado Resumido por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoConsolidado" />
+                           <img id="ExcelResumido" title="Exportar Consolidado Resumido a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelConsolidado" />
+        </li>
+        <li style="width: 200px;">
+           
+                Completo   <img id="CorreoCompleto" title="Enviar Consolidado Completo por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoConsolidado" />
+                           <img id="ExcelCompleto" title="Exportar Consolidado Completo a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelConsolidado" />
+        </li>
+    </ul>
+    <div>
+        <form name="Detallegasto" method="post" action="<?php echo Yii::app()->createAbsoluteUrl('novedad/reporteConsolidado') ?>">
+            <div style="float: left;width: 36%;padding-top: 1%;padding-left: 4%;">
+                <div style="width: 40em;">
+                    <div class="buttons" style="float: right;">
+                        <input type="submit" name="boton" value="Actualizar"/>
+                        <input type="submit" name="boton" value="Resetear Valores"/>
+                    </div>
+                    <label for="dateMonth">
+                        Seleccione un Día:
+                    </label>
+                    <?php
+
+                    $this->widget('zii.widgets.jui.CJuiDatePicker', 
+                                array(
+                                'language' => 'es', 
+                                'model' =>$model,
+                                //'value' =>date('d/m/Y',strtotime($model->admission_date)),
+                                'attribute'=>'Fecha', 
+                                'options' => array(
+                                'dateFormat'=>'yy-mm-dd',
+                                'changeMonth' => 'true',//para poder cambiar mes
+                                'changeYear' => 'true',//para poder cambiar año
+                                'showButtonPanel' => 'false', 
+                                'constrainInput' => 'false',
+                                'showAnim' => 'show',
+                                //'minDate'=>'-30D', //fecha minima
+                                'maxDate'=> "-0D", //fecha maxima
+                                 ),
+                                    'htmlOptions'=>array(
+                                        'readonly'=>'readonly',
+                                        'name'=>'formFecha',
+                                        ),
+                            ));
+
+
+                    ?>  
+                </div>
             </div>
-            <label for="dateMonth">
-                Seleccione un Día:
-            </label>
-            <?php
-            
-            $this->widget('zii.widgets.jui.CJuiDatePicker', 
-                        array(
-                        'language' => 'es', 
-                        'model' =>$model,
-                        //'value' =>date('d/m/Y',strtotime($model->admission_date)),
-                        'attribute'=>'Fecha', 
-                        'options' => array(
-                        'dateFormat'=>'yy-mm-dd',
-                        'changeMonth' => 'true',//para poder cambiar mes
-                        'changeYear' => 'true',//para poder cambiar año
-                        'showButtonPanel' => 'false', 
-                        'constrainInput' => 'false',
-                        'showAnim' => 'show',
-                        //'minDate'=>'-30D', //fecha minima
-                        'maxDate'=> "-0D", //fecha maxima
-                         ),
-                            'htmlOptions'=>array(
-                                'readonly'=>'readonly',
-                                'name'=>'formFecha',
-                                ),
-                    ));
-            
-            
-            ?>  
-        </div>
+        </form>
     </div>
-</form>
+    </div>
+</div>
+
 <div style="display: block;">&nbsp;</div>
 <div style="display: block;">&nbsp;</div>
 <br>
-<!--
-<div id="mostrarFormulas">
-    Leyenda
-</div>
 
-<div id="tablaFormulas" class="ocultar">
-<table>
-    <tr>
-        <td> Azul = Soles </td>
-    </tr>
-    <tr>
-        <td> Verde = Dolares </td>
-    </tr>
-</table>
-</div>
--->
 <br>
 <div id="fecha" style="display: none;"><?php echo '('.date('Y-m-j',strtotime("-6 day",strtotime($mes))).'/'.$mes.')';?></div>
 <div id="fecha2" style="display: none;"><?php echo $mes;?></div>

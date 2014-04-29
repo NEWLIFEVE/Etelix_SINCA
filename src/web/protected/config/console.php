@@ -8,17 +8,21 @@ if($server==SERVER_NAME_PROD)
 	$num=count($nuevo);
 	if($nuevo[$num-3]==DIRECTORY_NAME_PRE_PROD)
 	{
-		$server_db='localhost';
+	$server_db='localhost';
         $sinca_db='sinca';
         $user_db='root';
         $pass_db='Nsusfd8263';
+        $user_db_sori='postgres';
+        $sori_db='sori';
 	}
 	else
 	{
-		$server_db='localhost';
+	$server_db='localhost';
         $sinca_db='sinca';
         $user_db='root';
         $pass_db='Nsusfd8263';
+        $user_db_sori='postgres';
+        $sori_db='sori';
 	}
 }
 else
@@ -27,6 +31,8 @@ else
     $sinca_db='sinca';
     $user_db='manuelz';
     $pass_db='123';
+    $user_db_sori='postgres';
+        $sori_db='sori';
 }
 
 return array(
@@ -52,6 +58,12 @@ return array(
 		'cicloingresototal'=>array(
 			'class'=>"application.components.CicloIngresoTotalAutomatico",
 			),
+                'consolidadoresumido'=>array(
+			'class'=>"application.components.ConsolidadoResumidoAutomatico",
+			),
+                'consolidado'=>array(
+			'class'=>"application.components.ConsolidadoAutomatico",
+			),        
 		'recordatorio'=>array(
 			'class'=>"application.components.Recordatorio",
 			),
@@ -90,10 +102,17 @@ return array(
 			'class'=>'CDbConnection',
 			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
 			'emulatePrepare'=>true,
-            'username'=>$user_db,
+                        'username'=>$user_db,
 			'password'=>$pass_db,
 			'charset'=>'utf8',        
 			),
+                'soriDB'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'pgsql:host='.$server_db.';port=5432;dbname='.$sori_db,
+			'username'=>$user_db_sori,
+			'password'=>$pass_db,
+			'charset'=>'utf8',
+			),        
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

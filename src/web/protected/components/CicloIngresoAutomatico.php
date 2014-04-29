@@ -19,7 +19,7 @@ class CicloIngresoAutomatico extends CApplicationComponent
      */
     public function run($dateSet=null)
     {
-	    $correo='cabinasperu@etelix.com';
+	$correo='cabinasperu@etelix.com';
         $ayer = date( "Y-m-d", strtotime( "-1 day", strtotime( date('Y-m-d', time()) ) ) );
         $dias = array('Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado');
         $day = date('w',strtotime($ayer));
@@ -27,7 +27,7 @@ class CicloIngresoAutomatico extends CApplicationComponent
         $excel_name= 'SINCA Status Ciclo de Ingresos '.$dias[$day].' '.date("h",time()).'.00 '.date("A",time()).' (Ayer)';
         $files=array();
 
-	    $files['cicloIngreso']['name']=$topic;
+	$files['cicloIngreso']['name']=$topic;
         $files['cicloIngreso']['body']=Yii::app()->reporte->cicloIngreso(null,$topic,false,false,$ayer);
         $files['cicloIngreso']['excel']=Yii::app()->reporte->cicloIngreso(null,$topic,false,true,$ayer);
         $files['cicloIngreso']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$excel_name.".xls"; 

@@ -182,7 +182,7 @@ class NovedadController extends Controller
                     "padding: 5; vertical-align: baseline;".
                     "background: url('http://fullredperu.com/themes/mattskitchen/img/line_hor.gif')".
                     "repeat-x scroll 0 100% transparent;'>".
-                    "Reporte de Novedad/Falla".
+                    "Reporte de Falla".
                     "</h1>".
                     "<br/>".
                     "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
@@ -195,7 +195,7 @@ class NovedadController extends Controller
                     "<td style='width:50%;'>".Cabina::getNombreCabina(Yii::app()->getModule('user')->user()->CABINA_Id)."</td>".
                     "</tr>".
                     "<tr style='background-color:#f8f8f8;'>".
-                    "<td style='font-weight:bold;width:30%;'>Tipo de Novedad:   </td>".
+                    "<td style='font-weight:bold;width:30%;'>Tipo de Falla:   </td>".
                     "<td style='width:50%;'>".$model->tIPONOVEDAD->Nombre. "</td>".
                     "</tr>".
                     "<tr style='background-color:#e5f1f4;'>".
@@ -302,6 +302,7 @@ class NovedadController extends Controller
             }
             foreach($idRegistros as $id)
             {
+                
                 $modelAux = Novedad::model()->findByPk($id);
                 if(isset($_POST['status_'.$id]) && $_POST['status_'.$id]==2 && isset($_POST['Observaciones_'.$id]) && $_POST['Observaciones_'.$id] !="")
                 {
@@ -321,6 +322,44 @@ class NovedadController extends Controller
                     {
                         $idBalancesActualizados.=$modelAux->Id.'A';
                     }
+                    
+//                    $html="<div style='padding:auto 10% auto 10%;'>".
+//                    "<h1 style='border: 0 none; font:150% Arial,Helvetica,sans-serif; margin: 0;".
+//                    "padding: 5; vertical-align: baseline;".
+//                    "background: url('http://fullredperu.com/themes/mattskitchen/img/line_hor.gif')".
+//                    "repeat-x scroll 0 100% transparent;'>".
+//                    "Reporte de Falla".
+//                    "</h1>".
+//                    "<h3>El Siguiente Ticket ha Sido Cerrado:</h3>".        
+//                    "<br/>".
+//                    "<table style='border: 0 none; font:13px/150% Arial,Helvetica,sans-serif;width:;'>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>ID:  </td>".
+//                    "<td style='width:50%;'>".$modelAux->Id."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Tipo de Falla: </td>".
+//                    "<td style='width:50%;'>".$modelAux->tIPONOVEDAD->Nombre. "</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#e5f1f4;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Fecha de Cierre: </td>".
+//                    "<td style='width:50%;'>".$modelAux->FechaCierre."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Hora de Cierre: </td>".
+//                    "<td style='width:50%;'>".$modelAux->HoraCierre."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#e5f1f4;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Observación: </td>".
+//                    "<td style='width:50%;'>".$modelAux->Observaciones."</td>".
+//                    "</tr>".
+//                    "<tr style='background-color:#f8f8f8;'>".
+//                    "<td style='font-weight:bold;width:30%;'>Usuario: </td>".
+//                    "<td style='width:50%;'>".$modelAux->uSERCLOSE->username."</td>".
+//                    "</tr>".
+//                    "</table>".
+//                    "</div>";
+//                    Yii::app()->correo->sendEmail($html,'pnfiuty.rramirez@gmail.com','Cierre de Ticket '.$modelAux->Id);
                 }
                 elseif(isset($_POST['status_'.$id]) && $_POST['status_'.$id] <2 && $_POST['status_'.$id] > 0)
                 {

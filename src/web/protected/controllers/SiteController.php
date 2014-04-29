@@ -446,6 +446,10 @@ class SiteController extends Controller
         {
             Yii::app()->reporte->reporteConsolidado($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
         }
+        if($_GET['table']=='reporteConsolidadoResumido')
+        {
+            Yii::app()->reporte->reporteConsolidadoResumido($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
+        }
         
         foreach($files as $key => $file)
         {
@@ -645,6 +649,16 @@ class SiteController extends Controller
             $cuerpo = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;>".$_GET['name']."<h2>";
             
             $body = Yii::app()->reporte->reporteConsolidado($dia,$name,$dir);
+            Yii::app()->correo->sendEmail($cuerpo,$correo,$name,$dir);
+        }
+        if($_GET['table']=='reporteConsolidadoResumido')
+        {
+            $name = str_replace("/","_",$_GET['name']);
+            $dir = Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$name.".xlsx";
+            $dia = $_GET['date'];
+            $cuerpo = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;>".$_GET['name']."<h2>";
+            
+            $body = Yii::app()->reporte->reporteConsolidadoResumido($dia,$name,$dir);
             Yii::app()->correo->sendEmail($cuerpo,$correo,$name,$dir);
         }
         

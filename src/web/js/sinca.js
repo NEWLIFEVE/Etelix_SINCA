@@ -432,7 +432,14 @@ $(document).ready(function()
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
              
-            var gridview = 'reporteConsolidado';
+             
+            var gridview = '';
+            
+            if($(this).attr('id') == 'ExcelCompleto')
+                gridview = 'reporteConsolidado';
+            else
+                gridview = 'reporteConsolidadoResumido';
+            
             var name = genNameFile(gridview);
             var mes = $('div#fecha2').text();
             //Creamos la variable que contiene la tabla generada.
@@ -816,7 +823,13 @@ $(document).ready(function()
             $("#nombreContenedor").css("display", "inline");
             $("#loading").css("display", "inline");
             
-            var gridview = 'reporteConsolidado';
+            var gridview = '';
+            
+            if($(this).attr('id') == 'CorreoCompleto')
+                gridview = 'reporteConsolidado';
+            else
+                gridview = 'reporteConsolidadoResumido';
+            
             var date = $('div#fecha2').text();
             var name = genNameFile(gridview);
             //alert(mes);
@@ -1197,6 +1210,9 @@ $(document).ready(function()
         }
         if(gridview=='reporteConsolidado'){
             name = 'SINCA Reporte Consolidado de Fallas'+fecha;
+        }
+        if(gridview=='reporteConsolidadoResumido'){
+            name = 'SINCA Reporte Consolidado Resumido de Fallas'+fecha;
         }
 
         return name;   

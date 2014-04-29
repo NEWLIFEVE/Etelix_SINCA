@@ -22,6 +22,12 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function reporteConsolidadoResumido($day,$name,$dir)
+    {
+        $var=  reporteConsolidadoResumido::reporte($day,$name,$dir);
+        return $var;
+    }
+    
     /**
      * Documentacion va aqui
      */
