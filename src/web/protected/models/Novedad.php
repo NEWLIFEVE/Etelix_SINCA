@@ -285,12 +285,25 @@ class Novedad extends CActiveRecord
             foreach ($model as $key => $value) {
                 $puestos[$key] = $value->LOCUTORIO_Id;
             }
-            if(!isset($puestos[0]))
-              $puestos_string = '';
-            elseif(isset($puestos[0]) && $puestos[0] != 11)
+            if(!isset($puestos[0])){
+                
+              $model_novedad = Novedad::model()->findBySql("SELECT n.Id
+                                                  FROM novedad as n
+                                                  INNER JOIN tiponovedad as t ON t.Id = n.TIPONOVEDAD_Id
+                                                  INNER JOIN users as u ON u.id = n.users_id
+                                                  WHERE u.CABINA_Id = $cabina_id
+                                                  AND t.Nombre = '$tipo_novedad'
+                                                  AND n.Fecha = '$fecha';");
+              if($model_novedad == NULL)
+                  $puestos_string = '';
+              else
+                  $puestos_string = 'Ninguna';
+
+            }elseif(isset($puestos[0]) && $puestos[0] != 11){
               $puestos_string = implode(",", $puestos);  
-            elseif($puestos[0] == 11)
-              $puestos_string = 'Todas';  
+            }elseif($puestos[0] == 11){
+              $puestos_string = 'Todas';
+            }
 
             return $puestos_string;
 
