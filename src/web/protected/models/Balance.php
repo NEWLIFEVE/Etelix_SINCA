@@ -1376,10 +1376,13 @@ class Balance extends CActiveRecord
         return $mes;
     } 
     
-    public static function Acumulado($difd)
+    public static function Acumulado($fecha,$cabina)
     {
-        $_SESSION['acumulado'] = $_SESSION['acumulado'] + $difd;
-        return $_SESSION['acumulado'];
+        $sum = 0;
+        $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+        $sum = self::model()->findBySql("SELECT SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)-IFNULL(b.TraficoCapturaDollar,0)*p.Valor)/p.Valor) as DifDollar FROM balance as b INNER JOIN paridad as p ON p.id = b.PARIDAD_Id WHERE b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha' AND b.CABINA_Id = $cabina;");
+
+        return Yii::app()->format->formatDecimal($sum->DifDollar);
     }
     
 }

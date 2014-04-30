@@ -140,7 +140,6 @@ $this->widget('application.extensions.fancybox.EFancyBox',array(
 
 $model_1 = Balance::model()->findAllBySql("SELECT * FROM sinca.balance where fecha between '2014-02-01' and '2014-02-15' and CABINA_Id = 1;");
 $acumulado = 0;
-$_SESSION['acumulado'] = 0;
 //echo '<table><tr><td>Fecha</td><td>Llamadas</td><td>Captura</td><td>Paridad</td><td>Dif. Soles</td><td>Dif. Dollar</td><td>Acumulado</td></tr>';
 //
 //foreach ($model_1 as $key => $value) {
@@ -299,8 +298,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'diferencialCapturaDollar',
             ),
         ),
+
         array('name'=>'Acumulado',
-            'value'=>'Balance::Acumulado(Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI-$data->TraficoCapturaDollar*$data->pARIDAD->Valor)/$data->pARIDAD->Valor))',
+            'value'=>'Balance::Acumulado($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -309,6 +309,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'acumulado',
                 ),
             ),
+        
         array('name'=>'Sobrante',
             'value'=>'Balance::sobrante($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
