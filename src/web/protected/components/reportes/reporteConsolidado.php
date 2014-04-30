@@ -261,6 +261,7 @@ class reporteConsolidado extends Reportes
     private function _genSheetThree($objPHPExcel,$day,$sheets){
         
             $sheet = $sheets+1;
+            $timeTicket = '';
             //TITULO
             $objPHPExcel->createSheet($sheet)->setCellValue('A1', 'SINCA Estado de Fallas '.$day);
             $objPHPExcel->setActiveSheetIndex($sheet)->getStyle("A1")->getFont()->setSize(16);
@@ -274,14 +275,14 @@ class reporteConsolidado extends Reportes
             $cols_asrray = Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
                                  'R','S','T','U','V','W','X','Y','Z');
             
-            $header = Array('Fecha','Cabina','Falla','Locutorio(s)','Destino','Observaciones','Estatus');
+            $header = Array('Cabina','Falla','Locutorio(s)','Destino','Observaciones','Estatus','Fecha Apertura','Fecha Cierre','Tiempo de Vida');
             
             $sql="SELECT * FROM novedad WHERE Fecha = '$day' ORDER BY Fecha DESC, STATUS_ID ASC";
             $model = Novedad::model()->findAllBySql($sql);
             
             if($model!=NULL)
             {
-                for($i=0;$i<7;$i++){
+                for($i=0;$i<9;$i++){
                     $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[$i].'3', $header[$i]);
                     $objPHPExcel->setActiveSheetIndex($sheet)->getColumnDimension($cols_asrray[$i])->setAutoSize(true);
                     self::cellColor($cols_asrray[$i].'3', '1967B2',$objPHPExcel);
@@ -291,33 +292,55 @@ class reporteConsolidado extends Reportes
 
                 foreach ($model as $key => $registro)
                 {
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[0].($key+4), $registro->Fecha);
+                    if($registro->STATUS_Id == 2){
+                        $timeTicket = Utility::getTime($registro->Fecha, $registro->Hora, $registro->FechaCierre, $registro->HoraCierre);
+                    }else{
+                        $timeTicket = Utility::getTime($registro->Fecha, $registro->Hora, date('Y-m-d',time()), date('H:i:s',time()));
+                    }
+                    
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[0].($key+4), Cabina::getNombreCabina($registro->users->CABINA_Id));
                     self::font($cols_asrray[0].($key+4),'000000','10',$objPHPExcel);
                     
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[1].($key+4), Cabina::getNombreCabina($registro->users->CABINA_Id));
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[1].($key+4), $registro->tIPONOVEDAD->Nombre);
                     self::font($cols_asrray[1].($key+4),'000000','10',$objPHPExcel);
                     
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[2].($key+4), $registro->tIPONOVEDAD->Nombre);
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[2].($key+4), NovedadLocutorio::getLocutorioRow($registro->Id));
                     self::font($cols_asrray[2].($key+4),'000000','10',$objPHPExcel);
                     
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[3].($key+4), NovedadLocutorio::getLocutorioRow($registro->Id));
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[3].($key+4), DestinationInt::getNombre($registro->DESTINO_Id));
                     self::font($cols_asrray[3].($key+4),'000000','10',$objPHPExcel);
                     
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[4].($key+4), DestinationInt::getNombre($registro->DESTINO_Id));
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[4].($key+4), $registro->Observaciones);
                     self::font($cols_asrray[4].($key+4),'000000','10',$objPHPExcel);
                     
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[5].($key+4), $registro->Observaciones);
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[5].($key+4), $registro->sTATUS->Nombre);
                     self::font($cols_asrray[5].($key+4),'000000','10',$objPHPExcel);
                     
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[6].($key+4), $registro->sTATUS->Nombre);
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[6].($key+4), $registro->Fecha.'/'.date('H:i',strtotime($registro->Hora)));
                     self::font($cols_asrray[6].($key+4),'000000','10',$objPHPExcel);
+                    
+                    if($registro->STATUS_Id == 2){
+                        $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[7].($key+4), $registro->FechaCierre.'/'.Utility::timeNull($registro->HoraCierre));
+                        self::font($cols_asrray[7].($key+4),'000000','10',$objPHPExcel);
+                        
+                        $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[8].($key+4), Utility::restarHoras($registro->Hora, $registro->HoraCierre, floor($timeTicket/(60*60*24))));
+                        self::font($cols_asrray[8].($key+4),'000000','10',$objPHPExcel);
+                        
+                    }else{
+                        $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[7].($key+4), '');
+                        self::font($cols_asrray[7].($key+4),'000000','10',$objPHPExcel);
+                        
+                        $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[8].($key+4), Utility::restarHoras($registro->Hora, date('H:i:s',time()), floor($timeTicket/(60*60*24))));
+                        self::font($cols_asrray[8].($key+4),'000000','10',$objPHPExcel);
+                    }    
+                    
                     
                 }
 
             }
             else
             {
-                for($i=0;$i<7;$i++){
+                for($i=0;$i<9;$i++){
                     $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[$i].'3', $header[$i]);
                     $objPHPExcel->setActiveSheetIndex($sheet)->getColumnDimension($cols_asrray[$i])->setAutoSize(true);
                     self::cellColor($cols_asrray[$i].'3', '1967B2',$objPHPExcel);

@@ -4,11 +4,11 @@
  */
 class Utility
 {
-	/**
-     * Encargada de cambiar la hora desde la intefaz grafica para ser almacenada en base de datos
-     * @access public
-     * @static
-     */
+    public function init()
+    {
+        
+    }
+    
     public static function ChangeTime($hora)
     {
 		$doce = 12;
@@ -251,6 +251,71 @@ class Utility
             $valor="No Declarado";
         }
         return $valor;
+    }
+    
+    public static function getTime($date, $hour, $datec, $hourc)
+    {
+        $_date = explode('-', $date);
+        $_hour = explode(':', $hour);
+        
+        if($datec == NULL){
+            $_datec = explode('-', date('Y-m-d',time()));
+        }else{
+            $_datec = explode('-', $datec);
+        }
+        
+        if($hourc == NULL){
+            $_hourc = explode(':', date('H:i:s',time()));
+        }else{
+            $_hourc = explode(':', $hourc);
+        }
+        
+        $timestamp = mktime($_hour[0],$_hour[1],$_hour[2], $_date[1],$_date[2],$_date[0]);
+        $timestampc = mktime($_hourc[0],$_hourc[1],$_hourc[2], $_datec[1],$_datec[2],$_datec[0]);
+        
+        $timeTicket = $timestampc - $timestamp;
+        return $timeTicket;
+    }
+    
+    public static function restarHoras($horaini, $horafin, $timestamp)
+    {
+            $horai=substr($horaini,0,2);
+            $mini=substr($horaini,3,2);
+            $segi=substr($horaini,6,2);
+
+            $horaf=substr($horafin,0,2);
+            $minf=substr($horafin,3,2);
+            $segf=substr($horafin,6,2);
+
+            $ini=((($horai*60)*60)+($mini*60)+$segi);
+            $fin=((($horaf*60)*60)+($minf*60)+$segf);
+
+            $dif=$fin-$ini;
+
+            $difh=floor($dif/3600);
+            $difm=floor(($dif-($difh*3600))/60);
+            $difs=$dif-($difm*60)-($difh*3600);
+            $date = date("H:i",mktime($difh,$difm,$difs));
+            $fecha_final = '';
+            
+            if ($timestamp == 0) {
+                $fecha_final = $date;
+            } elseif ($timestamp == 1) {
+                $fecha_final = $timestamp . ' dia ' . $date;
+            } elseif ($timestamp >= 2) {
+                $fecha_final = $timestamp . ' dias ' . $date;
+            } 
+            
+            return $fecha_final;
+    }
+    
+    public static function timeNull($time){
+        
+        if($time != NULL)
+            return date('H:i',strtotime($time));
+        else
+            return '';
+        
     }
 }
 ?>

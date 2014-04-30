@@ -422,13 +422,15 @@ class Reportes extends CApplicationComponent
             case "estadoNovedades":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Fecha</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c2">Cabina</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Falla</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Locutorio(s)</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Destino</th> 
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Observaciones</th>   
-                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Estatus</th> 
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Estatus</th>
+                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Fecha Apertura</th>   
+                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Fecha Cierre</th> 
+                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Tiempo de Vida</th>     
                             </tr>
                         </thead>';
 

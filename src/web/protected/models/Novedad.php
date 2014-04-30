@@ -341,5 +341,6 @@ class Novedad extends CActiveRecord
                     return NovedadStatus::getStatusName($status_actual);
                 }
         }
+
         
 }

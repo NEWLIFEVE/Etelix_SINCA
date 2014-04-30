@@ -91,7 +91,10 @@ return array(
 			),
                 'excel'=>array(
 			'class'=>'application.components.Excel'
-			),        
+			), 
+                'utility'=>array(
+			'class'=>'application.components.Utility'
+			),         
 		'user'=>array(
 			'class'=>'WebUser',
 			// enable cookie-based authentication
