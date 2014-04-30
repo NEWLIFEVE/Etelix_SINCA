@@ -1376,4 +1376,10 @@ class Balance extends CActiveRecord
         return $mes;
     } 
     
+    public static function Acumulado($difd)
+    {
+        $_SESSION['acumulado'] = $_SESSION['acumulado'] + $difd;
+        return $_SESSION['acumulado'];
+    }
+    
 }
