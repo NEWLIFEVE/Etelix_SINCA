@@ -335,7 +335,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
 );
 /**********************************************************************************************************************************************/
 /*****************************************CICLO DE INGRESOS RESUMIDO INACTIVAS*****************************************************************/
-/*
+
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceCicloIngresosResumidoOculta',
     'htmlOptions'=>array(
@@ -502,8 +502,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         ),
     )
 );
- * 
- */
+
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();
