@@ -21,7 +21,7 @@ switch ($server)
     case SERVER_NAME_DEV:
     default:
         $server_db='172.16.17.190';
-        $sinca_db='sinca';
+        $sinca_db='sinca2';
         $sori_db='sori';
         $user_db='manuelz';
         $user_db_sori='postgres';

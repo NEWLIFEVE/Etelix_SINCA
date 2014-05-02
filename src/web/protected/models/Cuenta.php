@@ -61,6 +61,8 @@ class Cuenta extends CActiveRecord
 			'bancos' => array(self::HAS_MANY, 'Banco', 'CUENTA_Id'),
 			'detallegastos' => array(self::HAS_MANY, 'Detallegasto', 'CUENTA_Id'),
 			'balances' => array(self::HAS_MANY, 'Balance', 'CUENTA_Id'),
+                        'depositos' => array(self::HAS_MANY, 'Deposito', 'CUENTA_Id'),
+                        'detalleingresos' => array(self::HAS_MANY, 'Detalleingreso', 'CUENTA_Id'),
 		);
 	}
 

@@ -57,6 +57,9 @@ class Compania extends CActiveRecord
 		return array(
 			'pabrightstars' => array(self::HAS_MANY, 'Pabrightstar', 'Compania'),
 			'comision' => array(self::HAS_MANY, 'Comision', 'Compania'),
+                        'tipoIngresoses' => array(self::HAS_MANY, 'TipoIngresos', 'COMPANIA_Id'),
+                        'comisions' => array(self::HAS_MANY, 'Comision', 'COMPANIA_Id'),
+                        'saldoCabinas' => array(self::HAS_MANY, 'SaldoCabina', 'COMPANIA_Id'),
 		);
 	}
 

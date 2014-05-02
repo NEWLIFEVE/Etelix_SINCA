@@ -76,6 +76,7 @@ class Detalleingreso extends CActiveRecord
 			'moneda0' => array(self::BELONGS_TO, 'Currency', 'moneda'),
 			'cABINA' => array(self::BELONGS_TO, 'Cabina', 'CABINA_Id'),
 			'cUENTA' => array(self::BELONGS_TO, 'Cuenta', 'CUENTA_Id'),
+                        'moneda0' => array(self::BELONGS_TO, 'Currency', 'moneda'),
 			'tIPOINGRESO' => array(self::BELONGS_TO, 'TipoIngresos', 'TIPOINGRESO_Id'),
 			'uSERS' => array(self::BELONGS_TO, 'Users', 'USERS_Id'),
 		);

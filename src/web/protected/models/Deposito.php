@@ -1,23 +1,31 @@
 <?php
 
 /**
- * This is the model class for table "tipo_ingresos".
+ * This is the model class for table "deposito".
  *
- * The followings are the available columns in table 'tipo_ingresos':
- * @property integer $Id
- * @property string $Nombre
+ * The followings are the available columns in table 'deposito':
+ * @property integer $id
+ * @property string $Fecha
+ * @property string $Hora
+ * @property string $MontoDep
+ * @property string $MontoBanco
+ * @property string $NumRef
+ * @property string $Depositante
+ * @property integer $CUENTA_Id
+ * @property integer $CABINA_Id
  *
  * The followings are the available model relations:
- * @property Detalleingreso[] $detalleingresos
+ * @property Cuenta $cUENTA
+ * @property Cabina $cABINA
  */
-class TipoIngresos extends CActiveRecord
+class Deposito extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'tipo_ingresos';
+		return 'deposito';
 	}
 
 	/**
@@ -28,11 +36,13 @@ class TipoIngresos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Nombre', 'required'),
-			array('Nombre', 'length', 'max'=>200),
+			array('Fecha, Hora, MontoDep, NumRef, CUENTA_Id, CABINA_Id', 'required'),
+			array('CUENTA_Id, CABINA_Id', 'numerical', 'integerOnly'=>true),
+			array('MontoDep, MontoBanco', 'length', 'max'=>15),
+			array('NumRef, Depositante', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('Id, Nombre', 'safe', 'on'=>'search'),
+			array('id, Fecha, Hora, MontoDep, MontoBanco, NumRef, Depositante, CUENTA_Id, CABINA_Id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -44,8 +54,8 @@ class TipoIngresos extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'detalleingresos' => array(self::HAS_MANY, 'Detalleingreso', 'TIPOINGRESO_Id'),
-                        'cOMPANIA' => array(self::BELONGS_TO, 'Compania', 'COMPANIA_Id'),
+			'cUENTA' => array(self::BELONGS_TO, 'Cuenta', 'CUENTA_Id'),
+			'cABINA' => array(self::BELONGS_TO, 'Cabina', 'CABINA_Id'),
 		);
 	}
 
@@ -55,8 +65,15 @@ class TipoIngresos extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'Id' => 'ID',
-			'Nombre' => 'Nombre',
+			'id' => 'ID',
+			'Fecha' => 'Fecha',
+			'Hora' => 'Hora',
+			'MontoDep' => 'Monto Dep',
+			'MontoBanco' => 'Monto Banco',
+			'NumRef' => 'Num Ref',
+			'Depositante' => 'Depositante',
+			'CUENTA_Id' => 'Cuenta',
+			'CABINA_Id' => 'Cabina',
 		);
 	}
 
@@ -78,9 +95,15 @@ class TipoIngresos extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('Id',$this->Id);
-		$criteria->compare('Nombre',$this->Nombre,true);
-                $criteria->compare('COMPANIA_Id',$this->COMPANIA_Id);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('Fecha',$this->Fecha,true);
+		$criteria->compare('Hora',$this->Hora,true);
+		$criteria->compare('MontoDep',$this->MontoDep,true);
+		$criteria->compare('MontoBanco',$this->MontoBanco,true);
+		$criteria->compare('NumRef',$this->NumRef,true);
+		$criteria->compare('Depositante',$this->Depositante,true);
+		$criteria->compare('CUENTA_Id',$this->CUENTA_Id);
+		$criteria->compare('CABINA_Id',$this->CABINA_Id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,35 +114,10 @@ class TipoIngresos extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return TipoIngresos the static model class
+	 * @return Deposito the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-        
-        public static function getListTipoGIngreso(){
-            return CHtml::listData(TipoIngresos::model()->findAll(), 'Id', 'Nombre');
-        }
-        
-        public static function getIdIngreso($nombre){
-            
-		if($nombre != null)
-		{
-			$model=self::model()->find('Nombre=:nombre',array(':nombre'=>$nombre));
-			if($model == null)
-			{
-				$model=new TipoIngresos;
-				$model->Nombre=$nombre;
-				if($model->save())
-				{
-					return $model->Id;
-				}
-			}
-			else
-			{
-				return $model->Id;
-			}
-		}
-        }
 }
