@@ -1,8 +1,6 @@
-src/web/assets/
-src/web/protected/runtime/
+src/web/protected/config/db.php
+src/web/protected/config/gii.php
+src/web/assets/*
+src/web/protected/runtime/*
 src/web/themes/classic/
-<<<<<<< HEAD
 nbproject/*
-=======
-nbproject/
->>>>>>> exportar_excel

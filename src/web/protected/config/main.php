@@ -1,33 +1,5 @@
 <?php
-$server=$_SERVER['SERVER_NAME'];
-switch ($server)
-{
-    case SERVER_NAME_PROD:
-        $server_db='localhost';
-        $sinca_db='sinca';
-        $sori_db='sori';
-        $user_db='root';
-        $user_db_sori='postgres';
-        $pass_db='Nsusfd8263';
-        break;
-    case SERVER_NAME_PRE_PROD:
-        $server_db='localhost';
-        $sinca_db='sinca';
-        $sori_db='sori';
-        $user_db='root';
-        $user_db_sori='postgres';
-        $pass_db='Nsusfd8263';
-        break;
-    case SERVER_NAME_DEV:
-    default:
-        $server_db='172.16.17.190';
-        $sinca_db='sinca';
-        $sori_db='sori';
-        $user_db='manuelz';
-        $user_db_sori='postgres';
-        $pass_db='123'; 
-       break;
-}
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -37,6 +9,8 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'S I N C A',
 	'language'=>'es',
+	'timeZone'=>'America/Lima',
+	'charset'=>'utf-8',
 	'theme'=>'mattskitchen',
 	'defaultController'=>'user/login',
 	// preloading 'log' component
@@ -47,17 +21,11 @@ return array(
 		'application.components.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
-                'application.modules.user.components.PHPExcel.*',
+        'application.modules.user.components.PHPExcel.*',
 		'application.components.reportes.*'
 		),
 	'modules'=>array(
 	// uncomment the following to enable the Gii tool
-		'gii'=>array(
-			'class'=>'system.gii.GiiModule',
-			'password'=>'654321',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1'),
-			),
 		'user'=>array(
 		# encrypting method (php hash function)
 			'hash'=>'md5',
@@ -116,22 +84,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		'importcsv'=>array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
-            ),
-		'db'=>array(
-			'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
-			'emulatePrepare'=>true,
-                        'username'=>$user_db,
-			'password'=>$pass_db,
-			'charset'=>'utf8',        
-			),
-                'soriDB'=>array(
-			'class'=>'CDbConnection',
-			'connectionString'=>'pgsql:host='.$server_db.';port=5432;dbname='.$sori_db,
-			'username'=>$user_db_sori,
-			'password'=>$pass_db,
-			'charset'=>'utf8',
-			),        
+            ),      
 		'errorHandler'=>array(
 		// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
@@ -140,9 +93,8 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-					),
+                    'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                ),
 				// uncomment the following to show log messages on web pages
 				//array(
 				//	'class'=>'CWebLogRoute',
