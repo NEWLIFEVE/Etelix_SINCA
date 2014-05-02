@@ -137,7 +137,31 @@ $this->widget('application.extensions.fancybox.EFancyBox',array(
 </div>
 <div class="output" style="overflow: auto;">
 <?php
+
+$model_1 = Balance::model()->findAllBySql("SELECT * FROM sinca.balance where fecha between '2014-02-01' and '2014-02-15' and CABINA_Id = 1;");
+$acumulado = 0;
+//echo '<table><tr><td>Fecha</td><td>Llamadas</td><td>Captura</td><td>Paridad</td><td>Dif. Soles</td><td>Dif. Dollar</td><td>Acumulado</td></tr>';
+//
+//foreach ($model_1 as $key => $value) {
+//    
+//    $llamadas = ($value->FijoLocal+$value->FijoProvincia+$value->FijoLima+$value->Rural+$value->Celular+$value->LDI);
+//    $captura = $value->TraficoCapturaDollar;
+//    $paridad = $value->pARIDAD->Valor;
+//    $difs = $llamadas - $captura*$paridad;
+//    $difd = ($llamadas - $captura*$paridad)/$paridad;
+//    $acumulado = $acumulado + $difd;
+//    echo "<tr>
+//             <td>$value->Fecha</td><td>$llamadas</td><td>$captura</td>
+//             <td>$paridad</td><td>$difs</td><td>$difd</td><td>$acumulado</td>
+//          </tr>";
+//    
+//}
+//
+//echo '</table>';
+
+
 /*****************************************CICLO DE INGRESOS RESUMIDO ACTIVAS*******************************************************************/
+
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceCicloIngresosResumido',
     'htmlOptions'=>array(
@@ -274,8 +298,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'diferencialCapturaDollar',
             ),
         ),
+
         array('name'=>'Acumulado',
-            'value'=>'$data->Acumulado',
+            'value'=>'Balance::Acumulado($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -284,6 +309,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'acumulado',
                 ),
             ),
+        
         array('name'=>'Sobrante',
             'value'=>'Balance::sobrante($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
@@ -309,6 +335,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
 );
 /**********************************************************************************************************************************************/
 /*****************************************CICLO DE INGRESOS RESUMIDO INACTIVAS*****************************************************************/
+
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceCicloIngresosResumidoOculta',
     'htmlOptions'=>array(
@@ -475,6 +502,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         ),
     )
 );
+
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();
