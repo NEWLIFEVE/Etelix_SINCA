@@ -25,8 +25,8 @@ switch ($server)
         $sori_db='sori';
         $user_db='manuelz';
         $user_db_sori='postgres';
-        $pass_db='123';
-        break;
+        $pass_db='123'; 
+       break;
 }
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');

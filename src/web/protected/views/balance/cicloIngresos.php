@@ -299,8 +299,18 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         ),
 
+       /* array('name'=>'Acumulado',
+            'value'=>'$data->Acumulado',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'acumulado',
+                ),
+            ),*/
         array('name'=>'Acumulado',
-            'value'=>'Balance::Acumulado($data->Fecha,$data->CABINA_Id)',
+            'value'=>'Balance::Acumulado($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -321,7 +331,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'SobranteAcum',
-            'value'=>'$data->SobranteAcum',
+            'value'=>'Balance::SobranteAcumulado($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -472,6 +482,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'Acumulado',
+            'value'=>'Balance::Acumulado($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -491,6 +502,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'SobranteAcum',
+            'value'=>'Balance::SobranteAcumulado($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
