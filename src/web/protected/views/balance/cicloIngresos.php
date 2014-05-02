@@ -330,6 +330,16 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'sobrante',
                 ),
             ),
+        /*array('name'=>'SobranteAcum',
+            'value'=>'$data->SobranteAcum',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'sobranteAcum',
+                ),
+            ),*/
         array('name'=>'SobranteAcum',
             'value'=>'Balance::SobranteAcumulado($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
