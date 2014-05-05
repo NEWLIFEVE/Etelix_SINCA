@@ -138,14 +138,14 @@ class Users extends CActiveRecord
             return $arreglo;
         }
         
-        public static function TipoUsuario($id)
-        {
-           $sql="SELECT tipo FROM users where id = $id;";
-           $model = self::model()->findBySql($sql);         
-            return $model->tipo;
-        }
+    public static function TipoUsuario($id)
+    {
+       $sql="SELECT tipo FROM users where id = $id;";
+       $model = self::model()->findBySql($sql);         
+        return $model->tipo;
+    }
                             
-        public static function getListUsers($cabina)
+    public static function getListUsers($cabina)
     {
 		return CHtml::listData(Users::model()->findAll('status=:status AND CABINA_Id=:cabina',array(':status'=>'1',':cabina'=>$cabina)), 'id', 'username');	
 
@@ -164,6 +164,11 @@ class Users extends CActiveRecord
     public static function getCabinaIDFromUser($userID){
         $resulset = Users::model()->find('id=:userID AND status=:status',array(':userID'=>$userID,':status'=>1));
         return $resulset->CABINA_Id;
+    }
+    
+    public static function getUserIdFromCabina($cabinaID){
+        $resulset = Users::model()->findBySql("SELECT Max(id) as id FROM users WHERE CABINA_Id=$cabinaID AND status=1 AND tipo=1");
+        return $resulset->id;
     }
 
 }
