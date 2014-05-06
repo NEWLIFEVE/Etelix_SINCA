@@ -31,9 +31,9 @@ $año = date("Y", strtotime($mes));
         Reporte Libro de Ventas <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año : ""; ?>
     </span>
     <span>
-        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
-        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
-        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
+        <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoNew" />
+        <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelNew" />
+        <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonNew' />
         <button id="cambio">Inactivas</button>
         <div>
             <form method="post" name="balance" action="<?php Yii::app()->createAbsoluteUrl('balance/ReporteLibroVentas') ?>">
@@ -59,10 +59,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'rel'=>'total',
         'name'=>'vista',
     ),
-    'dataProvider'=>$model->search($_POST,$mes,$cabina),
+    'dataProvider'=>$model->searchBalance($_POST,$mes,$cabina),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+      /*Columnas Ocultas*/  
       array(
         'name'=>'Id',
         'value'=>'$data->Id',
@@ -85,11 +86,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
           ),
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
+        /*  Fin Cabinas Ocultas */
         array(
-            'name'=>'Fecha',
+            'name'=>'FechaMes',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
                 'model'=>$model,
-                'attribute'=>'Fecha',
+                'attribute'=>'FechaMes',
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
@@ -124,23 +126,39 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'Trafico',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'trafico',
                 ),
             ),
         array(
-            'name'=>'RecargaMovistar',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularMov+$data->RecargaFonoYaMov)',
+            'name'=>'ServMov',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaMov',
                 ),
             ),
         array(
-            'name'=>'RecargaClaro',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularClaro+$data->RecargaFonoClaro)',
+            'name'=>'ServClaro',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaClaro',
+                ),
+            ),
+        array(
+            'name'=>'ServDirecTv',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaClaro',
+                ),
+            ),
+        array(
+            'name'=>'ServNextel',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaClaro',
@@ -148,13 +166,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'OtrosServicios',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","servicio", $data->FechaMes, $data->CABINA_Id, 8)',
             'htmlOptions'=>array(
                 'id'=>'otrosServicios',
                 ),
             ),
         array(
-            'name'=>'Total',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
+            'name'=>'TotalVentas',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'totalVentas',
@@ -163,6 +182,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
     )
 );
+/*
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balanceLibroVentasOculta',
     'htmlOptions'=>array(
@@ -261,7 +281,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         ),
     )
-);
+);*/
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();
@@ -284,6 +304,8 @@ function reinstallDatePicker2(id, data) {
             <th id="totalTrafico" style="background:rgba(255,187,0,1); color:white;"></th>
             <th id="totalRecargaMov" style="background:rgba(255,187,0,1); color:white;"></th>
             <th id="totalRecargaClaro" style="background:rgba(255,187,0,1); color:white;"></th>
+            <th id="totalServDirecTv" style="background:rgba(255,187,0,1); color:white;"></th>
+            <th id="totalServNextel" style="background:rgba(255,187,0,1); color:white;"></th>
             <th id="balanceTotalesVentas4" style="background:rgba(255,187,0,1); color:white;"></th>
             <th id="totalVentas2" style="background:rgba(255,187,0,1); color:white;"></th>
         </tr>
@@ -295,6 +317,8 @@ function reinstallDatePicker2(id, data) {
             <td id="totalTrafico"></td>
             <td id="totalRecargaMov"></td>
             <td id="totalRecargaClaro"></td>
+            <td id="totalServDirecTv"></td>
+            <td id="totalServNextel"></td>
             <td id="balanceTotalesVentas4"></td>
             <td id="totalVentas2"></td>
         </tr>

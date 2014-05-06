@@ -12,7 +12,15 @@ class libroVenta extends Reportes
     {
         $fechas = explode(",", $fecha);
         $cabinas = explode(",", $cabina);
+        
+        $traficoTotal = 0;
+        $recargaMovTotal = 0;
+        $recargaClaroTotal = 0;
+        $otrosServTotal = 0;
+        $ventasTotal = 0;
+        
         $balance=self::get_Model($fechas,$cabinas);
+        
         if($balance!=NULL)
         {
                     $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
@@ -31,21 +39,27 @@ class libroVenta extends Reportes
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->OtrosServicios), $type).'</td>
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->TotalVentas), $type).'</td>
                         </tr>';
+                
+                $traficoTotal = $traficoTotal +$registro->Trafico;
+                $recargaMovTotal = $recargaMovTotal + $registro->RecargaMovistar;
+                $recargaClaroTotal = $recargaClaroTotal + $registro->RecargaClaro;
+                $otrosServTotal = $otrosServTotal + $registro->OtrosServicios;
+                $ventasTotal = $ventasTotal + $registro->TotalVentas;
             }
 
 //            $balanceTotals=self::get_ModelTotal($ids);
-//            $table.=self::defineHeader("libroV")
-//                    .'<tr>
-//                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
-//                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-//                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($balanceTotals->Trafico), $type).'</td>
-//                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaMovistar), $type).'</td>
-//                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaClaro), $type).'</td>
-//                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::format(Reportes::defineTotals($balanceTotals->OtrosServicios), $type).'</td>
-//                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::format(Reportes::defineTotals($balanceTotals->TotalVentas), $type).'</td>    
-//                    </tr>
-//                </tbody>
-//            </table>';
+            $table.=self::defineHeader("libroV")
+                    .'<tr>
+                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.end($fechas).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($traficoTotal), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($recargaMovTotal), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaClaro">'.Reportes::format(Reportes::defineTotals($recargaClaroTotal), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalOtrosServicios">'.Reportes::format(Reportes::defineTotals($otrosServTotal), $type).'</td>
+                        <td '.Reportes::defineStyleTd(2).' id="totalTotalVentas">'.Reportes::format(Reportes::defineTotals($ventasTotal), $type).'</td>    
+                    </tr>
+                </tbody>
+            </table>';
         }
         else
         {

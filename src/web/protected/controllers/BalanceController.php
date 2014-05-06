@@ -791,11 +791,11 @@ class BalanceController extends Controller
      */
     public function actionReporteLibroVentas()
     {
-        $model=new Balance('search');
+        $model=new Detalleingreso('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
 
-        $this->render('exportData', array(
+        $this->render('reporteLibroVentas', array(
             'model'=>$model,
         ));
     }

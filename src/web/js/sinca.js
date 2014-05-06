@@ -102,6 +102,82 @@ $(document).ready(function()
 
     function genExcel()
     {
+        $('img.botonExcelNew').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
+        {    
+
+            //$("#loading").html("Generando Excel... !!");
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+             
+            var fechas = new Array();//Creamos un Array como contenedor de los ids.
+            var cabinas = new Array();
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
+            var name = genNameFile(gridview);
+            
+            if($('div#id').length){
+                fechas[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            fechas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+                $("#"+gridview+" td#cabinas").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            cabinas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
+            
+            //alert(cabinas);
+            
+            if(fechas != ''){
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/excel?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name,   
+                                    async: true,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout("window.open('/site/excel?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name+"','_top');",0);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  }).responseText;
+
+             
+
+             
+             }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#loading").css("display", "none");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+
+        });
+        
         $('img.botonExcel').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
@@ -480,6 +556,82 @@ $(document).ready(function()
 
     function genEmail()
     {
+        $('img.botonCorreoNew').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
+        {    
+//
+            $("#loading").html("Enviando Correo... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+//            
+            var fechas = new Array();//Creamos un Array como contenedor de los ids.
+            var cabinas = new Array();
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
+            var name = genNameFile(gridview);
+            
+            if($('div#id').length){
+                fechas[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            fechas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+                $("#"+gridview+" td#cabinas").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            cabinas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
+            
+            //alert(cabinas);
+            
+            if(fechas != ''){
+
+                                $.ajax({ 
+                                    type: "GET",   
+                                    url: "/site/sendemail?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name,   
+                                    async: true,
+                                    beforeSend: function () {
+                                            //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
+//                                            $("#nombreContenedor").css("display", "inline");
+//                                            $("#loading").css("display", "inline");
+                                    },
+                                    success:  function (response) {
+                                            $("#nombreContenedor").css("display", "NONE");
+                                            $("#loading").css("display", "NONE");
+                                            $("#complete").html("Correo Enviado con Exito... !!");
+                                            $("#nombreContenedor").css("display", "inline");
+                                            $("#complete").css("display", "inline");
+                                            setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                            setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  });
+            }else{
+                        $("#nombreContenedor").css("display", "NONE");
+                        $("#loading").css("display", "NONE");
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+        }); 
+        
         $('img.botonCorreo').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 //
@@ -872,7 +1024,7 @@ $(document).ready(function()
     function genPrint()
     {
         
-        $(document).on("click",".printButton",function(){
+        $(document).on("click",".printButtonNew",function(){
             
             var fechas = new Array();//Creamos un Array como contenedor de los ids.
             var cabinas = new Array();
@@ -899,6 +1051,64 @@ $(document).ready(function()
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
                                     url: "/site/print?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name,   
+                                    async: false,
+                                  }).responseText;
+            //Creamos la variable que alberga la pagina con la tabla generada.
+            var content = '<!DOCTYPE html><html><meta charset="es">'+
+            '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
+            '<body>'
+            //Tabla con Formato
+            +response+
+
+            '<script type="text/javascript">function printPage() { window.focus(); window.print();return; }</script>'+
+            '</body></html>';
+    
+
+            //Creamos un 'iframe' para simular la apertura de una pagina nueva sin recargar ni alterar la anterior.
+            var newIframe = document.createElement('iframe');
+            newIframe.width = '0';
+            newIframe.height = '0';
+            newIframe.src = 'about:blank';
+            document.body.appendChild(newIframe);
+            newIframe.contentWindow.contents = content;
+            newIframe.src = 'javascript:window["contents"]';
+            newIframe.focus();
+            //setTimeout(function() {
+            newIframe.contentWindow.printPage();
+            //}, 10);
+            return;
+            }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+        });  
+        
+        $(document).on("click",".printButton",function(){
+            
+            var ids = new Array();//Creamos un Array como contenedor de los ids.
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
+            var name = genNameFile(gridview);
+            
+            if($('div#id').length){
+                ids[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
+            
+            //alert(cabinas);
+            
+            if(ids != ''){
+                
+            //Creamos la variable que contiene la tabla generada.
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/print?ids="+ids+"&table="+gridview+"&name="+name,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.
