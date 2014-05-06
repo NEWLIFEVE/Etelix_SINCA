@@ -38,10 +38,10 @@ class Reportes extends CApplicationComponent
         return $var;
     }
 
-    public function libroVenta($ids,$name,$type)
+    public function libroVenta($fecha,$cabina,$name,$type)
 
     {
-        $var= libroVenta::reporte($ids,$name,$type);
+        $var= libroVenta::reporte($fecha,$cabina,$name,$type);
         return $var;
     }
     

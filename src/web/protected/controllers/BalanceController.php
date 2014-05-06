@@ -795,7 +795,7 @@ class BalanceController extends Controller
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
 
-        $this->render('reporteLibroVentas', array(
+        $this->render('exportData', array(
             'model'=>$model,
         ));
     }

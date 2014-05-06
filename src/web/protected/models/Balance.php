@@ -343,6 +343,7 @@ class Balance extends CActiveRecord
             $pagina=Balance::model()->count($condition);
             $orden="Fecha ASC";
         }
+            
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
                 'sort'=>array('defaultOrder'=>$orden),

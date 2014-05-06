@@ -38,6 +38,12 @@ class Detalleingreso extends CActiveRecord
         public $MontoS;
         public $MontoDolares;
         public $MontoSoles;
+        
+        public $OtrosServicios;
+        public $Trafico;
+        public $RecargaMovistar;
+        public $RecargaClaro;
+        public $TotalVentas;
 
 
         public function tableName()

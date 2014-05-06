@@ -680,7 +680,7 @@ class SiteController extends Controller
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
-            echo Yii::app()->reporte->libroVenta($_GET['ids'],$_GET['name'],false);
+            echo Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {

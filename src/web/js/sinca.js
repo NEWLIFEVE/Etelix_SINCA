@@ -874,7 +874,8 @@ $(document).ready(function()
         
         $(document).on("click",".printButton",function(){
             
-            var ids = new Array();//Creamos un Array como contenedor de los ids.
+            var fechas = new Array();//Creamos un Array como contenedor de los ids.
+            var cabinas = new Array();
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             
@@ -883,18 +884,21 @@ $(document).ready(function()
                 gridview = $('div[rel="total"] table').attr('id');
                 name = genNameFile(gridview);
             }else{
-                $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
-                            ids[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            fechas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+                $("#"+gridview+" td#cabinas").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            cabinas[index]=$(this).text(); //incluimos los ids de la columna en el array.
                 });
             }
             
-            //alert(name);
+            //alert(cabinas);
             
-            if(ids != ''){
+            if(fechas != ''){
                 
             //Creamos la variable que contiene la tabla generada.
             var response = $.ajax({ type: "GET",   
-                                    url: "/site/print?ids="+ids+"&table="+gridview+"&name="+name,   
+                                    url: "/site/print?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name,   
                                     async: false,
                                   }).responseText;
             //Creamos la variable que alberga la pagina con la tabla generada.

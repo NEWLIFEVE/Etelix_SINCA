@@ -75,6 +75,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
+        'name'=>'CABINA_Id',
+        'value'=>'$data->CABINA_Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'cabinas',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        array(
             'name'=>'Fecha',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
                 'model'=>$model,
