@@ -32,6 +32,8 @@ $(document).ready(function()
 
     $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
+    gentotalsBalance();
+    
 });
     
     function changeStatusNovedad()
@@ -95,6 +97,28 @@ $(document).ready(function()
                     
                     
         });
+    }
+    
+    function gentotalsBalance(){
+        
+        var arrayCols = new Array('ServDirecTv','ServNextel');
+        
+        for(var i=0;i<arrayCols.length;i++){
+            totalsBalance(arrayCols[i]);
+        }
+        
+        
+    }
+    
+    function totalsBalance(columna){
+        var suma = 0;
+        $('table.items tbody tr td#'+columna).filter(function(){return $(this).css('display') == "block" }).each(function(){ 
+            suma = suma + parseFloat($(this).html()) ; 
+        });
+        if(suma==0)
+            $('div#totales table tr td#total'+columna).text('No Declarados');
+        else
+            $('div#totales tr td#total'+columna).text(suma);
     }
 
 

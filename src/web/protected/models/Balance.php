@@ -554,7 +554,7 @@ class Balance extends CActiveRecord
     /**
      * @access public
      */
-    public function disable()
+        public function disable()
 	{
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.

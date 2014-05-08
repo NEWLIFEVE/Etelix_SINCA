@@ -89,6 +89,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         /*  Fin Cabinas Ocultas */
         array(
             'name'=>'FechaMes',
+            'header'=>'Fecha',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
                 'model'=>$model,
                 'attribute'=>'FechaMes',
@@ -153,7 +154,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
-                'id'=>'recargaClaro',
+                'id'=>'ServDirecTv',
                 ),
             ),
         array(
@@ -161,7 +162,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
-                'id'=>'recargaClaro',
+                'id'=>'ServNextel',
                 ),
             ),
         array(
@@ -182,7 +183,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
     )
 );
-/*
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balanceLibroVentasOculta',
     'htmlOptions'=>array(
@@ -194,7 +195,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'afterAjaxUpdate'=>'reinstallDatePicker2',
     'filter'=>$model,
     'columns'=>array(
-        array(
+      /*Columnas Ocultas*/  
+      array(
         'name'=>'Id',
         'value'=>'$data->Id',
         'type'=>'text',
@@ -206,14 +208,27 @@ $this->widget('zii.widgets.grid.CGridView', array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
-            'name'=>'Fecha',
+        'name'=>'CABINA_Id',
+        'value'=>'$data->CABINA_Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'cabinas',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        /*  Fin Cabinas Ocultas */
+        array(
+            'name'=>'FechaMes',
+            'header'=>'Fecha',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
                 'model'=>$model,
-                'attribute'=>'Fecha',
+                'attribute'=>'FechaMes',
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
-                    'id'=>'datepicker_for_Fecha_oculta',
+                    'id'=>'datepicker_for_Fecha',
                     'size'=>'10',
                     ),
                 'defaultOptions'=>array(
@@ -236,44 +251,62 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name'=>'CABINA_Id',
             'value'=>'$data->cABINA->Nombre',
             'type'=>'text',
-            'filter'=>Cabina::getListCabinaInactivas(),
+            'filter'=>Cabina::getListCabina(),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;'
+                'style'=>'text-align: center;',
+                'id'=>'cabina',
                 )
             ),
         array(
             'name'=>'Trafico',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'trafico',
                 ),
             ),
         array(
-            'name'=>'RecargaMovistar',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularMov+$data->RecargaFonoYaMov)',
+            'name'=>'ServMov',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaMov',
                 ),
             ),
         array(
-            'name'=>'RecargaClaro',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularClaro+$data->RecargaFonoClaro)',
+            'name'=>'ServClaro',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaClaro',
                 ),
             ),
         array(
+            'name'=>'ServDirecTv',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'ServNextel',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServNextel',
+                ),
+            ),
+        array(
             'name'=>'OtrosServicios',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","servicio", $data->FechaMes, $data->CABINA_Id, 8)',
             'htmlOptions'=>array(
                 'id'=>'otrosServicios',
                 ),
             ),
         array(
-            'name'=>'Total',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
+            'name'=>'TotalVentas',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'totalVentas',
@@ -281,7 +314,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         ),
     )
-);*/
+);
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();
@@ -296,7 +329,7 @@ function reinstallDatePicker2(id, data) {
 ");
 ?>
 <div id="totales" class="grid-view">
-<table class="items" id="ventas">
+<table class="items totals" id="ventas">
     <thead>
         <tr>
             <th id="totalFechaLV" style="background:rgba(255,187,0,1); color:white;">Fecha</th>

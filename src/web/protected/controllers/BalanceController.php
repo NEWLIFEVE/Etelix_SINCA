@@ -683,9 +683,9 @@ class BalanceController extends Controller
      */
     public function actionAdmin()
     {
-        $model=new Balance('search');
+        $model=new Detalleingreso('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
+        if(isset($_GET['Detalleingreso'])) $model->attributes=$_GET['Detalleingreso'];
 
         $this->render('admin', array(
             'model'=>$model,
@@ -793,7 +793,7 @@ class BalanceController extends Controller
     {
         $model=new Detalleingreso('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
+        if(isset($_GET['Detalleingreso'])) $model->attributes=$_GET['Balance'];
 
         $this->render('reporteLibroVentas', array(
             'model'=>$model,
@@ -834,9 +834,9 @@ class BalanceController extends Controller
      */
     public function actionReporteDepositos()
     {
-        $model=new Balance('search');
+        $model=new Deposito('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
+        if(isset($_GET['Deposito'])) $model->attributes=$_GET['Deposito'];
 
         $this->render('reporteDepositos', array(
             'model'=>$model,

@@ -20,10 +20,14 @@
  */
 class Deposito extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
+
+        public $TotalVentas;
+        public $DiferencialBancario;
+        public $ConciliacionBancaria;
+        public $Cabina;
+
+
+        public function tableName()
 	{
 		return 'deposito';
 	}
@@ -36,13 +40,13 @@ class Deposito extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Fecha, Hora, MontoDep, NumRef, CUENTA_Id, CABINA_Id', 'required'),
+			array('Fecha, FechaCorrespondiente, Hora, MontoDep, NumRef, CUENTA_Id, CABINA_Id', 'required'),
 			array('CUENTA_Id, CABINA_Id', 'numerical', 'integerOnly'=>true),
 			array('MontoDep, MontoBanco', 'length', 'max'=>15),
 			array('NumRef, Depositante', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, Fecha, Hora, MontoDep, MontoBanco, NumRef, Depositante, CUENTA_Id, CABINA_Id', 'safe', 'on'=>'search'),
+			array('id, Fecha, FechaCorrespondiente, Hora, MontoDep, MontoBanco, NumRef, Depositante, CUENTA_Id, CABINA_Id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,13 +71,17 @@ class Deposito extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'Fecha' => 'Fecha',
+                        'FechaCorrespondiente' => 'Fecha',
 			'Hora' => 'Hora',
-			'MontoDep' => 'Monto Dep',
-			'MontoBanco' => 'Monto Banco',
-			'NumRef' => 'Num Ref',
+			'MontoDep' => "Monto Deposito (S/.) 'B'",
+			'MontoBanco' => "Monto Banco (S/.) 'C'",
+			'NumRef' => 'Numero de Ref. Deposito',
 			'Depositante' => 'Depositante',
 			'CUENTA_Id' => 'Cuenta',
 			'CABINA_Id' => 'Cabina',
+                        'TotalVentas' => "Total Ventas (S/.) 'A'",
+                        'DiferencialBancario' => "Diferencias Bancario (S/.) 'C-A'",
+                        'ConciliacionBancaria' => "Conciliacion Bancario (S/.) 'C-B'",
 		);
 	}
 
@@ -89,7 +97,7 @@ class Deposito extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($post=null,$mes=null,$cabina=null)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -97,6 +105,7 @@ class Deposito extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('Fecha',$this->Fecha,true);
+                $criteria->compare('FechaCorrespondiente',$this->Fecha,true);
 		$criteria->compare('Hora',$this->Hora,true);
 		$criteria->compare('MontoDep',$this->MontoDep,true);
 		$criteria->compare('MontoBanco',$this->MontoBanco,true);
@@ -104,9 +113,83 @@ class Deposito extends CActiveRecord
 		$criteria->compare('Depositante',$this->Depositante,true);
 		$criteria->compare('CUENTA_Id',$this->CUENTA_Id);
 		$criteria->compare('CABINA_Id',$this->CABINA_Id);
+                $criteria->with =array('cABINA');
+                $criteria->condition = "cABINA.status = 1";
+                $criteria->group='FechaCorrespondiente,CABINA_Id';
+                
+                if($cabina!=NULL)
+                    $criteria->addCondition("CABINA_Id=$cabina");
+                if($mes!=NULL)
+                    $criteria->addCondition("FechaCorrespondiente<='".$mes."-31' AND FechaCorrespondiente>='".$mes."-01'");
+                
+                $pagina=Cabina::model()->count(array(
+                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                        'params'=>array(
+                            ':status'=>1,
+                            ':Id'=>18,
+                            ':Id2'=>19,
+                            ),
+                        ));
+                $orden="FechaCorrespondiente DESC, cABINA.Nombre ASC";
+                
+                if(isset($mes) || isset($cabina))
+                {
+                    $condition="id>0";
+                    if($mes)
+                    {
+                        $condition.=" AND FechaCorrespondiente<='".$mes."-31' AND FechaCorrespondiente>='".$mes."-01'";
+                    }
+                    if($cabina)
+                    {
+                        $condition.=" AND CABINA_Id=".$cabina;
+                    }
+                    $pagina=self::model()->count($condition);
+                    $orden="FechaCorrespondiente DESC, cABINA.Nombre ASC";
+                }
+                
+                
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
+                        'pagination'=>array('pageSize'=>$pagina),
+		));
+	}
+        
+        public function disable()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('Fecha',$this->Fecha,true);
+                $criteria->compare('FechaCorrespondiente',$this->Fecha,true);
+		$criteria->compare('Hora',$this->Hora,true);
+		$criteria->compare('MontoDep',$this->MontoDep,true);
+		$criteria->compare('MontoBanco',$this->MontoBanco,true);
+		$criteria->compare('NumRef',$this->NumRef,true);
+		$criteria->compare('Depositante',$this->Depositante,true);
+		$criteria->compare('CUENTA_Id',$this->CUENTA_Id);
+		$criteria->compare('CABINA_Id',$this->CABINA_Id);
+                $criteria->with =array('cABINA');
+                $criteria->condition = "cABINA.status = 0";
+                $criteria->group='FechaCorrespondiente,CABINA_Id';
+                
+                $pagina=Cabina::model()->count(array(
+                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                        'params'=>array(
+                            ':status'=>0,
+                            ':Id'=>18,
+                            ':Id2'=>19,
+                            ),
+                        ));
+                $orden="FechaCorrespondiente DESC, cABINA.Nombre ASC";
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
+                        'pagination'=>array('pageSize'=>$pagina),
 		));
 	}
 
@@ -119,5 +202,25 @@ class Deposito extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+        
+        public static function getDeposito($fecha,$cabina)
+	{
+            $model = self::model()->findBySql("SELECT MontoDep as MontoDep
+                                               FROM deposito 
+                                               WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
+            if($model->MontoDep != NULL)
+                return $model->MontoDep;
+            else
+                return '0.00';
+	}
+        
+        public static function valueNull($valor)
+	{
+
+           if($valor != NULL)
+                return $valor;
+            else
+                return '0.00';
 	}
 }

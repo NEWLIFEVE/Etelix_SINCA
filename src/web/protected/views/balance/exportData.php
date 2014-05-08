@@ -3,7 +3,7 @@ set_time_limit(3600);
 //
 ///*-------------------INICIO - EXPORTAR DATA DE BALANCE A DEPOSITO--------------------------------------*/
 //
-//$sql = "SELECT FechaDep, HoraDep, MontoDeposito, MontoBanco, NumRefDeposito, Depositante, 
+//$sql = "SELECT Fecha, FechaDep, HoraDep, MontoDeposito, MontoBanco, NumRefDeposito, Depositante, 
 //        CUENTA_Id, CABINA_Id 
 //        FROM balance
 //        WHERE FechaDep IS NOT NULL AND HoraDep IS NOT NULL AND MontoDeposito IS NOT NULL 
@@ -20,7 +20,8 @@ set_time_limit(3600);
 //
 //foreach ($depositos as $key => $value) {
 //    
-//    $Fecha = $value->FechaDep;
+//    $Fecha = $value->Fecha;
+//    $FechaDep = $value->FechaDep;
 //    $Hora = $value->HoraDep;
 //    $MontoDeposito = $value->MontoDeposito;
 //    $MontoBanco = $value->MontoBanco;
@@ -38,7 +39,8 @@ set_time_limit(3600);
 //    $Deposito = new Deposito;
 //    $Deposito->unsetAttributes(); 
 //
-//    $Deposito->Fecha = $Fecha;
+//    $Deposito->FechaCorrespondiente = $Fecha;
+//    $Deposito->Fecha = $FechaDep;
 //    $Deposito->Hora = $Hora;
 //    $Deposito->MontoDep = $MontoDeposito;
 //    $Deposito->MontoBanco = $MontoBanco;
@@ -106,8 +108,8 @@ set_time_limit(3600);
 //    }
 //
 //}
-////
-////echo '</table>';
+//
+//echo '</table>';
 
 /*-------------------FIN - EXPORTAR DATA DE BALANCE A SALDO CABINA--------------------------------------*/
 
@@ -116,29 +118,23 @@ set_time_limit(3600);
 
 /*-------------------INICIO - EXPORTAR DATA DE BALANCE A DETALLE INGRESO---------------------------------*/
 
-$sql = "SELECT Fecha, FijoLocal, FijoProvincia, FijoLima, Rural, Celular, LDI, OtrosServicios, RecargaCelularMov, 
-        RecargaFonoYaMov, RecargaCelularClaro, RecargaFonoClaro, CABINA_Id, CUENTA_Id
+$sql = "SELECT Fecha, FijoLocal, FijoProvincia, FijoLima, Rural, Celular, LDI, OtrosServicios,
+        RecargaCelularMov, RecargaFonoYaMov, RecargaCelularClaro, RecargaFonoClaro, CABINA_Id, CUENTA_Id, 
+        RecargaVentasMov, RecargaVentasClaro, TraficoCapturaDollar
         FROM balance
-        WHERE Fecha IS NOT NULL AND Fecha != '0000-00-00' AND Fecha > '2013-04-11'
-        AND (FijoLocal IS NOT NULL
-        OR FijoProvincia IS NOT NULL
-        OR FijoLima IS NOT NULL
-        OR Rural IS NOT NULL
-        OR Celular IS NOT NULL
-        OR LDI IS NOT NULL 
-        OR OtrosServicios IS NOT NULL 
-        OR RecargaCelularMov IS NOT NULL
-        OR RecargaFonoYaMov IS NOT NULL
-        OR RecargaFonoClaro IS NOT NULL)
+        WHERE Fecha IS NOT NULL AND Fecha != '0000-00-00' AND CABINA_Id != 18 AND CABINA_Id != 19
+        AND (RecargaVentasMov IS NOT NULL
+        OR RecargaVentasClaro IS NOT NULL
+        OR TraficoCapturaDollar IS NOT NULL)
         ORDER BY Fecha;";
 
 $ingresos = Balance::model()->findAllBySql($sql);
 
-$arrayIngresosMonto = Array('FijoLocal','FijoProvincia','FijoLima','Rural','Celular','LDI',
-                       'OtrosServicios','RecargaCelularMov','RecargaFonoYaMov','RecargaCelularClaro',
-                       'RecargaFonoClaro');
+$arrayIngresosMonto = Array('FijoLocal','FijoProvincia','FijoLima','Rural','Celular','LDI','OtrosServicios',
+                            'RecargaCelularMov','RecargaFonoYaMov','RecargaCelularClaro','RecargaFonoClaro',
+                            'RecargaVentasMov','RecargaVentasClaro','TraficoCapturaDollar');
 
-$arrayIngresosTipo = Array(2,3,4,5,6,7,8,9,10,11,12);
+$arrayIngresosTipo = Array(2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
 //echo '<table>';
 
@@ -148,21 +144,13 @@ $arrayIngresosTipo = Array(2,3,4,5,6,7,8,9,10,11,12);
 foreach ($ingresos as $key => $value) {
     
     $Fecha = $value->Fecha;
-    $FijoLocal = $value->FijoLocal;
-    $FijoProvincia = $value->FijoProvincia;
-    $FijoLima = $value->FijoLima;
-    $Rural = $value->Rural;
-    $Celular = $value->Celular;
-    $LDI = $value->LDI;
-    $OtrosServicios = $value->OtrosServicios;
-    $RecargaCelularMov = $value->RecargaCelularMov;
-    $RecargaFonoYaMov = $value->RecargaFonoYaMov;
-    $RecargaCelularClaro = $value->RecargaCelularClaro;
-    $RecargaFonoClaro = $value->RecargaFonoClaro;
+    $RecargaVentasMov = $value->RecargaVentasMov;
+    $RecargaVentasClaro = $value->RecargaVentasClaro;
+    $TraficoCapturaDollar = $value->TraficoCapturaDollar;
     $CabinaId = $value->CABINA_Id;
     $CuentaId = 4;
 //    
-    for($i=0;$i<12;$i++){
+    for($i=0;$i<15;$i++){
         // CREATE INGRESOS
         if($$arrayIngresosMonto[$i] != NULL){
             
@@ -172,7 +160,13 @@ foreach ($ingresos as $key => $value) {
             $Ingreso->FechaMes = $Fecha;
             $Ingreso->Monto = $$arrayIngresosMonto[$i];     
             $Ingreso->CABINA_Id = $CabinaId;
-            $Ingreso->USERS_Id = Users::getUserIdFromCabina($CabinaId);
+            
+            if($arrayIngresosTipo[$i] > 12 && $arrayIngresosTipo[$i] < 16){
+                $Ingreso->USERS_Id = 2;
+            }else{
+                $Ingreso->USERS_Id = Users::getUserIdFromCabina($CabinaId);
+            }
+            
             $Ingreso->TIPOINGRESO_Id = $arrayIngresosTipo[$i];
             $Ingreso->moneda = 2;
             

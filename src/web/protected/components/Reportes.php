@@ -32,9 +32,9 @@ class Reportes extends CApplicationComponent
      * Documentacion va aqui
      */
     
-    public function balanceAdmin($ids,$name,$type)
+    public function balanceAdmin($fecha,$cabina,$name,$type)
     {
-        $var=  balanceAdmin::reporte($ids,$name,$type);
+        $var=  balanceAdmin::reporte($fecha,$cabina,$name,$type);
         return $var;
     }
 
@@ -262,11 +262,12 @@ class Reportes extends CApplicationComponent
                             <tr >
                                 <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Cabina</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c3">Saldo Apertura Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c4">Saldo Apertura Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c3">Saldo Apertura (S/.)</th>
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Trafico (S/.)</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Recarga Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Recarga Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Servicios Movistar (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Servicios Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Servicios DirecTv (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Servicios Nextel (S/.)</th>    
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Monto Deposito (S/.)</th>
                             </tr>
                         </thead>';
@@ -277,8 +278,10 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("libroV").' id="Fechas">Fecha</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c2">Cabina</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c5">Trafico (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Recarga Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Recarga Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Servicios Movistar (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios DirecTv (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Nextel (S/.)</th>    
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Total Ventas (S/.)</th>    
                             </tr>

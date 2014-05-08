@@ -16,9 +16,9 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
     Administrar Balances
   </span>
   <span id="botones">
-    <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
-    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
-    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton'/>
+    <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoNew" />
+    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelNew" />
+    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonNew'/>
 
 
     <?php 
@@ -42,10 +42,11 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
       'rel'=>'total',
       'name'=>'vista',
       ),
-    'dataProvider'=>$model->searchEs('admin'),
+    'dataProvider'=>$model->searchBalance($_POST,$mes,$cabina),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
+      /*Columnas Ocultas*/  
       array(
         'name'=>'Id',
         'value'=>'$data->Id',
@@ -54,21 +55,33 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         'htmlOptions'=>array(
             'id'=>'ids',
             'style'=>'display:none',
-
           ),
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
+        array(
+        'name'=>'CABINA_Id',
+        'value'=>'$data->CABINA_Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'cabinas',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        /*  Fin Cabinas Ocultas */
       array(
-        'name'=>'Fecha',
-        'id'=>'Fechas',
+        'name'=>'FechaMes',
+        'header'=>'Fecha',  
+        'id'=>'FechaMes',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
           'model'=>$model,
-          'attribute'=>'Fecha',
+          'attribute'=>'FechaMes',
           'language'=>'ja',
           'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
           'htmlOptions'=>array(
             'id'=>'datepicker_for_Fecha',
-            'size'=>'10',
+            'size'=>'15',
             ),
           'defaultOptions'=>array(
             'showOn'=>'focus',
@@ -97,51 +110,56 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
           ),
         ),
       array(
-        'name'=>'SaldoApMov',
-        'value'=>'Utility::noDeclarado($data->SaldoApMov)',
+        'name'=>'SaldoAp',
+        'value'=>'SaldoCabina::getSaldoAp($data->FechaMes, $data->CABINA_Id)',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'aperturaMov',
           ),
         ),
       array(
-        'name'=>'SaldoApClaro',
-        'value'=>'Utility::noDeclarado($data->SaldoApClaro)',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'aperturaClaro',
-          ),
-        ),
+            'name'=>'Trafico',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'trafico',
+                ),
+            ), 
       array(
-        'name'=>'Trafico',
-        'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)',
-        'type'=>'text',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'trafico',
-          ),
-        ), 
+            'name'=>'ServMov',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaMov',
+                ),
+            ),
+        array(
+            'name'=>'ServClaro',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaClaro',
+                ),
+            ),
+        array(
+            'name'=>'ServDirecTv',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'ServNextel',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServNextel',
+                ),
+            ),
       array(
-        'name'=>'RecargaMovistar',
-        'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularMov+$data->RecargaFonoYaMov)',
-        'type'=>'text',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'recargaMov',
-          ),
-        ),
-      array(
-        'name'=>'RecargaClaro',
-        'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularClaro+$data->RecargaFonoClaro)',
-        'type'=>'text',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'recargaClaro',
-          ),
-        ),
-      array(
-        'name'=>'MontoDepositoOp',
-        'value'=>'Yii::app()->format->formatDecimal($data->MontoDeposito)',
+        'name'=>'MontoDeposito',
+        'value'=>'Deposito::getDeposito($data->FechaMes, $data->CABINA_Id)',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'montoDeposito',
@@ -156,7 +174,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
     )
   );
   
-  
+
   $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid-oculta',
 
@@ -165,10 +183,11 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
       'rel'=>'total',
       'name'=>'oculta',
       ),
-    'dataProvider'=>$model->disable(),
+    'dataProvider'=>$model->disable($_POST,$mes,$cabina),
     'afterAjaxUpdate'=>'reinstallDatePicker2',
     'filter'=>$model,
     'columns'=>array(
+      /*Columnas Ocultas*/  
       array(
         'name'=>'Id',
         'value'=>'$data->Id',
@@ -179,20 +198,34 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             'style'=>'display:none',
           ),
           'filterHtmlOptions' => array('style' => 'display:none'),
-        ),  
+        ),
+        array(
+        'name'=>'CABINA_Id',
+        'value'=>'$data->CABINA_Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'cabinas',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        /*  Fin Cabinas Ocultas */
       array(
-        'name'=>'Fecha',
+        'name'=>'FechaMes',
+        'header'=>'Fecha',  
+        'id'=>'FechaMes',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
-          'model'=>$model, 
-          'attribute'=>'Fecha', 
+          'model'=>$model,
+          'attribute'=>'FechaMes',
           'language'=>'ja',
           'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
           'htmlOptions'=>array(
-            'id'=>'datepicker_for_Fecha_oculta',
-            'size'=>'10',
+            'id'=>'datepicker_for_Fecha',
+            'size'=>'15',
             ),
           'defaultOptions'=>array(
-            'showOn'=>'focus', 
+            'showOn'=>'focus',
             'dateFormat'=>'yy-mm-dd',
             'showOtherMonths'=>true,
             'selectOtherMonths'=>true,
@@ -200,65 +233,74 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             'changeYear'=>true,
             'showButtonPanel'=>true,
             )
-          ), 
-          true),
+          ),
+        true),
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
+          'id'=>'fecha',
           ),
         ),
       array(
         'name'=>'CABINA_Id',
         'value'=>'$data->cABINA->Nombre',
         'type'=>'text',
-        'filter'=>Cabina::getListCabinaInactivas(),
+        'filter'=>Cabina::getListCabina(),
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
+            'id'=>'cabina',
           ),
         ),
       array(
-        'name'=>'SaldoApMov',
+        'name'=>'SaldoAp',
+        'value'=>'SaldoCabina::getSaldoAp($data->FechaMes, $data->CABINA_Id)',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'aperturaMov',
           ),
         ),
       array(
-        'name'=>'SaldoApClaro',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'aperturaClaro',
-          ),
-        ),
+            'name'=>'Trafico',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'trafico',
+                ),
+            ), 
       array(
-        'name'=>'Trafico',
-        'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)',
-        'type'=>'text',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'trafico',
-          ),
-        ), 
+            'name'=>'ServMov',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaMov',
+                ),
+            ),
+        array(
+            'name'=>'ServClaro',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaClaro',
+                ),
+            ),
+        array(
+            'name'=>'ServDirecTv',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'ServNextel',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServNextel',
+                ),
+            ),
       array(
-        'name'=>'RecargaMovistar',
-        'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularMov+$data->RecargaFonoYaMov)',
-        'type'=>'text',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'recargaMov',
-          ),
-        ),
-      array(
-        'name'=>'RecargaClaro',
-        'value'=>'Yii::app()->format->formatDecimal($data->RecargaCelularClaro+$data->RecargaFonoClaro)',
-        'type'=>'text',
-        'htmlOptions'=>array(
-          'style'=>'text-align: center;',
-          'id'=>'recargaClaro',
-          ),
-        ),
-      array(
-        'name'=>'MontoDepositoOp',
-        'value'=>'$data->MontoDeposito',
+        'name'=>'MontoDeposito',
+        'value'=>'Deposito::getDeposito($data->FechaMes, $data->CABINA_Id)',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'montoDeposito',
@@ -272,6 +314,8 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
       ),
     )
   );
+
+   
   Yii::app()->clientScript->registerScript('re-install-date-picker', "
     function reinstallDatePicker(id, data)
     {
@@ -290,13 +334,14 @@ function reinstallDatePicker2(id, data) {
 <table class="items">
     <thead>
         <tr>
-           <th style="background:#00992B; color:white;">Fecha</th>
+           <th style="background:#00992B; color:white;width: 77px;">Fecha</th>
             <th style="background:#00992B; color:white;">Cabina</th>
             <th id="vistaAdmin1" style="background:#00992B; color:white;"></th>
-            <th id="vistaAdmin2" style="background:#00992B; color:white;"></th>
             <th id="totalTrafico" style="background:#00992B; color:white;"></th>
             <th id="totalRecargaMov" style="background:#00992B; color:white;"></th>
             <th id="totalRecargaClaro" style="background:#00992B; color:white;"></th>
+            <th id="totalServDirecTv" style="background:#00992B; color:white;"></th>
+            <th id="totalServNextel" style="background:#00992B; color:white;"></th>
             <th id="totalMontoDeposito" style="background:#00992B; color:white;"></th>
         </tr>
     </thead>
@@ -305,10 +350,11 @@ function reinstallDatePicker2(id, data) {
         <td id="totalFecha"></td>
         <td id="todas">Todas</td>
         <td id="vistaAdmin1"></td>
-        <td id="vistaAdmin2"></td>
         <td id="totalTrafico"></td>
         <td id="totalRecargaMov"></td>
         <td id="totalRecargaClaro"></td>
+        <td id="totalServDirecTv"></td>
+        <td id="totalServNextel"></td>
         <td id="totalMontoDeposito"></td>
       </tr>
     </tbody>

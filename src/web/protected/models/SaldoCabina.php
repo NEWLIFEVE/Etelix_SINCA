@@ -110,4 +110,15 @@ class SaldoCabina extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getSaldoAp($fecha,$cabina)
+	{
+            $model = self::model()->findBySql("SELECT SUM(SaldoAp) as SaldoAp
+                                               FROM saldo_cabina 
+                                               WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            if($model->SaldoAp != NULL)
+                return $model->SaldoAp;
+            else
+                return '0.00';
+	}
 }
