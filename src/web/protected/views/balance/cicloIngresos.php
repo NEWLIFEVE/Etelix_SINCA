@@ -138,28 +138,6 @@ $this->widget('application.extensions.fancybox.EFancyBox',array(
 <div class="output" style="overflow: auto;">
 <?php
 
-$model_1 = Balance::model()->findAllBySql("SELECT * FROM sinca.balance where fecha between '2014-02-01' and '2014-02-15' and CABINA_Id = 1;");
-$acumulado = 0;
-//echo '<table><tr><td>Fecha</td><td>Llamadas</td><td>Captura</td><td>Paridad</td><td>Dif. Soles</td><td>Dif. Dollar</td><td>Acumulado</td></tr>';
-//
-//foreach ($model_1 as $key => $value) {
-//    
-//    $llamadas = ($value->FijoLocal+$value->FijoProvincia+$value->FijoLima+$value->Rural+$value->Celular+$value->LDI);
-//    $captura = $value->TraficoCapturaDollar;
-//    $paridad = $value->pARIDAD->Valor;
-//    $difs = $llamadas - $captura*$paridad;
-//    $difd = ($llamadas - $captura*$paridad)/$paridad;
-//    $acumulado = $acumulado + $difd;
-//    echo "<tr>
-//             <td>$value->Fecha</td><td>$llamadas</td><td>$captura</td>
-//             <td>$paridad</td><td>$difs</td><td>$difd</td><td>$acumulado</td>
-//          </tr>";
-//    
-//}
-//
-//echo '</table>';
-
-
 /*****************************************CICLO DE INGRESOS RESUMIDO ACTIVAS*******************************************************************/
 
 $this->widget('zii.widgets.grid.CGridView',array(
@@ -169,7 +147,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         'rel'=>'total',
         'name'=>'vista',
         ),
-    'dataProvider'=>$model->search($_POST,$mes,$cabina),
+    'dataProvider'=>$model->searchBalance($_POST,$mes,$cabina),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
@@ -185,13 +163,14 @@ $this->widget('zii.widgets.grid.CGridView',array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
-            'name'=>'Fecha',
+            'name'=>'FechaMes',
+            'header'=>'Fecha',
             'htmlOptions'=>array(
                 'id'=>'fecha',
                 ),
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
-                'attribute'=>'Fecha',
+                'attribute'=>'FechaMes',
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
@@ -219,8 +198,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 )
             ),
         array(
-            'name'=>'Total',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
+            'name'=>'TotalVentas',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center;  width:150px;',
@@ -228,8 +207,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'DifBancoCI',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)))',
+            'name'=>'DiferencialBan',
+            'value'=>'round((Deposito::getMontoBanco($data->FechaMes, $data->CABINA_Id)-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)),2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -239,8 +218,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'ConciliacionBancariaCI',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-$data->MontoDeposito)',
+            'name'=>'ConciliacionBan',
+            'value'=>'round((Deposito::getMontoBanco($data->FechaMes, $data->CABINA_Id)-Deposito::getDeposito($data->FechaMes, $data->CABINA_Id)),2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -251,7 +230,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifMov',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasMov-($data->RecargaCelularMov+$data->RecargaFonoYaMov))',
+            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 1)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 1)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -262,7 +241,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifClaro',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasClaro-($data->RecargaCelularClaro+$data->RecargaFonoClaro))',
+            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 2)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -272,13 +251,37 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
+            'name'=>'DifDirecTv',
+            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 4)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 4)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarClaro',
+                ),
+            ),
+        array(
+            'name'=>'DifNextel',
+            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 3)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 3)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarClaro',
+                ),
+            ),
+        array(
             'name'=>'Paridad',
-            'value'=>'Yii::app()->format->formatDecimal($data->pARIDAD->Valor)',
+            'value'=>'Paridad::getParidad($data->FechaMes)',
             'type'=>'text',
             ),
         array(
             'name'=>'DifSoles',
-            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)-($data->TraficoCapturaDollar*$data->pARIDAD->Valor))',
+            'value'=>'round((Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id))-(Detalleingreso::TraficoCapturaDollar($data->FechaMes, $data->CABINA_Id)*Paridad::getParidad($data->FechaMes)),2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -289,8 +292,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifDollar',
-            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI-$data->TraficoCapturaDollar*$data->pARIDAD->Valor)/$data->pARIDAD->Valor)',
+            'value'=>'round((Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)-Detalleingreso::TraficoCapturaDollar($data->FechaMes, $data->CABINA_Id)*Paridad::getParidad($data->FechaMes))/Paridad::getParidad($data->FechaMes),2)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -300,8 +304,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
         ),
 
         array('name'=>'Acumulado',
-            'value'=>'Balance::Acumulado($data->Fecha,$data->CABINA_Id)',
+            'value'=>'round((Balance::Acumulado($data->FechaMes,$data->CABINA_Id,false)-Detalleingreso::TraficoCapturaDollar($data->FechaMes, $data->CABINA_Id,Completo)*Paridad::getParidad($data->FechaMes))/Paridad::getParidad($data->FechaMes),2)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -311,8 +316,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         
         array('name'=>'Sobrante',
-            'value'=>'Balance::sobrante($data->Fecha,$data->CABINA_Id)',
+            'value'=>'Detalleingreso::getSobrante($data->FechaMes,$data->CABINA_Id)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -321,8 +327,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'SobranteAcum',
-            'value'=>'$data->SobranteAcum',
+            'value'=>'Detalleingreso::getSobranteAcumulado($data->FechaMes,$data->CABINA_Id)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -526,6 +533,8 @@ function reinstallDatePicker(id, data) {
             <th id="totalConcilicacionBancaria" style="background:#1967B2;color:white;"></th>
             <th id="totalesDiferencialBrightstarMovistar" style="background:rgba(255,153,51,1);color:white;"></th>
             <th id="totalesDiferencialBrightstarClaro" style="background:rgba(255,153,51,1);color:white;"></th>
+            <th id="totalesDiferencialBrightstarDirecTv" style="background:rgba(255,153,51,1);color:white;">Diferencial DirecTv (S/.)</th>
+            <th id="totalesDiferencialBrightstarNextel" style="background:rgba(255,153,51,1);color:white;"> Diferencial Nextel (S/.)</th>
             <th id="paridad" style="background:rgba(204,153,204,1);color:white;">Paridad Cambiaria</th>
             <th id="totalesDiferencialCapturaSoles" style="background:rgba(204,153,204,1);color:white;"></th>
             <th id="totalesDiferencialCapturaDollar" style="background:rgba(204,153,204,1);color:white;"></th>
@@ -543,6 +552,8 @@ function reinstallDatePicker(id, data) {
             <td id="totalConcilicacionBancaria"></td> 
             <td id="totalesDiferencialBrightstarMovistar" class="dif"></td>
             <td id="totalesDiferencialBrightstarClaro" class="dif"></td>
+            <td id="totalesDiferencialBrightstarDirecTv" class="dif"></td>
+            <td id="totalesDiferencialBrightstarNextel" class="dif"></td>
             <td>N/A</td>
             <td id="totalesDiferencialCapturaSoles" class="dif"></td>
             <td id="totalesDiferencialCapturaDollar" class="dif"></td>

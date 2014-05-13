@@ -215,6 +215,17 @@ class Deposito extends CActiveRecord
                 return '0.00';
 	}
         
+        public static function getMontoBanco($fecha,$cabina)
+	{
+            $model = self::model()->findBySql("SELECT MontoBanco as MontoBanco
+                                               FROM deposito 
+                                               WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
+            if($model->MontoBanco != NULL)
+                return $model->MontoBanco;
+            else
+                return '0.00';
+	}
+        
         public static function valueNull($valor)
 	{
 
@@ -223,4 +234,5 @@ class Deposito extends CActiveRecord
             else
                 return '0.00';
 	}
+
 }

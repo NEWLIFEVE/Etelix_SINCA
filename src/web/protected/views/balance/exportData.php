@@ -162,7 +162,7 @@ foreach ($ingresos as $key => $value) {
             $Ingreso->CABINA_Id = $CabinaId;
             
             if($arrayIngresosTipo[$i] > 12 && $arrayIngresosTipo[$i] < 16){
-                $Ingreso->USERS_Id = 2;
+                $Ingreso->USERS_Id = 40;
             }else{
                 $Ingreso->USERS_Id = Users::getUserIdFromCabina($CabinaId);
             }
