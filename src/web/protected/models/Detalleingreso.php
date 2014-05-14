@@ -46,6 +46,20 @@ class Detalleingreso extends CActiveRecord
         public $Celular;
         public $LDI;
         
+        public $RecargaCelularMov;
+        public $RecargaFonoYaMov;
+        public $RecargaCelularClaro;
+        public $RecargaFonoClaro;
+        
+        public $CobrosMov;
+        public $Linea147hp;
+        public $TarjetaClaro;
+        public $CobrosClaro;
+        public $RecargaDirectv;
+        public $CobrosDirectv;
+        public $RecargaNextelCelulares;
+        public $TarjetaNextel;
+        
         public $OtrosServicios;
         public $Trafico;
         public $RecargaMovistar;
@@ -77,6 +91,8 @@ class Detalleingreso extends CActiveRecord
         public $Acumulado;
         public $Sobrante;
         public $SobranteAcum;
+        
+        public $Ventas;
 
         public function tableName()
 	{
@@ -160,6 +176,8 @@ class Detalleingreso extends CActiveRecord
                         'Acumulado'=>'Acumulado Dif. Captura (USD $)',
                         'Sobrante'=>'Sobrante (USD $)',
                         'SobranteAcum'=>'Sobrante Acumulado (USD $)',
+                        'Ventas'=>'Ventas por Compañia',
+                        'FechaBalance'=>'Fecha del Balance',
 
 
 		);

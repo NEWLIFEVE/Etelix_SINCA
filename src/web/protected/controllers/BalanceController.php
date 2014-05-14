@@ -379,42 +379,75 @@ class BalanceController extends Controller
      */
     public function actionCreateLlamadas()
     {
-        $model=new Balance;
+        $model=new Detalleingreso;
         $model->scenario='declararVentas';
+        
+        
         $this->performAjaxValidation($model);
-        if(isset($_POST['Balance']))
+        if(isset($_POST['Detalleingreso']))
         {
-            $list=explode('/', $_POST['Balance']['Fecha']);
-            $fecha=$list[2]."-".$list[1]."-".$list[0];
-            $cabina=Yii::app()->getModule('user')->user()->CABINA_Id;
-            $model=Balance::model()->find('Fecha=:fecha AND SaldoApMov>=0 AND SaldoApClaro>=0 AND CABINA_Id=:cabina', array(':fecha'=>$fecha,':cabina'=>$cabina));
-            if($model->Id!=null)
-            {
-                $model->FijoLocal=Utility::ComaPorPunto($_POST['Balance']['FijoLocal']);
-                $model->FijoProvincia=Utility::ComaPorPunto($_POST['Balance']['FijoProvincia']);
-                $model->FijoLima=Utility::ComaPorPunto($_POST['Balance']['FijoLima']);
-                $model->Rural=Utility::ComaPorPunto($_POST['Balance']['Rural']);
-                $model->Celular=Utility::ComaPorPunto($_POST['Balance']['Celular']);
-                $model->LDI=Utility::ComaPorPunto($_POST['Balance']['LDI']);
-                $model->RecargaCelularMov=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularMov']);
-                $model->RecargaFonoYaMov=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoYaMov']);
-                $model->OtrosServicios=Utility::ComaPorPunto($_POST['Balance']['OtrosServicios']);
-                $model->RecargaCelularClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularClaro']);
-                $model->RecargaFonoClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoClaro']);                    
-                $model->FechaIngresoLlamadas=date("Y-m-d H:i:s");
-                if($model->save())
-                {
-                    LogController::RegistrarLog(3,$fecha);
-                    $this->redirect(array('view','id'=>$model->Id));
+            $i = 0;
+            //$arrayKey = Array();
+            $cabina = Yii::app()->getModule('user')->user()->CABINA_Id; 
+            
+            $list=explode('/', $_POST['Detalleingreso']['FechaMes']);
+            $Fecha = $list[2]."-".$list[1]."-".$list[0];
+  
+            if(count($_POST['Detalle'])>0){
+                foreach (array_filter($_POST['Detalle']) as $key => $value) {
+                
+                //$arrayKey[$i++] = $key;
+                $model=new Detalleingreso;
+                $model->FechaMes = $Fecha; 
+                $model->Monto = str_replace(',','.',$_POST['Detalle'][$key]); 
+                $model->moneda = 2; 
+                $model->USERS_Id = Yii::app()->getModule('user')->user()->id; 
+                $model->CABINA_Id = $cabina;
+                $model->TIPOINGRESO_Id = TipoIngresos::getIdIngreso($key); 
+                if($cabina == 17){
+                    $model->CUENTA_Id = 2;
+                }else{
+                    $model->CUENTA_Id = 4;
+                }    
+                
+                $model->save();
+                
                 }
             }
-            else
-            {
-                Yii::app()->user->setFlash('error', "ERROR: No Existe Balance para la Fecha Indicada");
-                $model=new Balance;
-                $model->scenario='declararApertura';
-            }
+
+            
+//            $list=explode('/', $_POST['Balance']['Fecha']);
+//            $fecha=$list[2]."-".$list[1]."-".$list[0];
+//            $cabina=Yii::app()->getModule('user')->user()->CABINA_Id;
+//            $model=Balance::model()->find('Fecha=:fecha AND SaldoApMov>=0 AND SaldoApClaro>=0 AND CABINA_Id=:cabina', array(':fecha'=>$fecha,':cabina'=>$cabina));
+//            if($model->Id!=null)
+//            {
+//                $model->FijoLocal=Utility::ComaPorPunto($_POST['Balance']['FijoLocal']);
+//                $model->FijoProvincia=Utility::ComaPorPunto($_POST['Balance']['FijoProvincia']);
+//                $model->FijoLima=Utility::ComaPorPunto($_POST['Balance']['FijoLima']);
+//                $model->Rural=Utility::ComaPorPunto($_POST['Balance']['Rural']);
+//                $model->Celular=Utility::ComaPorPunto($_POST['Balance']['Celular']);
+//                $model->LDI=Utility::ComaPorPunto($_POST['Balance']['LDI']);
+//                $model->RecargaCelularMov=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularMov']);
+//                $model->RecargaFonoYaMov=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoYaMov']);
+//                $model->OtrosServicios=Utility::ComaPorPunto($_POST['Balance']['OtrosServicios']);
+//                $model->RecargaCelularClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularClaro']);
+//                $model->RecargaFonoClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoClaro']);                    
+//                $model->FechaIngresoLlamadas=date("Y-m-d H:i:s");
+//                if($model->save())
+//                {
+//                    LogController::RegistrarLog(3,$fecha);
+//                    $this->redirect(array('view','id'=>$model->Id));
+//                }
+//            }
+//            else
+//            {
+//                Yii::app()->user->setFlash('error', "ERROR: No Existe Balance para la Fecha Indicada");
+//                $model=new Balance;
+//                $model->scenario='declararApertura';
+//            }
         }
+        
         $this->render('createLlamadas', array(
             'model'=>$model,
         ));

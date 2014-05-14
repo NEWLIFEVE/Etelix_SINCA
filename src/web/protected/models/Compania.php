@@ -97,15 +97,20 @@ class Compania extends CActiveRecord
     {
         return CHtml::listData(Compania::model()->findAll(), 'id', 'nombre');
     }
+    
+    public static function getListCompaniaActiva()
+    {
+        return CHtml::listData(Compania::model()->findAll('id!=5 AND id!=6'), 'id', 'nombre');
+    }
 
     public static function getId($nombre=null)
     {
-    	$sql="SELECT Id FROM compania WHERE nombre LIKE '{$nombre}';";
+    	$sql="SELECT id FROM compania WHERE nombre LIKE '$nombre';";
     	$resultado = self::model()->findBySql($sql);
-        if($resultado->getAttribute('Id') == NULL)
+        if($resultado->getAttribute('id') == NULL)
         	return "error";
         else
-        	return $resultado->getAttribute('Id');
+        	return $resultado->getAttribute('id');
     }
         public static function getNombreCompania($idCompania)
     {

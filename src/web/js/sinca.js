@@ -33,6 +33,9 @@ $(document).ready(function()
     $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
     gentotalsBalance();
+    addFieldVenta();
+    removeFieldVenta();
+    verificarFechaBalance('Ventas');
     
 });
     
@@ -1877,6 +1880,116 @@ $(document).ready(function()
                   $("#Detalleingreso_CUENTA_Id").html(cuenta);
                                   
           });                      
+      }
+      
+      function addFieldVenta()
+      {
+          $('input#genVenta').on('click',function () {
+                var select = '';
+                var arrayServicios = new Array();
+                select = $('select#Detalleingreso_Ventas option:selected').text();
+                
+                if(select != 'Seleccionar..'){
+
+                var arrayServicios = JSON.parse($.ajax({ type: "GET",   
+                  url: '/Detalleingreso/DynamicTipoIngreso?compania='+select,   
+                  async: false,
+                  succes: alert,
+                }).responseText);
+                
+                if($('div#'+select.replace(" ","")).length){
+                
+                    
+                }else{
+                    $('div#ventasServicios').append(
+                    '<div id="'+select.replace(" ","")+'" style="">'+
+                    '<h2>'+select.replace(" ","")+'</h2>'+
+                    '<table id="'+select.replace(" ","")+'" width="200" border="1">'+
+                      '<tr>'+
+                        '<td colspan="'+arrayServicios.length+'">'+
+                          '<img id="'+select.replace(" ","")+'" class="removeDiv" title="Quitar Servicio" src="/themes/mattskitchen/img/close.png" style="float:right;" />'+
+                        '</td>'+
+                      '</tr>'+
+                      '<tr id="'+select.replace(" ","")+'">'+
+                      '</tr>'+
+                    '</table>'+
+                    '</div>'+
+                    '<br>');
+
+                    for(var i=0;i<arrayServicios.length;i++){
+                        $('div#ventasServicios table#'+select.replace(" ","")+' tr#'+select.replace(" ","")).append(
+                                    '<td> ' +	
+                                        '<div class="row">'+
+                                            '<label for="Detalleingreso_'+arrayServicios[i]+'">'+arrayServicios[i]+'</label>'+
+                                            '<input id="Detalle_'+arrayServicios[i]+'" name="Detalle['+arrayServicios[i]+']" type="text">'+
+                                        '</div>'+
+                                    '</td>'); 
+                    }    
+
+
+                        removeFieldVenta();
+                }    
+              }
+                    
+          }); 
+          
+          
+
+      }
+                
+      
+      
+      function removeFieldVenta()
+      {
+          $('img.removeDiv').on('click',function () {
+              
+              var id = ''; 
+              id = $(this).attr('id');
+              $('div#'+id).remove();
+              $('div#ventasServicios br').remove();
+              
+          });      
+      }
+      
+      function verificarFechaBalance(vista)
+      {
+          if(vista == 'Ventas'){
+              
+              $("input#Detalleingreso_FechaMes").change(function () {
+                  
+                  var FechaBalance = $(this).val();
+
+                  var verificar = $.ajax({ type: "GET",   
+                    url: '/Detalleingreso/DynamicBalanceAnterios?fecha='+FechaBalance,   
+                    async: false,
+                    succes: alert,
+                  }).responseText;
+
+                      if(verificar == 'false'){
+                          
+                          
+                          if($('div#errorDiv').length){
+                              
+
+                          }else{
+                              $('table div.row').append('<div id="errorDiv" style="color: red;"></div>');
+                              $('div#errorDiv').text('Esta Fecha No Posee Balance Declarado');
+                          }
+                          
+                          
+                          
+                          $('form#balance-form input,form#balance-form select').prop('disabled', true);
+                          $('form#balance-form input#Detalleingreso_FechaMes').prop('disabled', false);
+                      }else{
+                          
+                      }
+                          
+                          
+                      
+              }); 
+              
+          }
+              
       }
       
     

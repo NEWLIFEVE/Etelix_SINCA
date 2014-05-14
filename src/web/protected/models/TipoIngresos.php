@@ -102,6 +102,10 @@ class TipoIngresos extends CActiveRecord
             return CHtml::listData(TipoIngresos::model()->findAll(), 'Id', 'Nombre');
         }
         
+        public static function getListTipoVentas(){
+            return CHtml::listData(TipoIngresos::model()->findAll('Id>1 AND Id<13'), 'Id', 'Nombre');
+        }
+        
         public static function getIdIngreso($nombre){
             
 		if($nombre != null)
