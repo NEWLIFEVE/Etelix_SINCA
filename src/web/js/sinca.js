@@ -2016,8 +2016,6 @@ $(document).ready(function()
       
       function verificarFechaBalance(vista,inputDate,etapaBalance)
       {
-          
-              
               $("input#"+inputDate).change(function () {
                   
                   var FechaBalance = '';
