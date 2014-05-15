@@ -188,10 +188,42 @@ class DetalleingresoController extends Controller
         
         public function actionDynamicBalanceAnterios()
         {
-            $fecha = $_GET['fecha'];
+            $data = NULL;
+            $etapaBalance=$_GET['vista'];
+            $list=explode('/', $_GET['fecha']);
+            $fecha = $list[2]."-".$list[1]."-".$list[0];
             $cabina = Yii::app()->getModule('user')->user()->CABINA_Id; 
             
-            $data = SaldoCabina::model()->findBySql("SELECT Id FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            
+            if($etapaBalance == 'ventas'){
+                $data = SaldoCabina::model()->findBySql("SELECT Id FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            }
+            if($etapaBalance == 'saldoCierre'){
+                $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");   
+                if($data != NULL) {
+                    if($data->SaldoCierre != NULL) {
+                        $data = NULL; 
+                    }else{
+                        $data = 'true';
+                    }
+                }else{
+                    $data = NULL;
+                }
+            }
+            if($etapaBalance == 'deposito'){
+                $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");   
+                if($data != NULL) {
+                    $data2 = Deposito::model()->findBySql("SELECT * FROM deposito WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
+                    if($data2 != NULL) {
+                        $data = NULL; 
+                    }else{
+                        $data = 'true';
+                    }
+                }else{
+                    $data = NULL;
+                }
+            }
+            
             
             if($data != NULL) {
                 echo 'true';

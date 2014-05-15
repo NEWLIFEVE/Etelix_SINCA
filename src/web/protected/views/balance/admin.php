@@ -5,6 +5,14 @@ Yii::import('webroot.protected.controllers.CabinaController');
 
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
+
+    if($tipoUsuario == 1){
+        $cabina = Yii::app()->getModule('user')->user()->CABINA_Id;
+        $_POST['vista'] = 'admin';
+    }else{
+        $cabina = NULL;
+        $_POST['vista'] = NULL;
+    }
 ?>
 
 <div id="nombreContenedor" class="black_overlay"></div>

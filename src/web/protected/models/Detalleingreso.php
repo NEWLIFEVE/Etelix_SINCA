@@ -178,6 +178,7 @@ class Detalleingreso extends CActiveRecord
                         'SobranteAcum'=>'Sobrante Acumulado (USD $)',
                         'Ventas'=>'Ventas por Compañia',
                         'FechaBalance'=>'Fecha del Balance',
+                        'FijoLocal'=>'Fijo Local',
 
 
 		);
@@ -273,6 +274,10 @@ class Detalleingreso extends CActiveRecord
                         $condition.=" AND CABINA_Id=".$cabina;
                     }
                     $pagina=self::model()->count($condition);
+                    
+                    if($post['vista'] == 'admin')
+                        $pagina=NULL;
+                    
                     $orden="FechaMes DESC, cABINA.Nombre ASC";
                 }
                 
@@ -626,5 +631,23 @@ class Detalleingreso extends CActiveRecord
             $sum = ($difBanco + $difMov + $difClaro + $difDirecTv + $difNextel + $difCaptura)/$paridad;    
             
             return round($sum,2);
+        }
+        
+        public static function changeName($name)
+        {
+            $nameFormate = Array(
+                
+                //Llamadas
+                'FijoLocal'=>'Fijo Local (S/.)',
+                'FijoProvincia'=>'Fijo Provincia (S/.)',
+                'FijoLima'=>'Fijo Lima (S/.)',
+                'Celular'=>'Celular (S/.)',
+                'Rural'=>'Rural (S/.)',
+                'LDI'=>'LDI (S/.)',
+
+                
+            );
+             
+            return $nameFormate[$name];
         }
 }

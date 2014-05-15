@@ -35,7 +35,11 @@ $(document).ready(function()
     gentotalsBalance();
     addFieldVenta();
     removeFieldVenta();
-    verificarFechaBalance('Ventas');
+    
+    //Verifica que Existe el Balance de la Fecha Seleccionada
+    verificarFechaBalance('Ventas','Detalleingreso_FechaMes','ventas');
+    verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha','saldoCierre');
+    verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente','deposito');
     
 });
     
@@ -1749,6 +1753,18 @@ $(document).ready(function()
                 enableHoursCabinas(day);
 
         });
+        
+        $('#IdCheckBox').change(function () {
+
+               var checkbox = $(this).attr('checked');
+               
+                if(checkbox != 'checked'){
+                    $('#Deposito_TiempoCierre').prop('disabled', true);      
+                }else{
+                    $('#Deposito_TiempoCierre').prop('disabled', false);
+                }
+
+        });
     }
     
     function resetField(beneficiario){
@@ -1920,7 +1936,7 @@ $(document).ready(function()
                         $('div#ventasServicios table#'+select.replace(" ","")+' tr#'+select.replace(" ","")).append(
                                     '<td> ' +	
                                         '<div class="row">'+
-                                            '<label for="Detalleingreso_'+arrayServicios[i]+'">'+arrayServicios[i]+'</label>'+
+                                            '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+changeNameVentas(arrayServicios[i])+' (S/.)</label>'+
                                             '<input id="Detalle_'+arrayServicios[i]+'" name="Detalle['+arrayServicios[i]+']" type="text">'+
                                         '</div>'+
                                     '</td>'); 
@@ -1951,45 +1967,100 @@ $(document).ready(function()
           });      
       }
       
-      function verificarFechaBalance(vista)
+      function changeNameVentas(name)
       {
-          if(vista == 'Ventas'){
-              
-              $("input#Detalleingreso_FechaMes").change(function () {
-                  
-                  var FechaBalance = $(this).val();
+            var nameFormate = new Array();
 
-                  var verificar = $.ajax({ type: "GET",   
-                    url: '/Detalleingreso/DynamicBalanceAnterios?fecha='+FechaBalance,   
+                //Movistar
+                nameFormate['RecargaCelularMov']='Recarga Celular Movistar';
+                nameFormate['RecargaFonoYaMov']='Recarga Fono Ya Movistar';
+                nameFormate['RecargasVentasMov']='Recargas Ventas Movistar';
+                nameFormate['CobrosMov']='Cobros Movistar';
+                nameFormate['Linea147-hp']='Linea 147-hp';
+
+                //Claro
+                nameFormate['RecargaCelularClaro']='Recarga Celular Claro';
+                nameFormate['RecargaFonoClaro']='Recarga Fono Claro';
+                nameFormate['RecargasVentasClaro']='Recargas Ventas Claro';
+                nameFormate['TarjetaClaro']='Tarjeta Claro';
+                nameFormate['CobrosClaro']='Cobros Claro';
+                
+                //Nextel
+                nameFormate['RecargaNextelCelulares']='Recarga Nextel Celulares';
+                nameFormate['TarjetaNextel']='Tarjeta Nextel';
+                
+                //DirecTv
+                nameFormate['RecargaDirectv']='Recarga Directv';
+                nameFormate['CobrosDirectv']='Cobros Directv';
+                
+                //IDT
+                nameFormate['PeruGlobal']='Peru Global';
+                nameFormate['NumeroUNO']='Numero UNO';
+                
+                //Convergia
+                nameFormate['HablaSympatico']='Habla Sympatico';
+                nameFormate['LaRendidora']='La Rendidora';
+                
+                //Sedapal
+                nameFormate['ServicioAgua']='Servicio de Agua';
+                
+                //Pago Efecto
+                nameFormate['PeriodicoElComercio']='Periodico El Comercio';
+                
+                //Juego
+                nameFormate['Juega8']='Juega8';
+
+
+            return nameFormate[name];
+      }
+      
+      function verificarFechaBalance(vista,inputDate,etapaBalance)
+      {
+          
+              
+              $("input#"+inputDate).change(function () {
+                  
+                  var FechaBalance = '';
+                  var verificar = '';
+                  var mensaje = '';
+                  
+                  FechaBalance = $(this).val();
+
+                  verificar = $.ajax({ type: "GET",   
+                    url: '/Detalleingreso/DynamicBalanceAnterios?fecha='+FechaBalance+'&vista='+etapaBalance,   
                     async: false,
                     succes: alert,
                   }).responseText;
+                  
+              if(vista == 'Ventas'){    
+                  mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
+              }
+              
+              if(vista == 'SaldoCierre'){
+                  mensaje = 'ERROR: No Existe El Balance o El Saldo de Cierre Ya Fue Declarado para la Fecha Indicada';
+              } 
+              
+              if(vista == 'Deposito'){
+                  mensaje = 'ERROR: No Existe El Balance o El Deposito Ya Fue Declarado para la Fecha Indicada';
+              } 
+              
+              if(verificar == 'false'){
+                  if($('div#errorDiv').length){
 
-                      if(verificar == 'false'){
-                          
-                          
-                          if($('div#errorDiv').length){
-                              
+                  }else{
+                      $('table#dateBalance div.row').append('<div id="errorDiv" style="color: red;max-width: 60%;float: left;text-align: left;margin-left: 2%;"></div>');
+                      $('div#errorDiv').text(mensaje);
+                  }
+                  $('form#balance-form input,form#balance-form select').prop('disabled', true);
+                  $('form#balance-form input#'+inputDate).prop('disabled', false);
+              }else{
+                  $('form#balance-form input,form#balance-form select').prop('disabled', false);
+                  $('form#balance-form select#Deposito_TiempoCierre').prop('disabled', true);
+                  $('table#dateBalance div#errorDiv').remove();
+              }
 
-                          }else{
-                              $('table div.row').append('<div id="errorDiv" style="color: red;"></div>');
-                              $('div#errorDiv').text('Esta Fecha No Posee Balance Declarado');
-                          }
-                          
-                          
-                          
-                          $('form#balance-form input,form#balance-form select').prop('disabled', true);
-                          $('form#balance-form input#Detalleingreso_FechaMes').prop('disabled', false);
-                      }else{
-                          
-                      }
-                          
-                          
-                      
               }); 
-              
-          }
-              
+   
       }
       
     

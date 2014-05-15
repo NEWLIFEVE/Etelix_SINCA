@@ -100,7 +100,7 @@ class Compania extends CActiveRecord
     
     public static function getListCompaniaActiva()
     {
-        return CHtml::listData(Compania::model()->findAll('id!=5 AND id!=6'), 'id', 'nombre');
+        return CHtml::listData(Compania::model()->findAll('id!=5 AND id!=6 AND id!=12'), 'id', 'nombre');
     }
 
     public static function getId($nombre=null)

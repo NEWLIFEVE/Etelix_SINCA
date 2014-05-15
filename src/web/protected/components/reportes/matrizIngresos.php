@@ -29,6 +29,7 @@ class matrizIngresos extends Reportes
                   <td style=' background-color: #DADFE4;'></td>
                   <td style=' background-color: #DADFE4;'></td>
                   <td style='background-color: #DADFE4;width: 20px;'></td>
+                  <td style=' background-color: #DADFE4;'></td>
                   <td style=' background-color: #DADFE4;'></td>";
 
             $ruta=$_SERVER["SERVER_NAME"];
@@ -73,53 +74,26 @@ class matrizIngresos extends Reportes
                     <br>
                     <table id='tabla' class='matrizGastos' border='0' style='border-collapse:collapse;width:auto;border-style:solid;border-color: #DADFE4;'>
                         <thead>
-                            
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
+                            <th style='width: 80px;background: #ff9900;text-align: center;$borde'>
                                 <center>
                                     <img style='padding-left: 5px; width: 17px;' src='http://sinca.sacet.com.ve/themes/mattskitchen/img/Monitor.png' />
                                 </center>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Chimbote</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Etelix-Peru</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Huancayo</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 01</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Iquitos 03</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Piura</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Pucallpa</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Surquillo</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Tarapoto</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 01</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Trujillo 03</h3>
-                            </th>
-                            <th style='width: 80px;background: #ff9900;text-align: center;border:1px;border-style:solid;border-color: #DADFE4;'>
-                                <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Comun Cabina</h3>
-                            </th>
-                            <th style='background: #DADFE4;width: 20px;'></th>
-                            <th style='background-color: #ff9900;border:1px;border-style:solid;border-color: #DADFE4;'>
+                            </th>";
+                
+                $nombre_cabinas = Cabina::model()->findAllBySQL("SELECT Nombre FROM cabina 
+                                      WHERE status=1 AND Nombre!='ZPRUEBA' 
+                                      ORDER BY Nombre='COMUN CABINA',Nombre;");
+                
+                foreach ($nombre_cabinas as $key => $value) {
+                    $cabinass[$key] = $value->Nombre;
+                    $tr.= "<th style='width: 80px;background: #ff9900;text-align: center;$borde'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>".$cabinass[$key]."</h3></th>";
+                }
+                            
+                            $tr.= "<th style='background: #DADFE4;width: 20px;'></th>
+                            <th style='background-color: #ff9900;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Soles</h3>
                             </th>
-                            <th style='background-color: #ff9900;border:1px;border-style:solid;border-color: #DADFE4;'>
+                            <th style='background-color: #ff9900;$borde'>
                                 <h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>Total Dolares</h3>
                             </th>
                         </thead>
@@ -170,6 +144,7 @@ class matrizIngresos extends Reportes
                                     }
                                     if($count>0)
                                     {
+                                        
                                         if($MontoGasto->MontoDolares!=null && $MontoGasto->MontoSoles!=null)
                                         {
                                             $opago.="<td style='padding:0;color: #FFF; font-size:10px;$borde'><table style='border-collapse:collapse;margin-bottom: 0px;margin-right: 0px;'><tr style='background: #1967B2;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoSoles.' S/.', $type)." </td></tr> <tr style='background: #00992B;'><td style='width: 80px;font-size:10px; color:#FFFFFF; background: none; text-align: center;'>". Reportes::format($MontoGasto->MontoDolares.' USD$', $type)." </td></tr></table></td>";

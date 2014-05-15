@@ -35,7 +35,7 @@ Yii::import('webroot.protected.controllers.SiteController');
 	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-<table width="200" border="1">
+<table width="200" border="1" id="dateBalance">
   <tr>
     <td>	<div class="row" >
 		<?php echo $form->labelEx($model,'FechaBalance'); ?>
@@ -55,7 +55,7 @@ Yii::import('webroot.protected.controllers.SiteController');
                     'minDate'=>'-7D', //fecha minima
                     'maxDate'=> "-1D", //fecha maxima
                      ),
-                    'htmlOptions'=>array('readonly'=>'readonly'),
+                    'htmlOptions'=>array('readonly'=>'readonly','style'=>'float: left',),
                 )); 
                     echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
                 ?>
@@ -79,14 +79,14 @@ Yii::import('webroot.protected.controllers.SiteController');
 ?>
                 <tr>
                 <td>  	
-                    <label for="Detalleingreso_'+arrayServicios[i]+'"><?php echo $value->Nombre;?></label>
+                    <label for="Detalleingreso_'+arrayServicios[i]+'"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
                     <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="text">
                 </td>
 <?php  
             }else{
 ?>                
                 <td>  	
-                    <label for="Detalleingreso_'+arrayServicios[i]+'"><?php echo $value->Nombre;?></label>
+                    <label for="Detalleingreso_'+arrayServicios[i]+'"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
                     <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="text">
                 </td>
                 </tr>

@@ -71,7 +71,7 @@ class Deposito extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'Fecha' => 'Fecha',
-                        'FechaCorrespondiente' => 'Fecha',
+                        'FechaCorrespondiente' => 'Fecha del Balance',
 			'Hora' => 'Hora',
 			'MontoDep' => "Monto Deposito (S/.) 'B'",
 			'MontoBanco' => "Monto Banco (S/.) 'C'",

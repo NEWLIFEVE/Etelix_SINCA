@@ -33,7 +33,7 @@ class SaldoCabina extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('SaldoAp, SaldoCierre, Fecha, CABINA_Id, COMPANIA_Id', 'required'),
+			array('SaldoAp, Fecha, CABINA_Id, COMPANIA_Id', 'required'),
 			array('CABINA_Id, COMPANIA_Id', 'numerical', 'integerOnly'=>true),
 			array('SaldoAp, SaldoCierre', 'length', 'max'=>15),
 			// The following rule is used by search().
@@ -62,9 +62,9 @@ class SaldoCabina extends CActiveRecord
 	{
 		return array(
 			'Id' => 'ID',
-			'SaldoAp' => 'Saldo Ap',
+			'SaldoAp' => 'Saldo Apertura',
 			'SaldoCierre' => 'Saldo Cierre',
-			'Fecha' => 'Fecha',
+			'Fecha' => 'Fecha del Balance',
 			'CABINA_Id' => 'Cabina',
 			'COMPANIA_Id' => 'Compania',
 		);

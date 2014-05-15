@@ -28,7 +28,9 @@ Yii::import('webroot.protected.controllers.SiteController');
 	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
+<table width="200" border="1" id="dateBalance">
+  <tr>
+    <td>
 	<div class="row">
 		<?php echo $form->labelEx($model,'Fecha'); ?>
 <!--                <p><input type="text" id="Fecha" size="30" /></p>-->
@@ -47,24 +49,28 @@ Yii::import('webroot.protected.controllers.SiteController');
                     'minDate'=>'-7D', //fecha minima
                     'maxDate'=> "-0D", //fecha maxima
                      ),
-                     'htmlOptions'=>array('readonly'=>'readonly'),
+                     'htmlOptions'=>array('readonly'=>'readonly','style'=>'float: left',),
                 )); 
                     echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
                 ?>
 		<?php echo $form->error($model,'Fecha',array('readonly'=>'readonly')); ?>
 	</div>
+    </td>
+  </tr>
+</table>
 
+<table width="200" border="1" >
+  <tr>
+    <td>        
+        
 	<div class="row">
-		<?php echo $form->labelEx($model,'SaldoCierreMov'); ?>
-		<?php echo $form->textField($model,'SaldoCierreMov',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'SaldoCierreMov'); ?>
+		<?php echo $form->labelEx($model,'SaldoCierre'); ?>
+		<?php echo $form->textField($model,'SaldoCierre',array('size'=>15,'maxlength'=>15)); ?>
+		<?php echo $form->error($model,'SaldoCierre'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'SaldoCierreClaro'); ?>
-		<?php echo $form->textField($model,'SaldoCierreClaro',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'SaldoCierreClaro'); ?>
-	</div>
+    </td>
+  </tr>
+</table>
         
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Declarar' : 'Save',array('confirm'=>SiteController::mensajesConfirm(1))); ?>
