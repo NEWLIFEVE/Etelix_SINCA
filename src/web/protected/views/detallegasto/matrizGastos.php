@@ -230,7 +230,7 @@ if (count($model)> 0) { ?>
                                     $fondo = 'background: #00992B;';
                                 }
                             if ($count>0){
-                                
+                                    
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
                                         $content.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
                                     }else{

@@ -321,12 +321,12 @@ class SiteController extends Controller
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
             $files['balance']['name']=$_GET['name'];
-            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],$_GET['name'],true);
+            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$_GET['name'],true);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],$_GET['name'],true);
+            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$_GET['name'],true);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {
@@ -469,15 +469,15 @@ class SiteController extends Controller
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
             $files['balance']['name']=$_GET['name'];
-            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],$topic,false);
-            $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['ids'],$topic,true);
+            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$topic,false);
+            $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$topic,true);
             $files['balance']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['balance']['name'].".xls";    
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],$topic,false);
-            $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['ids'],$topic,true);
+            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$topic,false);
+            $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$topic,true);
             $files['libroVentas']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['libroVentas']['name'].".xls";        
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
@@ -676,11 +676,11 @@ class SiteController extends Controller
     { 
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
-            echo Yii::app()->reporte->balanceAdmin($_GET['ids'],$_GET['name'],false);
+            echo Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
-            echo Yii::app()->reporte->libroVenta($_GET['ids'],$_GET['name'],false);
+            echo Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {

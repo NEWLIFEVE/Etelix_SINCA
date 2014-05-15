@@ -32,6 +32,15 @@ $(document).ready(function()
 
     $(".info").animate({opacity: 1.0}, 3000).fadeOut("slow");
     
+    gentotalsBalance();
+    addFieldVenta();
+    removeFieldVenta();
+    
+    //Verifica que Existe el Balance de la Fecha Seleccionada
+    verificarFechaBalance('Ventas','Detalleingreso_FechaMes','ventas');
+    verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha','saldoCierre');
+    verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente','deposito');
+    
 });
     
     function changeStatusNovedad()
@@ -96,12 +105,110 @@ $(document).ready(function()
                     
         });
     }
+    
+    function gentotalsBalance(){
+        
+        var arrayCols = new Array('ServDirecTv','ServNextel');
+        
+        for(var i=0;i<arrayCols.length;i++){
+            totalsBalance(arrayCols[i]);
+        }
+        
+        
+    }
+    
+    function totalsBalance(columna){
+        var suma = 0;
+        $('table.items tbody tr td#'+columna).filter(function(){return $(this).css('display') == "block" }).each(function(){ 
+            suma = suma + parseFloat($(this).html()) ; 
+        });
+        if(suma==0)
+            $('div#totales table tr td#total'+columna).text('No Declarados');
+        else
+            $('div#totales tr td#total'+columna).text(suma);
+    }
 
 
 //--- FUNCION PARA CAPTURAR LOS IDs DEL GRIDVIEW Y LOS ENVIA A LA ActionExcel DEL CONTROLADOR 'SITE'.
 
     function genExcel()
     {
+        $('img.botonExcelNew').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
+        {    
+
+            //$("#loading").html("Generando Excel... !!");
+            $("#loading").html("Generando Excel... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+             
+            var fechas = new Array();//Creamos un Array como contenedor de los ids.
+            var cabinas = new Array();
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
+            var name = genNameFile(gridview);
+            
+            if($('div#id').length){
+                fechas[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            fechas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+                $("#"+gridview+" td#cabinas").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            cabinas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
+            
+            //alert(cabinas);
+            
+            if(fechas != ''){
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/excel?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name,   
+                                    async: true,
+                                    success:  function (response) {
+                                            //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
+                                             setTimeout("window.open('/site/excel?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name+"','_top');",0);
+
+                                             //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
+                                             $("#complete").html("Archivo Excel Generado... !!");
+                                             setTimeout('$("#complete").css("display", "inline");', 1000);
+                                             setTimeout('$("#loading").css("display", "none");', 1000); 
+                                             setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                             setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  }).responseText;
+
+             
+
+             
+             }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#loading").css("display", "none");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+
+        });
+        
         $('img.botonExcel').on('click',function(event)//Al pulsar la imagen de Excel, es Generada la siguiente Funcion:
         {    
 
@@ -480,6 +587,82 @@ $(document).ready(function()
 
     function genEmail()
     {
+        $('img.botonCorreoNew').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
+        {    
+//
+            $("#loading").html("Enviando Correo... !!<div id='gif_loading'>"+
+            "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                "</div>"+
+                "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                "</div>"+
+            "</div>");
+            $("#nombreContenedor").css("display", "inline");
+            $("#loading").css("display", "inline");
+//            
+            var fechas = new Array();//Creamos un Array como contenedor de los ids.
+            var cabinas = new Array();
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
+            var name = genNameFile(gridview);
+            
+            if($('div#id').length){
+                fechas[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            fechas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+                $("#"+gridview+" td#cabinas").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            cabinas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
+            
+            //alert(cabinas);
+            
+            if(fechas != ''){
+
+                                $.ajax({ 
+                                    type: "GET",   
+                                    url: "/site/sendemail?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name,   
+                                    async: true,
+                                    beforeSend: function () {
+                                            //window.open('/site/sendemail?ids='+ids+'&name=Balance%20Cabinas','_top');
+//                                            $("#nombreContenedor").css("display", "inline");
+//                                            $("#loading").css("display", "inline");
+                                    },
+                                    success:  function (response) {
+                                            $("#nombreContenedor").css("display", "NONE");
+                                            $("#loading").css("display", "NONE");
+                                            $("#complete").html("Correo Enviado con Exito... !!");
+                                            $("#nombreContenedor").css("display", "inline");
+                                            $("#complete").css("display", "inline");
+                                            setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                                            setTimeout('$("#complete").animate({ opacity: "hide" }, "slow");', 1800);
+                                    }
+                                  });
+            }else{
+                        $("#nombreContenedor").css("display", "NONE");
+                        $("#loading").css("display", "NONE");
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+        }); 
+        
         $('img.botonCorreo').on('click',function(event)//Al pulsar la imagen de Email, es Generada la siguiente Funcion:
         {    
 //
@@ -872,6 +1055,68 @@ $(document).ready(function()
     function genPrint()
     {
         
+        $(document).on("click",".printButtonNew",function(){
+            
+            var fechas = new Array();//Creamos un Array como contenedor de los ids.
+            var cabinas = new Array();
+            var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
+            var name = genNameFile(gridview);
+            
+            if($('div#id').length){
+                ids[0]=$('div#id').text();
+                gridview = $('div[rel="total"] table').attr('id');
+                name = genNameFile(gridview);
+            }else{
+                $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            fechas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+                $("#"+gridview+" td#cabinas").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+                            cabinas[index]=$(this).text(); //incluimos los ids de la columna en el array.
+                });
+            }
+            
+            //alert(cabinas);
+            
+            if(fechas != ''){
+                
+            //Creamos la variable que contiene la tabla generada.
+            var response = $.ajax({ type: "GET",   
+                                    url: "/site/print?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name,   
+                                    async: false,
+                                  }).responseText;
+            //Creamos la variable que alberga la pagina con la tabla generada.
+            var content = '<!DOCTYPE html><html><meta charset="es">'+
+            '<head><link href="/css/print.css" media="all" rel="stylesheet" type="text/css"></head>'+
+            '<body>'
+            //Tabla con Formato
+            +response+
+
+            '<script type="text/javascript">function printPage() { window.focus(); window.print();return; }</script>'+
+            '</body></html>';
+    
+
+            //Creamos un 'iframe' para simular la apertura de una pagina nueva sin recargar ni alterar la anterior.
+            var newIframe = document.createElement('iframe');
+            newIframe.width = '0';
+            newIframe.height = '0';
+            newIframe.src = 'about:blank';
+            document.body.appendChild(newIframe);
+            newIframe.contentWindow.contents = content;
+            newIframe.src = 'javascript:window["contents"]';
+            newIframe.focus();
+            //setTimeout(function() {
+            newIframe.contentWindow.printPage();
+            //}, 10);
+            return;
+            }else{
+                        $("#error").html("No Existen Datos... !!");
+                        $("#nombreContenedor").css("display", "inline");
+                        $("#error").css("display", "inline");
+                        setTimeout('$("#nombreContenedor").animate({ opacity: "hide" }, "slow");', 1800);
+                        setTimeout('$("#error").animate({ opacity: "hide" }, "slow");', 1800);
+            }
+        });  
+        
         $(document).on("click",".printButton",function(){
             
             var ids = new Array();//Creamos un Array como contenedor de los ids.
@@ -888,7 +1133,7 @@ $(document).ready(function()
                 });
             }
             
-            //alert(name);
+            //alert(cabinas);
             
             if(ids != ''){
                 
@@ -1508,6 +1753,18 @@ $(document).ready(function()
                 enableHoursCabinas(day);
 
         });
+        
+        $('#IdCheckBox').change(function () {
+
+               var checkbox = $(this).attr('checked');
+               
+                if(checkbox != 'checked'){
+                    $('#Deposito_TiempoCierre').prop('disabled', true);      
+                }else{
+                    $('#Deposito_TiempoCierre').prop('disabled', false);
+                }
+
+        });
     }
     
     function resetField(beneficiario){
@@ -1639,6 +1896,169 @@ $(document).ready(function()
                   $("#Detalleingreso_CUENTA_Id").html(cuenta);
                                   
           });                      
+      }
+      
+      function addFieldVenta()
+      {
+          $('input#genVenta').on('click',function () {
+                var select = '';
+                var arrayServicios = new Array();
+                select = $('select#Detalleingreso_Ventas option:selected').text();
+                
+                if(select != 'Seleccionar..'){
+
+                var arrayServicios = JSON.parse($.ajax({ type: "GET",   
+                  url: '/Detalleingreso/DynamicTipoIngreso?compania='+select,   
+                  async: false,
+                  succes: alert,
+                }).responseText);
+                
+                if($('div#'+select.replace(" ","")).length){
+                
+                    
+                }else{
+                    $('div#ventasServicios').append(
+                    '<div id="'+select.replace(" ","")+'" style="">'+
+                    '<h2>'+select.replace(" ","")+'</h2>'+
+                    '<table id="'+select.replace(" ","")+'" width="200" border="1">'+
+                      '<tr>'+
+                        '<td colspan="'+arrayServicios.length+'">'+
+                          '<img id="'+select.replace(" ","")+'" class="removeDiv" title="Quitar Servicio" src="/themes/mattskitchen/img/close.png" style="float:right;" />'+
+                        '</td>'+
+                      '</tr>'+
+                      '<tr id="'+select.replace(" ","")+'">'+
+                      '</tr>'+
+                    '</table>'+
+                    '</div>'+
+                    '<br>');
+
+                    for(var i=0;i<arrayServicios.length;i++){
+                        $('div#ventasServicios table#'+select.replace(" ","")+' tr#'+select.replace(" ","")).append(
+                                    '<td> ' +	
+                                        '<div class="row">'+
+                                            '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+changeNameVentas(arrayServicios[i])+' (S/.)</label>'+
+                                            '<input id="Detalle_'+arrayServicios[i]+'" name="Detalle['+arrayServicios[i]+']" type="text">'+
+                                        '</div>'+
+                                    '</td>'); 
+                    }    
+
+
+                        removeFieldVenta();
+                }    
+              }
+                    
+          }); 
+          
+          
+
+      }
+                
+      
+      
+      function removeFieldVenta()
+      {
+          $('img.removeDiv').on('click',function () {
+              
+              var id = ''; 
+              id = $(this).attr('id');
+              $('div#'+id).remove();
+              $('div#ventasServicios br').remove();
+              
+          });      
+      }
+      
+      function changeNameVentas(name)
+      {
+            var nameFormate = new Array();
+
+                //Movistar
+                nameFormate['RecargaCelularMov']='Recarga Celular Movistar';
+                nameFormate['RecargaFonoYaMov']='Recarga Fono Ya Movistar';
+                nameFormate['RecargasVentasMov']='Recargas Ventas Movistar';
+                nameFormate['CobrosMov']='Cobros Movistar';
+                nameFormate['Linea147-hp']='Linea 147-hp';
+
+                //Claro
+                nameFormate['RecargaCelularClaro']='Recarga Celular Claro';
+                nameFormate['RecargaFonoClaro']='Recarga Fono Claro';
+                nameFormate['RecargasVentasClaro']='Recargas Ventas Claro';
+                nameFormate['TarjetaClaro']='Tarjeta Claro';
+                nameFormate['CobrosClaro']='Cobros Claro';
+                
+                //Nextel
+                nameFormate['RecargaNextelCelulares']='Recarga Nextel Celulares';
+                nameFormate['TarjetaNextel']='Tarjeta Nextel';
+                
+                //DirecTv
+                nameFormate['RecargaDirectv']='Recarga Directv';
+                nameFormate['CobrosDirectv']='Cobros Directv';
+                
+                //IDT
+                nameFormate['PeruGlobal']='Peru Global';
+                nameFormate['NumeroUNO']='Numero UNO';
+                
+                //Convergia
+                nameFormate['HablaSympatico']='Habla Sympatico';
+                nameFormate['LaRendidora']='La Rendidora';
+                
+                //Sedapal
+                nameFormate['ServicioAgua']='Servicio de Agua';
+                
+                //Pago Efecto
+                nameFormate['PeriodicoElComercio']='Periodico El Comercio';
+                
+                //Juego
+                nameFormate['Juega8']='Juega8';
+
+
+            return nameFormate[name];
+      }
+      
+      function verificarFechaBalance(vista,inputDate,etapaBalance)
+      {
+              $("input#"+inputDate).change(function () {
+                  
+                  var FechaBalance = '';
+                  var verificar = '';
+                  var mensaje = '';
+                  
+                  FechaBalance = $(this).val();
+
+                  verificar = $.ajax({ type: "GET",   
+                    url: '/Detalleingreso/DynamicBalanceAnterios?fecha='+FechaBalance+'&vista='+etapaBalance,   
+                    async: false,
+                    succes: alert,
+                  }).responseText;
+                  
+              if(vista == 'Ventas'){    
+                  mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
+              }
+              
+              if(vista == 'SaldoCierre'){
+                  mensaje = 'ERROR: No Existe El Balance o El Saldo de Cierre Ya Fue Declarado para la Fecha Indicada';
+              } 
+              
+              if(vista == 'Deposito'){
+                  mensaje = 'ERROR: No Existe El Balance o El Deposito Ya Fue Declarado para la Fecha Indicada';
+              } 
+              
+              if(verificar == 'false'){
+                  if($('div#errorDiv').length){
+
+                  }else{
+                      $('table#dateBalance div.row').append('<div id="errorDiv" style="color: red;max-width: 60%;float: left;text-align: left;margin-left: 2%;"></div>');
+                      $('div#errorDiv').text(mensaje);
+                  }
+                  $('form#balance-form input,form#balance-form select').prop('disabled', true);
+                  $('form#balance-form input#'+inputDate).prop('disabled', false);
+              }else{
+                  $('form#balance-form input,form#balance-form select').prop('disabled', false);
+                  $('form#balance-form select#Deposito_TiempoCierre').prop('disabled', true);
+                  $('table#dateBalance div#errorDiv').remove();
+              }
+
+              }); 
+   
       }
       
     

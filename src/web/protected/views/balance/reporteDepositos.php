@@ -64,8 +64,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'filter'=>$model,
     'columns'=>array(
         array(
-        'name'=>'Id',
-        'value'=>'$data->Id',
+        'name'=>'id',
+        'value'=>'$data->id',
         'type'=>'text',
         'headerHtmlOptions' => array('style' => 'display:none'),
         'htmlOptions'=>array(
@@ -75,10 +75,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
-            'name'=>'Fecha',
+            'name'=>'FechaCorrespondiente',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
-                'attribute'=>'Fecha',
+                'attribute'=>'FechaCorrespondiente',
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
@@ -112,28 +112,30 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'TotalVentas',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'totalVentas',
                 ),
             ),
         array(
-            'name'=>'MontoDeposito',
+            'name'=>'MontoDep',
+            'value'=>'Deposito::valueNull($data->MontoDep)',
             'htmlOptions'=>array(
                 'id'=>'montoDeposito',
                 ),
             ),
-        'NumRefDeposito',
+        'NumRef',
         array(
             'name'=>'MontoBanco',
+            'value'=>'Deposito::valueNull($data->MontoBanco)',
             'htmlOptions'=>array(
                 'id'=>'montoBanco',
                 ),
             ),
         array(
             'name'=>'DiferencialBancario',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)))',
+            'value'=>'Deposito::valueNull(round(($data->MontoBanco-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)),2))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -144,7 +146,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'ConciliacionBancaria',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-$data->MontoDeposito)',
+            'value'=>'Deposito::valueNull(round(($data->MontoBanco-$data->MontoDep),2))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -168,8 +170,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'filter'=>$model,
     'columns'=>array(
         array(
-        'name'=>'Id',
-        'value'=>'$data->Id',
+        'name'=>'id',
+        'value'=>'$data->id',
         'type'=>'text',
         'headerHtmlOptions' => array('style' => 'display:none'),
         'htmlOptions'=>array(
@@ -179,14 +181,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
-            'name'=>'Fecha',
+            'name'=>'FechaCorrespondiente',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
-                'attribute'=>'Fecha',
+                'attribute'=>'FechaCorrespondiente',
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
-                    'id'=>'datepicker_for_Fecha_oculta',
+                    'id'=>'datepicker_for_Fecha',
                     'size'=>'10',
                     ),
                 'defaultOptions'=>array(
@@ -209,35 +211,37 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name'=>'CABINA_Id',
             'value'=>'$data->cABINA->Nombre',
             'type'=>'text',
-            'filter'=>Cabina::getListCabinaInactivas(),
+            'filter'=>Cabina::getListCabina(),
             'htmlOptions'=>array(
                 'style'=>'text-align: center;',
                 ),
             ),
         array(
             'name'=>'TotalVentas',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'totalVentas',
                 ),
             ),
         array(
-            'name'=>'MontoDeposito',
+            'name'=>'MontoDep',
+            'value'=>'Deposito::valueNull($data->MontoDep)',
             'htmlOptions'=>array(
                 'id'=>'montoDeposito',
                 ),
             ),
-        'NumRefDeposito',
+        'NumRef',
         array(
             'name'=>'MontoBanco',
+            'value'=>'Deposito::valueNull($data->MontoBanco)',
             'htmlOptions'=>array(
                 'id'=>'montoBanco',
                 ),
             ),
         array(
             'name'=>'DiferencialBancario',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)))',
+            'value'=>'Deposito::valueNull(round(($data->MontoBanco-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)),2))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -248,7 +252,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'ConciliacionBancaria',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-$data->MontoDeposito)',
+            'value'=>'Deposito::valueNull(round(($data->MontoBanco-$data->MontoDep),2))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -278,10 +282,10 @@ function reinstallDatePicker2(id, data) {
     <thead>
         <tr>
             <th id="totalFecha"style="background:#1967B2; color:white;">Fecha</th>
-            <th id="todas"style="background:#1967B2; color:white;">Cabinas</th>
+            <th id="todas"style="background:#1967B2; color:white;width: 90px;">Cabinas</th>
             <th id="totalVentas2" style="background:#1967B2; color:white;"></th>
             <th id="totalMontoDeposito" style="background:#1967B2; color:white;"></th>
-            <th style="background:#1967B2; color:white;">Num de Ref:</th>
+            <th style="background:#1967B2; color:white;">Numero de Ref. Deposito</th>
             <th id="balanceTotalesDepositos3" style="background:#1967B2; color:white;"></th>
             <th id="totalDiferencialBancario" style="background:#1967B2; color:white;"></th>
             <th id="totalConcilicacionBancaria" style="background:#1967B2; color:white;"></th>

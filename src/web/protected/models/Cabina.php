@@ -66,6 +66,12 @@ class Cabina extends CActiveRecord
 			'balances' => array(self::HAS_MANY, 'Balance', 'CABINA_Id'),
 			'comparativoses' => array(self::HAS_MANY, 'Comparativos', 'CABINA_Id'),
 			'operadors' => array(self::HAS_MANY, 'Operador', 'CABINA_Id'),
+                        'detallegastos' => array(self::HAS_MANY, 'Detallegasto', 'CABINA_Id'),
+			'detalleingresos' => array(self::HAS_MANY, 'Detalleingreso', 'CABINA_Id'),
+			'employees' => array(self::HAS_MANY, 'Employee', 'CABINA_Id'),
+			'saldoCabinas' => array(self::HAS_MANY, 'SaldoCabina', 'CABINA_Id'),
+			'users' => array(self::HAS_MANY, 'Users', 'CABINA_Id'),
+                        'depositos' => array(self::HAS_MANY, 'Deposito', 'CABINA_Id'),
 		);
 	}
 

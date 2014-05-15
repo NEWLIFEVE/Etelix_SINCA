@@ -61,17 +61,19 @@ $form=$this->beginWidget('CActiveForm', array(
 ?>
     <p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
     <?php echo $form->errorSummary($model); ?>
-    <table width="200" border="1">
-        <tr>
-            <td colspan="2">
+    
+<table width="200" border="1" id="dateBalance">
+  <tr>
+    <td>    
+
                 <div class="row">
-                    <?php echo $form->labelEx($model,'Fecha');  ?>
+                    <?php echo $form->labelEx($model,'FechaCorrespondiente');  ?>
                     <?php 
                     $this->widget('zii.widgets.jui.CJuiDatePicker', 
                     array(
                         'language'=>'es',
                         'model'=>$model,
-                        'attribute'=>'Fecha',
+                        'attribute'=>'FechaCorrespondiente',
                         'options'=>array(
                             'changeMonth'=>'true',//para poder cambiar mes
                             'changeYear'=>'true',//para poder cambiar año
@@ -81,7 +83,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             'minDate'=>'-7D', //fecha minima
                             'maxDate'=>"-1D", //fecha maxima 'readonly'=>'readonly'
                             ),
-                        'htmlOptions'=>array('readonly'=>'readonly'),
+                        'htmlOptions'=>array('readonly'=>'readonly','style'=>'float: left;'),
                         )
                     );
                     echo CHtml::label('', 'diaSemana',array(
@@ -90,19 +92,22 @@ $form=$this->beginWidget('CActiveForm', array(
                         )
                     );
                     ?>
-                    <?php echo $form->error($model,'Fecha',array('readonly'=>'readonly')); ?>
+                    <?php echo $form->error($model,'FechaCorrespondiente',array('readonly'=>'readonly')); ?>
                 </div>
-            </td>
-        </tr>
+   </td>
+
+  </tr>   
+</table>     
+    <table width="200" border="1">
         <tr>
-            <td>
+            <td >
                 <div class="row">
-                    <?php echo $form->labelEx($model,'FechaDep'); ?>
+                    <?php echo $form->labelEx($model,'Fecha', array('label' => 'Fecha en que se hizo el Deposito')); ?>
                     <?php
                         $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                             'language'=>'es',
                             'model'=>$model,
-                            'attribute'=>'FechaDep',
+                            'attribute'=>'Fecha',
                             'options'=>array(
                                 'changeMonth'=>'true',//para poder cambiar mes
                                 'changeYear'=>'true',//para poder cambiar año
@@ -112,7 +117,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 'minDate'=>'-7D', //fecha minima
                                 'maxDate'=>"-0D", //fecha maxima 'readonly'=>'readonly'
                                 ),
-                            'htmlOptions'=>array('readonly'=>'readonly'),
+                            'htmlOptions'=>array('readonly'=>'readonly',),
                             )
                         );
                         echo CHtml::label('', 'diaSemana',array(
@@ -121,16 +126,16 @@ $form=$this->beginWidget('CActiveForm', array(
                             )
                         );
                     ?>
-                    <?php echo $form->error($model,'FechaDep',array('readonly'=>'readonly')); ?>
+                    <?php echo $form->error($model,'Fecha',array('readonly'=>'readonly')); ?>
                 </div>
             </td>
             <td>
                 <div class="row">
-                    <?php echo $form->labelEx($model,'HoraDep'); ?>
+                    <?php echo $form->labelEx($model,'Hora', array('label' => 'Hora en que se hizo el Deposito')); ?>
                     <?php
                         $this->widget('webroot.protected.extensions.clockpick.EClockpick', array(
                             'model'=>$model,
-                            'attribute'=>'HoraDep',
+                            'attribute'=>'Hora',
                             'options'=>array(
                                 'starthour'=>7,
                                 'endhour'=>20,
@@ -148,30 +153,30 @@ $form=$this->beginWidget('CActiveForm', array(
                             )
                         );
                     ?>
-                    <?php echo $form->error($model,'HoraDep'); ?>
+                    <?php echo $form->error($model,'Hora'); ?>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="row">
-                    <?php echo $form->labelEx($model,'MontoDeposito'); ?>
-                    <?php echo $form->textField($model,'MontoDeposito',array('size'=>15,'maxlength'=>15)); ?>
-                    <?php echo $form->error($model,'MontoDeposito'); ?>
+                    <?php echo $form->labelEx($model,'MontoDep', array('label' => 'Monto del Deposito')); ?>
+                    <?php echo $form->textField($model,'MontoDep',array('size'=>15,'maxlength'=>15)); ?>
+                    <?php echo $form->error($model,'MontoDep'); ?>
                 </div>
             </td>
             <td>
                 <div class="row">
-                    <?php echo $form->labelEx($model,'NumRefDeposito'); ?>
-                    <?php echo $form->textField($model,'NumRefDeposito',array('size'=>45,'maxlength'=>45)); ?>
-                    <?php echo $form->error($model,'NumRefDeposito'); ?>
+                    <?php echo $form->labelEx($model,'NumRef', array('label' => 'Numero de Referencia del Deposito')); ?>
+                    <?php echo $form->textField($model,'NumRef',array('size'=>45,'maxlength'=>45)); ?>
+                    <?php echo $form->error($model,'NumRef'); ?>
                 </div>
             </td>
         </tr>
         <tr>
             <td rowspan="2">
             <div class="row">
-                    <?php echo $form->labelEx($model,'Depositante'); ?>
+                    <?php echo $form->labelEx($model,'Depositante', array('label' => 'Nombre del Depositante')); ?>
                     <?php echo $form->textField($model,'Depositante',array('size'=>45,'maxlength'=>45)); ?>
                     <?php echo $form->error($model,'Depositante'); ?>
                 </div>
@@ -188,7 +193,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <tr>
             <td>
                 <div class="row">
-                        <?php echo $form->labelEx($model,'TiempoCierre'); ?>
+                        <?php echo $form->labelEx($model,'TiempoCierre', array('label' => 'Tiempo de Cierre de Cabina (min)')); ?>
                         <?php echo $form->dropDownList($model,'TiempoCierre',
                             array(
                             '15'=>'15 min',
@@ -206,16 +211,7 @@ $form=$this->beginWidget('CActiveForm', array(
             </td>
         </tr>
     </table>
-    <div class="row" style="display:none;">
-        <?php echo $form->labelEx($model,'FechaIngresoDeposito'); ?>
-        <?php echo $form->textField($model,'FechaIngresoDeposito'); ?>
-        <?php echo $form->error($model,'FechaIngresoDeposito'); ?>
-    </div>
-    <div class="row" style="display:none;">
-        <?php echo $form->labelEx($model,'CABINA_Id'); ?>
-        <?php echo $form->textField($model,'CABINA_Id'); ?>
-        <?php echo $form->error($model,'CABINA_Id'); ?>
-    </div>
+
     <div class="row buttons">
         <?php //echo CHtml::submitButton($model->isNewRecord ? 'Declarar' : 'Save',array('confirm'=>  SiteController::mensajesConfirm(1))); ?>
         <?php echo CHtml::submitButton('Declarar'); ?>

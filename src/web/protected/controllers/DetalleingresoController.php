@@ -30,8 +30,22 @@ class DetalleingresoController extends Controller
                     'createIngreso',
                     'adminIngreso',
                     'MatrizIngresos',
+                    'DynamicTipoIngreso',
+                    'DynamicBalanceAnterios',
                 ),
                 'users'=>Users::UsuariosPorTipo(3),
+            ),
+            array('allow', // allow all users to perform 'index' and 'view' actions
+                'actions'=>array(
+                    'index',
+                    'viewIngreso',
+                    'createIngreso',
+                    'adminIngreso',
+                    'MatrizIngresos',
+                    'DynamicTipoIngreso',
+                    'DynamicBalanceAnterios',
+                ),
+                'users'=>Users::UsuariosPorTipo(1),
             ),
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions'=>array(
@@ -157,7 +171,67 @@ class DetalleingresoController extends Controller
             if ($model === null)
                 throw new CHttpException(404, 'The requested page does not exist.');
             return $model;
-        }        
+        }
+        
+        public function actionDynamicTipoIngreso()
+        {
+            $arrayTipoIn = Array();
+            $compania = Compania::getId($_GET['compania']);
+            $data = TipoIngresos::model()->findAllBySql("SELECT Nombre FROM tipo_ingresos WHERE COMPANIA_Id = $compania;");
+            
+            foreach ($data as $key => $value) {
+                $arrayTipoIn[$key] = $value->Nombre;
+            }
+            
+            echo json_encode($arrayTipoIn);
+        }
+        
+        public function actionDynamicBalanceAnterios()
+        {
+            $data = NULL;
+            $etapaBalance=$_GET['vista'];
+            $list=explode('/', $_GET['fecha']);
+            $fecha = $list[2]."-".$list[1]."-".$list[0];
+            $cabina = Yii::app()->getModule('user')->user()->CABINA_Id; 
+            
+            
+            if($etapaBalance == 'ventas'){
+                $data = SaldoCabina::model()->findBySql("SELECT Id FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            }
+            if($etapaBalance == 'saldoCierre'){
+                $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");   
+                if($data != NULL) {
+                    if($data->SaldoCierre != NULL) {
+                        $data = NULL; 
+                    }else{
+                        $data = 'true';
+                    }
+                }else{
+                    $data = NULL;
+                }
+            }
+            if($etapaBalance == 'deposito'){
+                $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");   
+                if($data != NULL) {
+                    $data2 = Deposito::model()->findBySql("SELECT * FROM deposito WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
+                    if($data2 != NULL) {
+                        $data = NULL; 
+                    }else{
+                        $data = 'true';
+                    }
+                }else{
+                    $data = NULL;
+                }
+            }
+            
+            
+            if($data != NULL) {
+                echo 'true';
+            }else{
+                echo 'false';
+            }
+
+        }
             
         public static function controlAcceso($tipoUsuario)
         {

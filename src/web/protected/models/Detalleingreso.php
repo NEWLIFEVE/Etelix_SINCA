@@ -38,7 +38,61 @@ class Detalleingreso extends CActiveRecord
         public $MontoS;
         public $MontoDolares;
         public $MontoSoles;
-
+        
+        public $FijoLocal;
+        public $FijoProvincia;
+        public $FijoLima;
+        public $Rural;
+        public $Celular;
+        public $LDI;
+        
+        public $RecargaCelularMov;
+        public $RecargaFonoYaMov;
+        public $RecargaCelularClaro;
+        public $RecargaFonoClaro;
+        
+        public $CobrosMov;
+        public $Linea147hp;
+        public $TarjetaClaro;
+        public $CobrosClaro;
+        public $RecargaDirectv;
+        public $CobrosDirectv;
+        public $RecargaNextelCelulares;
+        public $TarjetaNextel;
+        
+        public $OtrosServicios;
+        public $Trafico;
+        public $RecargaMovistar;
+        public $RecargaClaro;
+        public $TotalVentas;
+        
+        public $ServMov;
+        public $ServClaro;
+        public $ServDirecTv;
+        public $ServNextel;
+        
+        public $SaldoAp;
+        public $SaldoCierre;
+        public $MontoDeposito;
+        public $DiferencialBan;
+        public $ConciliacionBan;
+        public $Paridad;
+        
+        public $DifMov;
+        public $DifClaro;
+        public $DifDirecTv;
+        public $DifNextel;
+        
+        public $DifSoles;
+        public $DifDollar;
+        
+        public $TraficoCapturaDollar;
+        
+        public $Acumulado;
+        public $Sobrante;
+        public $SobranteAcum;
+        
+        public $Ventas;
 
         public function tableName()
 	{
@@ -76,6 +130,7 @@ class Detalleingreso extends CActiveRecord
 			'moneda0' => array(self::BELONGS_TO, 'Currency', 'moneda'),
 			'cABINA' => array(self::BELONGS_TO, 'Cabina', 'CABINA_Id'),
 			'cUENTA' => array(self::BELONGS_TO, 'Cuenta', 'CUENTA_Id'),
+                        'moneda0' => array(self::BELONGS_TO, 'Currency', 'moneda'),
 			'tIPOINGRESO' => array(self::BELONGS_TO, 'TipoIngresos', 'TIPOINGRESO_Id'),
 			'uSERS' => array(self::BELONGS_TO, 'Users', 'USERS_Id'),
 		);
@@ -99,6 +154,33 @@ class Detalleingreso extends CActiveRecord
 			'CABINA_Id' => 'Cabina',
 			'CUENTA_Id' => 'Cuenta',
                         'nombreTipoDetalle' => 'Nombre Tipo Ingreso',
+                        'ServMov' => 'Servicios Movistar (S/.)',
+                        'ServClaro' => 'Servicios Claro (S/.)',
+                        'ServDirecTv' => 'Servicios DirecTv (S/.)',
+                        'ServNextel' => 'Servicios Nextel (S/.)',
+                        'Trafico' => 'Trafico (S/.)',
+                        'OtrosServicios' => 'Otros Servicios (S/.)',
+                        'TotalVentas' => 'Total Ventas (S/.)',
+                        'SaldoAp' => 'Saldo Apertura (S/.)',
+                        'SaldoCierre' => 'Saldo Cierre (S/.)',
+                        'MontoDeposito' => 'Monto Deposito (S/.)',
+                        'DiferencialBan' => 'Diferencial Bancario (S/.)',
+                        'ConciliacionBan' => 'Consiliacion Bancaria (S/.)',
+                        'Paridad'=>'Paridad Cambiaria (S/.|$)',
+                        'DifMov'=>'Diferencial Movistar (S/.)',
+                        'DifClaro'=>'Diferencial Claro (S/.)',
+                        'DifDirecTv'=>'Diferencial DirecTv (S/.)',
+                        'DifNextel'=>'Diferencial Nextel (S/.)',
+                        'DifSoles'=>"Diferencial Captura Soles (S/.)",
+                        'DifDollar'=>"Diferencial Captura Dollar (USD $)",
+                        'Acumulado'=>'Acumulado Dif. Captura (USD $)',
+                        'Sobrante'=>'Sobrante (USD $)',
+                        'SobranteAcum'=>'Sobrante Acumulado (USD $)',
+                        'Ventas'=>'Ventas por Compañia',
+                        'FechaBalance'=>'Fecha del Balance',
+                        'FijoLocal'=>'Fijo Local',
+
+
 		);
 	}
 
@@ -114,7 +196,7 @@ class Detalleingreso extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($cabina=null,$mes=null)
+	public function search($post=null,$cabina=null,$mes=null)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -142,6 +224,126 @@ class Detalleingreso extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchBalance($post=null,$mes=null,$cabina=null)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('Id',$this->Id);
+		$criteria->compare('Monto',$this->Monto,true);
+		$criteria->compare('FechaMes',$this->FechaMes,true);
+		$criteria->compare('Descripcion',$this->Descripcion,true);
+		$criteria->compare('TransferenciaPago',$this->TransferenciaPago,true);
+		$criteria->compare('FechaTransf',$this->FechaTransf,true);
+		$criteria->compare('moneda',$this->moneda);
+		$criteria->compare('USERS_Id',$this->USERS_Id);
+		$criteria->compare('TIPOINGRESO_Id',$this->TIPOINGRESO_Id);
+		$criteria->compare('CABINA_Id',$this->CABINA_Id);
+		$criteria->compare('CUENTA_Id',$this->CUENTA_Id);
+                $criteria->with =array('cABINA');
+                $criteria->condition = "TIPOINGRESO_Id!=1";
+                $criteria->addCondition("cABINA.status = 1");
+                $criteria->group='FechaMes,CABINA_Id';
+                
+                if($cabina!=NULL)
+                    $criteria->addCondition("CABINA_Id=$cabina");
+                if($mes!=NULL)
+                    $criteria->addCondition("FechaMes<='".$mes."-31' AND FechaMes>='".$mes."-01'");
+
+                $pagina=Cabina::model()->count(array(
+                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                        'params'=>array(
+                            ':status'=>1,
+                            ':Id'=>18,
+                            ':Id2'=>19,
+                            ),
+                        ));
+                $orden="FechaMes DESC, cABINA.Nombre ASC";
+                
+                if(isset($mes) || isset($cabina))
+                {
+                    $condition="Id>0";
+                    if($mes)
+                    {
+                        $condition.=" AND FechaMes<='".$mes."-31' AND FechaMes>='".$mes."-01'";
+                    }
+                    if($cabina)
+                    {
+                        $condition.=" AND CABINA_Id=".$cabina;
+                    }
+                    $pagina=self::model()->count($condition);
+                    
+                    if($post['vista'] == 'admin')
+                        $pagina=NULL;
+                    
+                    $orden="FechaMes DESC, cABINA.Nombre ASC";
+                }
+                
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
+                        'pagination'=>array('pageSize'=>$pagina),
+		));
+	}
+        
+        public function disable($post=null,$mes=null,$cabina=null)
+	{
+                $criteria=new CDbCriteria;
+
+		$criteria->compare('Id',$this->Id);
+		$criteria->compare('Monto',$this->Monto,true);
+		$criteria->compare('FechaMes',$this->FechaMes,true);
+		$criteria->compare('Descripcion',$this->Descripcion,true);
+		$criteria->compare('TransferenciaPago',$this->TransferenciaPago,true);
+		$criteria->compare('FechaTransf',$this->FechaTransf,true);
+		$criteria->compare('moneda',$this->moneda);
+		$criteria->compare('USERS_Id',$this->USERS_Id);
+		$criteria->compare('TIPOINGRESO_Id',$this->TIPOINGRESO_Id);
+		$criteria->compare('CABINA_Id',$this->CABINA_Id);
+		$criteria->compare('CUENTA_Id',$this->CUENTA_Id);
+                $criteria->with =array('cABINA');
+                $criteria->condition = "TIPOINGRESO_Id!=1";
+                $criteria->addCondition("cABINA.status = 0");
+                $criteria->group='FechaMes,CABINA_Id';
+                
+                if($cabina!=NULL)
+                    $criteria->addCondition("CABINA_Id=$cabina");
+                if($mes!=NULL)
+                    $criteria->addCondition("FechaMes<='".$mes."-31' AND FechaMes>='".$mes."-01'");
+
+                $pagina=Cabina::model()->count(array(
+                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                        'params'=>array(
+                            ':status'=>0,
+                            ':Id'=>18,
+                            ':Id2'=>19,
+                            ),
+                        ));
+                $orden="FechaMes DESC, cABINA.Nombre ASC";
+                
+                if(isset($mes) || isset($cabina))
+                {
+                    $condition="Id>0";
+                    if($mes)
+                    {
+                        $condition.=" AND FechaMes<='".$mes."-31' AND FechaMes>='".$mes."-01'";
+                    }
+                    if($cabina)
+                    {
+                        $condition.=" AND CABINA_Id=".$cabina;
+                    }
+                    $pagina=self::model()->count($condition);
+                    $orden="FechaMes DESC, cABINA.Nombre ASC";
+                }
+                
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
+                        'pagination'=>array('pageSize'=>$pagina),
+		));
+	}
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -154,6 +356,103 @@ class Detalleingreso extends CActiveRecord
 		return parent::model($className);
 	}
         
+        public static function getLibroVentas($vista,$atributo,$fecha,$cabinaId,$tipoIngreso=NULL)
+	{
+		if($vista == 'LibroVentas')
+                {
+                    if($atributo == 'servicio'){
+                        $ingreso = self::model()->findBySql("SELECT d.Monto 
+                                                             FROM detalleingreso as d
+                                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                                             WHERE d.FechaMes = '$fecha' 
+                                                             AND d.CABINA_Id = $cabinaId 
+                                                             AND t.COMPANIA_Id = 6 AND u.tipo = 1;");
+                        if($ingreso->Monto == NULL)
+                            return '0.00';
+                        else
+                            return $ingreso->Monto;
+                    }
+                    elseif($atributo == 'trafico'){
+                        $trafico = self::model()->findBySql("SELECT SUM(d.Monto) as Trafico 
+                                                             FROM detalleingreso as d
+                                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                                             WHERE d.FechaMes = '$fecha' 
+                                                             AND d.CABINA_Id = $cabinaId AND t.COMPANIA_Id = 5 AND u.tipo = 1;");
+                        if($trafico->Trafico == NULL)
+                            return '0.00';
+                        else
+                            return $trafico->Trafico;
+                    }
+                    elseif($atributo == 'ServMov'){
+                        $ServMov = self::model()->findBySql("SELECT SUM(d.Monto) as ServMov 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 1 AND u.tipo = 1;");
+                        if($ServMov->ServMov == NULL)
+                            return '0.00';
+                        else
+                            return $ServMov->ServMov;
+                    }
+                    elseif($atributo == 'ServClaro'){
+                        $ServClaro = self::model()->findBySql("SELECT SUM(d.Monto) as ServClaro 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 2 AND u.tipo = 1;");
+                        if($ServClaro->ServClaro == NULL)
+                            return '0.00';
+                        else
+                            return $ServClaro->ServClaro;
+                    }
+                    elseif($atributo == 'ServNextel'){
+                        $ServNextel = self::model()->findBySql("SELECT SUM(d.Monto) as ServNextel 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 3 AND u.tipo = 1;");
+                        if($ServNextel->ServNextel == NULL)
+                            return '0.00';
+                        else
+                            return $ServNextel->ServNextel;
+                    }
+                    elseif($atributo == 'ServDirecTv'){
+                        $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as ServDirecTv 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 4 AND u.tipo = 1;");
+                        if($ServDirecTv->ServDirecTv == NULL)
+                            return '0.00';
+                        else
+                            return $ServDirecTv->ServDirecTv;
+                    }
+                    elseif($atributo == 'TotalVentas'){
+                        $TotalVentas = self::model()->findBySql("SELECT SUM(d.Monto) as TotalVentas 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id > 0 AND u.tipo = 1;");
+                        if($TotalVentas->TotalVentas == NULL)
+                            return '0.00';
+                        else
+                            return $TotalVentas->TotalVentas;
+                    }
+                }
+	}
+        
         public static function montoGasto($moneda)
         {     
             $mon;
@@ -164,5 +463,191 @@ class Detalleingreso extends CActiveRecord
             }
 
             return $mon;
+        }
+        
+        public static function Recargas($fecha,$cabina,$compania,$acumulado=NULL)
+        {   
+            
+            if($compania == 1){
+                $atributo = 'DifMov';
+            }elseif($compania == 2){
+                $atributo = 'DifClaro';
+            }elseif($compania == 4){
+                $atributo = 'DifDirecTv';
+            }elseif($compania == 3){
+                $atributo = 'DifNextel';
+            }
+
+            if($acumulado == NULL){
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes = '$fecha' 
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id = $compania AND u.tipo = 1;");
+            }else{
+                $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes >= '$primero_mes'
+                                                        AND d.FechaMes <= '$fecha' 
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id = $compania AND u.tipo = 1;");
+            }
+            
+            if($ServDirecTv->$atributo == NULL)
+                return '0.00';
+            else
+                return $ServDirecTv->$atributo;
+        }
+        
+        public static function VentasRecargas($fecha,$cabina,$compania,$acumulado=NULL)
+        {   
+            
+            if($compania == 1){
+                $atributo = 'DifMov';
+            }elseif($compania == 2){
+                $atributo = 'DifClaro';
+            }elseif($compania == 4){
+                $atributo = 'DifDirecTv';
+            }elseif($compania == 3){
+                $atributo = 'DifNextel';
+            }
+            
+            if($acumulado == NULL){
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes = '$fecha' 
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id = $compania AND u.tipo = 4;");
+            }else{
+                $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes >= '$primero_mes'
+                                                        AND d.FechaMes <= '$fecha' 
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id = $compania AND u.tipo = 4;");
+            }    
+                
+            if($ServDirecTv->$atributo == NULL)
+                return '0.00';
+            else
+                return $ServDirecTv->$atributo;
+        }
+        
+        public static function TraficoCapturaDollar($fecha,$cabina,$acumulado=NULL)
+        {   
+            $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+            
+            if($acumulado == NULL)
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as TraficoCapturaDollar 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes = '$fecha' 
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id = 5 AND u.tipo = 4;");
+            else
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as TraficoCapturaDollar 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes >= '$primero_mes' 
+                                                        AND d.FechaMes <= '$fecha'
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id = 5 AND u.tipo = 4;");
+            
+            
+            if($ServDirecTv->TraficoCapturaDollar == NULL)
+                return '0.00';
+            else
+                return $ServDirecTv->TraficoCapturaDollar;
+        }
+        
+        public static function getSobrante($fecha,$cabina)
+        {     
+            $sum = 0;
+            $paridad = Paridad::getParidad($fecha);
+            $difBanco = (Deposito::getMontoBanco($fecha,$cabina)-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $fecha,$cabina));
+            $difMov = Detalleingreso::VentasRecargas($fecha,$cabina, 1)-Detalleingreso::Recargas($fecha,$cabina, 1);
+            $difClaro = Detalleingreso::VentasRecargas($fecha,$cabina, 2)-Detalleingreso::Recargas($fecha,$cabina, 2);
+            $difDirecTv = Detalleingreso::VentasRecargas($fecha,$cabina, 4)-Detalleingreso::Recargas($fecha,$cabina, 4);
+            $difNextel = Detalleingreso::VentasRecargas($fecha,$cabina, 3)-Detalleingreso::Recargas($fecha,$cabina, 3);
+            $difCaptura = (Detalleingreso::getLibroVentas("LibroVentas","trafico", $fecha,$cabina))-(Detalleingreso::TraficoCapturaDollar($fecha,$cabina)*$paridad);
+            
+            $sum = ($difBanco + $difMov + $difClaro + $difDirecTv + $difNextel + $difCaptura)/$paridad;    
+            
+            return round($sum,2);
+        }
+        
+        public static function getSobranteAcumulado($fecha,$cabina)
+        {     
+            $sum = 0;
+            $paridad = Paridad::getParidad($fecha);
+            $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+            
+            $montoDep = Deposito::model()->findBySql("SELECT SUM(IFNULL(MontoBanco,0)) as MontoBanco 
+                                                    FROM deposito
+                                                    WHERE FechaCorrespondiente >= '$primero_mes' 
+                                                    AND FechaCorrespondiente <= '$fecha' 
+                                                    AND CABINA_Id = $cabina;");
+            
+            $TotalVentas = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as TotalVentas 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes >= '$primero_mes'
+                                                                AND d.FechaMes <= '$fecha'    
+                                                                AND d.CABINA_Id = $cabina 
+                                                                AND t.COMPANIA_Id > 0 AND u.tipo = 1;");
+            
+            $trafico = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as Trafico 
+                                                             FROM detalleingreso as d
+                                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                                             WHERE d.FechaMes >= '$primero_mes'
+                                                             AND d.FechaMes <= '$fecha' 
+                                                             AND d.CABINA_Id = $cabina AND t.COMPANIA_Id = 5 AND u.tipo = 1;");
+            
+            $traficoCaptura = Detalleingreso::TraficoCapturaDollar($fecha,$cabina,'Complete');
+            
+            
+            
+            $difBanco = $montoDep->MontoBanco - $TotalVentas->TotalVentas;
+            $difMov = Detalleingreso::VentasRecargas($fecha,$cabina, 1,'Completo')-Detalleingreso::Recargas($fecha,$cabina, 1,'Completo');
+            $difClaro = Detalleingreso::VentasRecargas($fecha,$cabina, 2,'Completo')-Detalleingreso::Recargas($fecha,$cabina, 2,'Completo');
+            $difDirecTv = Detalleingreso::VentasRecargas($fecha,$cabina, 4,'Completo')-Detalleingreso::Recargas($fecha,$cabina, 4,'Completo');
+            $difNextel = Detalleingreso::VentasRecargas($fecha,$cabina, 3,'Completo')-Detalleingreso::Recargas($fecha,$cabina, 3,'Completo');
+            $difCaptura = $trafico->Trafico-$traficoCaptura*$paridad;
+            
+            $sum = ($difBanco + $difMov + $difClaro + $difDirecTv + $difNextel + $difCaptura)/$paridad;    
+            
+            return round($sum,2);
+        }
+        
+        public static function changeName($name)
+        {
+            $nameFormate = Array(
+                
+                //Llamadas
+                'FijoLocal'=>'Fijo Local (S/.)',
+                'FijoProvincia'=>'Fijo Provincia (S/.)',
+                'FijoLima'=>'Fijo Lima (S/.)',
+                'Celular'=>'Celular (S/.)',
+                'Rural'=>'Rural (S/.)',
+                'LDI'=>'LDI (S/.)',
+
+                
+            );
+             
+            return $nameFormate[$name];
         }
 }

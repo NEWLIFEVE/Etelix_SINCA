@@ -478,10 +478,10 @@ margin-right: 38px;
   color: #fff;
 } 
 
-.botonCorreo:hover, .botonCorreoPanel:hover, .botonExcel:hover, .botonExcelCompleto:hover, 
+.botonCorreo:hover,.botonCorreoNew:hover, .botonCorreoPanel:hover, .botonExcel:hover,.botonExcelNew:hover, .botonExcelCompleto:hover, 
 .printButton:hover, .botonExcelTotal:hover, .botonCorreoTotal:hover, .printButtonTotal:hover,
 .botonExcelMatriz:hover, .printButtonMatriz:hover, .botonCorreoMatriz:hover, .botonExcelPanel:hover,
-.printButtonPanel:hover, .botonCorreoConsolidado:hover, .botonExcelConsolidado:hover
+.printButtonPanel:hover, .botonCorreoConsolidado:hover, .botonExcelConsolidado:hover, .printButtonNew:hover
 {
     opacity: 0.5;
 }
@@ -1293,5 +1293,9 @@ background-color:#ff9900;
 
 section {
     display: table !important;
+}
+
+table#ventas tr td, table.items tr td{
+    text-align: center;
 }
 
