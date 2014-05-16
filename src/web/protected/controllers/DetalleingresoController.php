@@ -32,6 +32,7 @@ class DetalleingresoController extends Controller
                     'MatrizIngresos',
                     'DynamicTipoIngreso',
                     'DynamicBalanceAnterios',
+                    'DynamicIngresosRegistrado',
                 ),
                 'users'=>Users::UsuariosPorTipo(3),
             ),
@@ -44,6 +45,7 @@ class DetalleingresoController extends Controller
                     'MatrizIngresos',
                     'DynamicTipoIngreso',
                     'DynamicBalanceAnterios',
+                    'DynamicIngresosRegistrado',
                 ),
                 'users'=>Users::UsuariosPorTipo(1),
             ),
@@ -186,6 +188,27 @@ class DetalleingresoController extends Controller
             echo json_encode($arrayTipoIn);
         }
         
+        public function actionDynamicIngresosRegistrado()
+        {
+            $dataIn = NULL;
+            $arrayTipoIngreso = Array();
+            $list=explode('/', $_GET['fechaBalance']);
+            $fecha = $list[2]."-".$list[1]."-".$list[0];
+            $cabina = Yii::app()->getModule('user')->user()->CABINA_Id; 
+            $dataIn = TipoIngresos::model()->findAllBySql("SELECT t.Nombre
+                                                            FROM detalleingreso as d
+                                                            INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                            WHERE d.FechaMes = '$fecha' 
+                                                            AND d.CABINA_Id = $cabina 
+                                                            ORDER BY d.TIPOINGRESO_Id; ");
+            
+            foreach ($dataIn as $key => $value) {
+                $arrayTipoIngreso[$key] = $value->Nombre;
+            }
+            
+            echo json_encode($arrayTipoIngreso);
+        }
+        
         public function actionDynamicBalanceAnterios()
         {
             $data = NULL;
@@ -195,10 +218,18 @@ class DetalleingresoController extends Controller
             $cabina = Yii::app()->getModule('user')->user()->CABINA_Id; 
             
             
-            if($etapaBalance == 'ventas'){
+            if($etapaBalance == 'Ventas'){
                 $data = SaldoCabina::model()->findBySql("SELECT Id FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
             }
-            if($etapaBalance == 'saldoCierre'){
+            if($etapaBalance == 'SaldoApertura'){
+                $data = SaldoCabina::model()->findBySql("SELECT Id FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+                if($data != NULL) {
+                    $data = NULL; 
+                }else{
+                    $data = 'true';
+                }
+            }
+            if($etapaBalance == 'SaldoCierre'){
                 $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");   
                 if($data != NULL) {
                     if($data->SaldoCierre != NULL) {
@@ -210,7 +241,7 @@ class DetalleingresoController extends Controller
                     $data = NULL;
                 }
             }
-            if($etapaBalance == 'deposito'){
+            if($etapaBalance == 'Deposito'){
                 $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");   
                 if($data != NULL) {
                     $data2 = Deposito::model()->findBySql("SELECT * FROM deposito WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");

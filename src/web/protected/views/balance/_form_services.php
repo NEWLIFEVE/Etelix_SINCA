@@ -4,16 +4,6 @@
 /* @var $form CActiveForm */
 Yii::import('webroot.protected.controllers.SiteController');
 ?><head>
- <script>
-       function formatDate(dateValue) { 
-         var fecha = dateValue.toString();
-         return fecha[3]+fecha[4]+fecha[2]+fecha[0]+fecha[1]+fecha[5]+fecha[6]+fecha[7]+fecha[8]+fecha[9];
-     }
-    $(document).change( function(){
-        var fecha = formatDate($('#Balance_Fecha').val());
-        $("#diaSemana").text(["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"][new Date(fecha).getDay()]); 
-    });
-  </script>
 </head>
 
 <div class="form">
@@ -42,25 +32,26 @@ Yii::import('webroot.protected.controllers.SiteController');
 		<?php // echo $form->textField($model,'Fecha'); ?>
                             <?php 
                     $this->widget('zii.widgets.jui.CJuiDatePicker', 
-                    array(
-                    'language' => 'es', 
-                    'model' => $model,
-                    'attribute'=>'FechaMes',
-                    'options' => array(
-                    'changeMonth' => 'true',//para poder cambiar mes
-                    'changeYear' => 'true',//para poder cambiar año
-                    'showButtonPanel' => 'false', 
-                    'constrainInput' => 'false',
-                    'showAnim' => 'show',
-                    'minDate'=>'-7D', //fecha minima
-                    'maxDate'=> "-1D", //fecha maxima
-                     ),
-                    'htmlOptions'=>array('readonly'=>'readonly','style'=>'float: left',),
-                )); 
+                        array(
+                        'language' => 'es', 
+                        'model' => $model,
+                        'attribute'=>'FechaMes',
+                        'options' => array(
+                        'changeMonth' => 'true',//para poder cambiar mes
+                        'changeYear' => 'true',//para poder cambiar año
+                        'showButtonPanel' => 'false', 
+                        'constrainInput' => 'false',
+                        'showAnim' => 'show',
+                        'minDate'=>'-7D', //fecha minima
+                        'maxDate'=> "-1D", //fecha maxima
+                         ),
+                        'htmlOptions'=>array('readonly'=>'readonly','style'=>'float: left',),
+                    )); 
                     echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
                 ?>
 		<?php echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
-	</div></td>
+	</div>
+    </td>
 
   </tr>   
 </table>

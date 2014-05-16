@@ -28,9 +28,9 @@ Yii::import('webroot.protected.controllers.SiteController');
 
 	<?php echo $form->errorSummary($model); ?>
 
-<table width="200" border="1" >
+<table width="200" border="1" id="dateBalance">
   <tr>
-    <td>         
+    <td>       
 	<div  class="row" >
 		<?php echo $form->labelEx($model,'Fecha'); ?>
 		<?php //echo $form->textField($model,'Fecha'); ?>
@@ -48,7 +48,7 @@ Yii::import('webroot.protected.controllers.SiteController');
                     'minDate'=>'-7D', //fecha minima
                     'maxDate'=> "-0D", //fecha maxima
                      ),
-                        'htmlOptions'=>array('readonly'=>'readonly'),
+                        'htmlOptions'=>array('readonly'=>'readonly','id'=>'SaldoCabina_Fecha_Apertura','style'=>'float: left;'),
                 )); 
                     echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
                 ?>
