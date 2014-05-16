@@ -548,7 +548,7 @@ class Detalleingreso extends CActiveRecord
             $primero_mes = date('Y-m', strtotime($fecha)).'-01';
             
             if($acumulado == NULL)
-                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as TraficoCapturaDollar 
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as TraficoCapturaDollar 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                         INNER JOIN users as u ON u.id = d.USERS_Id
@@ -556,7 +556,7 @@ class Detalleingreso extends CActiveRecord
                                                         AND d.CABINA_Id = $cabina 
                                                         AND t.COMPANIA_Id = 5 AND u.tipo = 4;");
             else
-                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as TraficoCapturaDollar 
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as TraficoCapturaDollar 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                         INNER JOIN users as u ON u.id = d.USERS_Id

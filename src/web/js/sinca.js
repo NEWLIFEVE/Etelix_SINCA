@@ -37,11 +37,24 @@ $(document).ready(function()
     removeFieldVenta();
     
     //Verifica que Existe el Balance de la Fecha Seleccionada
-    verificarFechaBalance('Ventas','Detalleingreso_FechaMes','ventas');
-    verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha','saldoCierre');
-    verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente','deposito');
+    FechaBalance();
+    
+    
+    $(this).ajaxComplete(function()
+    {
+        gentotalsBalance();
+
+    });
     
 });
+    
+    function FechaBalance()
+    {
+        verificarFechaBalance('Ventas','Detalleingreso_FechaMes');
+        verificarFechaBalance('SaldoApertura','SaldoCabina_Fecha_Apertura');
+        verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha');
+        verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente');
+    }
     
     function changeStatusNovedad()
     {
@@ -108,24 +121,26 @@ $(document).ready(function()
     
     function gentotalsBalance(){
         
-        var arrayCols = new Array('ServDirecTv','ServNextel');
-        
+        var arrayCols = new Array('ServDirecTv','ServNextel','diferencialBrightstarDirecTv','diferencialBrightstarNextel');
+        var diferente=['No Declarado','No Declarado','0.00','0.00','0.00','&nbsp;','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00',''];
         for(var i=0;i<arrayCols.length;i++){
-            totalsBalance(arrayCols[i]);
+            totalsBalance(arrayCols[i],diferente[i]);
         }
         
         
     }
     
-    function totalsBalance(columna){
+    function totalsBalance(columna,diferente){
         var suma = 0;
-        $('table.items tbody tr td#'+columna).filter(function(){return $(this).css('display') == "block" }).each(function(){ 
+        $('table.items tbody tr td#'+columna).filter(function(){ return $(this).html() != diferente }).each(function(){ 
             suma = suma + parseFloat($(this).html()) ; 
         });
         if(suma==0)
             $('div#totales table tr td#total'+columna).text('No Declarados');
         else
             $('div#totales tr td#total'+columna).text(suma);
+        
+        suma = 0;
     }
 
 
@@ -1904,7 +1919,7 @@ $(document).ready(function()
                 var select = '';
                 var arrayServicios = new Array();
                 select = $('select#Detalleingreso_Ventas option:selected').text();
-                
+
                 if(select != 'Seleccionar..'){
 
                 var arrayServicios = JSON.parse($.ajax({ type: "GET",   
@@ -1944,7 +1959,22 @@ $(document).ready(function()
 
 
                         removeFieldVenta();
-                }    
+                        
+                        var FechaBalance = $('input#Detalleingreso_FechaMes').val();
+                        if(FechaBalance != ''){
+                            var ventasExistentes = verificaVentaExistente(FechaBalance);
+                            if(ventasExistentes.length > 0)
+                            {
+                                for(var i = 0;i<ventasExistentes.length;i++){
+                                    $('form#balance-form input#Detalle_'+ventasExistentes[i]).prop('disabled', true);
+                                }
+                            }else{
+                                $('form#balance-form input,form#balance-form select').prop('disabled', false);
+                            }
+                        }
+                        
+                }  
+
               }
                     
           }); 
@@ -2014,29 +2044,41 @@ $(document).ready(function()
             return nameFormate[name];
       }
       
-      function verificarFechaBalance(vista,inputDate,etapaBalance)
+      function verificarFechaBalance(vista,inputDate)
       {
               $("input#"+inputDate).change(function () {
                   
                   var FechaBalance = '';
                   var verificar = '';
                   var mensaje = '';
+                  var dias_semana = new Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
                   
                   FechaBalance = $(this).val();
+                  var arrayFecha = FechaBalance.split("/");
+                  
+                  var NuevaFecha = arrayFecha[2]+'-'+arrayFecha[1]+'-'+(parseInt(arrayFecha[0])+ parseInt(1));
 
                   verificar = $.ajax({ type: "GET",   
-                    url: '/Detalleingreso/DynamicBalanceAnterios?fecha='+FechaBalance+'&vista='+etapaBalance,   
+                    url: '/Detalleingreso/DynamicBalanceAnterios?fecha='+FechaBalance+'&vista='+vista, 
+                    cache: true,
                     async: false,
                     succes: alert,
                   }).responseText;
+                  
+                  
+                  
                   
               if(vista == 'Ventas'){    
                   mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
               }
               
+              if(vista == 'SaldoApertura'){
+                  mensaje = 'ERROR: El Saldo de Apertura Ya Fue Declarado para la Fecha Indicada';
+              }
+              
               if(vista == 'SaldoCierre'){
                   mensaje = 'ERROR: No Existe El Balance o El Saldo de Cierre Ya Fue Declarado para la Fecha Indicada';
-              } 
+              }
               
               if(vista == 'Deposito'){
                   mensaje = 'ERROR: No Existe El Balance o El Deposito Ya Fue Declarado para la Fecha Indicada';
@@ -2049,16 +2091,50 @@ $(document).ready(function()
                       $('table#dateBalance div.row').append('<div id="errorDiv" style="color: red;max-width: 60%;float: left;text-align: left;margin-left: 2%;"></div>');
                       $('div#errorDiv').text(mensaje);
                   }
+                  
+                  $("#diaSemana").text('');
+                  $('form#balance-form input#'+inputDate).css('float','left');
                   $('form#balance-form input,form#balance-form select').prop('disabled', true);
                   $('form#balance-form input#'+inputDate).prop('disabled', false);
               }else{
+                  
+                  $('form#balance-form input#'+inputDate).css('float','none');
+                  $("#diaSemana").text(dias_semana[new Date(NuevaFecha).getDay()]);
+                  
                   $('form#balance-form input,form#balance-form select').prop('disabled', false);
                   $('form#balance-form select#Deposito_TiempoCierre').prop('disabled', true);
                   $('table#dateBalance div#errorDiv').remove();
+                  
+                  var ventasExistentes = verificaVentaExistente(FechaBalance);
+                  if(ventasExistentes.length > 0)
+                  {
+                      for(var i = 0;i<ventasExistentes.length;i++){
+                          $('form#balance-form input#Detalle_'+ventasExistentes[i]).prop('disabled', true);
+                      }
+                      $('#diaSemana').append('<div id="fieldB" style="color: #ff9900;max-width: 60%;text-align: left;">Los Campos Bloqueados Ya Fueron Registrados</div>');
+                      if(vista == 'SaldoCierre'){
+                        $('div#fieldB').remove();
+                      }
+                  }else{
+                      $('form#balance-form input,form#balance-form select').prop('disabled', false);
+                  }
               }
 
               }); 
    
+      }
+      
+      function verificaVentaExistente(FechaBalance) 
+      {
+          var arrayServicios = '';
+          
+          arrayServicios = JSON.parse($.ajax({ type: "GET",   
+            url: '/Detalleingreso/DynamicIngresosRegistrado?fechaBalance='+FechaBalance,   
+            async: false,
+            succes: alert,
+          }).responseText);
+          
+          return arrayServicios;
       }
       
     

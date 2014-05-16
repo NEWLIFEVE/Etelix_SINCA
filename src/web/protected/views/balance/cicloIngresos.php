@@ -259,7 +259,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialBrightstarClaro',
+                'id'=>'diferencialBrightstarDirecTv',
                 ),
             ),
         array(
@@ -271,7 +271,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialBrightstarClaro',
+                'id'=>'diferencialBrightstarNextel',
                 ),
             ),
         array(
@@ -581,8 +581,8 @@ function reinstallDatePicker(id, data) {
             <td id="totalConcilicacionBancaria"></td> 
             <td id="totalesDiferencialBrightstarMovistar" class="dif"></td>
             <td id="totalesDiferencialBrightstarClaro" class="dif"></td>
-            <td id="totalesDiferencialBrightstarDirecTv" class="dif"></td>
-            <td id="totalesDiferencialBrightstarNextel" class="dif"></td>
+            <td id="totaldiferencialBrightstarDirecTv" class="dif"></td>
+            <td id="totaldiferencialBrightstarNextel" class="dif"></td>
             <td>N/A</td>
             <td id="totalesDiferencialCapturaSoles" class="dif"></td>
             <td id="totalesDiferencialCapturaDollar" class="dif"></td>
