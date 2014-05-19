@@ -960,8 +960,8 @@ class BalanceController extends Controller
                 $modelCicloIngreso = new CicloIngreso;
                 $modelCicloIngreso->Fecha = $model->FechaCorrespondiente;
                 $modelCicloIngreso->CABINA_Id = $model->CABINA_Id;
-                $modelCicloIngreso->DiferencialBancario = round(($_POST['MontoBanco'.$id]-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $model->FechaCorrespondiente, $model->CABINA_Id)),2);
-                $modelCicloIngreso->ConciliacionBancaria = round(($_POST['MontoBanco'.$id]-$model->MontoDep),2);
+                $modelCicloIngreso->DiferencialBancario = round(($_POST['MontoBanco'.$id]-$model->MontoDep),2);
+                $modelCicloIngreso->ConciliacionBancaria = round(($_POST['MontoBanco'.$id]-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $model->FechaCorrespondiente, $model->CABINA_Id)),2);
                 $modelCicloIngreso->save();
                 
                 if($model->save())
@@ -969,8 +969,6 @@ class BalanceController extends Controller
                     $idBalancesActualizados.=$model->id.'A';
                     $model=Deposito::model()->find($criteria);
                     $id=$model->id;
-                    
-                    
                 }
             }
             else
