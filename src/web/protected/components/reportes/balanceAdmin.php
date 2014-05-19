@@ -125,7 +125,7 @@
                   AND d.CABINA_Id = $cabinas[$i] 
                   AND t.COMPANIA_Id = 4 AND u.tipo = 1) as ServDirecTv,
 
-                 (SELECT MontoDep as MontoDep
+                 (SELECT SUM(MontoDep) as MontoDep
                   FROM deposito 
                   WHERE FechaCorrespondiente = '$fechas[$i]' 
                   AND CABINA_Id = $cabinas[$i]) as MontoDeposito";

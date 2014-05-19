@@ -619,7 +619,6 @@ div.grid-view.detalleCuenta table.items tbody tr th,
   background: rgba(255,187,0,1) !important;
 }
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c6,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c7,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c6,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c7,
 .CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c6,
@@ -630,6 +629,7 @@ div.grid-view.detalleCuenta table.items tbody tr th,
   background: rgba(255,153,51,1) !important;
 }
 .ReportePABrighstar table.items th#reportePaBrightstar_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c7,
 .ReportePABrighstar table.items th#reportePaBrightstar_c8,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c8,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c9,

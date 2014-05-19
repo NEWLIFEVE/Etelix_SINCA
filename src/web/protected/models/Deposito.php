@@ -25,6 +25,9 @@ class Deposito extends CActiveRecord
         public $DiferencialBancario;
         public $ConciliacionBancaria;
         public $Cabina;
+        public $MontoDeposito;
+        public $NumRefDeposito;
+        public $FechaIngresoDeposito;
 
 
         public function tableName()
@@ -123,14 +126,34 @@ class Deposito extends CActiveRecord
                     $criteria->addCondition("FechaCorrespondiente<='".$mes."-31' AND FechaCorrespondiente>='".$mes."-01'");
                 
                 $pagina=Cabina::model()->count(array(
-                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
-                        'params'=>array(
-                            ':status'=>1,
-                            ':Id'=>18,
-                            ':Id2'=>19,
-                            ),
+                                'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                                'params'=>array(
+                                    ':status'=>1,
+                                    ':Id'=>18,
+                                    ':Id2'=>19,
+                                    ),
+                                ));
+
+                        $orden="FechaCorrespondiente DESC, cABINA.Nombre ASC";
+
+                if($post=='mostrarFinal' && $idBalancesActualizados==NULL) 
+                {
+                    $criteria->addCondition('CABINA_Id IS NULL');
+                    return new CActiveDataProvider($this, array(
+                           'criteria' => $criteria,
                         ));
-                $orden="FechaCorrespondiente DESC, cABINA.Nombre ASC";
+                }
+                elseif($post == 'mostrarFinal' && $idBalancesActualizados!=NULL) 
+                {
+                    $criteriaAux=new CDbCriteria;
+                    $arrayIds = explode('A',$idBalancesActualizados);
+                    $criteriaAux->addInCondition('id', $arrayIds);
+                    return new CActiveDataProvider($this, array(
+                        'criteria' => $criteriaAux,
+                        'sort' => array('defaultOrder' => 'Fecha DESC, Hora DESC'),
+                        'pagination' => array('pageSize' => $pagina),
+                        ));
+                }
                 
                 if(isset($mes) || isset($cabina))
                 {
@@ -206,7 +229,7 @@ class Deposito extends CActiveRecord
         
         public static function getDeposito($fecha,$cabina)
 	{
-            $model = self::model()->findBySql("SELECT MontoDep as MontoDep
+            $model = self::model()->findBySql("SELECT SUM(MontoDep) as MontoDep
                                                FROM deposito 
                                                WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
             if($model->MontoDep != NULL)

@@ -915,9 +915,9 @@ class BalanceController extends Controller
      */
     public function actionCheckBanco()
     {
-        $model=new Balance('search');
+        $model=new Deposito('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
+        if(isset($_GET['Deposito'])) $model->attributes=$_GET['Deposito'];
 
         $this->render('checkBanco', array(
             'model'=>$model,
@@ -934,15 +934,16 @@ class BalanceController extends Controller
         //creo el parametro de busqueda
         $criteria=new CDbCriteria();
         $criteria->addCondition('MontoBanco IS NULL'); //busco solo los registros que MontoBanco sea NULL
-        $criteria->addCondition('MontoDeposito IS NOT NULL'); //busco solo los registros que MontoDeposito no sea NULL
+        $criteria->addCondition('MontoDep IS NOT NULL'); //busco solo los registros que MontoDeposito no sea NULL
         //instancio el modelo
-        $model=Balance::model()->find($criteria);
+        $model=Deposito::model()->find($criteria);
         //asigno el id para usarlo luego
-        $id=$model->Id;
-        while($model->Id!=null)
+        $id=$model->id;
+        while($model->id!=null)
         {
             if(isset($_POST['MontoBanco'.$id]) && $_POST['MontoBanco'.$id]!=null && is_numeric($_POST['MontoBanco'.$id]))
             {
+                
                 $model->MontoBanco=$_POST['MontoBanco'.$id];
                 if($model->CABINA_Id==17)
                 {
@@ -952,20 +953,31 @@ class BalanceController extends Controller
                 {
                     $model->CUENTA_Id=4;
                 }
-                $model->DiferencialBancario=Yii::app()->format->formatDecimal($_POST['MontoBanco'.$id]-($model->FijoLocal+$model->FijoProvincia+$model->FijoLima+$model->Rural+$model->Celular+$model->LDI+$model->RecargaCelularMov+$model->RecargaFonoYaMov+$model->RecargaCelularClaro+$model->RecargaFonoClaro+$model->OtrosServicios));
-                $model->ConciliacionBancaria=Yii::app()->format->formatDecimal($_POST['MontoBanco'.$id]-$model->MontoDeposito);
+                
+                
+//                $model->DiferencialBancario=Yii::app()->format->formatDecimal($_POST['MontoBanco'.$id]-($model->FijoLocal+$model->FijoProvincia+$model->FijoLima+$model->Rural+$model->Celular+$model->LDI+$model->RecargaCelularMov+$model->RecargaFonoYaMov+$model->RecargaCelularClaro+$model->RecargaFonoClaro+$model->OtrosServicios));
+//                $model->DiferencialBancario=Yii::app()->format->formatDecimal($_POST['MontoBanco'.$id]-$model->MontoDeposito);
+                $modelCicloIngreso = new CicloIngreso;
+                $modelCicloIngreso->Fecha = $model->FechaCorrespondiente;
+                $modelCicloIngreso->CABINA_Id = $model->CABINA_Id;
+                $modelCicloIngreso->DiferencialBancario = round(($_POST['MontoBanco'.$id]-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $model->FechaCorrespondiente, $model->CABINA_Id)),2);
+                $modelCicloIngreso->ConciliacionBancaria = round(($_POST['MontoBanco'.$id]-$model->MontoDep),2);
+                $modelCicloIngreso->save();
+                
                 if($model->save())
                 {
-                    $idBalancesActualizados.=$model->Id.'A';
-                    $model=Balance::model()->find($criteria);
-                    $id=$model->Id;
+                    $idBalancesActualizados.=$model->id.'A';
+                    $model=Deposito::model()->find($criteria);
+                    $id=$model->id;
+                    
+                    
                 }
             }
             else
             {
-                $criteria->addCondition('Id > '.$id);
-                $model=Balance::model()->find($criteria);
-                $id=$model->Id;
+                $criteria->addCondition('id > '.$id);
+                $model=Deposito::model()->find($criteria);
+                $id=$model->id;
             }
         }
         $this->redirect(array('mostrarFinal','id'=>$model->id,'idBalancesActualizados'=>$idBalancesActualizados)); 

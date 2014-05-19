@@ -128,8 +128,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
                       )',
             'type'=>'text',
             ),
-		'MontoDeposito',
-		'NumRefDeposito',
+		'MontoDep',
+		'NumRef',
 		'MontoBanco',
 		array(
 			'name' => 'DiferencialBancario',
