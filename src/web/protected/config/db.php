@@ -4,7 +4,7 @@ return array(
 	'components'=>array(
 		'db'=>array(
 			'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca',
+			'connectionString'=>'mysql:host=172.16.17.190;port=3306;dbname=sinca2',
 			'emulatePrepare'=>true,
             'username'=>'manuelz',
 			'password'=>'123',

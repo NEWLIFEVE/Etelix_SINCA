@@ -1,34 +1,4 @@
 <?php
-
-$server=$_SERVER['SERVER_NAME'];
-switch ($server)
-{
-    case SERVER_NAME_PROD:
-        $server_db='localhost';
-        $sinca_db='sinca';
-        $sori_db='sori';
-        $user_db='root';
-        $user_db_sori='postgres';
-        $pass_db='Nsusfd8263';
-        break;
-    case SERVER_NAME_PRE_PROD:
-        $server_db='localhost';
-        $sinca_db='sinca';
-        $sori_db='sori';
-        $user_db='root';
-        $user_db_sori='postgres';
-        $pass_db='Nsusfd8263';
-        break;
-    case SERVER_NAME_DEV:
-    default:
-        $server_db='172.16.17.190';
-        $sinca_db='sinca2';
-        $sori_db='sori';
-        $user_db='manuelz';
-        $user_db_sori='postgres';
-        $pass_db='123';
-        break;
-}
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
