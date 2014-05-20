@@ -99,7 +99,11 @@ class NovedadController extends Controller
 					'admin',
 					'view',
 					'enviarEmail',
-					'enviarNovedad'
+					'enviarNovedad',
+                                        'estadoNovedades',
+                                        'matrizNovedad',
+                                        'matrizNovedadSemana',
+                                        'reporteConsolidado'
 					),
 				'users'=>array_merge(Users::UsuariosPorTipo(5)),
 				),
@@ -510,7 +514,11 @@ class NovedadController extends Controller
     	if($tipoUsuario==5)
     	{
     		return array(
-                array('label'=>'Administrar Novedades/Fallas', 'url'=>array('admin')),
+                array('label'=>'Administrar Fallas', 'url'=>array('admin')),
+                array('label'=>'Estado de Fallas', 'url'=>array('estadoNovedades')),
+                array('label'=>'Matriz General de Fallas', 'url'=>array('matrizNovedad')), 
+                array('label'=>'Matriz Total de TT´s por Cabina', 'url'=>array('matrizNovedadSemana')), 
+                array('label'=>'Reporte Consolidado de Fallas', 'url'=>array('reporteConsolidado')),   
                 );
     	}       
     	if($tipoUsuario==8)
