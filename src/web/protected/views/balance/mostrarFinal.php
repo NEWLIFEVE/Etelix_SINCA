@@ -113,48 +113,54 @@ or <b>=</b>) al principio de cada busqueda para indicar como deber ser realizada
 <?php 
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'balanceMostrarFinal',
-	'dataProvider'=>$model->searchEs('mostrarFinal',$_GET['idBalancesActualizados']),
+	'dataProvider'=>$model->search('mostrarFinal',NULL,NULL,$_GET['idBalancesActualizados']),
 	'columns'=>array(
+                array(
+                    'name'=>'id',
+                    'value'=>'$data->id',
+                    'type'=>'text',
+                    'headerHtmlOptions' => array('style' => 'display:none'),
+                    'htmlOptions'=>array(
+                        'id'=>'ids',
+                        'style'=>'display:none',
+                      ),
+                      'filterHtmlOptions' => array('style' => 'display:none'),
+                    ),
 		'Fecha',
 		array(
-			'name'=>'CABINA_Id',
-			'value'=>'$data->cABINA->Nombre',
-			'type'=>'text',
-			),
-             array(
-            'name'=>'TotalVentas',
-            'value'=>'Yii::app()->format->formatDecimal(
-                      $data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios
-                      )',
-            'type'=>'text',
-            ),
-		'MontoDeposito',
-		'NumRefDeposito',
+                    'name'=>'CABINA_Id',
+                    'value'=>'$data->cABINA->Nombre',
+                    'type'=>'text',
+                    ),
+                array(
+                    'name'=>'TotalVentas',
+                    'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)',
+                    'type'=>'text',
+                ),
+		'MontoDep',
+		'NumRef',
 		'MontoBanco',
 		array(
-			'name' => 'DiferencialBancario',
-			'value' => 'Yii::app()->format->formatDecimal($data->MontoBanco-Yii::app()->format->formatDecimal(
-                                    $data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios))',
-			'type' => 'text',
-			'htmlOptions'=>array(
-				'style'=>'text-align: center;',
-				'class'=>'dif',
-				'name'=>'dif',
-				),
-			),
-			array(
-				'name' => 'ConciliacionBancaria',
-				'value' => '$data->MontoBanco-Yii::app()->format->formatDecimal(
-                                            $data->MontoDeposito
-                                            )',
-				'type' => 'text',
-				'htmlOptions'=>array(
-					'style'=>'text-align: center;',
-					'class'=>'dif',
-					'name'=>'dif',
-					),
-				),
-			),
+                    'name' => 'DiferencialBancario',
+                    'value' => 'CicloIngresoModelo::getDifConBancario($data->FechaCorrespondiente,$data->CABINA_Id,1)',
+                    'type' => 'text',
+                    'htmlOptions'=>array(
+                            'style'=>'text-align: center;',
+                            'class'=>'dif',
+                            'name'=>'dif',
+                            ),
+                ),
+                array(
+                    'name' => 'ConciliacionBancaria',
+                    'value' => 'CicloIngresoModelo::getDifConBancario($data->FechaCorrespondiente,$data->CABINA_Id,2)',
+                    'type' => 'text',
+                    'htmlOptions'=>array(
+                            'style'=>'text-align: center;',
+                            'class'=>'dif',
+                            'name'=>'dif',
+                            ),
+                    ),
+                ),
 	));
 ?>
 </div>

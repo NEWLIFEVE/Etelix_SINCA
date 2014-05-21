@@ -82,7 +82,9 @@ class Detalleingreso extends CActiveRecord
         public $DifClaro;
         public $DifDirecTv;
         public $DifNextel;
-        
+        public $DifFullCarga;
+
+
         public $DifSoles;
         public $DifDollar;
         
@@ -179,6 +181,7 @@ class Detalleingreso extends CActiveRecord
                         'Ventas'=>'Ventas por Compañia',
                         'FechaBalance'=>'Fecha del Balance',
                         'FijoLocal'=>'Fijo Local',
+                        'DifFullCarga'=>'Diferencial FullCarga',
 
 
 		);
@@ -444,7 +447,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id > 0 AND u.tipo = 1;");
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id < 5 AND u.tipo = 1;");
                         if($TotalVentas->TotalVentas == NULL)
                             return '0.00';
                         else
@@ -476,19 +479,22 @@ class Detalleingreso extends CActiveRecord
                 $atributo = 'DifDirecTv';
             }elseif($compania == 3){
                 $atributo = 'DifNextel';
+            }elseif($compania == 'FullCarga'){
+                $atributo = 'DifFullCarga';
             }
 
             if($acumulado == NULL){
-                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as $atributo 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                         INNER JOIN users as u ON u.id = d.USERS_Id
                                                         WHERE d.FechaMes = '$fecha' 
                                                         AND d.CABINA_Id = $cabina 
                                                         AND t.COMPANIA_Id = $compania AND u.tipo = 1;");
-            }else{
+                
+            }elseif($acumulado != NULL && $acumulado!='FullCarga'){
                 $primero_mes = date('Y-m', strtotime($fecha)).'-01';
-                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as $atributo 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                         INNER JOIN users as u ON u.id = d.USERS_Id
@@ -496,6 +502,16 @@ class Detalleingreso extends CActiveRecord
                                                         AND d.FechaMes <= '$fecha' 
                                                         AND d.CABINA_Id = $cabina 
                                                         AND t.COMPANIA_Id = $compania AND u.tipo = 1;");
+                
+            }elseif($acumulado != NULL && $acumulado=='FullCarga'){
+                $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as $atributo 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes = '$fecha' 
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id < 5 AND u.tipo = 1;");
             }
             
             if($ServDirecTv->$atributo == NULL)
@@ -504,7 +520,7 @@ class Detalleingreso extends CActiveRecord
                 return $ServDirecTv->$atributo;
         }
         
-        public static function VentasRecargas($fecha,$cabina,$compania,$acumulado=NULL)
+        public static function VentasRecargas($fecha,$cabina,$compania=NULL,$acumulado=NULL)
         {   
             
             if($compania == 1){
@@ -515,19 +531,22 @@ class Detalleingreso extends CActiveRecord
                 $atributo = 'DifDirecTv';
             }elseif($compania == 3){
                 $atributo = 'DifNextel';
+            }elseif($compania == 'FullCarga'){
+                $atributo = 'DifFullCarga';
             }
             
             if($acumulado == NULL){
-                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as $atributo 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                         INNER JOIN users as u ON u.id = d.USERS_Id
                                                         WHERE d.FechaMes = '$fecha' 
                                                         AND d.CABINA_Id = $cabina 
                                                         AND t.COMPANIA_Id = $compania AND u.tipo = 4;");
-            }else{
+                
+            }elseif($acumulado != NULL && $acumulado!='FullCarga'){
                 $primero_mes = date('Y-m', strtotime($fecha)).'-01';
-                $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as $atributo 
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as $atributo 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                         INNER JOIN users as u ON u.id = d.USERS_Id
@@ -535,7 +554,17 @@ class Detalleingreso extends CActiveRecord
                                                         AND d.FechaMes <= '$fecha' 
                                                         AND d.CABINA_Id = $cabina 
                                                         AND t.COMPANIA_Id = $compania AND u.tipo = 4;");
-            }    
+                
+            }elseif($acumulado != NULL && $acumulado=='FullCarga'){
+                $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+                $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as $atributo 
+                                                        FROM detalleingreso as d
+                                                        INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                        INNER JOIN users as u ON u.id = d.USERS_Id
+                                                        WHERE d.FechaMes = '$fecha' 
+                                                        AND d.CABINA_Id = $cabina 
+                                                        AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id < 5 AND u.tipo = 4;");
+            } 
                 
             if($ServDirecTv->$atributo == NULL)
                 return '0.00';
@@ -547,7 +576,7 @@ class Detalleingreso extends CActiveRecord
         {   
             $primero_mes = date('Y-m', strtotime($fecha)).'-01';
             
-            if($acumulado == NULL)
+            if($acumulado == NULL){
                 $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as TraficoCapturaDollar 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
@@ -555,7 +584,7 @@ class Detalleingreso extends CActiveRecord
                                                         WHERE d.FechaMes = '$fecha' 
                                                         AND d.CABINA_Id = $cabina 
                                                         AND t.COMPANIA_Id = 5 AND u.tipo = 4;");
-            else
+            }else{
                 $ServDirecTv = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as TraficoCapturaDollar 
                                                         FROM detalleingreso as d
                                                         INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
@@ -564,7 +593,7 @@ class Detalleingreso extends CActiveRecord
                                                         AND d.FechaMes <= '$fecha'
                                                         AND d.CABINA_Id = $cabina 
                                                         AND t.COMPANIA_Id = 5 AND u.tipo = 4;");
-            
+            }
             
             if($ServDirecTv->TraficoCapturaDollar == NULL)
                 return '0.00';
@@ -572,25 +601,49 @@ class Detalleingreso extends CActiveRecord
                 return $ServDirecTv->TraficoCapturaDollar;
         }
         
+        public static function getDiferencial($fecha,$cabina,$moneda=NULL) {
+            $paridad = Paridad::getParidad($fecha);
+            $ventas = Detalleingreso::getLibroVentas("LibroVentas","trafico", $fecha,$cabina);
+            $traficoCaptura = Detalleingreso::TraficoCapturaDollar($fecha,$cabina);
+            if($moneda == NULL)
+                return round(($ventas)-($traficoCaptura*$paridad),2);
+            else
+                return round(($ventas-$traficoCaptura*$paridad)/$paridad,2);
+            
+        }
+        
+        public static function getDifFullCarga($fecha,$cabina) {
+            $dif = 0;
+            $dif = self::VentasRecargas($fecha,$cabina, 'FullCarga','FullCarga')-self::Recargas($fecha,$cabina, 'FullCarga','FullCarga');
+            return $dif;
+        }
+        
         public static function getSobrante($fecha,$cabina)
         {     
             $sum = 0;
             $paridad = Paridad::getParidad($fecha);
-            $difBanco = (Deposito::getMontoBanco($fecha,$cabina)-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $fecha,$cabina));
-            $difMov = Detalleingreso::VentasRecargas($fecha,$cabina, 1)-Detalleingreso::Recargas($fecha,$cabina, 1);
-            $difClaro = Detalleingreso::VentasRecargas($fecha,$cabina, 2)-Detalleingreso::Recargas($fecha,$cabina, 2);
-            $difDirecTv = Detalleingreso::VentasRecargas($fecha,$cabina, 4)-Detalleingreso::Recargas($fecha,$cabina, 4);
-            $difNextel = Detalleingreso::VentasRecargas($fecha,$cabina, 3)-Detalleingreso::Recargas($fecha,$cabina, 3);
-            $difCaptura = (Detalleingreso::getLibroVentas("LibroVentas","trafico", $fecha,$cabina))-(Detalleingreso::TraficoCapturaDollar($fecha,$cabina)*$paridad);
+            $difBanco = (Deposito::getMontoBanco($fecha,$cabina)-self::getLibroVentas("LibroVentas","TotalVentas", $fecha,$cabina));
+            $difMov = self::VentasRecargas($fecha,$cabina, 1)-self::Recargas($fecha,$cabina, 1);
+            $difClaro = self::VentasRecargas($fecha,$cabina, 2)-self::Recargas($fecha,$cabina, 2);
+            $difDirecTv = self::VentasRecargas($fecha,$cabina, 4)-self::Recargas($fecha,$cabina, 4);
+            $difNextel = self::VentasRecargas($fecha,$cabina, 3)-self::Recargas($fecha,$cabina, 3);
+            $difCaptura = self::getDiferencial($fecha,$cabina);
             
             $sum = ($difBanco + $difMov + $difClaro + $difDirecTv + $difNextel + $difCaptura)/$paridad;    
             
             return round($sum,2);
         }
         
+        public static function getAcumulado($fecha,$cabina) {
+            
+            return round((Balance::Acumulado($fecha,$cabina,false)-Detalleingreso::TraficoCapturaDollar($fecha,$cabina,'Completo')*Paridad::getParidad($fecha))/Paridad::getParidad($fecha),2);
+            
+        }
+        
         public static function getSobranteAcumulado($fecha,$cabina)
         {     
             $sum = 0;
+            //$sum = self::model()->findBySql("SELECT sobranteActual('$fecha',$cabina) as SobranteAcum;")->SobranteAcum;
             $paridad = Paridad::getParidad($fecha);
             $primero_mes = date('Y-m', strtotime($fecha)).'-01';
             

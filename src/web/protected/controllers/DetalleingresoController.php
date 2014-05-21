@@ -33,6 +33,7 @@ class DetalleingresoController extends Controller
                     'DynamicTipoIngreso',
                     'DynamicBalanceAnterios',
                     'DynamicIngresosRegistrado',
+                    'CreateTraficoCaptura'
                 ),
                 'users'=>Users::UsuariosPorTipo(3),
             ),
@@ -157,6 +158,87 @@ class DetalleingresoController extends Controller
                 'model'=>$model,
             ));
         }
+        
+        public function actionCreateTraficoCaptura() {
+
+            $arrayCarriers = Array();
+            $arrayCa = Array();
+            
+            if($_POST['Detalleingreso']['FechaMes']){
+                
+                $list = explode('/', $_POST['Detalleingreso']['FechaMes']);
+                $fecha = $list[2]."-".$list[1]."-".$list[0];
+                $i = 0;
+                $paridad = Paridad::getParidad($fecha);
+                $cabinasActivas = Cabina::model()->findAll('Id != 18 AND Id != 19 AND status = 1');
+
+                $logSori = LogSori::getLogSori($fecha);
+                if(count($logSori) > 1){
+                
+                    foreach ($cabinasActivas as $key => $cabinas) {
+
+                        $cabinaId = Cabina::getId($cabinas->Nombre);
+                        
+                        if($cabinas->Nombre != 'ETELIX - PERU'){
+                            $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%$cabinas->Nombre%';");
+                        }else{
+                            $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
+                        }
+                        
+                        
+                        foreach ($cabinasSori as $key2 => $value) {
+                            $arrayCa[$key][$key2] = $value->id;
+                            $arrayCarriers[$key] = implode(',', $arrayCa[$key]);
+                        }
+                        
+                        $montoSoriCaptura = BalanceSori::getTraficoCaptura($fecha,$arrayCarriers[$key]);
+                        $verificaIngreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabinaId AND TIPOINGRESO_Id = 15");
+                        
+                        if($verificaIngreso == NULL && $montoSoriCaptura != 0){
+                            $modelIngreso = new Detalleingreso;
+                            $modelIngreso->Monto = $montoSoriCaptura;
+                            $modelIngreso->FechaMes = $fecha;        
+                            $modelIngreso->CABINA_Id = $cabinaId;
+                            $modelIngreso->USERS_Id=  58;
+                            $modelIngreso->TIPOINGRESO_Id = 15;
+                            $modelIngreso->moneda = 1;
+                            if($cabinaId == 17){
+                                $modelIngreso->CUENTA_Id = 2; 
+                            }else{
+                                $modelIngreso->CUENTA_Id = 4; 
+                            }    
+                            
+                            if($modelIngreso->save()){ 
+                                $i++; 
+                                
+                                $ventasTrafico = Detalleingreso::getLibroVentas("LibroVentas","trafico", $fecha,$cabinaId);
+                                
+                                $modeCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$fecha' AND CABINA_Id = $cabinaId");
+                                if($modeCicloIngreso != NULL){
+                                    $modeCicloIngreso->DiferencialCaptura = round(($ventasTrafico-$montoSoriCaptura*$paridad)/$paridad,2);
+                                    $modeCicloIngreso->AcumuladoCaptura = Detalleingreso::getAcumulado($fecha,$cabinaId);
+                                    $modeCicloIngreso->save();
+                                }
+                                
+                                
+                            }
+                        }    
+
+                    }
+                }else{
+                    $i = -1;
+                }
+
+                if($i > 0){
+                    Yii::app()->user->setFlash('success',"Trafico de Captura (USD$) - Datos Guardados Satisfactoriamente");
+                }elseif($i == 0){
+                    Yii::app()->user->setFlash('error',"Trafico de Captura (USD$) - Ya Existen Datos para la Fecha Seleccionada");
+                }elseif($i < 0){
+                    Yii::app()->user->setFlash('error',"Trafico de Captura (USD$) - No se ha Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada");
+                }
+            }
+            $this->redirect('/balance/uploadFullCarga');
+       }
 	
         protected function performAjaxValidation($model)
         {

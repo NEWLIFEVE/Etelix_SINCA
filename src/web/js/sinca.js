@@ -39,7 +39,6 @@ $(document).ready(function()
     //Verifica que Existe el Balance de la Fecha Seleccionada
     FechaBalance();
     
-    
     $(this).ajaxComplete(function()
     {
         gentotalsBalance();
@@ -55,7 +54,7 @@ $(document).ready(function()
         verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha');
         verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente');
     }
-    
+
     function changeStatusNovedad()
     {
         
@@ -121,7 +120,7 @@ $(document).ready(function()
     
     function gentotalsBalance(){
         
-        var arrayCols = new Array('ServDirecTv','ServNextel','diferencialBrightstarDirecTv','diferencialBrightstarNextel');
+        var arrayCols = new Array('ServDirecTv','ServNextel','diferencialFullCarga','diferencialCapturaSoles','diferencialCapturaDollar','acumulado','sobrante','sobranteAcum');
         var diferente=['No Declarado','No Declarado','0.00','0.00','0.00','&nbsp;','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00',''];
         for(var i=0;i<arrayCols.length;i++){
             totalsBalance(arrayCols[i],diferente[i]);
@@ -135,11 +134,11 @@ $(document).ready(function()
         $('table.items tbody tr td#'+columna).filter(function(){ return $(this).html() != diferente }).each(function(){ 
             suma = suma + parseFloat($(this).html()) ; 
         });
-        if(suma==0)
+        if(suma==0){
             $('div#totales table tr td#total'+columna).text('No Declarados');
-        else
-            $('div#totales tr td#total'+columna).text(suma);
-        
+        }else{
+            $('div#totales tr td#total'+columna).text(suma.toFixed(2));
+        }
         suma = 0;
     }
 
@@ -2088,12 +2087,11 @@ $(document).ready(function()
                   if($('div#errorDiv').length){
 
                   }else{
-                      $('table#dateBalance div.row').append('<div id="errorDiv" style="color: red;max-width: 60%;float: left;text-align: left;margin-left: 2%;"></div>');
+                      $('table#dateBalance div.row').append('<div id="errorDiv" style="color: red;max-width: 60%;text-align: left;"></div>');
                       $('div#errorDiv').text(mensaje);
                   }
-                  
-                  $("#diaSemana").text('');
-                  $('form#balance-form input#'+inputDate).css('float','left');
+                  $("#diaSemana").text(dias_semana[new Date(NuevaFecha).getDay()]);
+                  //$('form#balance-form input#'+inputDate).css('float','left');
                   $('form#balance-form input,form#balance-form select').prop('disabled', true);
                   $('form#balance-form input#'+inputDate).prop('disabled', false);
               }else{

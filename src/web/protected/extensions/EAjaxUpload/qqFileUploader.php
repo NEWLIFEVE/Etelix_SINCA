@@ -105,6 +105,7 @@ class qqFileUploader {
      * Returns array('success'=>true) or array('error'=>'error message')
      */
     function handleUpload($uploadDirectory, $replaceOldFile = TRUE){
+        
         //Puedo escribir en el directorio
         if (!is_writable($uploadDirectory)){
             return array('error' => "Error de servidor. Permiso denegado en directorio de carga.");
@@ -128,7 +129,10 @@ class qqFileUploader {
         //Nombre del archivo
         $filename = $pathinfo['filename'];
         
-        if(stripos($filename, "m")!==FALSE && stripos($filename, "v")!==FALSE){
+        if(stripos($filename, "F")!==FALSE && stripos($filename, "ll")!==FALSE){
+            $filename="FullCarga";
+        }
+        elseif(stripos($filename, "m")!==FALSE && stripos($filename, "v")!==FALSE){
             $filename="movistar";
         }
         elseif(stripos($filename, "p")!==FALSE && stripos($filename, "u")!==FALSE
