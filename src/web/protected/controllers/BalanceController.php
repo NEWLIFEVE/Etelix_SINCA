@@ -81,7 +81,8 @@ class BalanceController extends Controller
                     'admin',
                     'EnviarEmail',
                     'update',
-                    'excel'
+                    'excel',
+                    'UploadFullCarga'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(4)),
             ),
@@ -146,7 +147,8 @@ class BalanceController extends Controller
                     'delete',
                     'EnviarEmail',
                     'test',
-                    'excel'
+                    'excel',
+                    'UploadFullCarga',
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(3)),
             ),
@@ -557,6 +559,39 @@ class BalanceController extends Controller
      * Lists all models.
      * @access public
      */
+    
+    public function actionUploadFullCarga() {
+        
+        $model = new Detalleingreso;
+        $usuario = Yii::app()->getModule('user')->user()->username;
+        
+        if($_POST){
+            Yii::import('ext.phpexcelreader.JPhpExcelReader');
+
+            $fileName1='FullCarga.xls';
+            $ruta1=Yii::getPathOfAlias('webroot.uploads').DIRECTORY_SEPARATOR.$usuario.DIRECTORY_SEPARATOR.$fileName1;
+
+            if(file_exists($ruta1)){
+                $data1=new JPhpExcelReader($ruta1);
+                $data1->saveDB("FullCarga");
+            }elseif(!file_exists($ruta1)){
+                Yii::app()->user->setFlash('error',"No hay Archivos Subidos al Sistema S I N C A.");  
+            }
+        }
+
+//        var_dump($_SESSION['cabinas']);
+//        echo '<br><br>';
+//        var_dump($_SESSION['monto']);
+//        echo '<br><br>';
+//        echo $_SESSION['fecha'][1];
+
+        
+        $this->render('uploadFullCarga', array(
+            'model'=>$model,
+        ));
+        
+    }
+    
     public function actionGuardarExcelBD()
     {
         Yii::import('ext.phpexcelreader.JPhpExcelReader');
@@ -613,7 +648,12 @@ class BalanceController extends Controller
     {
         Yii::import("ext.EAjaxUpload.qqFileUploader");
         
-        $folder=Yii::getPathOfAlias('webroot.uploads').DIRECTORY_SEPARATOR;// folder for uploaded files
+        $usuario = Yii::app()->getModule('user')->user()->username;
+        $carpetaUsuario = Yii::getPathOfAlias('webroot.uploads').DIRECTORY_SEPARATOR;
+
+        Users::createFolderUser($carpetaUsuario,$usuario);
+
+        $folder=$carpetaUsuario.$usuario.DIRECTORY_SEPARATOR;// folder for uploaded files
         $allowedExtensions=array("xls","XLS");//array("jpg","jpeg","gif","exe","mov" and etc...
         $sizeLimit=1*1024*1024;// maximum file size in bytes
         $uploader=new qqFileUploader($allowedExtensions, $sizeLimit);
@@ -902,9 +942,9 @@ class BalanceController extends Controller
      */
     public function actionMostrarFinal()
     {
-        $model=new Balance('search');
+        $model=new Deposito('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes = $_GET['Balance'];
+        if(isset($_GET['Deposito'])) $model->attributes = $_GET['Deposito'];
         $this->render('mostrarFinal', array(
             'model'=>$model,
         ));
@@ -954,22 +994,22 @@ class BalanceController extends Controller
                     $model->CUENTA_Id=4;
                 }
                 
-                
-//                $model->DiferencialBancario=Yii::app()->format->formatDecimal($_POST['MontoBanco'.$id]-($model->FijoLocal+$model->FijoProvincia+$model->FijoLima+$model->Rural+$model->Celular+$model->LDI+$model->RecargaCelularMov+$model->RecargaFonoYaMov+$model->RecargaCelularClaro+$model->RecargaFonoClaro+$model->OtrosServicios));
-//                $model->DiferencialBancario=Yii::app()->format->formatDecimal($_POST['MontoBanco'.$id]-$model->MontoDeposito);
-                $modelCicloIngreso = new CicloIngreso;
-                $modelCicloIngreso->Fecha = $model->FechaCorrespondiente;
-                $modelCicloIngreso->CABINA_Id = $model->CABINA_Id;
-                $modelCicloIngreso->DiferencialBancario = round(($_POST['MontoBanco'.$id]-$model->MontoDep),2);
-                $modelCicloIngreso->ConciliacionBancaria = round(($_POST['MontoBanco'.$id]-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $model->FechaCorrespondiente, $model->CABINA_Id)),2);
-                $modelCicloIngreso->save();
-                
-                if($model->save())
-                {
-                    $idBalancesActualizados.=$model->id.'A';
-                    $model=Deposito::model()->find($criteria);
-                    $id=$model->id;
-                }
+                $modelCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$model->FechaCorrespondiente' AND CABINA_Id = $model->CABINA_Id");
+                if($modelCicloIngreso == NULL){
+                    $modelCicloIngreso = new CicloIngresoModelo;
+                    $modelCicloIngreso->Fecha = $model->FechaCorrespondiente;
+                    $modelCicloIngreso->CABINA_Id = $model->CABINA_Id;
+                    $modelCicloIngreso->ConciliacionBancaria = round(($_POST['MontoBanco'.$id]-$model->MontoDep),2);
+                    $modelCicloIngreso->DiferencialBancario = round(($_POST['MontoBanco'.$id]-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $model->FechaCorrespondiente, $model->CABINA_Id)),2);
+                    $modelCicloIngreso->save();
+
+                    if($model->save())
+                    {
+                        $idBalancesActualizados.=$model->id.'A';
+                        $model=Deposito::model()->find($criteria);
+                        $id=$model->id;
+                    }
+                }    
             }
             else
             {

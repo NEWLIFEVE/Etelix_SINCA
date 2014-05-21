@@ -138,6 +138,13 @@ class Users extends CActiveRecord
             return $arreglo;
         }
         
+    public static function createFolderUser($dir,$field)
+    {
+        if(!file_exists($dir.$field))
+            mkdir($dir.$field);
+            
+    }
+    
     public static function TipoUsuario($id)
     {
        $sql="SELECT tipo FROM users where id = $id;";

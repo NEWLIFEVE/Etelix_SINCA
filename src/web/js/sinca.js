@@ -39,7 +39,6 @@ $(document).ready(function()
     //Verifica que Existe el Balance de la Fecha Seleccionada
     FechaBalance();
     
-    
     $(this).ajaxComplete(function()
     {
         gentotalsBalance();
@@ -55,7 +54,7 @@ $(document).ready(function()
         verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha');
         verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente');
     }
-    
+
     function changeStatusNovedad()
     {
         

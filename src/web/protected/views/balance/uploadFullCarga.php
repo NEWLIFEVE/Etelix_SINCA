@@ -1,35 +1,4 @@
 <?php
-/* @var $this BalanceController */
-/* @var $dataProvider CActiveDataProvider */
-
-$this->breadcrumbs=array(
-	'Balances',
-        $model->Id,
-);?>
-
-<script>
-    $(document).ready(function() {
-
-        //$("li.qq-upload-success span.qq-upload-file").change( window.location.href ='http://www.google.com/' );
-              
-                
-        
-        
-        
-//        function(busca, reemplaza) {
-//                var aux = reemplaza.text("span.qq-upload-file")
-//                busca.stopPropagation();
-//                if(aux.length>0)
-//                   window.location.href ='http://www.google.com/'; });
-//                }
-//        var aux = text($("ul.qq-upload-list"));
-//            
-//        if(aux.length>0)
-//            window.location.href ='http://www.google.com/'; });
-    })
-</script>
-
-<?php
 $tipoUsuario = Yii::app()->getModule('user')->user(Yii::app()->user->id)->tipo;
 $this->menu=BalanceController::controlAcceso($tipoUsuario);
 
@@ -42,7 +11,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 );*/
 ?>
 
-<h1>Cargar Archivos</h1>
+<h1>Cargar Archivos FullCarga</h1>
 
 <?php /*$this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
@@ -73,6 +42,59 @@ array(
 
 
 echo CHtml::beginForm('','post',array('name'=>'monto'));
-echo "<span class='buttons'>".CHTML::button('Grabar en Base de Datos',  array('submit' => Yii::app()->createUrl("balance/guardarExcelBD")))."</span>";
+echo "<span class='buttons'>".CHTML::button('Grabar en Base de Datos',  array('submit' => Yii::app()->createUrl("balance/UploadFullCarga")))."</span>";
 echo CHtml::endForm();
+
+
+
+echo '<br><br><br><br><br>';
+echo '<h1>Generar Trafico de Captura</h1>
+<div class="form">';
+
+
+
+$form=$this->beginWidget('CActiveForm', array(
+	'id'=>'traficoCaptura-form',
+	'enableAjaxValidation'=>true,
+        'action'=>Yii::app()->createUrl('/Detalleingreso/CreateTraficoCaptura'),
+    )
+);
+
 ?>
+
+<div class="row">
+    
+<?php  echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
+<?php   $this->widget('zii.widgets.jui.CJuiDatePicker', 
+            array(
+            'language' => 'es', 
+            'model' => $model,
+            'attribute'=>'FechaMes',
+            'options' => array(
+            'changeMonth' => 'true',//para poder cambiar mes
+            'changeYear' => 'true',//para poder cambiar año
+            'showButtonPanel' => 'false', 
+            'constrainInput' => 'false',
+            'showAnim' => 'show',
+            'minDate'=>'-7D', //fecha minima
+            'maxDate'=> "-1D", //fecha maxima
+               
+             ),
+            'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaTrafico', ),
+         ));                                                            ?>
+ <?php   echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); ?>
+ <?php   echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
+                 
+    
+</div>
+
+<?php   
+
+echo "<span class='buttons'>".CHtml::submitButton('Generar Trafico de Captura')."</span>";
+
+$this->endWidget();
+
+echo '</div>';
+
+?>
+

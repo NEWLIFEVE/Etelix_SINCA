@@ -662,7 +662,14 @@ class Spreadsheet_Excel_Reader {
             //*********** NUMEROS DE COLUMNAS EN EN EXCEL - COMIENZO **********************************
 
 
-            /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS MOVISTAR.XLS Y CLARO.XLS ****///*|*/
+            /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS FULLCARGA.XLS ***************///*|*/
+            /*|*/                                                                                 /*|*/
+            /*|*/      $columnaIngresoFecha      = 0;                                             /*|*/
+            /*|*/      $columnaCodigoBolsaCabina = 1;                                             /*|*/
+            /*|*/      $columnaIngresoMonto      = 10;                                            /*|*/
+            /*|*/      $columnaIngresoServicio   = 9;                                             /*|*/
+            /*|*/                                                                                 /*|*/
+             /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS MOVISTAR.XLS Y CLARO.XLS ****///*|*/
             /*|*/                                                                                 /*|*/
             /*|*/      $columnaFecha         = 7;                                                 /*|*/
             /*|*/      $columnaNombreCabina  = 5;                                                 /*|*/
@@ -691,7 +698,69 @@ class Spreadsheet_Excel_Reader {
             
             //=========== NUMEROS DE COLUMNAS EN EN EXCEL - FIN =======================================
             
-            if($tipo=="movistar"){
+            if($tipo=="FullCarga"){
+                
+                $_SESSION['cabinas'] = Array();
+                $_SESSION['monto'] = Array();
+                $_SESSION['fecha'] = explode(', ',$this->val(1,1,$sheet));
+                
+                $list=explode('-', $_SESSION['fecha'][1]);
+                $fechaActual = $list[2]."-".$list[1]."-".$list[0];
+                
+                $_SESSION['fecha'][1] = $fechaActual;
+                
+                $i = 0;
+                
+                
+                
+                for($row=4;$row<=$this->rowcount($sheet);$row++) {
+
+                    //*********** VALORES DE LAS COLUMNAS EN EN EXCEL - COMIENZO ***************
+
+                    
+                    $nombreCabinaActual = $this->val($row,$columnaCodigoBolsaCabina,$sheet);
+                    $cabina = Cabina::model()->find("CodigoBolsa = '$nombreCabinaActual'")->Id;
+                    
+                    $montoIngresoActual = $this->val($row,$columnaIngresoMonto,$sheet);
+                    
+                    
+                     $_SESSION['cabinas'][$i] = $cabina;
+                     $_SESSION['monto'][$i] = str_replace(',','.',$montoIngresoActual);
+                     $i++;
+                     
+//                  
+//                    //=========== VALORES DE LAS COLUMNAS EN EN EXCEL - FIN ====================
+//
+//                    $cabinaId = Cabina::model()->findBySql("SELECT Id FROM cabina where Nombre='".$nombreCabinaActual."';");
+//                    $registro = Balance::model()->findBySql("SELECT * FROM balance where Fecha='".$fechaActual."' AND CABINA_Id=".$cabinaId->Id." AND RecargaVentasMov is NULL;");
+//                    if($registro!=NULL) {
+//
+//                        $iteracionMax   = 0;
+//                        $montoAcum      = 0;
+//                        $rowNext        = $row;
+//
+//                        for($rowNext;$rowNext<=$this->rowcount($sheet);$rowNext++) {
+//
+//                            if($fechaActual == $this->val($rowNext,$columnaFecha,$sheet) 
+//                                    && $nombreCabinaActual == Yii::app()->format->formatearNombreCabina($this->val($rowNext,$columnaNombreCabina,$sheet),"brightstar")){
+//
+//                                $montoAcum += Yii::app()->format->formatExcelDecimal($this->val($rowNext,$columnaMontoMovistar,$sheet));
+//                                $iteracionMax++;
+//
+//                            }
+//
+//                            if($iteracionMax > 4){
+//                                break;
+//                            }
+//                        }
+//
+//                        $registro->RecargaVentasMov = $montoAcum;
+//                        $registro->update();
+//                    }
+                }
+            }
+            
+            elseif($tipo=="movistar"){
                 
                 for($row=7;$row<=$this->rowcount($sheet);$row++) {
 

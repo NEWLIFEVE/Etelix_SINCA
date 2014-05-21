@@ -636,7 +636,7 @@ class Detalleingreso extends CActiveRecord
         
         public static function getAcumulado($fecha,$cabina) {
             
-            return round((Balance::Acumulado($fecha,$cabina,false)-Detalleingreso::TraficoCapturaDollar($fecha,$cabina,Completo)*Paridad::getParidad($fecha))/Paridad::getParidad($fecha),2);
+            return round((Balance::Acumulado($fecha,$cabina,false)-Detalleingreso::TraficoCapturaDollar($fecha,$cabina,'Completo')*Paridad::getParidad($fecha))/Paridad::getParidad($fecha),2);
             
         }
         

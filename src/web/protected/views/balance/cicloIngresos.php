@@ -208,7 +208,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DiferencialBan',
-            'value'=>'round((Deposito::getMontoBanco($data->FechaMes, $data->CABINA_Id)-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)),2)',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->FechaMes,$data->CABINA_Id,1)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -219,7 +219,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'ConciliacionBan',
-            'value'=>'round((Deposito::getMontoBanco($data->FechaMes, $data->CABINA_Id)-Deposito::getDeposito($data->FechaMes, $data->CABINA_Id)),2)',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->FechaMes,$data->CABINA_Id,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
