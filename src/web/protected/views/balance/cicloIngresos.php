@@ -170,7 +170,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
-                'attribute'=>'FechaMes',
+                'attribute'=>'FechaMes',    
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
