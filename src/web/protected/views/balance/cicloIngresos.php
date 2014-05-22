@@ -332,7 +332,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'Acumulado',
-            'value'=>'Balance::Acumulado($data->FechaMes,$data->CABINA_Id,false)',
+            'value'=>'Detalleingreso::getAcumulado($data->FechaMes,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -366,7 +366,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'SobranteAcum',
-            'value'=>'Balance::SobranteAcumulado($data->FechaMes,$data->CABINA_Id,false)',
+            'value'=>'Detalleingreso::getSobranteAcumulado($data->FechaMes,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
