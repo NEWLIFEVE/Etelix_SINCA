@@ -197,13 +197,16 @@ class BalanceSori extends CActiveRecord
         
         public static function getTraficoCaptura($fecha,$cabina)
 	{
-            $model = self::model()->findBySql("SELECT b.revenue as Trafico
+            $model = self::model()->findBySql("SELECT SUM(b.revenue) as revenue
                                                FROM balance as b
-                                               INNER JOIN carrier as c ON c.id = b.id_carrier_customer
-                                               WHERE c.name = 'RP - $cabina' AND b.date_balance = '$fecha';");
-            if($model->Trafico != NULL)
-                return $model->Trafico;
-            else
+                                               WHERE b.date_balance = '$fecha'
+                                               AND b.id_carrier_customer IN($cabina)
+                                               AND id_destination is NULL;");
+            if($model->revenue != NULL){
+                return round($model->revenue,2);
+            }else{
                 return '0.00';
+            }    
 	}
+
 }

@@ -21,12 +21,20 @@
  * The followings are the available model relations:
  * @property Cabina $cABINA
  */
-class CicloIngreso extends CActiveRecord
+class CicloIngresoModelo extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
+    
+        public $TotalVentas;
+        public $DifFullCarga;
+        public $Paridad;
+        public $DifSoles;
+        public $DifDollar;
+
+
+        public function tableName()
 	{
 		return 'ciclo_ingreso';
 	}
@@ -129,4 +137,19 @@ class CicloIngreso extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getDifConBancario($fecha,$cabina,$variable) {
+            
+            $model = self::model()->findBySql("SELECT * FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            if($model != NULL){
+                if($variable == 1){
+                    return $model->DiferencialBancario;
+                }elseif($variable == 2){
+                    return $model->ConciliacionBancaria;
+                }
+            }else{
+                return '0';
+            }
+        }
+        
 }

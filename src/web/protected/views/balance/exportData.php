@@ -150,7 +150,7 @@ foreach ($ingresos as $key => $value) {
     $CabinaId = $value->CABINA_Id;
     $CuentaId = 4;
 //    
-    for($i=0;$i<15;$i++){
+    for($i=0;$i<  count($arrayIngresosTipo);$i++){
         // CREATE INGRESOS
         if($$arrayIngresosMonto[$i] != NULL){
             

@@ -83,7 +83,7 @@ class Deposito extends CActiveRecord
 			'CUENTA_Id' => 'Cuenta',
 			'CABINA_Id' => 'Cabina',
                         'TotalVentas' => "Total Ventas (S/.) 'A'",
-                        'DiferencialBancario' => "Diferencias Bancario (S/.) 'C-A'",
+                        'DiferencialBancario' => "Diferencial Bancario (S/.) 'C-A'",
                         'ConciliacionBancaria' => "Conciliacion Bancario (S/.) 'C-B'",
 		);
 	}
@@ -100,7 +100,7 @@ class Deposito extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($post=null,$mes=null,$cabina=null)
+	public function search($post=null,$mes=null,$cabina=null,$idBalancesActualizados=NULL)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -150,7 +150,7 @@ class Deposito extends CActiveRecord
                     $criteriaAux->addInCondition('id', $arrayIds);
                     return new CActiveDataProvider($this, array(
                         'criteria' => $criteriaAux,
-                        'sort' => array('defaultOrder' => 'Fecha DESC, Hora DESC'),
+                        'sort' => array('defaultOrder' => 'Fecha ASC, Hora ASC'),
                         'pagination' => array('pageSize' => $pagina),
                         ));
                 }

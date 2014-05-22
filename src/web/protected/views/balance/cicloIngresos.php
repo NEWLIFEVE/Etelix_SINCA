@@ -170,7 +170,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
-                'attribute'=>'FechaMes',
+                'attribute'=>'FechaMes',    
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
@@ -208,7 +208,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DiferencialBan',
-            'value'=>'round((Deposito::getMontoBanco($data->FechaMes, $data->CABINA_Id)-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)),2)',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->FechaMes,$data->CABINA_Id,1)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -219,7 +219,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'ConciliacionBan',
-            'value'=>'round((Deposito::getMontoBanco($data->FechaMes, $data->CABINA_Id)-Deposito::getDeposito($data->FechaMes, $data->CABINA_Id)),2)',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->FechaMes,$data->CABINA_Id,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
