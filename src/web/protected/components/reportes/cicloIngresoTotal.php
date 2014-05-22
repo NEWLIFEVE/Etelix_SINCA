@@ -16,7 +16,11 @@
                 $balance = cicloIngresoTotal::get_Model_Ayer($report);
             }
             
+            $acumulado_total = 0;
+            $sobranteacumulado_total = 0;
+            
             if($balance != NULL){
+                
                 
                     $table = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;'>{$name}</h2>
                         <br>
@@ -36,11 +40,14 @@
                                         <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::defineMonto($registro->Paridad).'</td>
                                         <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineMonto($registro->DifSoles,$registro->DifSoles), $type).'</td>
                                         <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineMonto($registro->DifDollar,$registro->DifDollar), $type).'</td> 
-                                        <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineMonto($registro->Acumulado,$registro->Acumulado), $type).'</td> 
+                                        <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineMonto(Balance::Acumulado($registro->Fecha,$registro->CABINA_Id,true),Balance::Acumulado($registro->Fecha,$registro->CABINA_Id,true)), $type).'</td> 
                                         <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineMonto($registro->Sobrante,$registro->Sobrante), $type).'</td>
-                                        <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineMonto($registro->SobranteAcum,$registro->SobranteAcum), $type).'</td>    
+                                        <td '.Reportes::defineStyleTd($key+2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineMonto(Balance::SobranteAcumulado($registro->Fecha,$registro->CABINA_Id,true),Balance::SobranteAcumulado($registro->Fecha,$registro->CABINA_Id,true)), $type).'</td>    
                                 </tr>
                                 ';
+                    
+                    $acumulado_total = $acumulado_total + round(Balance::Acumulado($registro->Fecha,$registro->CABINA_Id,true),2);
+                    $sobranteacumulado_total = $sobranteacumulado_total + round(Balance::SobranteAcumulado($registro->Fecha,$registro->CABINA_Id,true),2);
 
                 }
                 if($report != null){
@@ -60,9 +67,9 @@
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifSoles,$balanceTotals->DifSoles).'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->DifDollar,$balanceTotals->DifDollar).'</td> 
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Acumulado,$balanceTotals->Acumulado).'</td> 
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($acumulado_total,$acumulado_total).'</td> 
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->Sobrante,$balanceTotals->Sobrante).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($balanceTotals->SobranteAcum,$balanceTotals->SobranteAcum).'</td>   
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::defineTotals($sobranteacumulado_total,$sobranteacumulado_total).'</td>   
                                       </tr>';
                 
                                       $table.=   '</tbody>
@@ -74,6 +81,9 @@
         }else{
             
             $balance = cicloIngreso::get_ModelComplete($ids);
+            $acumulado_total = 0;
+            $sobranteacumulado_total = 0;
+            
             if($balance != NULL){
                 
                 $table = '<table class="items">'.
@@ -110,11 +120,14 @@
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifSoles,$registro->DifSoles), $type).'</td>   
                                         <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifDollar,$registro->DifDollar), $type).'</td>      
 
-                                        <td '.Reportes::defineStyleTd($key+2).' >'.Reportes::format(Reportes::defineMonto($registro->Acumulado,$registro->Acumulado), $type).'</td> 
+                                        <td '.Reportes::defineStyleTd($key+2).' >'.Reportes::format(Reportes::defineMonto(round(Balance::Acumulado($registro->Fecha,$registro->CABINA_Id,true),2),round(Balance::Acumulado($registro->Fecha,$registro->CABINA_Id,true),2)), $type).'</td> 
                                         <td '.Reportes::defineStyleTd($key+2).' >'.Reportes::format(Reportes::defineMonto($registro->Sobrante,$registro->Sobrante), $type).'</td>
-                                        <td '.Reportes::defineStyleTd($key+2).' >'.Reportes::format(Reportes::defineMonto($registro->SobranteAcum,$registro->SobranteAcum), $type).'</td>    
+                                        <td '.Reportes::defineStyleTd($key+2).' >'.Reportes::format(Reportes::defineMonto(round(Balance::SobranteAcumulado($registro->Fecha,$registro->CABINA_Id,true),2),round(Balance::SobranteAcumulado($registro->Fecha,$registro->CABINA_Id,true),2)), $type).'</td>    
                                 </tr>
                                 ';
+                    
+                    $acumulado_total = $acumulado_total + round(Balance::Acumulado($registro->Fecha,$registro->CABINA_Id,true),2);
+                    $sobranteacumulado_total = $sobranteacumulado_total + round(Balance::SobranteAcumulado($registro->Fecha,$registro->CABINA_Id,true),2);
 
                 }
                 
@@ -148,9 +161,9 @@
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::format(Reportes::defineTotals($balanceTotals->DifSoles,$registro->DifSoles), $type).'</td>   
                                         <td '.Reportes::defineStyleTd(2).'>'.Reportes::format(Reportes::defineTotals($balanceTotals->DifDollar,$registro->DifDollar), $type).'</td>      
 
-                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::format(Reportes::defineMonto($balanceTotals->Acumulado,$registro->Acumulado), $type).'</td> 
+                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::format(Reportes::defineMonto($acumulado_total,$acumulado_total), $type).'</td> 
                                         <td '.Reportes::defineStyleTd(2).' >'.Reportes::format(Reportes::defineMonto($balanceTotals->Sobrante,$registro->Sobrante), $type).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::format(Reportes::defineMonto($balanceTotals->SobranteAcum,$registro->SobranteAcum), $type).'</td>      
+                                        <td '.Reportes::defineStyleTd(2).' >'.Reportes::format(Reportes::defineMonto($sobranteacumulado_total,$sobranteacumulado_total), $type).'</td>      
                                       </tr>
                                     </tbody>
                            </table>';

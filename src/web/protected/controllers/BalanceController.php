@@ -173,7 +173,8 @@ class BalanceController extends Controller
                     'admin',
                     'EnviarEmail',
                     'update',
-                    'excel'
+                    'excel',
+                    'UploadFullCarga'
                 ),
                 'users'=>array_merge(Users::UsuariosPorTipo(2)),
             ),
@@ -457,8 +458,8 @@ class BalanceController extends Controller
 
                 if($model->save())
                 {
-                    //LogController::RegistrarLog(4,$fechaAux);
-                    $this->render('reporteDepositos', array('model'=>$model,));
+                    LogController::RegistrarLog(4,$fechaAux);
+                    $this->redirect(array('admin'));
                 }
             }
             else
@@ -1079,9 +1080,9 @@ class BalanceController extends Controller
         if($tipoUsuario==2)
         {
             return array(
-                array('label'=>'Cargar Archivo Excel','url'=>array('balance/index')),
-                array('label'=>'Ingresar Datos Brightstar','url'=>array('balance/brightstar')),
-                array('label'=>'Ingresar Datos Captura','url'=>array('balance/captura')),
+                array('label'=>'Cargar data FullCarga y SORI','url'=>array('balance/uploadFullCarga')),
+//                array('label'=>'Ingresar Datos Brightstar','url'=>array('balance/brightstar')),
+//                array('label'=>'Ingresar Datos Captura','url'=>array('balance/captura')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
                 array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
                 array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),

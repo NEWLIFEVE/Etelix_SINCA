@@ -76,7 +76,7 @@ $form=$this->beginWidget('CActiveForm', array(
             'showButtonPanel' => 'false', 
             'constrainInput' => 'false',
             'showAnim' => 'show',
-            'minDate'=>'-7D', //fecha minima
+//            'minDate'=>'-7D', //fecha minima
             'maxDate'=> "-1D", //fecha maxima
                
              ),

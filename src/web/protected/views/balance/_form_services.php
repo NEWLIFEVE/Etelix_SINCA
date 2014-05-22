@@ -92,14 +92,15 @@ Yii::import('webroot.protected.controllers.SiteController');
 
         
 <h2>VENTAS FULLCARGA</h2>        
-<table width="200" border="1" >
+<table width="400" border="1" >
   <tr>
         <td>
             <?php echo $form->labelEx($model,'Ventas'); ?>
             <?php echo $form->dropDownList($model, 'Ventas', Compania::getListCompaniaActiva(),array('empty'=>array('Seleccionar..'))); ?>
             <?php echo $form->error($model,'Ventas'); ?>
-
+        <div class="row buttons">
             <input type="button" value="Agregar" id="genVenta">
+        </div>
         </td>
   </tr>      
 </table>
