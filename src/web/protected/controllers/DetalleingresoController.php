@@ -75,6 +75,10 @@ class DetalleingresoController extends Controller
                     'createIngreso',
                     'adminIngreso',
                     'MatrizIngresos',
+                    'DynamicTipoIngreso',
+                    'DynamicBalanceAnterios',
+                    'DynamicIngresosRegistrado',
+                    'CreateTraficoCaptura'
                 ),
                 'users'=>Users::UsuariosPorTipo(2),
             ),

@@ -1,43 +1,11 @@
 <?php
-//Obtenemos el nombre del servidor actual 
-$server=gethostname();
-if($server==SERVER_NAME_PROD)
-{
-	$server=dirname(__FILE__);
-	$nuevo=explode(DIRECTORY_SEPARATOR,$server);
-	$num=count($nuevo);
-	if($nuevo[$num-3]==DIRECTORY_NAME_PRE_PROD)
-	{
-	$server_db='localhost';
-        $sinca_db='sinca';
-        $user_db='root';
-        $pass_db='Nsusfd8263';
-        $user_db_sori='postgres';
-        $sori_db='sori';
-	}
-	else
-	{
-	$server_db='localhost';
-        $sinca_db='sinca';
-        $user_db='root';
-        $pass_db='Nsusfd8263';
-        $user_db_sori='postgres';
-        $sori_db='sori';
-	}
-}
-else
-{
-	$server_db='172.16.17.190';
-    $sinca_db='sinca';
-    $user_db='manuelz';
-    $pass_db='123';
-    $user_db_sori='postgres';
-        $sori_db='sori';
-}
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Console Application',
+	'name'=>'SINCA Consola',
+	'laguage'=>'es',
+	'timeZone'=>'America/Lima',
+	'charset'=>'utf-8',
 	// preloading 'log' component
 	'preload'=>array('log'),
         'import'=>array(
@@ -97,22 +65,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		'importcsv'=>array(
 			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
-            ),
-		'db'=>array(
-			'class'=>'CDbConnection',
-			'connectionString'=>'mysql:host='.$server_db.';port=3306;dbname='.$sinca_db,
-			'emulatePrepare'=>true,
-                        'username'=>$user_db,
-			'password'=>$pass_db,
-			'charset'=>'utf8',        
-			),
-                'soriDB'=>array(
-			'class'=>'CDbConnection',
-			'connectionString'=>'pgsql:host='.$server_db.';port=5432;dbname='.$sori_db,
-			'username'=>$user_db_sori,
-			'password'=>$pass_db,
-			'charset'=>'utf8',
-			),        
+            ),        
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

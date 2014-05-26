@@ -1377,6 +1377,7 @@ class Balance extends CActiveRecord
         return $mes;
     } 
     
+
 //    public static function Acumulado($fecha,$cabina,$total)
 //    {
 //        $sum = 0;
@@ -1396,11 +1397,13 @@ class Balance extends CActiveRecord
 //        return Yii::app()->format->formatDecimal($sum->DifDollar);
 //    }
     
+
     public static function Acumulado($fecha,$cabina,$total)
     {
         $sum = 0;
         $primero_mes = date('Y-m', strtotime($fecha)).'-01';
         if($total == false)
+
             $sum = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
                                              FROM detalleingreso as d
                                              INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
@@ -1417,6 +1420,7 @@ class Balance extends CActiveRecord
                                             INNER JOIN cabina as c ON c.Id = b.CABINA_Id 
                                             WHERE (b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha') AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19 AND Id != 20);");
             
+
         return round($sum->DifDollar,2);
     }
 
