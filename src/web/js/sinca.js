@@ -2063,10 +2063,7 @@ $(document).ready(function()
                     async: false,
                     succes: alert,
                   }).responseText;
-                  
-                  
-                  
-                  
+
               if(vista == 'Ventas'){    
                   mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
               }
