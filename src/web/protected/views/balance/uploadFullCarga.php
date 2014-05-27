@@ -62,6 +62,10 @@ $form=$this->beginWidget('CActiveForm', array(
 
 ?>
 
+<table width="200" border="1" id="dateTraficoCaptura">
+  <tr>
+    <td>
+
 <div class="row">
     
 <?php  echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
@@ -87,10 +91,14 @@ $form=$this->beginWidget('CActiveForm', array(
                  
     
 </div>
+        
+    </td>
+  </tr>   
+</table>        
 
 <?php   
 
-echo "<span class='buttons'>".CHtml::submitButton('Generar Trafico de Captura')."</span>";
+echo "<span class='buttons'>".CHtml::submitButton('Generar Trafico de Captura',array('id'=>'submitTrafico'))."</span>";
 
 $this->endWidget();
 

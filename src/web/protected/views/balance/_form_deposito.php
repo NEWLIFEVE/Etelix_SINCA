@@ -31,10 +31,10 @@ Yii::import('webroot.protected.controllers.SiteController');
     {
         $(document).change( function()
         {
-            var fecha = formatDate($('#Balance_Fecha').val());
-            var fecha2 = formatDate($('#Balance_FechaDep').val());
-            $("#diaSemana").text(["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"][new Date(fecha).getDay()]);
-            $("#diaSemana2").text(["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"][new Date(fecha2).getDay()]);
+//            var fecha = formatDate($('#Balance_Fecha').val());
+//            var fecha2 = formatDate($('#Balance_FechaDep').val());
+//            $("#diaSemana").text(["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"][new Date(fecha).getDay()]);
+//            $("#diaSemana2").text(["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"][new Date(fecha2).getDay()]);
             $('#IdCheckBox ').click(function()
             {
                 estadoDropDown();
@@ -83,7 +83,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             'minDate'=>'-7D', //fecha minima
                             'maxDate'=>"-1D", //fecha maxima 'readonly'=>'readonly'
                             ),
-                        'htmlOptions'=>array('readonly'=>'readonly','style'=>'float: left;'),
+                        'htmlOptions'=>array('readonly'=>'readonly'),
                         )
                     );
                     echo CHtml::label('', 'diaSemana',array(

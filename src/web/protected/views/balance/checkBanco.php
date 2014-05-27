@@ -37,7 +37,7 @@ $('.search-form form').submit(function(){
 echo CHtml::beginForm('','post',array('name'=>'monto', 'id'=>'banco'));
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid',
-    'dataProvider'=>$model->search($_POST,$mes,$cabina),
+    'dataProvider'=>$model->search('MontoBanco',$mes,$cabina),
     'columns'=>array(
             'Fecha',
     'Hora',

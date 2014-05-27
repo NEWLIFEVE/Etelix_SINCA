@@ -79,7 +79,7 @@ $this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
                 <td>
                     <div class="row">
                             <?php echo $form->labelEx($model,'TIPOINGRESO_Id'); ?>
-                            <?php echo $form->dropDownList($model, 'TIPOINGRESO_Id', TipoIngresos::getListTipoGIngreso(),array('empty'=>array('Seleccionar..','Nuevo..'))); ?>
+                            <?php echo $form->dropDownList($model, 'TIPOINGRESO_Id', TipoIngresos::getListTipoIngreso(),array('empty'=>array('Seleccionar..','Nuevo..'))); ?>
                             <?php echo $form->error($model,'TIPOINGRESO_Id'); ?>
                     </div>
                 </td>

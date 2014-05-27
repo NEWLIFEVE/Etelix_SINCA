@@ -21,7 +21,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 <div id="error" class="ventana_flotante3"></div>
 <h1>
   <span class="enviar">
-    Administrar Balances
+    Administrar Ingresos
   </span>
   <span id="botones">
     <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoNew" />
@@ -50,7 +50,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
       'rel'=>'total',
       'name'=>'vista',
       ),
-    'dataProvider'=>$model->searchBalance($_POST,$mes,$cabina),
+    'dataProvider'=>$model->search($_POST,$mes,$cabina),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
@@ -79,12 +79,12 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         ),
         /*  Fin Cabinas Ocultas */
       array(
-        'name'=>'FechaMes',
+        'name'=>'Fecha',
         'header'=>'Fecha',  
-        'id'=>'FechaMes',
+        'id'=>'Fecha',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
           'model'=>$model,
-          'attribute'=>'FechaMes',
+          'attribute'=>'Fecha',
           'language'=>'ja',
           'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
           'htmlOptions'=>array(
@@ -119,7 +119,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         ),
       array(
         'name'=>'SaldoAp',
-        'value'=>'SaldoCabina::getSaldoAp($data->FechaMes, $data->CABINA_Id)',
+        'value'=>'$data->SaldoAp',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'aperturaMov',
@@ -127,7 +127,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         ),
       array(
             'name'=>'Trafico',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'trafico',
@@ -135,7 +135,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ), 
       array(
             'name'=>'ServMov',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaMov',
@@ -143,7 +143,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
         array(
             'name'=>'ServClaro',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaClaro',
@@ -151,7 +151,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
         array(
             'name'=>'ServDirecTv',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'ServDirecTv',
@@ -159,7 +159,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
         array(
             'name'=>'ServNextel',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'ServNextel',
@@ -167,7 +167,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
       array(
         'name'=>'MontoDeposito',
-        'value'=>'Deposito::getDeposito($data->FechaMes, $data->CABINA_Id)',
+        'value'=>'Deposito::getDeposito($data->Fecha, $data->CABINA_Id)',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'montoDeposito',
@@ -220,12 +220,12 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         ),
         /*  Fin Cabinas Ocultas */
       array(
-        'name'=>'FechaMes',
+        'name'=>'Fecha',
         'header'=>'Fecha',  
-        'id'=>'FechaMes',
+        'id'=>'Fecha',
         'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
           'model'=>$model,
-          'attribute'=>'FechaMes',
+          'attribute'=>'Fecha',
           'language'=>'ja',
           'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
           'htmlOptions'=>array(
@@ -260,7 +260,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         ),
       array(
         'name'=>'SaldoAp',
-        'value'=>'SaldoCabina::getSaldoAp($data->FechaMes, $data->CABINA_Id)',
+        'value'=>'$data->SaldoAp',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'aperturaMov',
@@ -268,7 +268,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
         ),
       array(
             'name'=>'Trafico',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'trafico',
@@ -276,7 +276,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ), 
       array(
             'name'=>'ServMov',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaMov',
@@ -284,7 +284,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
         array(
             'name'=>'ServClaro',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaClaro',
@@ -292,7 +292,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
         array(
             'name'=>'ServDirecTv',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'ServDirecTv',
@@ -300,7 +300,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
         array(
             'name'=>'ServNextel',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'ServNextel',
@@ -308,7 +308,7 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
             ),
       array(
         'name'=>'MontoDeposito',
-        'value'=>'Deposito::getDeposito($data->FechaMes, $data->CABINA_Id)',
+        'value'=>'Deposito::getDeposito($data->Fecha, $data->CABINA_Id)',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'montoDeposito',

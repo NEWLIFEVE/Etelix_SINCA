@@ -1299,3 +1299,6 @@ table#ventas tr td, table.items tr td{
     text-align: center;
 }
 
+table.detail-view th {
+    width: 200px !important;
+}

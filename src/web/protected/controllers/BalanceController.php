@@ -376,38 +376,6 @@ class BalanceController extends Controller
                 Yii::app()->user->setFlash('error', "ERROR: La Fecha Indicada ya Posee los Ingresos Declarados");
                 $this->redirect(array('createLlamadas'));
             }
-
-            
-//            $list=explode('/', $_POST['Balance']['Fecha']);
-//            $fecha=$list[2]."-".$list[1]."-".$list[0];
-//            $cabina=Yii::app()->getModule('user')->user()->CABINA_Id;
-//            $model=Balance::model()->find('Fecha=:fecha AND SaldoApMov>=0 AND SaldoApClaro>=0 AND CABINA_Id=:cabina', array(':fecha'=>$fecha,':cabina'=>$cabina));
-//            if($model->Id!=null)
-//            {
-//                $model->FijoLocal=Utility::ComaPorPunto($_POST['Balance']['FijoLocal']);
-//                $model->FijoProvincia=Utility::ComaPorPunto($_POST['Balance']['FijoProvincia']);
-//                $model->FijoLima=Utility::ComaPorPunto($_POST['Balance']['FijoLima']);
-//                $model->Rural=Utility::ComaPorPunto($_POST['Balance']['Rural']);
-//                $model->Celular=Utility::ComaPorPunto($_POST['Balance']['Celular']);
-//                $model->LDI=Utility::ComaPorPunto($_POST['Balance']['LDI']);
-//                $model->RecargaCelularMov=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularMov']);
-//                $model->RecargaFonoYaMov=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoYaMov']);
-//                $model->OtrosServicios=Utility::ComaPorPunto($_POST['Balance']['OtrosServicios']);
-//                $model->RecargaCelularClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaCelularClaro']);
-//                $model->RecargaFonoClaro=Utility::ComaPorPunto($_POST['Balance']['RecargaFonoClaro']);                    
-//                $model->FechaIngresoLlamadas=date("Y-m-d H:i:s");
-//                if($model->save())
-//                {
-//                    LogController::RegistrarLog(3,$fecha);
-//                    $this->redirect(array('view','id'=>$model->Id));
-//                }
-//            }
-//            else
-//            {
-//                Yii::app()->user->setFlash('error', "ERROR: No Existe Balance para la Fecha Indicada");
-//                $model=new Balance;
-//                $model->scenario='declararApertura';
-//            }
         }
         
         $this->render('createLlamadas', array(
@@ -459,7 +427,7 @@ class BalanceController extends Controller
                 if($model->save())
                 {
                     LogController::RegistrarLog(4,$fechaAux);
-                    $this->redirect(array('admin'));
+                    $this->redirect(array('view','id'=>SaldoCabina::getIdFromDate($fechaAux2,$cabina)));
                 }
             }
             else
@@ -469,43 +437,6 @@ class BalanceController extends Controller
                 $this->redirect(array('createDeposito'));
             }
             
-
-            //BUSCO EN BD EL REGISTRO QUE COINCIDA CON LA DATA
-//            $sql="SELECT id 
-//                  FROM balance 
-//                  WHERE Fecha=:fecha AND CABINA_Id=:cabina";
-//            $connection=Yii::app()->db;
-//            $command=$connection->createCommand($sql);
-//            $command->bindValue(":cabina", $model->CABINA_Id, PDO::PARAM_INT); // bind de parametro cabina del user
-//            $command->bindValue(":fecha", $fechaAux, PDO::PARAM_STR); //bind del parametro fecha dada por el usuario          
-//            $id=$command->query(); // execute a query SQL
-//
-//            //BUSCO LOS VALORES Y EL REGISTRO A ACTUALIZAR
-//            $post=$model->findByPk($id->readColumn(0));
-//            if(is_null($post->Id))
-//            {
-//                Yii::app()->user->setFlash('error', "ERROR: No Existe Balance para la Fecha Indicada");
-//            }
-//            else
-//            {
-//                $post->FechaIngresoDeposito=$model->FechaIngresoDeposito;
-//                $post->MontoDeposito=$model->MontoDeposito;
-//                $post->NumRefDeposito=$model->NumRefDeposito;
-//                $post->FechaDep=$fechaAux2;
-//                $post->HoraDep=Utility::ChangeTime($model->HoraDep);
-//                $post->Depositante=$model->Depositante;
-//                $post->TiempoCierre=$model->TiempoCierre;
-//                
-//                if($model->CABINA_Id==17) $post->CUENTA_Id=2;
-//                else $post->CUENTA_Id=4;
-//                
-//                if($post->save())
-//                {
-//                    // ALMACENAR EL LOG
-//                    LogController::RegistrarLog(4,$fechaAux);
-//                    $this->redirect(array('view', 'id'=>$post->Id));
-//                }
-//            }
         }
 
         $this->render('createDeposito', array(
@@ -778,9 +709,9 @@ class BalanceController extends Controller
      */
     public function actionAdmin()
     {
-        $model=new Detalleingreso('search');
+        $model=new SaldoCabina('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Detalleingreso'])) $model->attributes=$_GET['Detalleingreso'];
+        if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
 
         $this->render('admin', array(
             'model'=>$model,
@@ -956,7 +887,7 @@ class BalanceController extends Controller
      */
     public function actionCheckBanco()
     {
-        $model=new Deposito('search');
+        $model = new Deposito('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Deposito'])) $model->attributes=$_GET['Deposito'];
 
@@ -1031,7 +962,7 @@ class BalanceController extends Controller
      */
     public function loadModel($id)
     {
-        $model=Balance::model()->findByPk($id);
+        $model=  SaldoCabina::model()->findByPk($id);
         if ($model===null) throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }

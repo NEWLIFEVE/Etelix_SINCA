@@ -17,6 +17,37 @@
  */
 class SaldoCabina extends CActiveRecord
 {
+    
+        public $OtrosServicios;
+        public $Trafico;
+        public $RecargaMovistar;
+        public $RecargaClaro;
+        public $TotalVentas;
+        
+        public $ServMov;
+        public $ServClaro;
+        public $ServDirecTv;
+        public $ServNextel;
+        
+        public $SaldoCierre;
+        public $MontoDeposito;
+        public $DiferencialBan;
+        public $ConciliacionBan;
+        public $Paridad;
+        
+        public $FijoLocal;
+        public $FijoProvincia;
+        public $FijoLima;
+        public $Rural;
+        public $Celular;
+        public $LDI;
+        
+        public $RecargaCelularMov;
+        public $RecargaFonoYaMov;
+        public $RecargaCelularClaro;
+        public $RecargaFonoClaro;
+    
+    
 	/**
 	 * @return string the associated database table name
 	 */
@@ -67,6 +98,37 @@ class SaldoCabina extends CActiveRecord
 			'Fecha' => 'Fecha del Balance',
 			'CABINA_Id' => 'Cabina',
 			'COMPANIA_Id' => 'Compania',
+                        'ServMov' => 'Servicios Movistar (S/.)',
+                        'ServClaro' => 'Servicios Claro (S/.)',
+                        'ServDirecTv' => 'Servicios DirecTv (S/.)',
+                        'ServNextel' => 'Servicios Nextel (S/.)',
+                        'Trafico' => 'Trafico (S/.)',
+                        'OtrosServicios' => 'Otros Servicios (S/.)',
+                        'TotalVentas' => 'Total Ventas (S/.)',
+                        'SaldoAp' => 'Saldo Apertura (S/.)',
+                        'SaldoCierre' => 'Saldo Cierre (S/.)',
+                        'MontoDeposito' => 'Monto Deposito (S/.)',
+                        'DiferencialBan' => 'Diferencial Bancario (S/.)',
+                        'ConciliacionBan' => 'Consiliacion Bancaria (S/.)',
+                        'Paridad'=>'Paridad Cambiaria (S/.|$)',
+                        'DifMov'=>'Diferencial Movistar (S/.)',
+                        'DifClaro'=>'Diferencial Claro (S/.)',
+                        'DifDirecTv'=>'Diferencial DirecTv (S/.)',
+                        'DifNextel'=>'Diferencial Nextel (S/.)',
+                        'DifSoles'=>"Diferencial Captura Soles (S/.)",
+                        'DifDollar'=>"Diferencial Captura Dollar (USD $)",
+                        'Acumulado'=>'Acumulado Dif. Captura (USD $)',
+                        'Sobrante'=>'Sobrante (USD $)',
+                        'SobranteAcum'=>'Sobrante Acumulado (USD $)',
+                        'Ventas'=>'Ventas por Compañia',
+                        'FechaBalance'=>'Fecha del Balance',
+                        'DifFullCarga'=>'Diferencial FullCarga',
+                        'FijoLocal'=>'Fijo Local (S/.)',
+                        'FijoProvincia'=>'Fijo Provincia (S/.)',
+                        'FijoLima'=>'Fijo Lima (S/.)',
+                        'Celular'=>'Celular (S/.)',
+                        'Rural'=>'Rural (S/.)',
+                        'LDI'=>'LDI (S/.)',
 		);
 	}
 
@@ -82,21 +144,70 @@ class SaldoCabina extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($post=null,$mes=null,$cabina=null)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('Id',$this->Id);
-		$criteria->compare('SaldoAp',$this->SaldoAp,true);
+		$criteria->compare('SUM(SaldoAp)',$this->SaldoAp,true);
 		$criteria->compare('SaldoCierre',$this->SaldoCierre,true);
 		$criteria->compare('Fecha',$this->Fecha,true);
 		$criteria->compare('CABINA_Id',$this->CABINA_Id);
 		$criteria->compare('COMPANIA_Id',$this->COMPANIA_Id);
+                $criteria->select = "SUM(SaldoAp) as SaldoAp, CABINA_Id, Fecha";
+                $criteria->with =array('cABINA');
+                $criteria->addCondition("cABINA.status = 1");
+                $criteria->group='Fecha,CABINA_Id';
+                
+                $pagina=Cabina::model()->count(array(
+                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                        'params'=>array(
+                            ':status'=>1,
+                            ':Id'=>18,
+                            ':Id2'=>19,
+                            ),
+                        ));
+		$orden="Fecha DESC, cABINA.Nombre ASC";
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
+                        'pagination'=>array('pageSize'=>$pagina),
+		));
+	}
+        
+        public function disable($post=null,$mes=null,$cabina=null)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('Id',$this->Id);
+		$criteria->compare('SUM(SaldoAp)',$this->SaldoAp,true);
+		$criteria->compare('SaldoCierre',$this->SaldoCierre,true);
+		$criteria->compare('Fecha',$this->Fecha,true);
+		$criteria->compare('CABINA_Id',$this->CABINA_Id);
+		$criteria->compare('COMPANIA_Id',$this->COMPANIA_Id);
+                $criteria->with =array('cABINA');
+                $criteria->addCondition("cABINA.status = 0");
+                $criteria->group='Fecha,CABINA_Id';
+                
+                $pagina=Cabina::model()->count(array(
+                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                        'params'=>array(
+                            ':status'=>0,
+                            ':Id'=>18,
+                            ':Id2'=>19,
+                            ),
+                        ));
+		$orden="Fecha DESC, cABINA.Nombre ASC";
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'sort'=>array('defaultOrder'=>$orden),
+                        'pagination'=>array('pageSize'=>$pagina),
 		));
 	}
 
@@ -121,4 +232,22 @@ class SaldoCabina extends CActiveRecord
             else
                 return '0.00';
 	}
+        
+        public static function getSaldoCierre($fecha,$cabina)
+	{
+            $model = self::model()->findBySql("SELECT SUM(SaldoCierre) as SaldoCierre
+                                               FROM saldo_cabina 
+                                               WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            if($model->SaldoCierre != NULL)
+                return $model->SaldoCierre;
+            else
+                return '0.00';
+	}
+        
+        public static function getIdFromDate($fecha,$cabina) {
+            
+            $model = self::model()->find("Fecha = '$fecha' AND CABINA_Id = $cabina");
+            return $model->Id;
+            
+        }
 }

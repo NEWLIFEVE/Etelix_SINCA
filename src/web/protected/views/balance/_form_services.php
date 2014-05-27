@@ -70,14 +70,14 @@ Yii::import('webroot.protected.controllers.SiteController');
 ?>
                 <tr>
                 <td>  	
-                    <label for="Detalleingreso_'+arrayServicios[i]+'"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
+                    <label for="Detalle_<?php echo $value->Nombre;?>"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
                     <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="text">
                 </td>
 <?php  
             }else{
 ?>                
                 <td>  	
-                    <label for="Detalleingreso_'+arrayServicios[i]+'"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
+                    <label for="Detalle_<?php echo $value->Nombre;?>"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
                     <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="text">
                 </td>
                 </tr>
@@ -91,6 +91,19 @@ Yii::import('webroot.protected.controllers.SiteController');
 </table>
 
         
+<h2>MISCELANEOS</h2>        
+<table width="400" border="1" >
+  <tr>
+        <td>
+
+            <label for="Detalle_OtrosServicios">Otros Servicios (S/.)</label>
+            <input id="Detalle_OtrosServicios" name="Detalle[OtrosServicios]" type="text">
+            
+        </td>
+  </tr>      
+</table>
+<br>
+
 <h2>VENTAS FULLCARGA</h2>        
 <table width="400" border="1" >
   <tr>

@@ -53,6 +53,7 @@ $(document).ready(function()
         verificarFechaBalance('SaldoApertura','SaldoCabina_Fecha_Apertura');
         verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha');
         verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente');
+        verificarFechaTraficoCaptura('TraficoCaptura','FechaTrafico');
     }
 
     function changeStatusNovedad()
@@ -198,7 +199,7 @@ $(document).ready(function()
                                     async: true,
                                     success:  function (response) {
                                             //Abrimos una Ventana (sin recargarla pagina) al controlador "Site", que a su ves llama a la funcion actionExcel().
-                                             setTimeout("window.open('/site/excel?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name+"','_top');",0);
+                                             setTimeout("window.open('/site/excel?fechas="+fechas+"&cabinas="+cabinas+"&table="+gridview+"&name="+name+"','_top');",500);
 
                                              //Mostramos los Mensajes y despues de la Descarga se Ocultan Automaticamente.
                                              $("#complete").html("Archivo Excel Generado... !!");
@@ -2043,6 +2044,50 @@ $(document).ready(function()
             return nameFormate[name];
       }
       
+      function verificarFechaTraficoCaptura(vista,inputDate)
+      {
+              $("input#"+inputDate).change(function () {
+                  
+                  var FechaBalance = '';
+                  var verificar = '';
+                  var mensaje = '';
+                  var dias_semana = new Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+                  
+                  FechaBalance = $(this).val();
+                  var arrayFecha = FechaBalance.split("/");
+                  
+                  var NuevaFecha = arrayFecha[2]+'-'+arrayFecha[1]+'-'+(parseInt(arrayFecha[0])+ parseInt(1));
+
+                  verificar = JSON.parse($.ajax({ type: "GET",   
+                    url: '/Detalleingreso/DynamicTraficoCaptura?fecha='+FechaBalance+'&vista='+vista, 
+                    cache: true,
+                    async: false,
+                    succes: alert,
+                  }).responseText);
+
+              if(vista == 'TraficoCaptura'){    
+                  mensaje = 'ERROR: No se han Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada';
+                  $("#diaSemana").text(dias_semana[new Date(NuevaFecha).getDay()]);
+              }
+              
+              if(verificar.length < 2){
+                  if($('div#errorDiv').length){
+
+                  }else{
+                      $('table#dateTraficoCaptura div.row').append('<div id="errorDiv" style="color: red;max-width: 100%;text-align: left;"></div>');
+                      $('div#errorDiv').text(mensaje);
+                  }
+                  $('form#traficoCaptura-form input#submitTrafico').prop('disabled', true);
+              }else{
+
+                  $('form#traficoCaptura-form input#submitTrafico').prop('disabled', false);
+                  $('table#dateTraficoCaptura div#errorDiv').remove();
+              }
+
+              }); 
+   
+      }
+      
       function verificarFechaBalance(vista,inputDate)
       {
               $("input#"+inputDate).change(function () {
@@ -2063,6 +2108,8 @@ $(document).ready(function()
                     async: false,
                     succes: alert,
                   }).responseText;
+                  
+                  
 
               if(vista == 'Ventas'){    
                   mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
@@ -2073,16 +2120,27 @@ $(document).ready(function()
               }
               
               if(vista == 'SaldoCierre'){
-                  mensaje = 'ERROR: No Existe El Balance o El Saldo de Cierre Ya Fue Declarado para la Fecha Indicada';
+                  if(verificar == 'false'){
+                    mensaje = 'ERROR:El Saldo de Cierre Ya Fue Declarado para la Fecha Indicada';  
+                  }
+                  if(verificar == 'EmptyBalance'){
+                    mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
+                  }
               }
               
               if(vista == 'Deposito'){
-                  mensaje = 'ERROR: No Existe El Balance o El Deposito Ya Fue Declarado para la Fecha Indicada';
+                  if(verificar == 'false'){
+                    mensaje = 'ERROR: El Deposito Ya Fue Declarado para la Fecha Indicada';  
+                  }
+                  if(verificar == 'EmptyBalance'){
+                    mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
+                  }
               } 
               
-              if(verificar == 'false'){
-                  if($('div#errorDiv').length){
-
+              if(verificar == 'false' || verificar == 'EmptyBalance'){
+                  
+                  if($('div#errorDiv').length && mensaje != ''){
+                      $('div#errorDiv').text(mensaje);
                   }else{
                       $('table#dateBalance div.row').append('<div id="errorDiv" style="color: red;max-width: 60%;text-align: left;"></div>');
                       $('div#errorDiv').text(mensaje);
@@ -2091,7 +2149,8 @@ $(document).ready(function()
                   //$('form#balance-form input#'+inputDate).css('float','left');
                   $('form#balance-form input,form#balance-form select').prop('disabled', true);
                   $('form#balance-form input#'+inputDate).prop('disabled', false);
-              }else{
+              }
+              if(verificar == 'true'){
                   
                   $('form#balance-form input#'+inputDate).css('float','none');
                   $("#diaSemana").text(dias_semana[new Date(NuevaFecha).getDay()]);
@@ -2106,7 +2165,9 @@ $(document).ready(function()
                       for(var i = 0;i<ventasExistentes.length;i++){
                           $('form#balance-form input#Detalle_'+ventasExistentes[i]).prop('disabled', true);
                       }
-                      $('#diaSemana').append('<div id="fieldB" style="color: #ff9900;max-width: 60%;text-align: left;">Los Campos Bloqueados Ya Fueron Registrados</div>');
+                      if(vista == 'Ventas'){   
+                        $('#diaSemana').append('<div id="fieldB" style="color: #ff9900;max-width: 60%;text-align: left;">Los Campos Bloqueados Ya Fueron Registrados</div>');
+                      }
                       if(vista == 'SaldoCierre'){
                         $('div#fieldB').remove();
                       }

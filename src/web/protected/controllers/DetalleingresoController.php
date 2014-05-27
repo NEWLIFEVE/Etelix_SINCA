@@ -33,7 +33,8 @@ class DetalleingresoController extends Controller
                     'DynamicTipoIngreso',
                     'DynamicBalanceAnterios',
                     'DynamicIngresosRegistrado',
-                    'CreateTraficoCaptura'
+                    'CreateTraficoCaptura',
+                    'DynamicTraficoCaptura'
                 ),
                 'users'=>Users::UsuariosPorTipo(3),
             ),
@@ -189,7 +190,6 @@ class DetalleingresoController extends Controller
                             $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
                         }
                         
-                        
                         foreach ($cabinasSori as $key2 => $value) {
                             $arrayCa[$key][$key2] = $value->id;
                             $arrayCarriers[$key] = implode(',', $arrayCa[$key]);
@@ -274,6 +274,22 @@ class DetalleingresoController extends Controller
             echo json_encode($arrayTipoIn);
         }
         
+        public function actionDynamicTraficoCaptura()
+        {
+            $arrayRutaIE = Array();
+            $list = explode('/', $_GET['fecha']);
+            $fecha = $list[2]."-".$list[1]."-".$list[0];
+            $vista = $_GET['vista'];
+            
+            $data = LogSori::getLogSori($fecha);
+            
+            foreach ($data as $key => $value) {
+                $arrayRutaIE[$key] = $value->id_log_action;
+            }
+            
+            echo json_encode($arrayRutaIE);
+        }
+        
         public function actionDynamicIngresosRegistrado()
         {
             $dataIn = NULL;
@@ -324,7 +340,7 @@ class DetalleingresoController extends Controller
                         $data = 'true';
                     }
                 }else{
-                    $data = NULL;
+                    $data = 'EmptyBalance';
                 }
             }
             if($etapaBalance == 'Deposito'){
@@ -337,14 +353,16 @@ class DetalleingresoController extends Controller
                         $data = 'true';
                     }
                 }else{
-                    $data = NULL;
+                    $data = 'EmptyBalance';
                 }
             }
             
             
-            if($data != NULL) {
+            if($data != NULL && $data != 'EmptyBalance') {
                 echo 'true';
-            }else{
+            }elseif($data != NULL && $data == 'EmptyBalance'){
+                echo 'EmptyBalance';
+            }elseif($data == NULL){
                 echo 'false';
             }
 

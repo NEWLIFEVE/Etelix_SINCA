@@ -49,7 +49,7 @@ Yii::import('webroot.protected.controllers.SiteController');
                     'minDate'=>'-7D', //fecha minima
                     'maxDate'=> "-0D", //fecha maxima
                      ),
-                     'htmlOptions'=>array('readonly'=>'readonly','style'=>'float: left',),
+                     'htmlOptions'=>array('readonly'=>'readonly',),
                 )); 
                     echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
                 ?>

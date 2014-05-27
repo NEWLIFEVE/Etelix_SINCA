@@ -136,6 +136,11 @@ class Deposito extends CActiveRecord
 
                         $orden="FechaCorrespondiente DESC, cABINA.Nombre ASC";
 
+                 if($post=='MontoBanco') 
+                {
+                    $criteria->addCondition("MontoBanco IS NULL");
+                }        
+                        
                 if($post=='mostrarFinal' && $idBalancesActualizados==NULL) 
                 {
                     $criteria->addCondition('CABINA_Id IS NULL');

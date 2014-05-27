@@ -178,7 +178,7 @@ class Detalleingreso extends CActiveRecord
                         'Acumulado'=>'Acumulado Dif. Captura (USD $)',
                         'Sobrante'=>'Sobrante (USD $)',
                         'SobranteAcum'=>'Sobrante Acumulado (USD $)',
-                        'Ventas'=>'Ventas por Compañia',
+                        'Ventas'=>'Seleccionar Compañia',
                         'FechaBalance'=>'Fecha del Balance',
                         'FijoLocal'=>'Fijo Local',
                         'DifFullCarga'=>'Diferencial FullCarga',
@@ -361,7 +361,51 @@ class Detalleingreso extends CActiveRecord
         
         public static function getLibroVentas($vista,$atributo,$fecha,$cabinaId,$tipoIngreso=NULL)
 	{
-		if($vista == 'LibroVentas')
+            
+                if($vista == 'Servicios')
+                {
+                        $ingreso = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as Monto
+                                                             FROM detalleingreso as d
+                                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                                             WHERE d.FechaMes = '$fecha' 
+                                                             AND d.CABINA_Id = $cabinaId 
+                                                             AND t.Nombre = '$atributo';");
+                        if($ingreso->Monto == NULL)
+                            return '0.00';
+                        else
+                            return $ingreso->Monto;
+
+                    
+                }elseif($vista == 'Llamadas')
+                {
+                    if($atributo != 'TotalLlamadas'){
+                        $ingreso = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as Monto
+                                                             FROM detalleingreso as d
+                                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                                             WHERE d.FechaMes = '$fecha' 
+                                                             AND d.CABINA_Id = $cabinaId 
+                                                             AND t.Nombre = '$atributo';");
+                        if($ingreso->Monto == NULL)
+                            return '0.00';
+                        else
+                            return $ingreso->Monto;
+                    }else{
+                        $ingreso = self::model()->findBySql("SELECT SUM(IFNULL(d.Monto,0)) as Monto
+                                                             FROM detalleingreso as d
+                                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                                             WHERE d.FechaMes = '$fecha' 
+                                                             AND d.CABINA_Id = $cabinaId 
+                                                             AND t.COMPANIA_Id = 5 AND t.Clase = 1;");
+                        if($ingreso->Monto == NULL)
+                            return '0.00';
+                        else
+                            return $ingreso->Monto;
+                    }
+                    
+                }elseif($vista == 'LibroVentas')
                 {
                     if($atributo == 'servicio'){
                         $ingreso = self::model()->findBySql("SELECT d.Monto 
@@ -382,7 +426,7 @@ class Detalleingreso extends CActiveRecord
                                                              INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                              INNER JOIN users as u ON u.id = d.USERS_Id
                                                              WHERE d.FechaMes = '$fecha' 
-                                                             AND d.CABINA_Id = $cabinaId AND t.COMPANIA_Id = 5 AND u.tipo = 1;");
+                                                             AND d.CABINA_Id = $cabinaId AND t.COMPANIA_Id = 5 AND t.Clase = 1;");
                         if($trafico->Trafico == NULL)
                             return '0.00';
                         else
@@ -395,7 +439,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 1 AND u.tipo = 1;");
+                                                                AND t.COMPANIA_Id = 1 AND t.Clase = 1;");
                         if($ServMov->ServMov == NULL)
                             return '0.00';
                         else
@@ -408,7 +452,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 2 AND u.tipo = 1;");
+                                                                AND t.COMPANIA_Id = 2 AND t.Clase = 1;");
                         if($ServClaro->ServClaro == NULL)
                             return '0.00';
                         else
@@ -421,7 +465,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 3 AND u.tipo = 1;");
+                                                                AND t.COMPANIA_Id = 3 AND t.Clase = 1;");
                         if($ServNextel->ServNextel == NULL)
                             return '0.00';
                         else
@@ -434,7 +478,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 4 AND u.tipo = 1;");
+                                                                AND t.COMPANIA_Id = 4 AND t.Clase = 1;");
                         if($ServDirecTv->ServDirecTv == NULL)
                             return '0.00';
                         else
@@ -447,7 +491,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id < 5 AND u.tipo = 1;");
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id < 5 AND t.Clase = 1;");
                         if($TotalVentas->TotalVentas == NULL)
                             return '0.00';
                         else
@@ -697,10 +741,50 @@ class Detalleingreso extends CActiveRecord
                 'Celular'=>'Celular (S/.)',
                 'Rural'=>'Rural (S/.)',
                 'LDI'=>'LDI (S/.)',
+                
+                //Movistar
+               'RecargaCelularMov'=>'Recarga Celular Movistar (S/.)',
+               'RecargaFonoYaMov'=>'Recarga Fono Ya Movistar (S/.)',
+               'RecargasVentasMov'=>'Recargas Ventas Movistar (S/.)',
+               'CobrosMov'=>'Cobros Movistar (S/.)',
+               'Linea147-hp'=>'Linea 147-hp (S/.)',
+
+                //Claro
+               'RecargaCelularClaro'=>'Recarga Celular Claro (S/.)',
+               'RecargaFonoClaro'=>'Recarga Fono Claro (S/.)',
+               'RecargasVentasClaro'=>'Recargas Ventas Claro (S/.)',
+               'TarjetaClaro'=>'Tarjeta Claro (S/.)',
+               'CobrosClaro'=>'Cobros Claro (S/.)',
+                
+                //Nextel
+               'RecargaNextelCelulares'=>'Recarga Nextel Celulares (S/.)',
+               'TarjetaNextel'=>'Tarjeta Nextel (S/.)',
+                
+                //DirecTv
+               'RecargaDirectv'=>'Recarga Directv (S/.)',
+               'CobrosDirectv'=>'Cobros Directv (S/.)',
+                
+                //IDT
+               'PeruGlobal'=>'Peru Global (S/.)',
+               'NumeroUNO'=>'Numero UNO (S/.)',
+                
+                //Convergia
+               'HablaSympatico'=>'Habla Sympatico (S/.)',
+               'LaRendidora'=>'La Rendidora (S/.)',
+                
+                //Sedapal
+               'ServicioAgua'=>'Servicio de Agua (S/.)',
+                
+                //Pago Efecto
+               'PeriodicoElComercio'=>'Periodico El Comercio (S/.)',
+                
+                //Juego
+               'Juega8'=>'Juega8 (S/.)',
 
                 
             );
              
             return $nameFormate[$name];
         }
+        
 }
