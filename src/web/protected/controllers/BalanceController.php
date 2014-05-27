@@ -43,6 +43,7 @@ class BalanceController extends Controller
             array('allow', //Lo que vera el socio
                 'actions'=>array(
                     'index',
+                    'view',
                     'controlPanel',
                     'admin',
                     'reporteLibroVentas',

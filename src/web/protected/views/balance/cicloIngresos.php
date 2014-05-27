@@ -492,7 +492,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'Acumulado',
-            'value'=>'Balance::Acumulado($data->Fecha,$data->CABINA_Id,false)',
+            'value'=>'Yii::app()->format->formatDecimal(Balance::Acumulado($data->Fecha,$data->CABINA_Id,false))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -502,7 +502,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'Sobrante',
-            'value'=>'Balance::sobrante($data->Fecha,$data->CABINA_Id,"inactivas")',
+            'value'=>'Yii::app()->format->formatDecimal(Balance::sobrante($data->Fecha,$data->CABINA_Id,"inactivas"))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -512,7 +512,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'SobranteAcum',
-            'value'=>'Balance::SobranteAcumulado($data->Fecha,$data->CABINA_Id,false)',
+            'value'=>'Yii::app()->format->formatDecimal(Balance::SobranteAcumulado($data->Fecha,$data->CABINA_Id,false))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',

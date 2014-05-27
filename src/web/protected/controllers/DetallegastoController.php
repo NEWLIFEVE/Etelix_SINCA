@@ -107,10 +107,7 @@ class DetallegastoController extends Controller {
                 'actions'=>array(
                     'index',
                     'view',
-                    'create',
-                    'update',
                     'admin',
-                    'delete',
                     'dynamicUsers',
                     'dynamicCuenta',
                     'dynamicCuentaEmployee',
@@ -121,7 +118,6 @@ class DetallegastoController extends Controller {
                     'matrizGastos',
                     'matrizGastosEvolucion',
                     'filtrarPorStatus',
-                    'updateGasto',
                     'mostrarFinal',
                     'matrizNomina',
                 ),
