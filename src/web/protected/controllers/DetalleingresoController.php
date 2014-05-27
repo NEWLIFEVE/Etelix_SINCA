@@ -223,8 +223,7 @@ class DetalleingresoController extends Controller
                                     $modeCicloIngreso->AcumuladoCaptura = Detalleingreso::getAcumulado($fecha,$cabinaId);
                                     $modeCicloIngreso->save();
                                 }
-                                
-                                
+
                             }
                         }    
 

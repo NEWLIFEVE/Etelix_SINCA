@@ -2051,12 +2051,12 @@ $(document).ready(function()
                   var FechaBalance = '';
                   var verificar = '';
                   var mensaje = '';
-                  var dias_semana = new Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+                  var dias_semana = new Array("","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
                   
                   FechaBalance = $(this).val();
                   var arrayFecha = FechaBalance.split("/");
                   
-                  var NuevaFecha = arrayFecha[2]+'-'+arrayFecha[1]+'-'+(parseInt(arrayFecha[0])+ parseInt(1));
+                  var NuevaFecha = arrayFecha[2]+'-'+arrayFecha[1]+'-'+arrayFecha[0];
 
                   verificar = JSON.parse($.ajax({ type: "GET",   
                     url: '/Detalleingreso/DynamicTraficoCaptura?fecha='+FechaBalance+'&vista='+vista, 
@@ -2067,7 +2067,7 @@ $(document).ready(function()
 
               if(vista == 'TraficoCaptura'){    
                   mensaje = 'ERROR: No se han Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada';
-                  $("#diaSemana").text(dias_semana[new Date(NuevaFecha).getDay()]);
+                  $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
               }
               
               if(verificar.length < 2){
@@ -2095,12 +2095,12 @@ $(document).ready(function()
                   var FechaBalance = '';
                   var verificar = '';
                   var mensaje = '';
-                  var dias_semana = new Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+                  var dias_semana = new Array("","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
                   
                   FechaBalance = $(this).val();
                   var arrayFecha = FechaBalance.split("/");
                   
-                  var NuevaFecha = arrayFecha[2]+'-'+arrayFecha[1]+'-'+(parseInt(arrayFecha[0])+ parseInt(1));
+                  var NuevaFecha = arrayFecha[2]+'-'+arrayFecha[1]+'-'+arrayFecha[0];
 
                   verificar = $.ajax({ type: "GET",   
                     url: '/Detalleingreso/DynamicBalanceAnterios?fecha='+FechaBalance+'&vista='+vista, 
@@ -2145,7 +2145,7 @@ $(document).ready(function()
                       $('table#dateBalance div.row').append('<div id="errorDiv" style="color: red;max-width: 60%;text-align: left;"></div>');
                       $('div#errorDiv').text(mensaje);
                   }
-                  $("#diaSemana").text(dias_semana[new Date(NuevaFecha).getDay()]);
+                  $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
                   //$('form#balance-form input#'+inputDate).css('float','left');
                   $('form#balance-form input,form#balance-form select').prop('disabled', true);
                   $('form#balance-form input#'+inputDate).prop('disabled', false);
@@ -2153,7 +2153,7 @@ $(document).ready(function()
               if(verificar == 'true'){
                   
                   $('form#balance-form input#'+inputDate).css('float','none');
-                  $("#diaSemana").text(dias_semana[new Date(NuevaFecha).getDay()]);
+                  $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
                   
                   $('form#balance-form input,form#balance-form select').prop('disabled', false);
                   $('form#balance-form select#Deposito_TiempoCierre').prop('disabled', true);

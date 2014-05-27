@@ -737,9 +737,9 @@ class BalanceController extends Controller
      */
     public function actionCicloIngresos()
     {
-        $model=new Detalleingreso('search');
+        $model=new SaldoCabina('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Detalleingreso'])) $model->attributes=$_GET['Detalleingreso'];
+        if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
 
         $this->render('cicloIngresos', array(
             'model'=>$model,
@@ -817,9 +817,9 @@ class BalanceController extends Controller
      */
     public function actionReporteLibroVentas()
     {
-        $model=new Detalleingreso('search');
+        $model=new SaldoCabina('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Detalleingreso'])) $model->attributes=$_GET['Balance'];
+        if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
 
         $this->render('reporteLibroVentas', array(
             'model'=>$model,
@@ -1001,7 +1001,7 @@ class BalanceController extends Controller
                 array('label'=>'Declarar Inicio Jornada','url'=>array('log/createInicioJornada')),
                 array('label'=>'Declarar Saldo Apertura','url'=>array('balance/createApertura')),
                 array('label'=>'Declarar Ventas','url'=>array('balance/createLlamadas')),
-                array('label'=>'Declarar Deposito','url'=>array('balance/createDeposito')),
+                array('label'=>'Declarar Deposito','url'=>array('deposito/createDeposito')),
                 array('label'=>'Declarar Saldo Cierre','url'=>array('balance/createCierre')),
                 array('label'=>'Declarar Fin Jornada','url'=>array('log/createFinJornada')),
                 array('label'=>'Mostrar Balances de Cabina','url'=>array('balance/admin')),
@@ -1036,7 +1036,7 @@ class BalanceController extends Controller
                 array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
                 array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
                 array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
                 array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
                 array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),

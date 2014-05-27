@@ -147,7 +147,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         'rel'=>'total',
         'name'=>'vista',
         ),
-    'dataProvider'=>$model->searchBalance($_POST,$mes,$cabina),
+    'dataProvider'=>$model->search($_POST,$mes,$cabina),
     'afterAjaxUpdate'=>'reinstallDatePicker',
     'filter'=>$model,
     'columns'=>array(
@@ -163,14 +163,14 @@ $this->widget('zii.widgets.grid.CGridView',array(
           'filterHtmlOptions' => array('style' => 'display:none'),
         ),
         array(
-            'name'=>'FechaMes',
+            'name'=>'Fecha',
             'header'=>'Fecha',
             'htmlOptions'=>array(
                 'id'=>'fecha',
                 ),
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
-                'attribute'=>'FechaMes',    
+                'attribute'=>'Fecha',    
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
@@ -199,7 +199,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'TotalVentas',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center;  width:150px;',
@@ -208,7 +208,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DiferencialBan',
-            'value'=>'CicloIngresoModelo::getDifConBancario($data->FechaMes,$data->CABINA_Id,1)',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->Fecha,$data->CABINA_Id,1)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -219,7 +219,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'ConciliacionBan',
-            'value'=>'CicloIngresoModelo::getDifConBancario($data->FechaMes,$data->CABINA_Id,2)',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->Fecha,$data->CABINA_Id,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -230,7 +230,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifFullCarga',
-            'value'=>'Detalleingreso::getDifFullCarga($data->FechaMes, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getDifFullCarga($data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style' => '',
@@ -287,7 +287,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
 //            ),
         array(
             'name'=>'Paridad',
-            'value'=>'Paridad::getParidad($data->FechaMes)',
+            'value'=>'Paridad::getParidad($data->Fecha)',
             'type'=>'text',
             'headerHtmlOptions' => array('background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
@@ -297,7 +297,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifSoles',
-            'value'=>'Detalleingreso::getDiferencial($data->FechaMes,$data->CABINA_Id)',
+            'value'=>'Detalleingreso::getDiferencial($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -308,7 +308,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifDollar',
-            'value'=>'Detalleingreso::getDiferencial($data->FechaMes,$data->CABINA_Id,dollar)',
+            'value'=>'Detalleingreso::getDiferencial($data->Fecha,$data->CABINA_Id,dollar)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
@@ -321,7 +321,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
 
 
         array('name'=>'Acumulado',
-            'value'=>'Detalleingreso::getAcumulado($data->FechaMes,$data->CABINA_Id)',
+            'value'=>'Detalleingreso::getAcumulado($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
@@ -332,7 +332,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'Acumulado',
-            'value'=>'Detalleingreso::getAcumulado($data->FechaMes,$data->CABINA_Id,false)',
+            'value'=>'Detalleingreso::getAcumulado($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -343,7 +343,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         
         array('name'=>'Sobrante',
-            'value'=>'Detalleingreso::getSobrante($data->FechaMes,$data->CABINA_Id)',
+            'value'=>'Detalleingreso::getSobrante($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
@@ -355,7 +355,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
 
         array('name'=>'SobranteAcum',
-            'value'=>'Detalleingreso::getSobranteAcumulado($data->FechaMes,$data->CABINA_Id)',
+            'value'=>'Detalleingreso::getSobranteAcumulado($data->Fecha,$data->CABINA_Id)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
@@ -366,7 +366,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'SobranteAcum',
-            'value'=>'Detalleingreso::getSobranteAcumulado($data->FechaMes,$data->CABINA_Id,false)',
+            'value'=>'Detalleingreso::getSobranteAcumulado($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',

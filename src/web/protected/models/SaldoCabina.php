@@ -47,7 +47,20 @@ class SaldoCabina extends CActiveRecord
         public $RecargaCelularClaro;
         public $RecargaFonoClaro;
     
-    
+        public $DifMov;
+        public $DifClaro;
+        public $DifDirecTv;
+        public $DifNextel;
+        public $DifFullCarga;
+
+
+        public $DifSoles;
+        public $DifDollar;
+        
+        public $TraficoCapturaDollar;
+        public $Acumulado;
+        public $Sobrante;
+        public $SobranteAcum;
 	/**
 	 * @return string the associated database table name
 	 */
