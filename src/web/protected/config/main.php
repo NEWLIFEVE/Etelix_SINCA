@@ -18,9 +18,10 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+                'application.controllers.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
-        'application.modules.user.components.PHPExcel.*',
+                'application.modules.user.components.PHPExcel.*',
 		'application.components.reportes.*'
 		),
 	'modules'=>array(

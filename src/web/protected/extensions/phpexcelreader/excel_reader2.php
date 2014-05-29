@@ -702,12 +702,15 @@ class Spreadsheet_Excel_Reader {
                 
                 $_SESSION['cabinas'] = Array();
                 $_SESSION['monto'] = Array();
-                $_SESSION['fecha'] = explode(', ',$this->val(1,1,$sheet));
+                $_SESSION['servicio'] = Array();
+                $_SESSION['fecha'] = '';
                 
-                $list=explode('-', $_SESSION['fecha'][1]);
+                $fechaCapturada = $this->val(1,1,$sheet);
+                $fechaExtraida = explode(', ',$fechaCapturada);
+                $list=explode('-', $fechaExtraida[1]);
                 $fechaActual = $list[2]."-".$list[1]."-".$list[0];
                 
-                $_SESSION['fecha'][1] = $fechaActual;
+                $_SESSION['fecha'] = $fechaActual;
                 
                 $i = 0;
                 
@@ -721,11 +724,14 @@ class Spreadsheet_Excel_Reader {
                     $nombreCabinaActual = $this->val($row,$columnaCodigoBolsaCabina,$sheet);
                     $cabina = Cabina::model()->find("CodigoBolsa = '$nombreCabinaActual'")->Id;
                     
-                    $montoIngresoActual = $this->val($row,$columnaIngresoMonto,$sheet);
+                    $montoIngresoActual = str_replace(',','.',$this->val($row,$columnaIngresoMonto,$sheet));
+                    $tipoIngresoActual = str_replace(' ', '',$this->val($row,$columnaIngresoServicio,$sheet));
+                    $ingresos = TipoIngresos::getIdIngresoFullCarga($tipoIngresoActual);
                     
                     
                      $_SESSION['cabinas'][$i] = $cabina;
-                     $_SESSION['monto'][$i] = str_replace(',','.',$montoIngresoActual);
+                     $_SESSION['monto'][$i] = $montoIngresoActual;
+                     $_SESSION['servicio'][$i] = $ingresos;
                      $i++;
                      
 //                  
@@ -758,6 +764,8 @@ class Spreadsheet_Excel_Reader {
 //                        $registro->update();
 //                    }
                 }
+ 
+                
             }
             
             elseif($tipo=="movistar"){

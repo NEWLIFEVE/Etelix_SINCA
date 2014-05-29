@@ -41,7 +41,7 @@ class libroVenta extends Reportes
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->ServDirecTv), $type).'</td>
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->ServNextel), $type).'</td>    
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->OtrosServicios), $type).'</td>
-                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->TotalVentas), $type).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->TotalVentas+$registro->OtrosServicios), $type).'</td>
                         </tr>';
                 
                 $traficoTotal = $traficoTotal +$registro->Trafico;
@@ -50,7 +50,7 @@ class libroVenta extends Reportes
                 $servDirecTvTotal = $servDirecTvTotal + $registro->ServDirecTv;
                 $servNextelTotal = $servNextelTotal + $registro->ServNextel;        
                 $otrosServTotal = $otrosServTotal + $registro->OtrosServicios;
-                $ventasTotal = $ventasTotal + $registro->TotalVentas;
+                $ventasTotal = $ventasTotal + ($registro->TotalVentas+$registro->OtrosServicios);
             }
 
 //            $balanceTotals=self::get_ModelTotal($ids);
@@ -94,7 +94,7 @@ class libroVenta extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 6 AND u.tipo = 1) as OtrosServicios,
+                  AND t.COMPANIA_Id = 6 AND t.Clase = 1) as OtrosServicios,
                   
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -102,7 +102,7 @@ class libroVenta extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 5 AND u.tipo = 1) as Trafico,
+                  AND t.COMPANIA_Id = 5 AND t.Clase = 1) as Trafico,
 
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -110,7 +110,7 @@ class libroVenta extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 1 AND u.tipo = 1) as ServMov,
+                  AND t.COMPANIA_Id = 1 AND t.Clase = 1) as ServMov,
 
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -118,7 +118,7 @@ class libroVenta extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 2 AND u.tipo = 1) as ServClaro,
+                  AND t.COMPANIA_Id = 2 AND t.Clase = 1) as ServClaro,
                   
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -126,7 +126,7 @@ class libroVenta extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 3 AND u.tipo = 1) as ServNextel,
+                  AND t.COMPANIA_Id = 3 AND t.Clase = 1) as ServNextel,
                   
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -134,7 +134,7 @@ class libroVenta extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 4 AND u.tipo = 1) as ServDirecTv,
+                  AND t.COMPANIA_Id = 4 AND t.Clase = 1) as ServDirecTv,
 
                  (SELECT SUM(d.Monto) as TotalVentas 
                   FROM detalleingreso as d
@@ -142,7 +142,7 @@ class libroVenta extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id > 0 AND u.tipo = 1) as TotalVentas";
+                  AND t.COMPANIA_Id > 0 AND t.Clase = 1) as TotalVentas";
             
             $model[$i] = Detalleingreso::model()->findBySql($sql);
         }

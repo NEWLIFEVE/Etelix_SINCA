@@ -229,7 +229,7 @@ class BancoController extends Controller
         if($tipoUsuario == 4)
         {
             return array(  
-                array('label' => 'Verificar Depositos Bancarios', 'url' => array('balance/checkBanco')),
+                array('label' => 'Verificar Depositos Bancarios', 'url' => array('deposito/checkBanco')),
                 array('label' => 'Declarar Saldo Apertura', 'url' => array('banco/create')),
                 array('label' => 'Administrar Banco', 'url' => array('banco/admin')),
                 array('label' => 'Declarar Gastos por Transferencia', 'url' => array('detallegasto/create')),

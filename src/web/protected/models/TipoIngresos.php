@@ -130,4 +130,21 @@ class TipoIngresos extends CActiveRecord
 			}
 		}
         }
+        
+        public static function getIdIngresoFullCarga($nombre){
+            
+		if($nombre != null)
+		{
+			$model=self::model()->find('Nombre=:nombre',array(':nombre'=>$nombre));
+			if($model == null)
+			{
+				return $nombre;
+				
+			}
+			else
+			{
+				return $model->Id;
+			}
+		}
+        }
 }

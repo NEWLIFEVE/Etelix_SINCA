@@ -2,18 +2,18 @@
 error_reporting(E_ALL & ~E_NOTICE | E_STRICT);
 Yii::import('webroot.protected.controllers.LogController');
 
-class DepositoController extends Controller
+class SaldocabinaController extends Controller
 {
         public $layout = '//layouts/column2';
-    
+        
 	public function actionIndex()
 	{
 		$this->render('index');
 	}
 
 	// Uncomment the following methods and override them if needed
-
-        public function filters()
+	
+	public function filters()
         {
             return array(
                 'accessControl', // perform access control for CRUD operations
@@ -62,29 +62,7 @@ class DepositoController extends Controller
                         'captura',
                         'checkBanco',
                         'mostrarFinal',
-                        'updateMonto',
-                        'reporteLibroVentas',
-                        'reporteDepositos',
-                        'reporteCaptura',
-                        'reporteBrightstar',
-                        'index',
-                        'guardarExcelBD',
-                        'upload',
-                        'pop',
-                        'view',
-                        'viewall',
-                        'cicloIngresos',
-                        'cicloIngresosTotal',
-                        'controlPanel',
-                        'subirCaptura',
-                        'admin',
-                        'EnviarEmail',
-                        'update',
-                        'excel',
-                        'UploadFullCarga',
-                        'CheckBanco',
-                        'UpdateMonto',
-                        'MostrarFinal',
+                        'UploadFullCarga'
                     ),
                     'users'=>array_merge(Users::UsuariosPorTipo(4)),
                 ),
@@ -94,23 +72,6 @@ class DepositoController extends Controller
                         'captura',
                         'checkBanco',
                         'mostrarFinal',
-                        'updateMonto',
-                        'reporteLibroVentas',
-                        'reporteDepositos',
-                        'reporteCaptura',
-                        'reporteBrightstar',
-                        'index',
-                        'guardarExcelBD',
-                        'upload',
-                        'pop',
-                        'view',
-                        'viewall',
-                        'cicloIngresos',
-                        'cicloIngresosTotal',
-                        'controlPanel',
-                        'subirCaptura',
-                        'admin',
-                        'EnviarEmail',
                         'update',
                         'excel'
                     ),
@@ -118,21 +79,11 @@ class DepositoController extends Controller
                 ),
                 array('allow',
                     'actions'=>array(
-                        'reporteLibroVentas',
-                        'reporteDepositos',
+                        'CreateApertura',
+                        'CreateCierre',
                         'reporteCaptura',
-                        'reporteBrightstar',
-                        'index',
-                        'guardarExcelBD',
-                        'upload',
-                        'pop',
-                        'view',
-                        'viewall',
-                        'create',
-                        'update',
-                        'CheckBanco',
-                        'UpdateMonto',
-                        'MostrarFinal',
+                        'excel',
+                        'UploadFullCarga',
                     ),
                     'users'=>array_merge(Users::UsuariosPorTipo(3)),
                 ),
@@ -142,39 +93,15 @@ class DepositoController extends Controller
                         'reporteDepositos',
                         'reporteCaptura',
                         'captura',
-                        'reporteBrightstar',
-                        'brightstar',
-                        'index',
-                        'guardarExcelBD',
-                        'upload',
-                        'pop',
-                        'view',
-                        'viewall',
-                        'cicloIngresos',
-                        'cicloIngresosTotal',
-                        'controlPanel',
-                        'subirCaptura',
-                        'admin',
-                        'EnviarEmail',
-                        'update',
-                        'excel',
                         'UploadFullCarga'
                     ),
                     'users'=>array_merge(Users::UsuariosPorTipo(2)),
                 ),
                 array('allow', // allow all users to perform 'index' and 'view' actions
                     'actions'=>array(
-                        'view',
-                        'viewall',
-                        'createApertura',
-                        'createDeposito',
-                        'createLlamadas',
-                        'createCierre',
-                        'createAperturaEsp',
-                        'admin',
-                        'EnviarEmail',
-                        'excel',
-                        'CheckBanco',
+                        'CreateApertura',
+                        'CreateCierre',
+
                     ),
                     'users'=>array_merge(Users::UsuariosPorTipo(1)),
                 ),
@@ -184,158 +111,76 @@ class DepositoController extends Controller
             );
         }
         
-        public function actionCreateDeposito()
+        public function actionCreateApertura()
         {
-            $model=new Deposito;
-
-            // Uncomment the following line if AJAX validation is needed
+            $model=new SaldoCabina;
+            $model->scenario='declararApertura';
             $this->performAjaxValidation($model);
-
-            if(isset($_POST['Deposito']))
+            if(isset($_POST['SaldoCabina']))
             {
+                $cabina=Yii::app()->getModule('user')->user()->CABINA_Id;
+                $list=explode('/', $_POST['SaldoCabina']['Fecha']);
+                $fecha = $list[2]."-".$list[1]."-".$list[0];
 
-                $list=explode('/', $_POST['Deposito']['Fecha']);
-                $fechaAux=$list[2]."-".$list[1]."-".$list[0];
-
-                $list2=explode('/', $_POST['Deposito']['FechaCorrespondiente']);
-                $fechaAux2=$list2[2]."-".$list2[1]."-".$list2[0];
-
-                $cabina = Yii::app()->getModule('user')->user()->CABINA_Id; 
-
-                $balanceExistente = SaldoCabina::model()->find('Fecha=:fecha AND CABINA_Id=:cabina',array(':fecha'=>$fechaAux2,':cabina'=>$cabina));
+                $balanceExistente = SaldoCabina::model()->find('Fecha=:fecha AND CABINA_Id=:cabina',array(':fecha'=>$fecha,':cabina'=>$cabina));
                 if($balanceExistente!=null)
                 {
-                    $model->attributes = $_POST['Deposito'];
-
-                    $model->MontoDep = str_replace(',','.',$_POST['Deposito']['MontoDep']);
-                    $model->Fecha = $fechaAux;
-                    $model->FechaCorrespondiente = $fechaAux2;
-                    $model->Hora=Utility::ChangeTime($_POST['Deposito']['Hora']);
+                    Yii::app()->user->setFlash('error', "ERROR: Esta Cabina ya tiene un Registro de Apertura para el dia Seleccionado");
+                    $this->redirect(array('createApertura'));
+                }
+                else
+                {
+                    $model->Fecha = $fecha;
+                    $model->SaldoAp = str_replace(',','.',$_POST['SaldoCabina']['SaldoAp']);      
+                    $model->COMPANIA_Id = 12;
                     $model->CABINA_Id = $cabina;
-
-                    if(isset($_POST['Deposito']['TiempoCierre']) && $_POST['Deposito']['TiempoCierre'] != '')
-                        $model->TiempoCierre = $_POST['Deposito']['TiempoCierre'];
-
-                    if($cabina == 17) 
-                        $model->CUENTA_Id=2;
-                    else 
-                        $model->CUENTA_Id=4;
-
                     if($model->save())
                     {
-                        LogController::RegistrarLog(4,$fechaAux);
-                        $this->redirect(array('balance/view','id'=>SaldoCabina::getIdFromDate($fechaAux2,$cabina)));
+                        LogController::RegistrarLog(2,$fecha);
+                        $this->redirect(array('/detalleingreso/adminBalance'));
                     }
                 }
-                else
-                {
-                    Yii::app()->user->setFlash('error', "ERROR: No Existe Deposito para la Fecha Indicada");
-                    $model=new Deposito;
-                    $this->redirect(array('createDeposito'));
-                }
-
             }
-
-            $this->render('createDeposito', array(
+            $this->render('createApertura', array(
                 'model'=>$model,
             ));
         }
         
-        public function actionReporteDepositos()
+        public function actionCreateCierre()
         {
-            $model=new Deposito('search');
-            $model->unsetAttributes();  // clear any default values
-            if(isset($_GET['Deposito'])) $model->attributes=$_GET['Deposito'];
-
-            $this->render('reporteDepositos', array(
-                'model'=>$model,
-            ));
-        }
-        
-        public function actionCheckBanco()
-        {
-            $model = new Deposito('search');
-            $model->unsetAttributes();  // clear any default values
-            if(isset($_GET['Deposito'])) $model->attributes=$_GET['Deposito'];
-
-            $this->render('checkBanco', array(
-                'model'=>$model,
-            ));
-        }
-        
-        public function actionUpdateMonto()
-        {
-            $idBalancesActualizados="";
-
-            //creo el parametro de busqueda
-            $criteria=new CDbCriteria();
-            $criteria->addCondition('MontoBanco IS NULL'); //busco solo los registros que MontoBanco sea NULL
-            $criteria->addCondition('MontoDep IS NOT NULL'); //busco solo los registros que MontoDeposito no sea NULL
-            //instancio el modelo
-            $model=Deposito::model()->find($criteria);
-            //asigno el id para usarlo luego
-            $id=$model->id;
-            while($model->id!=null)
+            $model=new SaldoCabina;
+            $model->scenario='declararApertura';
+            $this->performAjaxValidation($model);
+            if(isset($_POST['SaldoCabina']) && $_POST['SaldoCabina']['SaldoCierre']!=NULL)
             {
-                if(isset($_POST['MontoBanco'.$id]) && $_POST['MontoBanco'.$id]!=null && is_numeric($_POST['MontoBanco'.$id]))
+                $list=explode('/', $_POST['SaldoCabina']['Fecha']);
+                $fecha=$list[2]."-".$list[1]."-".$list[0];
+                $cabina=Yii::app()->getModule('user')->user()->CABINA_Id;
+                $SaldoApertura=SaldoCabina::model()->find('Fecha=:fecha AND SaldoAp>=0 AND CABINA_Id=:cabina', array(':fecha'=>$fecha,':cabina'=>$cabina));
+                if($SaldoApertura->Id!=null)
                 {
-
-                    $model->MontoBanco=$_POST['MontoBanco'.$id];
-                    if($model->CABINA_Id==17)
+                    $SaldoApertura->SaldoCierre = str_replace(',','.',$_POST['SaldoCabina']['SaldoCierre']);
+                    if($SaldoApertura->save())
                     {
-                        $model->CUENTA_Id=2;
+                        LogController::RegistrarLog(8,$fecha);
+                        $this->redirect(array('/detalleingreso/adminBalance'));
                     }
-                    else
-                    {
-                        $model->CUENTA_Id=4;
-                    }
-
-                    $modelCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$model->FechaCorrespondiente' AND CABINA_Id = $model->CABINA_Id");
-                    if($modelCicloIngreso == NULL){
-                        $modelCicloIngreso = new CicloIngresoModelo;
-                        $modelCicloIngreso->Fecha = $model->FechaCorrespondiente;
-                        $modelCicloIngreso->CABINA_Id = $model->CABINA_Id;
-                        $modelCicloIngreso->ConciliacionBancaria = round(($_POST['MontoBanco'.$id]-$model->MontoDep),2);
-                        $modelCicloIngreso->DiferencialBancario = round(($_POST['MontoBanco'.$id]-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $model->FechaCorrespondiente, $model->CABINA_Id)),2);
-
-                        if($model->save())
-                        {
-                            $idBalancesActualizados.=$model->id.'A';
-                            $model=Deposito::model()->find($criteria);
-                            $id=$model->id;
-                            
-                            if($modelCicloIngreso->save())
-                                $this->redirect(array('mostrarFinal','id'=>$model->id,'idBalancesActualizados'=>$idBalancesActualizados));
-                        }else{
-                             Yii::app()->user->setFlash('error', "ERROR: No se ha Guardado Ningun Dato");
-                             $this->redirect(array('checkBanco'));
-                        }
-                    }    
                 }
                 else
                 {
-                    $criteria->addCondition('id > '.$id);
-                    $model=Deposito::model()->find($criteria);
-                    $id=$model->id;
+                    Yii::app()->user->setFlash('error', "ERROR: No Existe Balance para la Fecha Indicada");
+                    $model=new SaldoCabina;
+                    $this->redirect(array('createCierre'));
                 }
             }
-            Yii::app()->user->setFlash('error', "ERROR: No se ha Ingresado Ningun Monto de Banco");
-            $this->redirect(array('checkBanco')); 
-        }
-        
-        public function actionMostrarFinal()
-        {
-            $model=new Deposito('search');
-            $model->unsetAttributes();  // clear any default values
-            if(isset($_GET['Deposito'])) $model->attributes = $_GET['Deposito'];
-            $this->render('mostrarFinal', array(
+            $this->render('createCierre', array(
                 'model'=>$model,
             ));
         }
         
         public function loadModel($id)
         {
-            $model = Deposito::model()->findByPk($id);
+            $model = SaldoCabina::model()->findByPk($id);
             if ($model===null) throw new CHttpException(404, 'The requested page does not exist.');
             return $model;
         }
@@ -408,15 +253,15 @@ class DepositoController extends Controller
             if($tipoUsuario==4)
             {
                 return array(
-                    array('label'=>'Reporte Libro Ventas','url'=>array('detalleingreso/reporteLibroVentas')),
-                    array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
+                    array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
+                    array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
                     array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
                     array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
                     array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
                     array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
                     array('label'=>'_____________________________','url'=>array('')),
-                    array('label'=>'Administrar Balances','url'=>array('detalleingreso/adminBalance')),
-                    array('label'=>'Tablero de Control de Actv.','url'=>array('log/controlPanel')),
+                    array('label'=>'Administrar Balances','url'=>array('balance/admin')),
+                    array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
                     array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
                     );
             }

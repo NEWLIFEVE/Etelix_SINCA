@@ -24,14 +24,13 @@ $cabinas2 = $command02->query(); // execute a query SQL
 
 if(!isset($_POST["formFecha"]) || $_POST["formFecha"]==""){
     
+    $date = date('Y-m-d');
     list($year, $mon, $day) = explode('-', date("Y-m-d", time()));
     $fechaActual = date('Y-m-d', mktime(0, 0, 0,$mon, $day, $year));
     $fechaAyer = date('Y-m-d', mktime(0, 0, 0,$mon, $day-1, $year));
     $fechamostrar = date('d/m/Y', mktime(0, 0, 0,$mon , $day, $year));
     $diaMostrar = $dias[date('D',mktime(0, 0, 0,$mon , $day, $year))];
     $horamostrar = "Hora Actual: ".date("h:i:s A",time())." Lima / Per&uacute;.";
-    
-    
     
 }
 elseif(isset($_POST["formFecha"])){
@@ -63,6 +62,8 @@ for ($i = 1; $i <= $cabinas1->count(); $i++) {
     $codigo[$i]  = $cabinas1->readColumn(0);
     $nombre[$i]  = $cabinas2->readColumn(1);
 }
+
+$x = 0;
 //$cabinas->rewind();
 //for ($i = 1; $i <= $cabinas->count(); $i++) {
 //    $nombre[$i]  = $cabinas->readColumn(1);  
@@ -133,15 +134,6 @@ $this->menu=LogController::controlAcceso($tipoUsuario);
 
 
 <input id="fecha_hidden" type="hidden" value="<?php echo $fechamostrar; ?>" />
-<?php
-echo CHtml::beginForm(Yii::app()->createUrl('balance/enviarEmail'),'post',array('name'=>'FormularioCorreo','id'=>'FormularioCorreo','style'=>'display:none'));
-echo CHtml::textField('html','Hay Efectivo',array('id'=>'html','style'=>'display:none'));
-echo CHtml::textField('vista','controlPanel',array('id'=>'vista','style'=>'display:none'));
-echo CHtml::textField('correoUsuario',Yii::app()->getModule('user')->user()->email,array('id'=>'email','style'=>'display:none'));
-echo CHtml::textField('asunto','Tablero de Control de Actividades Solicitado',array('id'=>'asunto','style'=>'display:none'));
-echo CHtml::endForm();
-
-?>
 
 <div id="nombreContenedor" class="black_overlay"></div>
 <div id="loading" class="ventana_flotante"></div>

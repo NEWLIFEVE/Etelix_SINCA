@@ -91,7 +91,7 @@
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 5 AND u.tipo = 1) as Trafico,
+                  AND t.COMPANIA_Id = 5 AND t.Clase = 1) as Trafico,
 
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -99,7 +99,7 @@
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 1 AND u.tipo = 1) as ServMov,
+                  AND t.COMPANIA_Id = 1 AND t.Clase = 1) as ServMov,
 
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -107,7 +107,7 @@
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 2 AND u.tipo = 1) as ServClaro,
+                  AND t.COMPANIA_Id = 2 AND t.Clase = 1) as ServClaro,
                   
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -115,7 +115,7 @@
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 3 AND u.tipo = 1) as ServNextel,
+                  AND t.COMPANIA_Id = 3 AND t.Clase = 1) as ServNextel,
                   
                  (SELECT SUM(d.Monto) 
                   FROM detalleingreso as d
@@ -123,7 +123,7 @@
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes = '$fechas[$i]' 
                   AND d.CABINA_Id = $cabinas[$i] 
-                  AND t.COMPANIA_Id = 4 AND u.tipo = 1) as ServDirecTv,
+                  AND t.COMPANIA_Id = 4 AND t.Clase) as ServDirecTv,
 
                  (SELECT SUM(MontoDep) as MontoDep
                   FROM deposito 

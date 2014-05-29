@@ -19,6 +19,7 @@ class SaldoCabina extends CActiveRecord
 {
     
         public $OtrosServicios;
+        public $OtrosServiciosFullCarga;
         public $Trafico;
         public $RecargaMovistar;
         public $RecargaClaro;
@@ -117,6 +118,7 @@ class SaldoCabina extends CActiveRecord
                         'ServNextel' => 'Servicios Nextel (S/.)',
                         'Trafico' => 'Trafico (S/.)',
                         'OtrosServicios' => 'Otros Servicios (S/.)',
+                        'OtrosServiciosFullCarga' => 'Otros Servicios FullCarga (S/.)',
                         'TotalVentas' => 'Total Ventas (S/.)',
                         'SaldoAp' => 'Saldo Apertura (S/.)',
                         'SaldoCierre' => 'Saldo Cierre (S/.)',
@@ -173,6 +175,12 @@ class SaldoCabina extends CActiveRecord
                 $criteria->with =array('cABINA');
                 $criteria->addCondition("cABINA.status = 1");
                 $criteria->group='Fecha,CABINA_Id';
+                
+                if($cabina!=NULL)
+                    $criteria->addCondition("CABINA_Id=$cabina");
+                if($mes!=NULL)
+                    $criteria->addCondition("Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'");
+                
                 
                 $pagina=Cabina::model()->count(array(
                         'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',

@@ -245,7 +245,7 @@ class Deposito extends CActiveRecord
         
         public static function getMontoBanco($fecha,$cabina)
 	{
-            $model = self::model()->findBySql("SELECT MontoBanco as MontoBanco
+            $model = self::model()->findBySql("SELECT SUM(MontoBanco) as MontoBanco
                                                FROM deposito 
                                                WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
             if($model->MontoBanco != NULL)
