@@ -1299,6 +1299,10 @@ table#ventas tr td, table.items tr td{
     text-align: center;
 }
 
+table#DetailretesoMov tr td, table.items tr td{
+    text-align: left;
+}
+
 table.detail-view th {
     width: 200px !important;
 }

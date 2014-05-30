@@ -11,19 +11,19 @@ class BalanceController extends Controller
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      * @access public
      */
-    public $layout = '//layouts/column2';
+//    public $layout = '//layouts/column2';
 
     /**
      * @access public
      * @return array action filters
      */
-    public function filters()
-    {
-        return array(
-            'accessControl', // perform access control for CRUD operations
-            'postOnly + delete', // we only allow deletion via POST request
-        );
-    }
+//    public function filters()
+//    {
+//        return array(
+//            'accessControl', // perform access control for CRUD operations
+//            'postOnly + delete', // we only allow deletion via POST request
+//        );
+//    }
 
     /**
      * Specifies the access control rules.
@@ -31,173 +31,173 @@ class BalanceController extends Controller
      * @access public
      * @return array access control rules
      */
-    public function accessRules()
-    {
-        /* 1-Operador de Cabina
-         * 2-Gerente de Operaciones
-         * 3-Administrador
-         * 4-Tesorero
-         * 5-Socio
-         */
-        return array(
-            array('allow', //Lo que vera el socio
-                'actions'=>array(
-                    'index',
-                    'controlPanel',
-                    'admin',
-                    'reporteLibroVentas',
-                    'reporteDepositos',
-                    'reporteBrightstar',
-                    'reporteCaptura',
-                    'cicloIngresos',
-                    'cicloIngresosTotal',
-                    'pop',
-                    'EnviarEmail',
-                    'excel'
-                ),
-                'users'=>array_merge(Users::UsuariosPorTipo(5)),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array(
-                    'brightstar',
-                    'captura',
-                    'checkBanco',
-                    'mostrarFinal',
-                    'updateMonto',
-                    'reporteLibroVentas',
-                    'reporteDepositos',
-                    'reporteCaptura',
-                    'reporteBrightstar',
-                    'index',
-                    'guardarExcelBD',
-                    'upload',
-                    'pop',
-                    'view',
-                    'viewall',
-                    'cicloIngresos',
-                    'cicloIngresosTotal',
-                    'controlPanel',
-                    'subirCaptura',
-                    'admin',
-                    'EnviarEmail',
-                    'update',
-                    'excel',
-                    'UploadFullCarga'
-                ),
-                'users'=>array_merge(Users::UsuariosPorTipo(4)),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array(
-                    'brightstar',
-                    'captura',
-                    'checkBanco',
-                    'mostrarFinal',
-                    'updateMonto',
-                    'reporteLibroVentas',
-                    'reporteDepositos',
-                    'reporteCaptura',
-                    'reporteBrightstar',
-                    'index',
-                    'guardarExcelBD',
-                    'upload',
-                    'pop',
-                    'view',
-                    'viewall',
-                    'cicloIngresos',
-                    'cicloIngresosTotal',
-                    'controlPanel',
-                    'subirCaptura',
-                    'admin',
-                    'EnviarEmail',
-                    'update',
-                    'excel'
-                ),
-                'users'=>array_merge(Users::UsuariosPorTipo(6)),
-            ),
-            array('allow',
-                'actions'=>array(
-                    'reporteLibroVentas',
-                    'reporteDepositos',
-                    'reporteCaptura',
-                    'reporteBrightstar',
-                    'index',
-                    'guardarExcelBD',
-                    'upload',
-                    'pop',
-                    'view',
-                    'viewall',
-                    'create',
-                    'update',
-                    'createApertura',
-                    'createDeposito',
-                    'createLlamadas',
-                    'createCierre',
-                    'createAperturaEsp',
-                    'cicloIngresos',
-                    'cicloIngresosTotal',
-                    'controlPanel',
-                    'upload',
-                    'subirCaptura',
-                    'admin',
-                    'brightstar',
-                    'captura',
-                    'checkBanco',
-                    'mostrarFinal',
-                    'updateMonto',
-                    'delete',
-                    'EnviarEmail',
-                    'test',
-                    'excel',
-                    'UploadFullCarga',
-                ),
-                'users'=>array_merge(Users::UsuariosPorTipo(3)),
-            ),
-            array('allow',
-                'actions'=>array(
-                    'reporteLibroVentas',
-                    'reporteDepositos',
-                    'reporteCaptura',
-                    'captura',
-                    'reporteBrightstar',
-                    'brightstar',
-                    'index',
-                    'guardarExcelBD',
-                    'upload',
-                    'pop',
-                    'view',
-                    'viewall',
-                    'cicloIngresos',
-                    'cicloIngresosTotal',
-                    'controlPanel',
-                    'subirCaptura',
-                    'admin',
-                    'EnviarEmail',
-                    'update',
-                    'excel',
-                    'UploadFullCarga'
-                ),
-                'users'=>array_merge(Users::UsuariosPorTipo(2)),
-            ),
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions'=>array(
-                    'view',
-                    'viewall',
-                    'createApertura',
-                    'createDeposito',
-                    'createLlamadas',
-                    'createCierre',
-                    'createAperturaEsp',
-                    'admin',
-                    'EnviarEmail',
-                    'excel'
-                ),
-                'users'=>array_merge(Users::UsuariosPorTipo(1)),
-            ),
-            array('deny', // deny all users
-                'users'=>array('*'),
-            ),
-        );
-    }
+//    public function accessRules()
+//    {
+//        /* 1-Operador de Cabina
+//         * 2-Gerente de Operaciones
+//         * 3-Administrador
+//         * 4-Tesorero
+//         * 5-Socio
+//         */
+//        return array(
+//            array('allow', //Lo que vera el socio
+//                'actions'=>array(
+//                    'index',
+//                    'controlPanel',
+//                    'admin',
+//                    'reporteLibroVentas',
+//                    'reporteDepositos',
+//                    'reporteBrightstar',
+//                    'reporteCaptura',
+//                    'cicloIngresos',
+//                    'cicloIngresosTotal',
+//                    'pop',
+//                    'EnviarEmail',
+//                    'excel'
+//                ),
+//                'users'=>array_merge(Users::UsuariosPorTipo(5)),
+//            ),
+//            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+//                'actions'=>array(
+//                    'brightstar',
+//                    'captura',
+//                    'checkBanco',
+//                    'mostrarFinal',
+//                    'updateMonto',
+//                    'reporteLibroVentas',
+//                    'reporteDepositos',
+//                    'reporteCaptura',
+//                    'reporteBrightstar',
+//                    'index',
+//                    'guardarExcelBD',
+//                    'upload',
+//                    'pop',
+//                    'view',
+//                    'viewall',
+//                    'cicloIngresos',
+//                    'cicloIngresosTotal',
+//                    'controlPanel',
+//                    'subirCaptura',
+//                    'admin',
+//                    'EnviarEmail',
+//                    'update',
+//                    'excel',
+//                    'UploadFullCarga'
+//                ),
+//                'users'=>array_merge(Users::UsuariosPorTipo(4)),
+//            ),
+//            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+//                'actions'=>array(
+//                    'brightstar',
+//                    'captura',
+//                    'checkBanco',
+//                    'mostrarFinal',
+//                    'updateMonto',
+//                    'reporteLibroVentas',
+//                    'reporteDepositos',
+//                    'reporteCaptura',
+//                    'reporteBrightstar',
+//                    'index',
+//                    'guardarExcelBD',
+//                    'upload',
+//                    'pop',
+//                    'view',
+//                    'viewall',
+//                    'cicloIngresos',
+//                    'cicloIngresosTotal',
+//                    'controlPanel',
+//                    'subirCaptura',
+//                    'admin',
+//                    'EnviarEmail',
+//                    'update',
+//                    'excel'
+//                ),
+//                'users'=>array_merge(Users::UsuariosPorTipo(6)),
+//            ),
+//            array('allow',
+//                'actions'=>array(
+//                    'reporteLibroVentas',
+//                    'reporteDepositos',
+//                    'reporteCaptura',
+//                    'reporteBrightstar',
+//                    'index',
+//                    'guardarExcelBD',
+//                    'upload',
+//                    'pop',
+//                    'view',
+//                    'viewall',
+//                    'create',
+//                    'update',
+//                    'createApertura',
+//                    'createDeposito',
+//                    'createLlamadas',
+//                    'createCierre',
+//                    'createAperturaEsp',
+//                    'cicloIngresos',
+//                    'cicloIngresosTotal',
+//                    'controlPanel',
+//                    'upload',
+//                    'subirCaptura',
+//                    'admin',
+//                    'brightstar',
+//                    'captura',
+//                    'checkBanco',
+//                    'mostrarFinal',
+//                    'updateMonto',
+//                    'delete',
+//                    'EnviarEmail',
+//                    'test',
+//                    'excel',
+//                    'UploadFullCarga',
+//                ),
+//                'users'=>array_merge(Users::UsuariosPorTipo(3)),
+//            ),
+//            array('allow',
+//                'actions'=>array(
+//                    'reporteLibroVentas',
+//                    'reporteDepositos',
+//                    'reporteCaptura',
+//                    'captura',
+//                    'reporteBrightstar',
+//                    'brightstar',
+//                    'index',
+//                    'guardarExcelBD',
+//                    'upload',
+//                    'pop',
+//                    'view',
+//                    'viewall',
+//                    'cicloIngresos',
+//                    'cicloIngresosTotal',
+//                    'controlPanel',
+//                    'subirCaptura',
+//                    'admin',
+//                    'EnviarEmail',
+//                    'update',
+//                    'excel',
+//                    'UploadFullCarga'
+//                ),
+//                'users'=>array_merge(Users::UsuariosPorTipo(2)),
+//            ),
+//            array('allow', // allow all users to perform 'index' and 'view' actions
+//                'actions'=>array(
+//                    'view',
+//                    'viewall',
+//                    'createApertura',
+//                    'createDeposito',
+//                    'createLlamadas',
+//                    'createCierre',
+//                    'createAperturaEsp',
+//                    'admin',
+//                    'EnviarEmail',
+//                    'excel'
+//                ),
+//                'users'=>array_merge(Users::UsuariosPorTipo(1)),
+//            ),
+//            array('deny', // deny all users
+//                'users'=>array('*'),
+//            ),
+//        );
+//    }
 
     /**
      * Displays a particular model.
@@ -736,82 +736,82 @@ class BalanceController extends Controller
     /**
      * @access public
      */
-    public function actionCicloIngresos()
-    {
-        $model=new SaldoCabina('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
+//    public function actionCicloIngresos()
+//    {
+//        $model=new SaldoCabina('search');
+//        $model->unsetAttributes();  // clear any default values
+//        if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
+//
+//        $this->render('cicloIngresos', array(
+//            'model'=>$model,
+//        ));
+//    }
+//    
+//    /**
+//     * @access public
+//     */
+//    public function actioncicloIngresosTotal()
+//    {
+//        $model=new Balance('search');
+//        $model->unsetAttributes();  // clear any default values
+//        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
+//        $this->render('cicloIngresosTotal', array(
+//            'model'=>$model,
+//        ));
+//    }
 
-        $this->render('cicloIngresos', array(
-            'model'=>$model,
-        ));
-    }
-    
     /**
      * @access public
      */
-    public function actioncicloIngresosTotal()
-    {
-        $model=new Balance('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
-        $this->render('cicloIngresosTotal', array(
-            'model'=>$model,
-        ));
-    }
-
-    /**
-     * @access public
-     */
-    public function actionPop($id)
-    {
-        $model=new Balance('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes = $_GET['Balance'];
-        switch($id)
-        {
-            case '1':
-                $this->render('_reporteLibroVentas', array(
-                    'model'=>$model,
-                ));
-                break;
-            case '2':
-                $this->render('_reporteDepositosBancarios', array(
-                    'model'=>$model,
-                ));
-                break;
-            case '3':
-                $this->render('_reporteBrightstar', array(
-                    'model'=>$model,
-                ));
-                break;
-            case '4':
-                $this->render('_reporteCaptura', array(
-                    'model'=>$model,
-                ));
-                break;
-            case '5':
-                $this->render('_disLibroVentas', array(
-                    'model'=>$model,
-                ));
-                break;
-            case '6':
-                $this->render('_disDepositos', array(
-                    'model'=>$model,
-                ));
-                break;
-            case '7':
-                $this->render('_disBrightstar', array(
-                    'model'=>$model,
-                ));
-                break;
-            case '8':
-                $this->render('_disCaptura', array(
-                    'model'=>$model,
-                ));
-                break;
-        }
-    }
+//    public function actionPop($id)
+//    {
+//        $model=new SaldoCabina('search');
+//        $model->unsetAttributes();  // clear any default values
+//        if(isset($_GET['SaldoCabina'])) $model->attributes = $_GET['SaldoCabina'];
+//        switch($id)
+//        {
+//            case '1':
+//                $this->render('reporteLibroVentas', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//            case '2':
+//                $this->render('_reporteDepositosBancarios', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//            case '3':
+//                $this->render('_reporteBrightstar', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//            case '4':
+//                $this->render('_reporteCaptura', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//            case '5':
+//                $this->render('_disLibroVentas', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//            case '6':
+//                $this->render('_disDepositos', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//            case '7':
+//                $this->render('_disBrightstar', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//            case '8':
+//                $this->render('_disCaptura', array(
+//                    'model'=>$model,
+//                ));
+//                break;
+//        }
+//    }
 
     /**
      * @access public

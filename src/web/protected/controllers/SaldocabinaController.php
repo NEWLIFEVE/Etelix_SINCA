@@ -245,8 +245,8 @@ class SaldocabinaController extends Controller
                     array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
                     array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
                     array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
-                    array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
-                    array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
+                    array('label'=>'Reporte Ciclo de Ingresos','url'=>array('detalleingreso/cicloIngresos')),
+                    array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('detalleingreso/cicloIngresosTotal')),
                     );
             }
             //TESORERO

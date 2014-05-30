@@ -3,13 +3,14 @@
 /* @var $model Balance */
 Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
-$this->menu=DepositoController::controlAcceso($tipoUsuario);
+$this->menu=  DetalleingresoController::controlAccesoBalance($tipoUsuario);
 
 if(isset($fancybox)){
     $this->layout=$this->getLayoutFile('mainfancybox');
 }
 
 $mes=null;
+$cabina=null;
 
 
     if(isset($_POST["formFecha"]) && $_POST["formFecha"] != "")
@@ -33,15 +34,15 @@ if(!isset($fancybox)){
 <div id="error" class="ventana_flotante3"></div>
 <h1>
     <span class="enviar">
-        Reporte de Depositos Bancarios <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año : ""; ?>
-    </span>
+        Reporte de Ventas Recargas FullCarga <?php echo $mes != NULL ?" - ". Utility::monthName($mes.'-01').' '.$año : ""; ?>
+    </span> 
     <span>
         <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
         <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
         <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton' />
         <button id="cambio">Inactivas</button>
         <div>
-            <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/ReporteDepositos') ?>">
+            <form method="post" action="<?php Yii::app()->createAbsoluteUrl('balance/ReporteBrightstar') ?>">
                 <label for="dateMonth">
                     Seleccione un mes:
                 </label>
@@ -54,16 +55,15 @@ if(!isset($fancybox)){
         </div>
     </span>
 </h1>
+
 <div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)): "";?></div>
 <div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
 }
-
-$_POST['vista']='Depositos';
 $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'balanceReporteDepositos',
+    'id'=>'balanceReporteBrighstar',
     'htmlOptions'=>array(
-        'class'=>'grid-view ReporteDepositos',
+        'class'=>'grid-view ReporteBrighstar',
         'rel'=>'total',
         'name'=>'vista',
         ),
@@ -103,7 +103,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     'showButtonPanel'=>true,
                     )
                 ),
-            true),
+                true),
             'htmlOptions'=>array(
                 'style'=>'text-align: center;',
                 'id'=>'fecha',
@@ -115,61 +115,62 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type'=>'text',
             'filter'=>Cabina::getListCabina(),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;',
+                'style'=>'text-align: center;'
                 ),
             ),
         array(
-            'name'=>'TotalVentas',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'id'=>'totalVentas',
-                ),
-            ),
-        array(
-            'name'=>'MontoDep',
-            'value'=>'Deposito::valueNull(Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoDep)',
-            'htmlOptions'=>array(
-                'id'=>'montoDeposito',
-                ),
-            ),
-        'NumRef',
-        array(
-            'name'=>'MontoBanco',
-            'value'=>'Deposito::valueNull(Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoBanco)',
-            'htmlOptions'=>array(
-                'id'=>'montoBanco',
-                ),
-            ),
-        array(
-            'name'=>'DiferencialBancario',
-            'value'=>'Deposito::valueNull(round((Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoBanco-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)),2))',
+            'name'=>'DifMov',
+            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 1)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 1)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialBancario'
+                'id'=>'diferencialBrightstarMovistar',
                 ),
             ),
         array(
-            'name'=>'ConciliacionBancaria',
-            'value'=>'Deposito::valueNull(round((Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoBanco-Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoDep),2))',
+            'name'=>'DifClaro',
+            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 2)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'concilicacionBancaria'
+                'id'=>'diferencialBrightstarClaro',
+                ),
+            ),
+        array(
+            'name'=>'DifDirecTv',
+            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 4)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 4)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'DifNextel',
+            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 3)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 3)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarNextel',
                 ),
             ),
         ),
     )
 );
 //$this->widget('zii.widgets.grid.CGridView', array(
-//    'id'=>'balanceReporteDepositosOculta',
+//    'id'=>'balanceReporteBrighstarOculta',
 //    'htmlOptions'=>array(
-//        'class'=>'grid-view ReporteDepositos oculta',
+//        'class'=>'grid-view ReporteBrighstar oculta',
 //        'rel'=>'total',
 //        'name'=>'oculta',
 //        ),
@@ -178,8 +179,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
 //    'filter'=>$model,
 //    'columns'=>array(
 //        array(
-//        'name'=>'id',
-//        'value'=>'$data->id',
+//        'name'=>'Id',
+//        'value'=>'$data->Id',
 //        'type'=>'text',
 //        'headerHtmlOptions' => array('style' => 'display:none'),
 //        'htmlOptions'=>array(
@@ -189,14 +190,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
 //          'filterHtmlOptions' => array('style' => 'display:none'),
 //        ),
 //        array(
-//            'name'=>'FechaCorrespondiente',
+//            'name'=>'Fecha',
 //            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
 //                'model'=>$model,
-//                'attribute'=>'FechaCorrespondiente',
+//                'attribute'=>'Fecha',
 //                'language'=>'ja',
 //                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
 //                'htmlOptions'=>array(
-//                    'id'=>'datepicker_for_Fecha',
+//                    'id'=>'datepicker_for_Fecha_oculta',
 //                    'size'=>'10',
 //                    ),
 //                'defaultOptions'=>array(
@@ -209,7 +210,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 //                    'showButtonPanel'=>true,
 //                    )
 //                ),
-//            true),
+//                true),
 //            'htmlOptions'=>array(
 //                'style'=>'text-align: center;',
 //                'id'=>'fecha',
@@ -219,54 +220,43 @@ $this->widget('zii.widgets.grid.CGridView', array(
 //            'name'=>'CABINA_Id',
 //            'value'=>'$data->cABINA->Nombre',
 //            'type'=>'text',
-//            'filter'=>Cabina::getListCabina(),
+//            'filter'=>Cabina::getListCabinaInactivas(),
+//            'htmlOptions'=>array(
+//                'style'=>'text-align: center;'
+//                ),
+//            ),
+//        array(
+//            'name'=>'RecargaVentasMov',
+//            'htmlOptions'=>array(
+//                'id'=>'recargasVentasMovistar'
+//                ),
+//            ),
+//        array(
+//            'name'=>'DifMov',
+//            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasMov-($data->RecargaCelularMov+$data->RecargaFonoYaMov))',
+//            'type'=>'text',
 //            'htmlOptions'=>array(
 //                'style'=>'text-align: center;',
-//                ),
-//            ),
-//        array(
-//            'name'=>'TotalVentas',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'totalVentas',
-//                ),
-//            ),
-//        array(
-//            'name'=>'MontoDep',
-//            'value'=>'Deposito::valueNull($data->MontoDep)',
-//            'htmlOptions'=>array(
-//                'id'=>'montoDeposito',
-//                ),
-//            ),
-//        'NumRef',
-//        array(
-//            'name'=>'MontoBanco',
-//            'value'=>'Deposito::valueNull($data->MontoBanco)',
-//            'htmlOptions'=>array(
-//                'id'=>'montoBanco',
-//                ),
-//            ),
-//        array(
-//            'name'=>'DiferencialBancario',
-//            'value'=>'Deposito::valueNull(round(($data->MontoBanco-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)),2))',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
 //                'class'=>'dif',
 //                'name'=>'dif',
-//                'id'=>'diferencialBancario'
+//                'id'=>'diferencialBrightstarMovistar',
 //                ),
 //            ),
 //        array(
-//            'name'=>'ConciliacionBancaria',
-//            'value'=>'Deposito::valueNull(round(($data->MontoBanco-$data->MontoDep),2))',
+//            'name'=>'RecargaVentasClaro',
+//            'htmlOptions'=>array(
+//                'id'=>'recargasVentasClaro'
+//                ),
+//            ),
+//        array(
+//            'name'=>'DifClaro',
+//            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasClaro-($data->RecargaCelularClaro+$data->RecargaFonoClaro))',
 //            'type'=>'text',
 //            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
+//                'style'=>'text-align: center; color: red;',
 //                'class'=>'dif',
 //                'name'=>'dif',
-//                'id'=>'concilicacionBancaria'
+//                'id'=>'diferencialBrightstarClaro'
 //                ),
 //            ),
 //        ),
@@ -286,29 +276,25 @@ function reinstallDatePicker2(id, data) {
 ");
 ?>
 <div id="totales" class="grid-view">
-<table class="items" id="depositos">
+<table class="items">
     <thead>
         <tr>
-            <th id="totalFecha"style="background:#1967B2; color:white;width: 87px;">Fecha</th>
-            <th id="todas"style="background:#1967B2; color:white;width: 90px;">Cabinas</th>
-            <th id="totalVentas2" style="background:#1967B2; color:white;"></th>
-            <th id="totalMontoDeposito" style="background:#1967B2; color:white;"></th>
-            <th style="background:#1967B2; color:white;">Numero de Ref. Deposito</th>
-            <th id="balanceTotalesDepositos3" style="background:#1967B2; color:white;"></th>
-            <th id="totalDiferencialBancario" style="background:#1967B2; color:white;"></th>
-            <th id="totalConcilicacionBancaria" style="background:#1967B2; color:white;"></th>
+            <th style="background:#ff9900; color:white;">Fecha</th>
+            <th style="background:#ff9900; color:white;">Cabinas</th>
+            <!--<th id="balanceTotalesBrightstar1" style="background:#ff9900; color:white;"></th>-->
+            <th id="totalesDiferencialBrightstarMovistar" style="background:#ff9900; color:white;"></th>
+            <!--<th id="balanceTotalesBrightstar3" style="background:#ff9900; color:white;"></th>-->
+            <th id="totalesDiferencialBrightstarClaro" style="background:#ff9900; color:white;"></th>
         </tr>
     </thead>
     <tbody>
         <tr class="odd">
             <td id="totalFecha"></td>
             <td id="todas"> Todas </td>
-            <td id="totalVentas2"></td>
-            <td id="totalMontoDeposito"></td>
-            <td id="nunref"> N/A </td>
-            <td id="balanceTotalesDepositos3"></td>
-            <td id="totalDiferencialBancario" class="dif"></td>
-            <td id="totalConcilicacionBancaria" class="dif"></td>
+            <!--<td id="balanceTotalesBrightstar1"></td>-->
+            <td id="totalesDiferencialBrightstarMovistar" class="dif"></td>
+            <!--<td id="balanceTotalesBrightstar3"></td>-->
+            <td id="totalesDiferencialBrightstarClaro" class="dif"></td>
         </tr>
     </tbody>
 </table>

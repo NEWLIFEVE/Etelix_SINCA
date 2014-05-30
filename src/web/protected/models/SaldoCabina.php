@@ -53,6 +53,13 @@ class SaldoCabina extends CActiveRecord
         public $DifDirecTv;
         public $DifNextel;
         public $DifFullCarga;
+        
+        public $MontoDep;
+        public $MontoBanco;
+        public $NumRef;
+        public $DiferencialBancario;
+        public $ConciliacionBancaria;
+        public $FechaCorrespondiente;
 
 
         public $DifSoles;
@@ -62,7 +69,14 @@ class SaldoCabina extends CActiveRecord
         public $Acumulado;
         public $Sobrante;
         public $SobranteAcum;
-	/**
+        
+        public $Total;
+        public $DifBancoCI;
+        public $ConciliacionBancariaCI;
+        public $tagTodasLasCabina='Todas';
+        public $CaptSoles;
+
+        /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -117,6 +131,7 @@ class SaldoCabina extends CActiveRecord
                         'ServDirecTv' => 'Servicios DirecTv (S/.)',
                         'ServNextel' => 'Servicios Nextel (S/.)',
                         'Trafico' => 'Trafico (S/.)',
+                        'TraficoCapturaDollar' => 'Trafico Captura Dollar (S/.)',
                         'OtrosServicios' => 'Otros Servicios (S/.)',
                         'OtrosServiciosFullCarga' => 'Otros Servicios FullCarga (S/.)',
                         'TotalVentas' => 'Total Ventas (S/.)',
@@ -144,6 +159,15 @@ class SaldoCabina extends CActiveRecord
                         'Celular'=>'Celular (S/.)',
                         'Rural'=>'Rural (S/.)',
                         'LDI'=>'LDI (S/.)',
+                        'CaptSoles'=>'Captura Soles',
+                        'FechaCorrespondiente' => 'Fecha del Balance',
+			'Hora' => 'Hora',
+			'MontoDep' => "Monto Deposito (S/.) 'B'",
+			'MontoBanco' => "Monto Banco (S/.) 'C'",
+			'NumRef' => 'Numero de Ref. Deposito',
+			'Depositante' => 'Depositante',
+                        'DiferencialBancario' => "Diferencial Bancario (S/.) 'C-A'",
+                        'ConciliacionBancaria' => "Conciliacion Bancario (S/.) 'C-B'",
 		);
 	}
 
@@ -159,7 +183,7 @@ class SaldoCabina extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($post=null,$mes=null,$cabina=null)
+	public function search($post=null,$mes=null,$cabina=null,$idBalancesActualizados=NULL)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -191,6 +215,43 @@ class SaldoCabina extends CActiveRecord
                             ),
                         ));
 		$orden="Fecha DESC, cABINA.Nombre ASC";
+                
+                if($post == 'cicloIngresoTotal' && $idBalancesActualizados == NULL)
+                {
+                    $criteriaAux=new CDbCriteria;
+                    $criteriaAux->group = "Fecha";
+                    return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteriaAux,
+                        'sort'=>array(
+                            'defaultOrder'=>'Fecha DESC'
+                            ),
+                        'pagination'=>array(
+                            'pageSize'=>31
+                            ),
+                        ));
+                }
+                elseif($post == 'cicloIngresoTotal' && $idBalancesActualizados!=NULL && $idBalancesActualizados!="")
+                {
+                    $fechaParametro = "$idBalancesActualizados";
+                    $criteriaAux=new CDbCriteria;
+        //            $criteriaAux->addCondition("Fecha='$fechaParametro'");
+                    $criteriaAux->addCondition(
+                            array(
+                                "EXTRACT(YEAR FROM Fecha)='".date("Y",strtotime($fechaParametro))."'",
+                                "EXTRACT(MONTH FROM Fecha)='".date("m",strtotime($fechaParametro))."'",
+                                )
+                            );
+                    $criteriaAux->group = "Fecha";
+                    return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteriaAux,
+                        'sort'=>array(
+                            'defaultOrder'=>'Fecha DESC'
+                            ),
+                        'pagination'=>array(
+                            'pageSize'=>31
+                            ),
+                        ));
+                }
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

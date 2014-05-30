@@ -148,7 +148,7 @@ $('.search-form form').submit(function(){
         ),
       array(
         'name'=>'IngresoBanco',
-        'value'=>'Balance::sumMontoBanco($data->Fecha,$data->CUENTA_Id)',
+        'value'=>'Deposito::sumMontoBanco($data->Fecha,$data->CUENTA_Id)',
         'type'=>'text',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',

@@ -74,15 +74,15 @@ class Deposito extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'Fecha' => 'Fecha',
+			'CUENTA_Id' => 'Cuenta',
+			'CABINA_Id' => 'Cabina',
+                        'TotalVentas' => "Total Ventas (S/.) 'A'",
                         'FechaCorrespondiente' => 'Fecha del Balance',
 			'Hora' => 'Hora',
 			'MontoDep' => "Monto Deposito (S/.) 'B'",
 			'MontoBanco' => "Monto Banco (S/.) 'C'",
 			'NumRef' => 'Numero de Ref. Deposito',
 			'Depositante' => 'Depositante',
-			'CUENTA_Id' => 'Cuenta',
-			'CABINA_Id' => 'Cabina',
-                        'TotalVentas' => "Total Ventas (S/.) 'A'",
                         'DiferencialBancario' => "Diferencial Bancario (S/.) 'C-A'",
                         'ConciliacionBancaria' => "Conciliacion Bancario (S/.) 'C-B'",
 		);
@@ -254,6 +254,14 @@ class Deposito extends CActiveRecord
                 return '0.00';
 	}
         
+        public static function getDataDeposito($fecha,$cabina)
+	{
+            $model = self::model()->findBySql("SELECT *
+                                               FROM deposito 
+                                               WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
+            return $model;
+	}
+        
         public static function valueNull($valor)
 	{
 
@@ -262,5 +270,17 @@ class Deposito extends CActiveRecord
             else
                 return '0.00';
 	}
+        
+        public static function sumMontoBanco($fecha,$cuenta)
+        {
+            $sum=Yii::app()->db->createCommand("SELECT SUM(d.MontoBanco) AS Ingresos
+                                                FROM deposito d, cabina c
+                                                WHERE d.Fecha = '$fecha' AND c.Id=d.CABINA_Id AND c.status=1 AND d.CUENTA_Id = ".$cuenta)->queryScalar();
+
+            if($sum===NULL)
+                return 'Datos Incompletos';
+            else
+                return $sum;
+        }
 
 }

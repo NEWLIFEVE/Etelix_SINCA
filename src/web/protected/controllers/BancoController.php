@@ -74,7 +74,7 @@ class BancoController extends Controller
 	public function actionView($id)
 	{
 		$banco=Banco::model()->find('Id=:id',array(':id'=>$id));
-		$balances=Balance::model()->findAll('CUENTA_Id=:id AND FechaDep=:fecha',array(':id'=>$banco->CUENTA_Id,':fecha'=>$banco->Fecha));
+		$balances=Deposito::model()->findAll('CUENTA_Id=:id AND Fecha=:fecha',array(':id'=>$banco->CUENTA_Id,':fecha'=>$banco->Fecha));
 		$gastos=Detallegasto::model()->findAll('FechaTransf=:fecha AND CUENTA_Id=:id',array(':id'=>$banco->CUENTA_Id,':fecha'=>$banco->Fecha));
 		$this->render('view',array(
 			'model'=>$banco,

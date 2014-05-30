@@ -5,6 +5,10 @@ Yii::import('webroot.protected.controllers.CabinaController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
 $this->menu = DetalleingresoController::controlAccesoBalance($tipoUsuario);
 
+if(isset($fancybox)){
+    $this->layout=$this->getLayoutFile('mainfancybox');
+}
+
 $mes=null;
 $cabina=null;
 
@@ -19,7 +23,9 @@ $cabina=null;
     }
     
     
-$año = date("Y", strtotime($mes));    
+$año = date("Y", strtotime($mes));   
+
+if(!isset($fancybox)){
 ?>
 
 <div id="nombreContenedor" class="black_overlay"></div>
@@ -52,6 +58,7 @@ $año = date("Y", strtotime($mes));
 <div id="fecha" style="display: none;"><?php echo $mes != NULL ? date('Ym',strtotime($mes)): "";?></div>
 <div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
+}
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balanceLibroVentas',
     'htmlOptions'=>array(

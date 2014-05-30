@@ -243,9 +243,9 @@ class DepositoController extends Controller
         
         public function actionReporteDepositos()
         {
-            $model=new Deposito('search');
+            $model=new SaldoCabina('search');
             $model->unsetAttributes();  // clear any default values
-            if(isset($_GET['Deposito'])) $model->attributes=$_GET['Deposito'];
+            if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
 
             $this->render('reporteDepositos', array(
                 'model'=>$model,

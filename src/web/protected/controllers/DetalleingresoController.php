@@ -43,6 +43,11 @@ class DetalleingresoController extends Controller
                         'UploadFullCarga',
                         'GuardarExcelBD',
                         'Upload',
+                        'CicloIngresos',
+                        'cicloIngresosTotal',
+                        'Pop',
+                        'ReporteFullCarga',
+                        'ReporteCaptura',
                     ),
                     'users'=>Users::UsuariosPorTipo(3),
                 ),
@@ -145,6 +150,50 @@ class DetalleingresoController extends Controller
             ));
         }
         
+        public function actionCicloIngresos()
+        {
+            $model=new SaldoCabina('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
+
+            $this->render('cicloIngresos', array(
+                'model'=>$model,
+            ));
+        }     
+
+        public function actioncicloIngresosTotal()
+        {
+            $model=new SaldoCabina('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
+            $this->render('cicloIngresosTotal', array(
+                'model'=>$model,
+            ));
+        }
+        
+        public function actionReporteFullCarga()
+        {
+            $model=new SaldoCabina('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['SaldoCabina'])) $model->attributes = $_GET['SaldoCabina'];
+
+            $this->render('reporteFullCarga', array(
+                'model'=>$model,
+            ));
+        }
+
+        public function actionReporteCaptura()
+        {
+            $model=new SaldoCabina('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
+
+            $this->render('reporteCaptura', array(
+                'model'=>$model,
+                )
+            );
+        }
+        
         public function actionCreateLlamadas()
         {
             $model=new Detalleingreso;
@@ -218,12 +267,17 @@ class DetalleingresoController extends Controller
                 }
                 
                 if(isset($_SESSION['cabinas'])){
+                    
+                    echo 'Cabinas: ';
                     var_dump($_SESSION['cabinas']);
                     echo '<br><br>';
+                    echo 'Monto: ';
                     var_dump($_SESSION['monto']);
                     echo '<br><br>';
+                    echo 'Fecha: ';
                     echo $_SESSION['fecha'];
                     echo '<br><br>';
+                    echo 'Servicios: ';
                     var_dump($_SESSION['servicio']);
   
                     if(file_exists($ruta1)){
@@ -233,10 +287,7 @@ class DetalleingresoController extends Controller
                 }
                 
             }
-                
-            
-            
-                
+
             $this->render('uploadFullCarga', array(
                 'model'=>$model,
             ));
@@ -315,6 +366,57 @@ class DetalleingresoController extends Controller
             $fileName=$result['filename']; //GETTING FILE NAME
 
             echo $return; // it's array
+        }
+        
+        public function actionPop($id)
+        {
+            $model=new SaldoCabina('search');
+            $model2=new Deposito('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['SaldoCabina'])) $model->attributes = $_GET['SaldoCabina'];
+            switch($id)
+            {
+                case '1':
+                    $this->render('reporteLibroVentas', array(
+                        'model'=>$model,'fancybox'=>'true',
+                    ));
+                    break;
+                case '2':
+                    $this->render('/deposito/reporteDepositos', array(
+                        'model'=>$model,'fancybox'=>'true',
+                    ));
+                    break;
+                case '3':
+                    $this->render('reporteFullCarga', array(
+                        'model'=>$model,'fancybox'=>'true',
+                    ));
+                    break;
+                case '4':
+                    $this->render('reporteCaptura', array(
+                        'model'=>$model,'fancybox'=>'true',
+                    ));
+                    break;
+                case '5':
+                    $this->render('_disLibroVentas', array(
+                        'model'=>$model,
+                    ));
+                    break;
+                case '6':
+                    $this->render('_disDepositos', array(
+                        'model'=>$model,
+                    ));
+                    break;
+                case '7':
+                    $this->render('_disBrightstar', array(
+                        'model'=>$model,
+                    ));
+                    break;
+                case '8':
+                    $this->render('_disCaptura', array(
+                        'model'=>$model,
+                    ));
+                    break;
+            }
         }
         
     
@@ -740,10 +842,10 @@ class DetalleingresoController extends Controller
                 array('label'=>'__________REPORTES___________','url'=>array('')),
                 array('label'=>'Reporte Libro Ventas','url'=>array('detalleingreso/reporteLibroVentas')),
                 array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
-                array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
+                array('label'=>'Reporte Brightstar','url'=>array('detalleingreso/reporteFullCarga')),
+                array('label'=>'Reporte Captura','url'=>array('detalleingreso/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('detalleingreso/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('detalleingreso/cicloIngresosTotal')),
                 );
         }
         //TESORERO
