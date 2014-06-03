@@ -248,10 +248,16 @@ class Deposito extends CActiveRecord
             $model = self::model()->findBySql("SELECT SUM(MontoBanco) as MontoBanco
                                                FROM deposito 
                                                WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
-            if($model->MontoBanco != NULL)
-                return $model->MontoBanco;
-            else
+            if($model != NULL){
+                if($model->MontoBanco != NULL){
+                    return $model->MontoBanco;
+                }else{
+                    return '0.00';
+                }
+            }else{
                 return '0.00';
+            }
+            
 	}
         
         public static function getDataDeposito($fecha,$cabina)

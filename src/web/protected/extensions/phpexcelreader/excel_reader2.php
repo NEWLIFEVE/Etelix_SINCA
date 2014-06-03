@@ -705,6 +705,9 @@ class Spreadsheet_Excel_Reader {
                 $_SESSION['servicio'] = Array();
                 $_SESSION['fecha'] = '';
                 
+                $arrayCabina = Array();
+                $arrayTipoIngreso = Array();
+                
                 $fechaCapturada = $this->val(1,1,$sheet);
                 $fechaExtraida = explode(', ',$fechaCapturada);
                 $list=explode('-', $fechaExtraida[1]);
@@ -729,12 +732,15 @@ class Spreadsheet_Excel_Reader {
                     $ingresos = TipoIngresos::getIdIngresoFullCarga($tipoIngresoActual);
                     
                     
-                     $_SESSION['cabinas'][$i] = $cabina;
-                     $_SESSION['monto'][$i] = $montoIngresoActual;
-                     $_SESSION['servicio'][$i] = $ingresos;
-                     $i++;
+                    $arrayCabina[$i] = $cabina;
+                    $arrayTipoIngreso[$i] = $ingresos;
+                    
+                    $_SESSION['cabinas'][$i] = $cabina;
+                    $_SESSION['monto'][$i] = $montoIngresoActual;
+                    $_SESSION['servicio'][$i] = $ingresos;
+                    $i++;
                      
-//                  
+                  
 //                    //=========== VALORES DE LAS COLUMNAS EN EN EXCEL - FIN ====================
 //
 //                    $cabinaId = Cabina::model()->findBySql("SELECT Id FROM cabina where Nombre='".$nombreCabinaActual."';");
@@ -763,6 +769,11 @@ class Spreadsheet_Excel_Reader {
 //                        $registro->RecargaVentasMov = $montoAcum;
 //                        $registro->update();
 //                    }
+                     
+                }
+                
+                if($i > 0){
+                    Detalleingreso::verificarDifFullCarga($fechaActual,$arrayCabina,$arrayTipoIngreso);
                 }
  
                 

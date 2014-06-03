@@ -150,7 +150,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifSoles',
-            'value'=>'Detalleingreso::getDiferencial($data->Fecha,$data->CABINA_Id)',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -161,7 +161,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifDollar',
-            'value'=>'Detalleingreso::getDiferencial($data->Fecha,$data->CABINA_Id,"dollar")',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,1)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(

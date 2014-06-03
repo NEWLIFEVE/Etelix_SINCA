@@ -121,7 +121,7 @@ $(document).ready(function()
     
     function gentotalsBalance(){
         
-        var arrayCols = new Array('ServDirecTv','ServNextel','diferencialFullCarga','diferencialCapturaSoles','diferencialCapturaDollar','acumulado','sobrante','sobranteAcum');
+        var arrayCols = new Array('ServDirecTv','ServNextel','diferencialFullCarga','diferencialBrightstarMovistar','diferencialBrightstarClaro','diferencialBrightstarDirecTv','diferencialBrightstarNextel','diferencialCapturaSoles','diferencialCapturaDollar','acumulado','sobrante','sobranteAcum','otrosServiciosFullCarga');
         var diferente=['No Declarado','No Declarado','0.00','0.00','0.00','&nbsp;','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00',''];
         for(var i=0;i<arrayCols.length;i++){
             totalsBalance(arrayCols[i],diferente[i]);
@@ -2067,8 +2067,9 @@ $(document).ready(function()
 
               if(vista == 'TraficoCaptura'){    
                   mensaje = 'ERROR: No se han Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada';
-                  $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
               }
+              
+              $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
               
               if(verificar.length < 2){
                   if($('div#errorDiv').length){

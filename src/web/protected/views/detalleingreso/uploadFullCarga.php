@@ -65,7 +65,7 @@ $form=$this->beginWidget('CActiveForm', array(
 <div class="row">
     
 <?php  echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
-<?php   $this->widget('zii.widgets.jui.CJuiDatePicker', 
+<?php  $this->widget('zii.widgets.jui.CJuiDatePicker', 
             array(
             'language' => 'es', 
             'model' => $model,
@@ -76,14 +76,14 @@ $form=$this->beginWidget('CActiveForm', array(
             'showButtonPanel' => 'false', 
             'constrainInput' => 'false',
             'showAnim' => 'show',
-//            'minDate'=>'-7D', //fecha minima
+            'minDate'=>'-7D', //fecha minima
             'maxDate'=> "-1D", //fecha maxima
                
              ),
             'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaTrafico', ),
-         ));                                                            ?>
- <?php   echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); ?>
- <?php   echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
+        ));                                                            ?>
+ <?php  echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); ?>
+ <?php  echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
                  
     
 </div>

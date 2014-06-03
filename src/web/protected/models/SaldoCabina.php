@@ -18,13 +18,16 @@
 class SaldoCabina extends CActiveRecord
 {
     
+        public $Cabina; 
         public $OtrosServicios;
         public $OtrosServiciosFullCarga;
         public $Trafico;
         public $RecargaMovistar;
         public $RecargaClaro;
         public $TotalVentas;
-        
+        public $TotalVentasDep;
+
+
         public $ServMov;
         public $ServClaro;
         public $ServDirecTv;
@@ -135,6 +138,7 @@ class SaldoCabina extends CActiveRecord
                         'OtrosServicios' => 'Otros Servicios (S/.)',
                         'OtrosServiciosFullCarga' => 'Otros Servicios FullCarga (S/.)',
                         'TotalVentas' => 'Total Ventas (S/.)',
+                        'TotalVentasDep' => "Total Ventas (S/.) 'A'",
                         'SaldoAp' => 'Saldo Apertura (S/.)',
                         'SaldoCierre' => 'Saldo Cierre (S/.)',
                         'MontoDeposito' => 'Monto Deposito (S/.)',
@@ -146,6 +150,7 @@ class SaldoCabina extends CActiveRecord
                         'DifDirecTv'=>'Diferencial DirecTv (S/.)',
                         'DifNextel'=>'Diferencial Nextel (S/.)',
                         'DifSoles'=>"Diferencial Captura Soles (S/.)",
+                        'CaptSoles'=>"Diferencial Captura Soles (S/.)",
                         'DifDollar'=>"Diferencial Captura Dollar (USD $)",
                         'Acumulado'=>'Acumulado Dif. Captura (USD $)',
                         'Sobrante'=>'Sobrante (USD $)',
@@ -252,6 +257,25 @@ class SaldoCabina extends CActiveRecord
                             ),
                         ));
                 }
+                
+                if(isset($mes) || isset($cabina))
+                {
+                    $condition="Id>0";
+                    if($mes)
+                    {
+                        $condition.=" AND Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'";
+                    }
+                    if($cabina)
+                    {
+                        $condition.=" AND CABINA_Id=".$cabina;
+                    }
+                    $pagina=self::model()->count($condition);
+                    
+                    if($post == 'admin')
+                        $pagina=NULL;
+                    
+                    $orden="Fecha DESC, cABINA.Nombre ASC";
+                }
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -331,5 +355,16 @@ class SaldoCabina extends CActiveRecord
             $model = self::model()->find("Fecha = '$fecha' AND CABINA_Id = $cabina");
             return $model->Id;
             
+        }
+                
+        public static function get_Model($ids) 
+        {
+            $sql = "SELECT s.Id, s.Fecha as Fecha, s.CABINA_Id as CABINA_Id, c.Nombre as Cabina
+                    FROM saldo_cabina s
+                    INNER JOIN cabina c ON c.id = s.CABINA_Id
+                    WHERE s.Id IN(21775) 
+                    ORDER BY s.Fecha DESC, c.Nombre ASC;";
+            
+              return self::model()->findAllBySql($sql); 
         }
 }

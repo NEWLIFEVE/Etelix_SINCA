@@ -830,31 +830,31 @@ class BalanceController extends Controller
     /**
      * @access public
      */
-    public function actionReporteBrightstar()
-    {
-        $model=new Balance('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes = $_GET['Balance'];
-
-        $this->render('reporteBrightstar', array(
-            'model'=>$model,
-        ));
-    }
-    
-    /**
-     * @access public
-     */
-    public function actionReporteCaptura()
-    {
-        $model=new Balance('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
-
-        $this->render('reporteCaptura', array(
-            'model'=>$model,
-            )
-        );
-    }
+//    public function actionReporteBrightstar()
+//    {
+//        $model=new Balance('search');
+//        $model->unsetAttributes();  // clear any default values
+//        if(isset($_GET['Balance'])) $model->attributes = $_GET['Balance'];
+//
+//        $this->render('reporteBrightstar', array(
+//            'model'=>$model,
+//        ));
+//    }
+//    
+//    /**
+//     * @access public
+//     */
+//    public function actionReporteCaptura()
+//    {
+//        $model=new Balance('search');
+//        $model->unsetAttributes();  // clear any default values
+//        if(isset($_GET['Balance'])) $model->attributes=$_GET['Balance'];
+//
+//        $this->render('reporteCaptura', array(
+//            'model'=>$model,
+//            )
+//        );
+//    }
     
     /**
      * @access public

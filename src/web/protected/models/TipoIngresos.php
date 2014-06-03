@@ -138,7 +138,7 @@ class TipoIngresos extends CActiveRecord
 			$model=self::model()->find('Nombre=:nombre',array(':nombre'=>$nombre));
 			if($model == null)
 			{
-				return $nombre;
+				return 2;
 				
 			}
 			else

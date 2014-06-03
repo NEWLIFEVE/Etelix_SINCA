@@ -143,13 +143,110 @@ class CicloIngresoModelo extends CActiveRecord
             $model = self::model()->findBySql("SELECT * FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
             if($model != NULL){
                 if($variable == 1){
-                    return $model->DiferencialBancario;
+                    return ($model->DiferencialBancario != NULL) ? $model->DiferencialBancario : '0.00';
                 }elseif($variable == 2){
-                    return $model->ConciliacionBancaria;
+                    return ($model->ConciliacionBancaria != NULL) ? $model->ConciliacionBancaria : '0.00';
                 }
             }else{
-                return '0';
+                return '0.00';
             }
+        }
+        
+        public static function getDifFullCarga($fecha,$cabina,$compania) {
+            
+            $model = self::model()->findBySql("SELECT * FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            if($model != NULL){
+                if($compania == 1){
+                    return ($model->DiferencialMovistar != NULL) ? round($model->DiferencialMovistar,2) : '0.00';
+                }elseif($compania == 2){
+                    return ($model->DiferencialClaro != NULL) ? round($model->DiferencialClaro,2) : '0.00';
+                }elseif($compania == 3){
+                    return ($model->DiferencialNextel != NULL) ? round($model->DiferencialNextel,2) : '0.00';
+                }elseif($compania == 4){
+                    return ($model->DiferencialDirectv != NULL) ? round($model->DiferencialDirectv,2) : '0.00';
+                }
+            }else{
+                return '0.00';
+            }
+        }
+        
+        public static function getDifCaptura($fecha,$cabina,$moneda) {
+            
+            $model = self::model()->findBySql("SELECT * FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            $paridad = Paridad::getParidad($fecha);
+            
+            if($model != NULL){
+                
+                if($moneda == 1){
+                    return ($model->DiferencialCaptura != NULL) ? round($model->DiferencialCaptura,2) : '0.00';
+                }elseif($moneda == 2){
+                    return ($model->DiferencialCaptura != NULL) ? round(($model->DiferencialCaptura*$paridad),2) : '0.00';
+                }elseif($moneda == 3){
+                    
+                    $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+                    $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(Sobrante,0)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha' AND CABINA_Id = $cabina");
+                    
+                    return ($Acumulado != NULL) ? round(($Acumulado->AcumuladoSobrante),2) : '0.00';
+                    
+                    
+                }
+                
+            }else{
+                if($moneda == 3){
+                    
+                    $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+                    $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(Sobrante,0)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha' AND CABINA_Id = $cabina");
+                    
+                    return ($Acumulado != NULL) ? round(($Acumulado->AcumuladoSobrante),2) : '0.00';
+
+                }else{
+                    return '0.00';
+                }
+            }
+        }
+        
+        public static function getSobrante($fecha,$cabina,$acumulado){
+            
+            $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+            
+            $model = self::model()->findBySql("SELECT * FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+            
+            $modelAcum = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialBancario,0)) as DiferencialBancario,
+                                                   SUM(IFNULL(DiferencialMovistar,0)) as DiferencialMovistar,
+                                                   SUM(IFNULL(DiferencialClaro,0)) as DiferencialClaro,
+                                                   SUM(IFNULL(DiferencialNextel,0)) as DiferencialNextel,
+                                                   SUM(IFNULL(DiferencialDirectv,0)) as DiferencialDirectv,
+                                                   SUM(IFNULL(DiferencialCaptura,0)) as DiferencialCaptura
+                                                   FROM ciclo_ingreso 
+                                                   WHERE Fecha >= '$primero_mes' 
+                                                   AND Fecha <= '$fecha' 
+                                                   AND CABINA_Id = $cabina;");
+            
+            $paridad = Paridad::getParidad($fecha);
+            
+            
+            
+            if($acumulado == false){
+                //SOBRANTE
+                if($model != NULL){
+
+                    return round((($model->DiferencialBancario+$model->DiferencialMovistar+$model->DiferencialClaro+$model->DiferencialNextel+$model->DiferencialDirectv+($model->DiferencialCaptura*$paridad))/$paridad),2);
+
+                }else{
+                    return '0.00';
+                }
+                
+            }elseif($acumulado == true){
+                //SOBRANTE ACUMULADO
+                if($modelAcum != NULL){
+
+                    return round((($modelAcum->DiferencialBancario+$modelAcum->DiferencialMovistar+$modelAcum->DiferencialClaro+$modelAcum->DiferencialNextel+$modelAcum->DiferencialDirectv+($modelAcum->DiferencialCaptura*$paridad))/$paridad),2);
+
+                }else{
+                    return '0.00';
+                }
+            }
+            
         }
         
 }

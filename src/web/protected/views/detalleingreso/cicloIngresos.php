@@ -229,63 +229,65 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'concilicacionBancaria',
                 ),
             ),
+//        array(
+//            'name'=>'DifFullCarga',
+//            'value'=>'Detalleingreso::getDifFullCarga($data->Fecha, $data->CABINA_Id)',
+//            'type'=>'text',
+//            'htmlOptions'=>array(
+//                'style' => '',
+//                'class'=>'dif',
+//                'name'=>'dif',
+//                'id'=>'diferencialFullCarga',
+//                ),
+//            ),
         array(
-            'name'=>'DifFullCarga',
-            'value'=>'Detalleingreso::getDifFullCarga($data->Fecha, $data->CABINA_Id)',
+            'name'=>'DifMov',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 1)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
-                'style' => '',
+                'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialFullCarga',
+                'id'=>'diferencialBrightstarMovistar',
                 ),
             ),
-//        array(
-//            'name'=>'DifMov',
-//            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 1)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 1)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialBrightstarMovistar',
-//                ),
-//            ),
-//        array(
-//            'name'=>'DifClaro',
-//            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 2)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 2)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialBrightstarClaro',
-//                ),
-//            ),
-//        array(
-//            'name'=>'DifDirecTv',
-//            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 4)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 4)',
-//            'type'=>'text',
-//            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialBrightstarDirecTv',
-//                ),
-//            ),
-//        array(
-//            'name'=>'DifNextel',
-//            'value'=>'Detalleingreso::VentasRecargas($data->FechaMes, $data->CABINA_Id, 3)-Detalleingreso::Recargas($data->FechaMes, $data->CABINA_Id, 3)',
-//            'type'=>'text',
-//            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialBrightstarNextel',
-//                ),
-//            ),
+        array(
+            'name'=>'DifClaro',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 2)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarClaro',
+                ),
+            ),
+        array(
+            'name'=>'DifDirecTv',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 4)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'DifNextel',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 3)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarNextel',
+                ),
+            ),
         array(
             'name'=>'Paridad',
             'value'=>'Paridad::getParidad($data->Fecha)',
@@ -298,7 +300,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifSoles',
-            'value'=>'Detalleingreso::getDiferencial($data->Fecha,$data->CABINA_Id)',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -309,7 +311,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifDollar',
-            'value'=>'Detalleingreso::getDiferencial($data->Fecha,$data->CABINA_Id,"dollar")',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,1)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
@@ -320,7 +322,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         ),
         array('name'=>'Acumulado',
-            'value'=>'Detalleingreso::getAcumulado($data->Fecha,$data->CABINA_Id)',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,3)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
@@ -331,7 +333,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array('name'=>'Sobrante',
-            'value'=>'Detalleingreso::getSobrante($data->Fecha,$data->CABINA_Id)',
+            'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
@@ -343,7 +345,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
 
         array('name'=>'SobranteAcum',
-            'value'=>'Detalleingreso::getSobranteAcumulado($data->Fecha,$data->CABINA_Id)',
+            'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,$data->CABINA_Id,true)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
@@ -546,7 +548,7 @@ function reinstallDatePicker(id, data) {
 ");
 ?>
 <div id="totales" class="grid-view">
-<table class="items">
+<table class="items" style="text-align: center;">
     <thead>
         <tr>
             <th id="totalFecha" style="background:rgba(0, 153, 0, 1);color:white;width: 64px;">Fecha</th>
@@ -554,9 +556,9 @@ function reinstallDatePicker(id, data) {
             <th id="totalVentas2" style="width: 12em;background:rgba(255,187,0,1);color:white;"></th>
             <th id="totalDiferencialBancario" style="background:#1967B2;color:white;"></th>
             <th id="totalConcilicacionBancaria" style="background:#1967B2;color:white;"></th>
-<!--            <th id="totalesDiferencialBrightstarMovistar" style="background:rgba(255,153,51,1);color:white;"></th>
+            <th id="totalesDiferencialBrightstarMovistar" style="background:rgba(255,153,51,1);color:white;"></th>
             <th id="totalesDiferencialBrightstarClaro" style="background:rgba(255,153,51,1);color:white;"></th>
-            <th id="totalesDiferencialBrightstarDirecTv" style="background:rgba(255,153,51,1);color:white;">Diferencial DirecTv (S/.)</th>-->
+            <th id="totalesDiferencialBrightstarDirecTv" style="background:rgba(255,153,51,1);color:white;">Diferencial DirecTv (S/.)</th>
             <th id="totalesDiferencialBrightstarNextel" style="background:rgba(255,153,51,1);color:white;">Direfencial FullCarga (S/.)</th>
             <th id="paridad" style="background:rgba(204,153,204,1);color:white;">Paridad Cambiaria</th>
             <th id="totalesDiferencialCapturaSoles" style="background:rgba(204,153,204,1);color:white;"></th>
@@ -571,18 +573,18 @@ function reinstallDatePicker(id, data) {
             <td id="totalFecha"></td>
             <td id="todas">Todas</td>
             <td id="totalVentas2"></td>
-            <td id="totalDiferencialBancario" class="dif"></td>
-            <td id="totalConcilicacionBancaria"></td> 
-<!--            <td id="totalesDiferencialBrightstarMovistar" class="dif"></td>
-            <td id="totalesDiferencialBrightstarClaro" class="dif"></td>
-            <td id="totaldiferencialBrightstarDirecTv" class="dif"></td>-->
-            <td id="totaldiferencialFullCarga" class="dif"></td>
-            <td>N/A</td>
-            <td id="totaldiferencialCapturaSoles" class="dif"></td>
-            <td id="totaldiferencialCapturaDollar" class="dif"></td>
-            <td id="totalacumulado"></td>
-            <td id="totalsobrante" class="dif"></td>
-            <td id="totalsobranteAcum"></td>
+            <td id="totalDiferencialBancario" class="dif" style="text-align: center;"></td>
+            <td id="totalConcilicacionBancaria" style="text-align: center;"></td> 
+            <td id="totaldiferencialBrightstarMovistar" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarClaro" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarDirecTv" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarNextel" class="dif" style="text-align: center;"></td>
+            <td style="text-align: center;">N/A</td>
+            <td id="totaldiferencialCapturaSoles" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialCapturaDollar" class="dif" style="text-align: center;"></td>
+            <td id="totalacumulado" style="text-align: center;"></td>
+            <td id="totalsobrante" class="dif" style="text-align: center;"></td>
+            <td id="totalsobranteAcum" style="text-align: center;"></td>
         </tr>
     </tbody>
 </table>

@@ -266,6 +266,7 @@ class DepositoController extends Controller
         public function actionUpdateMonto()
         {
             $idBalancesActualizados="";
+            $i = 0;
 
             //creo el parametro de busqueda
             $criteria=new CDbCriteria();
@@ -275,6 +276,7 @@ class DepositoController extends Controller
             $model=Deposito::model()->find($criteria);
             //asigno el id para usarlo luego
             $id=$model->id;
+            
             while($model->id!=null)
             {
                 if(isset($_POST['MontoBanco'.$id]) && $_POST['MontoBanco'.$id]!=null && is_numeric($_POST['MontoBanco'.$id]))
@@ -305,12 +307,28 @@ class DepositoController extends Controller
                             $id=$model->id;
                             
                             if($modelCicloIngreso->save())
-                                $this->redirect(array('mostrarFinal','id'=>$model->id,'idBalancesActualizados'=>$idBalancesActualizados));
-                        }else{
-                             Yii::app()->user->setFlash('error', "ERROR: No se ha Guardado Ningun Dato");
-                             $this->redirect(array('checkBanco'));
+                                $i++;
+                                
                         }
-                    }    
+                        
+                    }elseif($modelCicloIngreso != NULL){
+                        
+                        $modelCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$model->FechaCorrespondiente' AND CABINA_Id = $model->CABINA_Id");
+                        $modelCicloIngreso->ConciliacionBancaria = round(($_POST['MontoBanco'.$id]-$model->MontoDep),2);
+                        $modelCicloIngreso->DiferencialBancario = round(($_POST['MontoBanco'.$id]-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $model->FechaCorrespondiente, $model->CABINA_Id)),2);
+
+                        if($model->save())
+                        {
+                            $idBalancesActualizados.=$model->id.'A';
+                            $model=Deposito::model()->find($criteria);
+                            $id=$model->id;
+                            
+                            if($modelCicloIngreso->save())
+                                $i++;
+                        }
+                        
+                    }
+
                 }
                 else
                 {
@@ -319,8 +337,13 @@ class DepositoController extends Controller
                     $id=$model->id;
                 }
             }
-            Yii::app()->user->setFlash('error', "ERROR: No se ha Ingresado Ningun Monto de Banco");
-            $this->redirect(array('checkBanco')); 
+            
+            if($i > 0){
+                $this->redirect(array('mostrarFinal','id'=>$model->id,'idBalancesActualizados'=>$idBalancesActualizados));
+            }elseif($i == 0){
+                Yii::app()->user->setFlash('error', "ERROR: No se ha Ingresado Ningun Monto de Banco");
+                $this->redirect(array('checkBanco')); 
+            }    
         }
         
         public function actionMostrarFinal()
@@ -398,8 +421,8 @@ class DepositoController extends Controller
                     array('label'=>'__________REPORTES___________','url'=>array('')),
                     array('label'=>'Reporte Libro Ventas','url'=>array('detalleingreso/reporteLibroVentas')),
                     array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
-                    array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
-                    array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
+                    array('label'=>'Reporte Brightstar','url'=>array('detalleingreso/reporteFullCarga')),
+                    array('label'=>'Reporte Captura','url'=>array('detalleingreso/reporteCaptura')),
                     array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
                     array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
                     );

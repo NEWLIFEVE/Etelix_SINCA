@@ -84,6 +84,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         array(
             'name'=>'Fecha',
+            'header'=>'Fecha',
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
                 'attribute'=>'Fecha',
@@ -120,8 +121,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'DifMov',
-            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 1)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 1)',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 1)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -131,8 +133,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'DifClaro',
-            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 2)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 2)',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 2)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -142,7 +145,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'DifDirecTv',
-            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 4)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 4)',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 4)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
@@ -154,7 +157,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'DifNextel',
-            'value'=>'Detalleingreso::VentasRecargas($data->Fecha, $data->CABINA_Id, 3)-Detalleingreso::Recargas($data->Fecha, $data->CABINA_Id, 3)',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 3)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
@@ -285,16 +288,20 @@ function reinstallDatePicker2(id, data) {
             <th id="totalesDiferencialBrightstarMovistar" style="background:#ff9900; color:white;"></th>
             <!--<th id="balanceTotalesBrightstar3" style="background:#ff9900; color:white;"></th>-->
             <th id="totalesDiferencialBrightstarClaro" style="background:#ff9900; color:white;"></th>
+            <th id="totalesDiferencialBrightstarDirecTv" style="background:#ff9900; color:white;">Diferencial DirecTv (S/.)</th>
+            <th id="totalesDiferencialBrightstarNextel" style="background:#ff9900; color:white;">Diferencial Nextel (S/.)</th>
         </tr>
     </thead>
     <tbody>
         <tr class="odd">
-            <td id="totalFecha"></td>
-            <td id="todas"> Todas </td>
+            <td id="totalFecha" style="width: 95px;"></td>
+            <td id="todas" style="width: 135px; text-align: center;"> Todas </td>
             <!--<td id="balanceTotalesBrightstar1"></td>-->
-            <td id="totalesDiferencialBrightstarMovistar" class="dif"></td>
+            <td id="totalesDiferencialBrightstarMovistar" class="dif" style="text-align: center;"></td>
             <!--<td id="balanceTotalesBrightstar3"></td>-->
-            <td id="totalesDiferencialBrightstarClaro" class="dif"></td>
+            <td id="totalesDiferencialBrightstarClaro" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarDirecTv" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarNextel" class="dif" style="text-align: center;"></td>
         </tr>
     </tbody>
 </table>

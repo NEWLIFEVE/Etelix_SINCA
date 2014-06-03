@@ -58,7 +58,7 @@ if(!isset($fancybox)){
 <div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
 }
-
+echo Users::model()->findBySql("SELECT id FROM users WHERE id = 1; ")->id;
 $_POST['vista']='Depositos';
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balanceReporteDepositos',
@@ -119,7 +119,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
             ),
         array(
-            'name'=>'TotalVentas',
+            'name'=>'TotalVentasDep',
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
@@ -143,7 +143,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'DiferencialBancario',
-            'value'=>'Deposito::valueNull(round((Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoBanco-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)),2))',
+            'value'=>'Deposito::valueNull(round((Deposito::getMontoBanco($data->Fecha, $data->CABINA_Id)-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)),2))',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',

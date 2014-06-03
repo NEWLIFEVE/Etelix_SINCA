@@ -41,7 +41,7 @@ class libroVenta extends Reportes
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->ServDirecTv), $type).'</td>
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->ServNextel), $type).'</td>    
                             <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->OtrosServicios), $type).'</td>
-                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->TotalVentas+$registro->OtrosServicios), $type).'</td>
+                            <td '.self::defineStyleTd($key+2).'>'.self::format(self::defineMonto($registro->TotalVentas), $type).'</td>
                         </tr>';
                 
                 $traficoTotal = $traficoTotal +$registro->Trafico;
@@ -50,7 +50,7 @@ class libroVenta extends Reportes
                 $servDirecTvTotal = $servDirecTvTotal + $registro->ServDirecTv;
                 $servNextelTotal = $servNextelTotal + $registro->ServNextel;        
                 $otrosServTotal = $otrosServTotal + $registro->OtrosServicios;
-                $ventasTotal = $ventasTotal + ($registro->TotalVentas+$registro->OtrosServicios);
+                $ventasTotal = $ventasTotal + $registro->TotalVentas;
             }
 
 //            $balanceTotals=self::get_ModelTotal($ids);

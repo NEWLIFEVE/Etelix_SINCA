@@ -539,17 +539,17 @@ class Balance extends CActiveRecord
      */
 	public static function pintarDiff($montoDeposito,$montoBanco)
 	{
-        $resta = $montoDeposito-$montoBanco;
-        if ($resta!=0)
-        {
-            //return array('style'=>'text-align: center; color: red;');
-            return array('style'=>'color: red;');
+            $resta = $montoDeposito-$montoBanco;
+            if ($resta!=0)
+            {
+                //return array('style'=>'text-align: center; color: red;');
+                return array('style'=>'color: red;');
+            }
+            else
+            {
+                return array('style'=>'text-align: center;');
+            }
         }
-        else
-        {
-            return array('style'=>'text-align: center;');
-        }
-    }
 
     /**
      * @access public

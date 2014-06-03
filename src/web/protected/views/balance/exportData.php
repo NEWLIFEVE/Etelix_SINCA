@@ -118,75 +118,75 @@ set_time_limit(3600);
 
 /*-------------------INICIO - EXPORTAR DATA DE BALANCE A DETALLE INGRESO---------------------------------*/
 
-$sql = "SELECT Fecha, FijoLocal, FijoProvincia, FijoLima, Rural, Celular, LDI, OtrosServicios,
-        RecargaCelularMov, RecargaFonoYaMov, RecargaCelularClaro, RecargaFonoClaro, CABINA_Id, CUENTA_Id, 
-        RecargaVentasMov, RecargaVentasClaro, TraficoCapturaDollar
-        FROM balance
-        WHERE Fecha IS NOT NULL AND Fecha != '0000-00-00' AND CABINA_Id != 18 AND CABINA_Id != 19
-        AND (RecargaVentasMov IS NOT NULL
-        OR RecargaVentasClaro IS NOT NULL
-        OR TraficoCapturaDollar IS NOT NULL)
-        ORDER BY Fecha;";
-
-$ingresos = Balance::model()->findAllBySql($sql);
-
-$arrayIngresosMonto = Array('FijoLocal','FijoProvincia','FijoLima','Rural','Celular','LDI','OtrosServicios',
-                            'RecargaCelularMov','RecargaFonoYaMov','RecargaCelularClaro','RecargaFonoClaro',
-                            'RecargaVentasMov','RecargaVentasClaro','TraficoCapturaDollar');
-
-$arrayIngresosTipo = Array(2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-
-//echo '<table>';
-
-//echo "<tr><td>Fecha</td> <td>Hora</td> <td>MontoDeposito</td> <td>MontoBanco</td> 
-//              <td>NumReferencia</td> <td>Depositante</td> <td>CuentaId</td> <td>CabinaId</td></tr>";
-
-foreach ($ingresos as $key => $value) {
-    
-    $Fecha = $value->Fecha;
-    $RecargaVentasMov = $value->RecargaVentasMov;
-    $RecargaVentasClaro = $value->RecargaVentasClaro;
-    $TraficoCapturaDollar = $value->TraficoCapturaDollar;
-    $CabinaId = $value->CABINA_Id;
-    $CuentaId = 4;
+//$sql = "SELECT Fecha, FijoLocal, FijoProvincia, FijoLima, Rural, Celular, LDI, OtrosServicios,
+//        RecargaCelularMov, RecargaFonoYaMov, RecargaCelularClaro, RecargaFonoClaro, CABINA_Id, CUENTA_Id, 
+//        RecargaVentasMov, RecargaVentasClaro, TraficoCapturaDollar
+//        FROM balance
+//        WHERE Fecha IS NOT NULL AND Fecha != '0000-00-00' AND CABINA_Id != 18 AND CABINA_Id != 19
+//        AND (RecargaVentasMov IS NOT NULL
+//        OR RecargaVentasClaro IS NOT NULL
+//        OR TraficoCapturaDollar IS NOT NULL)
+//        ORDER BY Fecha;";
+//
+//$ingresos = Balance::model()->findAllBySql($sql);
+//
+//$arrayIngresosMonto = Array('FijoLocal','FijoProvincia','FijoLima','Rural','Celular','LDI','OtrosServicios',
+//                            'RecargaCelularMov','RecargaFonoYaMov','RecargaCelularClaro','RecargaFonoClaro',
+//                            'RecargaVentasMov','RecargaVentasClaro','TraficoCapturaDollar');
+//
+//$arrayIngresosTipo = Array(2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+//
+////echo '<table>';
+//
+////echo "<tr><td>Fecha</td> <td>Hora</td> <td>MontoDeposito</td> <td>MontoBanco</td> 
+////              <td>NumReferencia</td> <td>Depositante</td> <td>CuentaId</td> <td>CabinaId</td></tr>";
+//
+//foreach ($ingresos as $key => $value) {
 //    
-    for($i=0;$i<  count($arrayIngresosTipo);$i++){
-        // CREATE INGRESOS
-        if($$arrayIngresosMonto[$i] != NULL){
-            
-            $Ingreso = new Detalleingreso;
-            $Ingreso->unsetAttributes(); 
-
-            $Ingreso->FechaMes = $Fecha;
-            $Ingreso->Monto = $$arrayIngresosMonto[$i];     
-            $Ingreso->CABINA_Id = $CabinaId;
-            
-            if($arrayIngresosTipo[$i] > 12 && $arrayIngresosTipo[$i] < 16){
-                $Ingreso->USERS_Id = 40;
-            }else{
-                $Ingreso->USERS_Id = Users::getUserIdFromCabina($CabinaId);
-            }
-            
-            $Ingreso->TIPOINGRESO_Id = $arrayIngresosTipo[$i];
-            $Ingreso->moneda = 2;
-            
-            if($CabinaId == 17){
-                $Ingreso->CUENTA_Id = 2;
-            }else{
-                $Ingreso->CUENTA_Id = 4;
-            }
-            
-            $Ingreso->FechaTransf = NULL;
-            $Ingreso->TransferenciaPago = NULL;
-            $Ingreso->Descripcion = NULL;
-            $Ingreso->save();
-            
-        }
-    }
-    
-    
-    
-}
+//    $Fecha = $value->Fecha;
+//    $RecargaVentasMov = $value->RecargaVentasMov;
+//    $RecargaVentasClaro = $value->RecargaVentasClaro;
+//    $TraficoCapturaDollar = $value->TraficoCapturaDollar;
+//    $CabinaId = $value->CABINA_Id;
+//    $CuentaId = 4;
+////    
+//    for($i=0;$i<  count($arrayIngresosTipo);$i++){
+//        // CREATE INGRESOS
+//        if($$arrayIngresosMonto[$i] != NULL){
+//            
+//            $Ingreso = new Detalleingreso;
+//            $Ingreso->unsetAttributes(); 
+//
+//            $Ingreso->FechaMes = $Fecha;
+//            $Ingreso->Monto = $$arrayIngresosMonto[$i];     
+//            $Ingreso->CABINA_Id = $CabinaId;
+//            
+//            if($arrayIngresosTipo[$i] > 12 && $arrayIngresosTipo[$i] < 16){
+//                $Ingreso->USERS_Id = 40;
+//            }else{
+//                $Ingreso->USERS_Id = Users::getUserIdFromCabina($CabinaId);
+//            }
+//            
+//            $Ingreso->TIPOINGRESO_Id = $arrayIngresosTipo[$i];
+//            $Ingreso->moneda = 2;
+//            
+//            if($CabinaId == 17){
+//                $Ingreso->CUENTA_Id = 2;
+//            }else{
+//                $Ingreso->CUENTA_Id = 4;
+//            }
+//            
+//            $Ingreso->FechaTransf = NULL;
+//            $Ingreso->TransferenciaPago = NULL;
+//            $Ingreso->Descripcion = NULL;
+//            $Ingreso->save();
+//            
+//        }
+//    }
+//    
+//    
+//    
+//}
 
     
 
@@ -196,4 +196,99 @@ foreach ($ingresos as $key => $value) {
 
    
 
-/*-------------------FIN - EXPORTAR DATA DE BALANCE A DEPOSITO--------------------------------------*/
+/*-------------------FIN - EXPORTAR DATA DE BALANCE A DETALLE INGRESO--------------------------------------*/
+
+///*-------------------INICIO - EXPORTAR DATA DE BALANCE A CICLO INGRESO--------------------------------------*/
+//
+$sql = "SELECT b.*, p.Valor as Paridad
+        FROM balance as b
+        INNER JOIN paridad as p ON p.Id = b.PARIDAD_Id
+        WHERE b.CABINA_Id != 18 AND b.CABINA_Id != 19
+        AND b.Fecha != '0000-00-00'
+        ORDER BY b.Fecha LIMIT 1000000000;";
+
+$cicloIngresos = Balance::model()->findAllBySql($sql);
+
+//echo '<table>';
+//
+//echo "<tr><td>Fecha</td> <td>Hora</td> <td>MontoDeposito</td> <td>MontoBanco</td> 
+//              <td>NumReferencia</td> <td>Depositante</td> <td>CuentaId</td> <td>CabinaId</td></tr>";
+
+foreach ($cicloIngresos as $key => $value) {
+    
+    $Paridad = $value->Paridad;
+    
+    $Fecha = $value->Fecha;
+    $FechaDep = $value->FechaDep;
+    $Hora = $value->HoraDep;
+    $MontoDeposito = $value->MontoDeposito;
+    $MontoBanco = $value->MontoBanco;
+    $NumReferencia = $value->NumRefDeposito;
+    $Depositante = $value->Depositante;
+    $CuentaId = $value->CUENTA_Id;
+    $CabinaId = $value->CABINA_Id;
+    
+    $RecargaVentasMov = $value->RecargaVentasMov;
+    $RecargaVentasClaro = $value->RecargaVentasClaro;
+    $TraficoCapturaDollar = $value->TraficoCapturaDollar;
+    
+    $FijoLocal = $value->FijoLocal;
+    $FijoProvincia = $value->FijoProvincia;
+    $FijoLima = $value->FijoLima;
+    $Rural = $value->Rural;
+    $Celular = $value->Celular;
+    $LDI = $value->LDI;
+    
+    $OtrosServicios = $value->OtrosServicios;
+    $RecargaCelularMov = $value->RecargaCelularMov;
+    $RecargaFonoYaMov = $value->RecargaFonoYaMov;
+    $RecargaCelularClaro = $value->RecargaCelularClaro;
+    $RecargaFonoClaro = $value->RecargaFonoClaro;
+    
+    $Trafico = $FijoLocal+$FijoProvincia+$FijoLima+$Rural+$Celular+$LDI;
+    $TotalVentas = $RecargaCelularMov+$RecargaFonoYaMov+$RecargaCelularClaro+$RecargaFonoClaro+$OtrosServicios;
+    
+    $DifBancario = $value->DiferencialBancario;
+    $ConBancaria = $value->ConciliacionBancaria;
+    
+    $DiferencialMov = ($RecargaVentasMov-($RecargaCelularMov+$RecargaFonoYaMov));
+    $DiferencialClaro = ($RecargaVentasClaro-($RecargaCelularClaro+$RecargaFonoClaro));
+    
+    $DiferencialCaptura = (($Trafico-$TraficoCapturaDollar*$Paridad)/$Paridad);
+    
+    $AcumuladoCaptura = $value->Acumulado;
+    
+    $Sobrante = (($DifBancario+$DiferencialMov+$DiferencialClaro+($DiferencialCaptura*$Paridad))/$Paridad);
+    $AcumuladoSobrante = $value->SobranteAcum;
+    
+//    echo "<tr>
+//            <td>$Fecha</td> <td>$Hora</td> <td>$MontoDeposito</td> <td>$MontoBanco</td> 
+//            <td>$NumReferencia</td> <td>$Depositante</td> <td>$CuentaId</td> <td>$CabinaId</td>
+//          </tr>";
+    
+    // CREATE DEPOSITOS
+    $CicloIngreso = new CicloIngresoModelo;
+    $CicloIngreso->unsetAttributes(); 
+    
+    $CicloIngreso->Fecha = $Fecha;
+    $CicloIngreso->CABINA_Id = $CabinaId;
+    
+    $CicloIngreso->DiferencialBancario = $DifBancario;
+    $CicloIngreso->ConciliacionBancaria = $ConBancaria;
+    
+    $CicloIngreso->DiferencialMovistar = $DiferencialMov;
+    $CicloIngreso->DiferencialClaro = $DiferencialClaro;
+    
+    $CicloIngreso->DiferencialCaptura = $DiferencialCaptura;
+    $CicloIngreso->AcumuladoCaptura = $AcumuladoCaptura;
+            
+    $CicloIngreso->Sobrante = $Sobrante;
+    $CicloIngreso->AcumuladoSobrante = $AcumuladoSobrante;       
+    
+    $CicloIngreso->save();
+    
+}
+//
+////echo '</table>';
+//
+///*-------------------FIN - EXPORTAR DATA DE BALANCE A CICLO INGRESO--------------------------------------*/

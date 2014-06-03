@@ -213,13 +213,17 @@ class DetalleingresoController extends Controller
                         $balanceExistente = Detalleingreso::model()->find('FechaMes=:fecha AND CABINA_Id=:cabina AND TIPOINGRESO_Id=:ingreso',
                                                                     array(':fecha'=>$Fecha,':cabina'=>$cabina,':ingreso'=>TipoIngresos::getIdIngreso($key)));
                         if($balanceExistente==NULL){
+                            
+                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso($key);
+                            $arrayCabina[$i] = $cabina;
+                            
                             $model=new Detalleingreso;
                             $model->FechaMes = $Fecha; 
                             $model->Monto = str_replace(',','.',$_POST['Detalle'][$key]); 
                             $model->moneda = 2; 
                             $model->USERS_Id = Yii::app()->getModule('user')->user()->id; 
                             $model->CABINA_Id = $cabina;
-                            $model->TIPOINGRESO_Id = TipoIngresos::getIdIngreso($key); 
+                            $model->TIPOINGRESO_Id = $arrayTipoIngreso[$i]; 
                             if($cabina == 17){
                                 $model->CUENTA_Id = 2;
                             }else{
@@ -234,6 +238,7 @@ class DetalleingresoController extends Controller
 
                 if($i>0){
                     LogController::RegistrarLog(3,$Fecha);
+                    Detalleingreso::verificarDifFullCarga($Fecha,$arrayCabina,$arrayTipoIngreso);
                     $this->redirect(array('adminBalance'));
                 }else{
                     Yii::app()->user->setFlash('error', "ERROR: La Fecha Indicada ya Posee los Ingresos Declarados");
@@ -252,7 +257,7 @@ class DetalleingresoController extends Controller
             $usuario = Yii::app()->getModule('user')->user()->username;
             
             if(isset($_POST["UpdateFile"])){
-
+                
                 Yii::import('ext.phpexcelreader.JPhpExcelReader');
 
                 $fileName1='FullCarga.xls';
@@ -266,25 +271,25 @@ class DetalleingresoController extends Controller
                     Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
                 }
                 
-                if(isset($_SESSION['cabinas'])){
-                    
-                    echo 'Cabinas: ';
-                    var_dump($_SESSION['cabinas']);
-                    echo '<br><br>';
-                    echo 'Monto: ';
-                    var_dump($_SESSION['monto']);
-                    echo '<br><br>';
-                    echo 'Fecha: ';
-                    echo $_SESSION['fecha'];
-                    echo '<br><br>';
-                    echo 'Servicios: ';
-                    var_dump($_SESSION['servicio']);
-  
+//                if(isset($_SESSION['cabinas'])){
+//                    
+//                    echo 'Cabinas: ';
+//                    var_dump($_SESSION['cabinas']);
+//                    echo '<br><br>';
+//                    echo 'Monto: ';
+//                    var_dump($_SESSION['monto']);
+//                    echo '<br><br>';
+//                    echo 'Fecha: ';
+//                    echo $_SESSION['fecha'];
+//                    echo '<br><br>';
+//                    echo 'Servicios: ';
+//                    var_dump($_SESSION['servicio']);
+//  
                     if(file_exists($ruta1)){
                         unlink($ruta1);
                     }
-                    
-                }
+//                    
+//                }
                 
             }
 
@@ -296,6 +301,7 @@ class DetalleingresoController extends Controller
         
         public function actionGuardarExcelBD()
         {
+
             Yii::import('ext.phpexcelreader.JPhpExcelReader');
             $fileName1='claro.xls';
             $ruta1=Yii::getPathOfAlias('webroot.uploads').DIRECTORY_SEPARATOR.$fileName1;
@@ -561,6 +567,7 @@ class DetalleingresoController extends Controller
                         }    
 
                     }
+                    
                 }else{
                     $i = -1;
                 }
@@ -573,7 +580,7 @@ class DetalleingresoController extends Controller
                     Yii::app()->user->setFlash('error',"Trafico de Captura (USD$) - No se ha Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada");
                 }
             }
-            $this->redirect('/balance/uploadFullCarga');
+            $this->redirect('/detalleingreso/uploadFullCarga');
        }
 	
         protected function performAjaxValidation($model)

@@ -495,19 +495,22 @@ class Detalleingreso extends CActiveRecord
                             return $ServDirecTv->ServDirecTv;
                     }
                     elseif($atributo == 'TotalVentas'){
+                        $TotalVentas = 0;
                         $TotalVentas = self::model()->findBySql("SELECT SUM(d.Monto) as TotalVentas 
                                                                 FROM detalleingreso as d
                                                                 INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id > 0 AND t.Clase = 1;");
-                        if($TotalVentas->TotalVentas == NULL)
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id < 12 AND t.Clase = 1;");
+                        if($TotalVentas->TotalVentas == NULL){
                             return '0.00';
-                        else
+                        }else{
                             return $TotalVentas->TotalVentas;
+                        }    
                     }
                     elseif($atributo == 'OtrosServiciosFullCarga'){
+                        $TotalVentas = 0;
                         $TotalVentas = self::model()->findBySql("SELECT SUM(d.Monto) as TotalVentas 
                                                                 FROM detalleingreso as d
                                                                 INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
@@ -836,46 +839,68 @@ class Detalleingreso extends CActiveRecord
             return $nameFormate[$name];
         }
         
-        public static function verificarDifCaptura($fecha,$cabina,$tipoIngreso,$otroMonto,$clase)
+        public static function verificarDifFullCarga($fecha,$arrayCabina,$arrayTipoIngreso)
         {
-            $captura = 0;
-            $arrayCompania = Array('',);
-            if($clase == 1){
+            $ventasOperador = 0;
+            $ventasEtelix = 0;
+            $fechaIngreso = NULL;
+            $cabinas = Array();
+            $tipoIngresos = Array();
+            $compania = NULL;
+            
+            $fechaIngreso = $fecha;
+            $cabinas = array_keys(array_count_values(array_unique($arrayCabina)));
+            $tipoIngresos = array_unique($arrayTipoIngreso);
+            
+            for($i=0;$i<count($cabinas);$i++) {
 
-                $captura = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
-                                                    FROM detalleingreso as d
-                                                    INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
-                                                    WHERE d.FechaMes = '$fecha'
-                                                    AND d.CABINA_Id = $cabina 
-                                                    AND d.TIPOINGRESO_Id = $tipoIngreso 
-                                                    AND t.Clase = 1;");
-                
-                if($captura != NULL){
+                for($j=0;$j<count($tipoIngresos);$j++) {
+
+                    $compania = TipoIngresos::model()->findBySql("SELECT COMPANIA_Id FROM tipo_ingresos WHERE Id = $tipoIngresos[$j];");
+
+                    $ventasOperador = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fechaIngreso'
+                                                                AND d.CABINA_Id = $cabinas[$i] 
+                                                                AND t.COMPANIA_Id = $compania->COMPANIA_Id    
+                                                                AND u.tipo = 1;")->DifDollar;
                     
-                    $modelCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$fecha' AND CABINA_Id = $cabina");
-                    if($modelCicloIngreso != NULL){
-                        
-                        
-                        
-                        //$modelCicloIngreso->
-                                
-                                
+                    $ventasEtelix = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
+                                                              FROM detalleingreso as d
+                                                              INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                              INNER JOIN users as u ON u.id = d.USERS_Id
+                                                              WHERE d.FechaMes = '$fechaIngreso'
+                                                              AND d.CABINA_Id = $cabinas[$i] 
+                                                              AND t.COMPANIA_Id = $compania->COMPANIA_Id       
+                                                              AND u.tipo = 4;")->DifDollar;
+
+                    if($ventasOperador != NULL && $ventasEtelix != NULL){
+
+                        $modelCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$fechaIngreso' AND CABINA_Id = $cabinas[$i]");
+                        if($modelCicloIngreso != NULL){
+                            
+                            if($compania->COMPANIA_Id == 1){
+                                $modelCicloIngreso->DiferencialMovistar = round(($ventasEtelix-$ventasOperador),2);
+                            }elseif($compania->COMPANIA_Id == 2){
+                                $modelCicloIngreso->DiferencialClaro = round(($ventasEtelix-$ventasOperador),2);
+                            }elseif($compania->COMPANIA_Id == 3){
+                                $modelCicloIngreso->DiferencialNextel= round(($ventasEtelix-$ventasOperador),2);
+                            }elseif($compania->COMPANIA_Id == 4){
+                                $modelCicloIngreso->DiferencialDirectv = round(($ventasEtelix-$ventasOperador),2);
+                            }
+                            
+                            $modelCicloIngreso->save();
+                            
+                        }
+
                     }
-                    
                     
                 }
                     
-                
-                
-            }elseif($clase == 2){
-                $captura = self::model()->findBySql("SELECT SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)-IFNULL(b.TraficoCapturaDollar,0)*p.Valor)/p.Valor) as DifDollar 
-                                                FROM balance as b 
-                                                INNER JOIN paridad as p ON p.id = b.PARIDAD_Id 
-                                                INNER JOIN cabina as c ON c.Id = b.CABINA_Id 
-                                                WHERE (b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha') AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19 AND Id != 20);");
+            }
 
-            }    
-            return round($captura,2);
         }
         
 }
