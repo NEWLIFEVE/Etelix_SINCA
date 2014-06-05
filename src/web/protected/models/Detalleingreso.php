@@ -362,7 +362,7 @@ class Detalleingreso extends CActiveRecord
 		return parent::model($className);
 	}
         
-        public static function getLibroVentas($vista,$atributo,$fecha,$cabinaId,$tipoIngreso=NULL)
+        public static function getLibroVentas($vista,$atributo,$fecha,$cabinaId=NULL,$tipoIngreso=NULL)
 	{
             
                 if($vista == 'Servicios')
@@ -495,19 +495,32 @@ class Detalleingreso extends CActiveRecord
                             return $ServDirecTv->ServDirecTv;
                     }
                     elseif($atributo == 'TotalVentas'){
-                        $TotalVentas = 0;
-                        $TotalVentas = self::model()->findBySql("SELECT SUM(d.Monto) as TotalVentas 
+                        
+                        if($cabinaId != NULL){
+                             $sql = "SELECT SUM(d.Monto) as TotalVentas 
                                                                 FROM detalleingreso as d
                                                                 INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id < 12 AND t.Clase = 1;");
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND t.COMPANIA_Id != 12 AND t.Clase = 1;";
+                        }elseif($cabinaId == NULL){
+                            $sql = "SELECT SUM(d.Monto) as TotalVentas 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND t.Clase = 1;";
+                        }
+                        
+                        //$TotalVentas = 0;
+                        $TotalVentas = self::model()->findBySql($sql);
                         if($TotalVentas->TotalVentas == NULL){
                             return '0.00';
                         }else{
                             return $TotalVentas->TotalVentas;
-                        }    
+                        }  
+                        
                     }
                     elseif($atributo == 'OtrosServiciosFullCarga'){
                         $TotalVentas = 0;

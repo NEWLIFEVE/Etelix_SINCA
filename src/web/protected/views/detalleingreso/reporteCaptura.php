@@ -139,6 +139,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'name'=>'Paridad',
             'value'=>'Paridad::getParidad($data->Fecha)',
             'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                ),
             ),
         array(
             'name'=>'CaptSoles',
@@ -146,6 +149,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'traficoCapturaSoles',
+                'style'=>'text-align: center;',
                 ),
             ),
         array(
@@ -308,7 +312,7 @@ function reinstallDatePicker2(id, data) {
             <th style="background:rgba(204,153,204,1); color:white;">Cabinas</th>
             <!--<th id="totalMinutos" style="background:rgba(204,153,204,1); color:white;"></th>-->
             <th id="balanceTotalesCaptura1" style="background:rgba(204,153,204,1); color:white;"></th>
-            <th style="background:rgba(204,153,204,1); color:white;">Paridad Cambiaria:</th>
+            <th style="background:rgba(204,153,204,1); color:white;">Paridad Cambiaria (S/.|$)</th>
             <th id="balanceTotalesCaptura2" style="background:rgba(204,153,204,1); color:white;"></th>
             <th id="totalesDiferencialCapturaSoles" style="background:rgba(204,153,204,1); color:white;"></th>
             <th id="totalesDiferencialCapturaDollar" style="background:rgba(204,153,204,1); color:white;"></th>
@@ -316,14 +320,14 @@ function reinstallDatePicker2(id, data) {
     </thead>
     <tbody>
         <tr class="odd">
-            <td id="totalFecha"></td>
-            <td id="todas">Todas</td>
+            <td id="totalFecha" style="text-align: center;width: 97px;"></td>
+            <td id="todas" style="text-align: center;width: 103px;">Todas</td>
             <!--<td id="totalMinutos"></td>-->
-            <td id="balanceTotalesCaptura1"></td>
-            <td>N/A</td>
-            <td id="balanceTotalesCaptura2"></td>
-            <td id="totalesDiferencialCapturaSoles" class="dif"></td>
-            <td id="totalesDiferencialCapturaDollar" class="dif"></td>
+            <td id="totaltraficoCapturaDollar" style="text-align: center;"></td>
+            <td style="text-align: center;">N/A</td>
+            <td id="totaltraficoCapturaSoles" style="text-align: center;width: 100px;"></td>
+            <td id="totaldiferencialCapturaSoles" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialCapturaDollar" class="dif" style="text-align: center;"></td>
         </tr>
     </tbody>
 </table>

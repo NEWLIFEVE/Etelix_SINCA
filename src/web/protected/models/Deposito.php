@@ -237,10 +237,15 @@ class Deposito extends CActiveRecord
             $model = self::model()->findBySql("SELECT SUM(MontoDep) as MontoDep
                                                FROM deposito 
                                                WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
-            if($model->MontoDep != NULL)
-                return $model->MontoDep;
-            else
+            if($model != NULL){
+                if($model->MontoDep != NULL){
+                    return $model->MontoDep;
+                }else{
+                    return '0.00';
+                }
+            }else{
                 return '0.00';
+            }
 	}
         
         public static function getMontoBanco($fecha,$cabina)
@@ -260,12 +265,53 @@ class Deposito extends CActiveRecord
             
 	}
         
-        public static function getDataDeposito($fecha,$cabina)
+        public static function getNumRef($fecha,$cabina)
 	{
-            $model = self::model()->findBySql("SELECT *
+            $model = self::model()->findBySql("SELECT NumRef
                                                FROM deposito 
                                                WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
-            return $model;
+            if($model != NULL){
+                if($model->NumRef != NULL){
+                    return $model->NumRef;
+                }else{
+                    return '';
+                }
+            }else{
+                return '';
+            }
+            
+	}
+        
+        
+        public static function getDataDeposito($fecha,$cabina,$atributo=NULL)
+	{
+            if($atributo == NULL){
+                $model = self::model()->findBySql("SELECT *
+                                                   FROM deposito 
+                                                   WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
+
+                return $model;
+            }elseif($atributo != NULL){
+                
+                $model = self::model()->findBySql("SELECT $atributo
+                                                   FROM deposito 
+                                                   WHERE FechaCorrespondiente = '$fecha' AND CABINA_Id = $cabina;");
+
+                if($model == NULL){
+                    return '';
+                }elseif($model != NULL){
+                    
+                    if($model->$atributo == NULL){
+                        return '';
+                    }elseif($model->$atributo != NULL){
+                         return $model->$atributo;
+                    }
+                    
+                    
+                }
+                
+            
+            }
 	}
         
         public static function valueNull($valor)

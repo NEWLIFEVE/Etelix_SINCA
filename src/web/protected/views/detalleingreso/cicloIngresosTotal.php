@@ -123,9 +123,9 @@ $año = date("Y", strtotime($mes));
     <div id="botonsExport">
     <ul>
         <li style="display:none;">
-            Resumido      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoTotal" />
-                    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelTotal" />
-                    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButtonTotal'/>
+            Resumido      <img title="Enviar por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreo" />
+                    <img title="Exportar a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcel" />
+                    <img title="Imprimir Tabla" src='<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/print.png' class='printButton'/>
 
         </li>
         <li style="display:none;">
@@ -271,8 +271,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 )
             ),
         array(
-            'name'=>'Total',
-            'value'=> '',
+            'name'=>'TotalVentas',
+            'value'=> 'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center;  width:150px;',
@@ -280,8 +280,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'DifBancoCI',
-            'value'=> '',
+            'name'=>'DiferencialBan',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->Fecha,NULL,1)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -291,8 +291,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'ConciliacionBancariaCI',
-            'value'=>'',
+            'name'=>'ConciliacionBan',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->Fecha,NULL,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -303,8 +303,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifMov',
-            'value'=>'',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, NULL, 1)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -314,8 +315,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifClaro',
-            'value'=>'',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, NULL, 2)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -324,13 +326,42 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'Paridad',
-            'value'=>'',
+            'name'=>'DifDirecTv',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, NULL, 4)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'DifNextel',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, NULL, 3)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'paridad',
+                ),
+            ),
+        array(
+            'name'=>'Paridad',
+            'value'=>'Paridad::getParidad($data->Fecha)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('background: rgba(204,153,204,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'id'=>'diferencialCapturaSoles',
+                ),
             ),
         array(
             'name'=>'DifSoles',
-            'value'=>'',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,NULL,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -339,29 +370,23 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'diferencialCapturaSoles',
                 ),
             ),
-        array('name'=>'DifDollar',
-            'value'=>'',
+        array(
+            'name'=>'DifDollar',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,NULL,1)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
                 'id'=>'diferencialCapturaDollar',
-                ),
             ),
-        /*array('name'=>'Acumulado',
-            'value'=>'Balance::acumuladoTotal($data->Fecha)',
+        ),
+        array(
+            'name'=>'Acumulado',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,NULL,3)',
             'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'Acumulado',
-                ),
-            ),*/
-        array('name'=>'Acumulado',
-            'value'=>'',
-            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -369,9 +394,11 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'acumulado',
                 ),
             ),
-        array('name'=>'Sobrante',
-            'value'=>'',
+        array(
+            'name'=>'Sobrante',
+            'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,NULL,false)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -379,19 +406,11 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'sobrante',
                 ),
             ),
-        /*array('name'=>'SobranteAcum',
-            'value'=>'Balance::sobranteAcumTotal($data->Fecha)',
+        array(
+            'name'=>'SobranteAcum',
+            'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,NULL,true)',
             'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'sobranteAcum',
-                ),
-            ),*/
-        array('name'=>'SobranteAcum',
-            'value'=>'',
-            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -598,6 +617,48 @@ function reinstallDatePicker(id, data) {
             <th id="totalesDiferencialCapturaDollar" style="background:rgba(204,153,204,1);color:white;"></th>
         </tr>
     </thead>
+</table>
+</div>
+<div id="totales" class="grid-view">
+<table class="items" style="text-align: center;">
+    <thead>
+        <tr>
+            <th id="totalFecha" style="background:rgba(0, 153, 0, 1);color:white;width: 64px;">Fecha</th>
+            <th id="totalCabinas" style="background:rgba(0, 153, 0, 1);color:white;width: 107px;">Cabinas</th>
+            <th id="totalVentas2" style="width: 12em;background:rgba(255,187,0,1);color:white;"></th>
+            <th id="totalDiferencialBancario" style="background:#1967B2;color:white;"></th>
+            <th id="totalConcilicacionBancaria" style="background:#1967B2;color:white;"></th>
+            <th id="totalesDiferencialBrightstarMovistar" style="background:rgba(255,153,51,1);color:white;"></th>
+            <th id="totalesDiferencialBrightstarClaro" style="background:rgba(255,153,51,1);color:white;"></th>
+            <th id="totalesDiferencialBrightstarDirecTv" style="background:rgba(255,153,51,1);color:white;">Diferencial DirecTv (S/.)</th>
+            <th id="totalesDiferencialBrightstarNextel" style="background:rgba(255,153,51,1);color:white;">Direfencial FullCarga (S/.)</th>
+            <th id="paridad" style="background:rgba(204,153,204,1);color:white;">Paridad Cambiaria</th>
+            <th id="totalesDiferencialCapturaSoles" style="background:rgba(204,153,204,1);color:white;"></th>
+            <th id="totalesDiferencialCapturaDollar" style="background:rgba(204,153,204,1);color:white;"></th>
+            <th id="totalAcumulado" style='background:#cc99cc; color:white;'></th>
+            <th id="totalSobrante" style='background:#2e87ff; color:white;'></th>
+            <th id="totalSobranteAcum" style='background:#2e87ff; color:white;'></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd">
+            <td id="totalFecha"></td>
+            <td id="todas">Todas</td>
+            <td id="totalVentas2"></td>
+            <td id="totalDiferencialBancario" class="dif" style="text-align: center;"></td>
+            <td id="totalConcilicacionBancaria" style="text-align: center;"></td> 
+            <td id="totaldiferencialBrightstarMovistar" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarClaro" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarDirecTv" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarNextel" class="dif" style="text-align: center;"></td>
+            <td style="text-align: center;">N/A</td>
+            <td id="totaldiferencialCapturaSoles" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialCapturaDollar" class="dif" style="text-align: center;"></td>
+            <td id="totalacumulado" style="text-align: center;"></td>
+            <td id="totalsobrante" class="dif" style="text-align: center;"></td>
+            <td id="totalsobranteAcum" style="text-align: center;"></td>
+        </tr>
+    </tbody>
 </table>
 </div>
 <?php

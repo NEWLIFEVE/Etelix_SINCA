@@ -121,7 +121,10 @@ $(document).ready(function()
     
     function gentotalsBalance(){
         
-        var arrayCols = new Array('ServDirecTv','ServNextel','diferencialFullCarga','diferencialBrightstarMovistar','diferencialBrightstarClaro','diferencialBrightstarDirecTv','diferencialBrightstarNextel','diferencialCapturaSoles','diferencialCapturaDollar','acumulado','sobrante','sobranteAcum','otrosServiciosFullCarga');
+        var arrayCols = new Array('ServDirecTv','ServNextel','diferencialFullCarga','diferencialBrightstarMovistar',
+                                  'diferencialBrightstarClaro','diferencialBrightstarDirecTv','diferencialBrightstarNextel',
+                                  'diferencialCapturaSoles','diferencialCapturaDollar','acumulado','sobrante','sobranteAcum',
+                                  'otrosServiciosFullCarga','traficoCapturaDollar','traficoCapturaSoles','diferencialCapturaSoles','diferencialCapturaDollar');
         var diferente=['No Declarado','No Declarado','0.00','0.00','0.00','&nbsp;','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00',''];
         for(var i=0;i<arrayCols.length;i++){
             totalsBalance(arrayCols[i],diferente[i]);
@@ -381,7 +384,7 @@ $(document).ready(function()
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             
-            $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+            $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]="'"+$(this).text()+"'"; //incluimos los ids de la columna en el array.
             });
             if(ids != ''){
@@ -840,7 +843,7 @@ $(document).ready(function()
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
             
-            $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+            $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]= "'"+$(this).text()+"'"; //incluimos los ids de la columna en el array.
             });
             //alert(name);
@@ -1243,10 +1246,10 @@ $(document).ready(function()
             var ids = new Array();//Creamos un Array como contenedor de los ids.
             var gridview = $('div[rel="total"]').filter(function(){return $(this).css('display') == "block" }).attr('id');
             var name = genNameFile(gridview);
-            $("#"+gridview+" td#fecha").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
+            $("#"+gridview+" td#ids").each(function(index){ //Con esta funcion de jquery recorremis la columna (oculta) de los ids.
                         ids[index]= "'"+$(this).text()+"'"; //incluimos los ids de la columna en el array.
             });
-            //alert(ids);
+            console.log(ids);
             
             if(ids != ''){
             //Creamos la variable que contiene la tabla generada.

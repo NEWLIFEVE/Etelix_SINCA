@@ -58,7 +58,7 @@ if(!isset($fancybox)){
 <div id="cabina2" style="display: none;"><?php echo $cabina != NULL ? Cabina::getNombreCabina2($cabina) : "";?></div>
 <?php
 }
-echo Users::model()->findBySql("SELECT id FROM users WHERE id = 1; ")->id;
+
 $_POST['vista']='Depositos';
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balanceReporteDepositos',
@@ -133,7 +133,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'id'=>'montoDeposito',
                 ),
             ),
-        'NumRef',
+        array(
+            'name'=>'NumRef',
+            'value'=>'Deposito::valueNull(Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->NumRef)',
+            'htmlOptions'=>array(
+                'id'=>'numRef',
+                ),
+            ),
         array(
             'name'=>'MontoBanco',
             'value'=>'Deposito::valueNull(Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoBanco)',
@@ -291,7 +297,7 @@ function reinstallDatePicker2(id, data) {
         <tr>
             <th id="totalFecha"style="background:#1967B2; color:white;width: 87px;">Fecha</th>
             <th id="todas"style="background:#1967B2; color:white;width: 90px;">Cabinas</th>
-            <th id="totalVentas2" style="background:#1967B2; color:white;"></th>
+            <th id="totalVentas2" style="background:#1967B2; color:white;width: 90px;"></th>
             <th id="totalMontoDeposito" style="background:#1967B2; color:white;"></th>
             <th style="background:#1967B2; color:white;">Numero de Ref. Deposito</th>
             <th id="balanceTotalesDepositos3" style="background:#1967B2; color:white;"></th>

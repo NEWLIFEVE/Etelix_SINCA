@@ -202,7 +202,7 @@ class SaldoCabina extends CActiveRecord
 		$criteria->compare('COMPANIA_Id',$this->COMPANIA_Id);
                 $criteria->select = "SUM(SaldoAp) as SaldoAp, CABINA_Id, Fecha";
                 $criteria->with =array('cABINA');
-                $criteria->addCondition("cABINA.status = 1");
+                $criteria->addCondition("cABINA.status = 1 AND cABINA.Id != 18 AND cABINA.Id != 19");
                 $criteria->group='Fecha,CABINA_Id';
                 
                 if($cabina!=NULL)
@@ -223,15 +223,44 @@ class SaldoCabina extends CActiveRecord
                 
                 if($post == 'cicloIngresoTotal' && $idBalancesActualizados == NULL)
                 {
+                    
                     $criteriaAux=new CDbCriteria;
+                    $criteriaAux->with =array('cABINA');
+                    $criteriaAux->addCondition("cABINA.status = 1 AND cABINA.Id != 18 AND cABINA.Id != 19");
                     $criteriaAux->group = "Fecha";
+                    
+                    $pagina=31;
+                    
+                    if($mes!=NULL)
+                        $criteriaAux->addCondition("Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'");
+                    
+                    if(isset($mes) || isset($cabina))
+                    {
+                        $condition="Id>0";
+                        if($mes)
+                        {
+                            $condition.=" AND Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'";
+                        }
+                        if($cabina)
+                        {
+                            $condition.=" AND CABINA_Id=".$cabina;
+                        }
+                        $pagina=self::model()->count($condition);
+
+                        if($post == 'admin')
+                            $pagina=NULL;
+
+                        $orden="Fecha DESC, cABINA.Nombre ASC";
+                    }
+
+                    
                     return new CActiveDataProvider($this, array(
                         'criteria'=>$criteriaAux,
                         'sort'=>array(
                             'defaultOrder'=>'Fecha DESC'
                             ),
                         'pagination'=>array(
-                            'pageSize'=>31
+                            'pageSize'=>$pagina
                             ),
                         ));
                 }

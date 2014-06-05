@@ -91,15 +91,15 @@ return array(
 			),
 		'log'=>array(
 			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-                    'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-                ),
-				// uncomment the following to show log messages on web pages
-				//array(
-				//	'class'=>'CWebLogRoute',
-				//		),
-				),
+//			'routes'=>array(
+////				array(
+//////                    'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+////                ),
+//				// uncomment the following to show log messages on web pages
+//				//array(
+//				//	'class'=>'CWebLogRoute',
+//				//		),
+//				),
 			),
 		'format'=>array(
 			'class'=>'application.components.Formatter',

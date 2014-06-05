@@ -295,7 +295,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'headerHtmlOptions' => array('background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
-                'id'=>'diferencialCapturaSoles',
+                'id'=>'paridad',
                 ),
             ),
         array(
