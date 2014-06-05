@@ -3,6 +3,9 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Realese 1.8.3.1
+- Fix en Ciclo de Ingresos, se estaba descartando valores de la cabina COMAS en funciones de ACUMULADO.
+    
 Realese 1.8.3
     - Agregadas Funciones para Acumulado, Sobrante y Sobrante Acumulado en Ciclo de Ingresos, corregios valores.
     - Reportes Consolidados de Fallas, Resumido y Completo con sus exportables sin Imprimir.

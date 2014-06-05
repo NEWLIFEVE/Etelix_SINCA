@@ -1390,7 +1390,7 @@ class Balance extends CActiveRecord
                                             FROM balance as b 
                                             INNER JOIN paridad as p ON p.id = b.PARIDAD_Id 
                                             INNER JOIN cabina as c ON c.Id = b.CABINA_Id 
-                                            WHERE (b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha') AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19 AND Id != 20);");
+                                            WHERE (b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha') AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19);");
             
         return Yii::app()->format->formatDecimal($sum->DifDollar);
     }
@@ -1424,7 +1424,7 @@ class Balance extends CActiveRecord
                        FROM balance b
                        INNER JOIN cabina as c ON c.id = b.CABINA_Id
                        INNER JOIN paridad as p ON p.id = b.PARIDAD_Id
-                       WHERE b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha' AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19 AND Id != 20);";
+                       WHERE b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha' AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19);";
         }
         
         $sum = self::model()->findBySql($sql);
