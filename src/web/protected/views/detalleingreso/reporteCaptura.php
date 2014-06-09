@@ -178,119 +178,126 @@ $this->widget('zii.widgets.grid.CGridView',array(
         ),
     )
 );
-//$this->widget('zii.widgets.grid.CGridView',array(
-//    'id'=>'balanceReporteCapturaOculta',
-//    'htmlOptions'=>array(
-//        'class'=>'grid-view ReporteCaptura oculta',
-//        'rel'=>'total',
-//        'name'=>'oculta',
-//        ),
-//    'dataProvider'=>$model->disable(),
-//    'afterAjaxUpdate'=>'reinstallDatePicker2',
-//    'filter'=>$model,
-//    'columns'=>array(
+
+$this->widget('zii.widgets.grid.CGridView',array(
+    'id'=>'balanceReporteCapturaOculta',
+    'htmlOptions'=>array(
+        'class'=>'grid-view ReporteCaptura oculta',
+        'rel'=>'total',
+        'name'=>'oculta',
+        ),
+    'dataProvider'=>$model->disable(),
+    'afterAjaxUpdate'=>'reinstallDatePicker2',
+    'filter'=>$model,
+    'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        array(
+            'name'=>'Fecha',
+            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                'model'=>$model,
+                'attribute'=>'Fecha',
+                'language'=>'ja',
+                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
+                'htmlOptions'=>array(
+                    'id'=>'datepicker_for_Fecha',
+                    'size'=>'15',
+                    ),
+                'defaultOptions'=>array(
+                    'showOn'=>'focus',
+                    'dateFormat'=>'yy-mm-dd',
+                    'showOtherMonths'=>true,
+                    'selectOtherMonths'=>true,
+                    'changeMonth'=>true,
+                    'changeYear'=>true,
+                    'showButtonPanel'=>true,
+                    )
+                ),true),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                'id'=>'fecha',
+                ),
+            ),
+        array(
+            'name'=>'CABINA_Id',
+            'value'=>'$data->cABINA->Nombre',
+            'type'=>'text',
+            'filter'=>Cabina::getListCabina(),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                ),
+            ),
+
 //        array(
-//        'name'=>'Id',
-//        'value'=>'$data->Id',
-//        'type'=>'text',
-//        'headerHtmlOptions' => array('style' => 'display:none'),
-//        'htmlOptions'=>array(
-//            'id'=>'ids',
-//            'style'=>'display:none',
-//          ),
-//          'filterHtmlOptions' => array('style' => 'display:none'),
-//        ),
-//        array(
-//            'name'=>'Fecha',
-//            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-//                'model'=>$model,
-//                'attribute'=>'Fecha',
-//                'language'=>'ja',
-//                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
-//                'htmlOptions'=>array(
-//                    'id'=>'datepicker_for_Fecha_oculta',
-//                    'size'=>'10',
-//                    ),
-//                'defaultOptions'=>array(
-//                    'showOn'=>'focus',
-//                    'dateFormat'=>'yy-mm-dd',
-//                    'showOtherMonths'=>true,
-//                    'selectOtherMonths'=>true,
-//                    'changeMonth'=>true,
-//                    'changeYear'=>true,
-//                    'showButtonPanel'=>true,
-//                    )
-//                ),
-//                true),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'id'=>'fecha',
-//                ),
-//            ),
-//        array(
-//            'name'=>'CABINA_Id',
-//            'value'=>'$data->cABINA->Nombre',
-//            'type'=>'text',
-//            'filter'=>Cabina::getListCabinaInactivas(),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;'
-//                ),
-//            ),
-//                        array(
+//
 //            'name'=>'MinutosCaptura',
-//            'value'=>'$data->MinutosCaptura',
-//            'type'=>'text',
 //            'htmlOptions'=>array(
 //                'style'=>'text-align: center;',
+//                'id'=>'minutos'
 //                )
 //            ),
-//        array(
-//            'name'=>'TraficoCapturaDollar',
-//            'value'=>'Yii::app()->format->formatDecimal($data->TraficoCapturaDollar)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'id'=>'traficoCapturaDollar',
-//                ),
-//            ),
-//        array(
-//            'name'=>'Paridad',
-//            'value'=>'Yii::app()->format->formatDecimal($data->pARIDAD->Valor)',
-//            'type'=>'text',
-//            ),
-//        array(
-//            'name'=>'CaptSoles',
-//            'value'=>'Yii::app()->format->formatDecimal($data->TraficoCapturaDollar*$data->pARIDAD->Valor)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'traficoCapturaSoles',
-//                ),
-//            ),
-//        array(
-//            'name'=>'DifSoles',
-//            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)-($data->TraficoCapturaDollar*$data->pARIDAD->Valor))',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialCapturaSoles',
-//                ),
-//            ),
-//        array(
-//            'name'=>'DifDollar',
-//            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI-$data->TraficoCapturaDollar*$data->pARIDAD->Valor)/$data->pARIDAD->Valor)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialCapturaDollar',
-//                ),
-//            ),
-//        ),
-//    )
-//);
+        array(
+            'name'=>'TraficoCapturaDollar',
+            'value'=>'Detalleingreso::TraficoCapturaDollar($data->Fecha,$data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                'id'=>'traficoCapturaDollar',
+                ),
+            ),
+        array(
+            'name'=>'Paridad',
+            'value'=>'Paridad::getParidad($data->Fecha)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                ),
+            ),
+        array(
+            'name'=>'CaptSoles',
+            'value'=>'round((Detalleingreso::TraficoCapturaDollar($data->Fecha,$data->CABINA_Id)*Paridad::getParidad($data->Fecha)),2)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'traficoCapturaSoles',
+                'style'=>'text-align: center;',
+                ),
+            ),
+        array(
+            'name'=>'DifSoles',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,2)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialCapturaSoles',
+                ),
+            ),
+        array(
+            'name'=>'DifDollar',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,1)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialCapturaDollar',
+            ),
+        ),
+        ),
+    )
+);
+        
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();

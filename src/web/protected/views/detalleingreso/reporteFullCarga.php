@@ -170,101 +170,118 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
     )
 );
-//$this->widget('zii.widgets.grid.CGridView', array(
-//    'id'=>'balanceReporteBrighstarOculta',
-//    'htmlOptions'=>array(
-//        'class'=>'grid-view ReporteBrighstar oculta',
-//        'rel'=>'total',
-//        'name'=>'oculta',
-//        ),
-//    'dataProvider'=>$model->disable(),
-//    'afterAjaxUpdate'=>'reinstallDatePicker2',
-//    'filter'=>$model,
-//    'columns'=>array(
-//        array(
-//        'name'=>'Id',
-//        'value'=>'$data->Id',
-//        'type'=>'text',
-//        'headerHtmlOptions' => array('style' => 'display:none'),
-//        'htmlOptions'=>array(
-//            'id'=>'ids',
-//            'style'=>'display:none',
-//          ),
-//          'filterHtmlOptions' => array('style' => 'display:none'),
-//        ),
-//        array(
-//            'name'=>'Fecha',
-//            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-//                'model'=>$model,
-//                'attribute'=>'Fecha',
-//                'language'=>'ja',
-//                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
-//                'htmlOptions'=>array(
-//                    'id'=>'datepicker_for_Fecha_oculta',
-//                    'size'=>'10',
-//                    ),
-//                'defaultOptions'=>array(
-//                    'showOn'=>'focus',
-//                    'dateFormat'=>'yy-mm-dd',
-//                    'showOtherMonths'=>true,
-//                    'selectOtherMonths'=>true,
-//                    'changeMonth'=>true,
-//                    'changeYear'=>true,
-//                    'showButtonPanel'=>true,
-//                    )
-//                ),
-//                true),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'id'=>'fecha',
-//                ),
-//            ),
-//        array(
-//            'name'=>'CABINA_Id',
-//            'value'=>'$data->cABINA->Nombre',
-//            'type'=>'text',
-//            'filter'=>Cabina::getListCabinaInactivas(),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;'
-//                ),
-//            ),
-//        array(
-//            'name'=>'RecargaVentasMov',
-//            'htmlOptions'=>array(
-//                'id'=>'recargasVentasMovistar'
-//                ),
-//            ),
-//        array(
-//            'name'=>'DifMov',
-//            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasMov-($data->RecargaCelularMov+$data->RecargaFonoYaMov))',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialBrightstarMovistar',
-//                ),
-//            ),
-//        array(
-//            'name'=>'RecargaVentasClaro',
-//            'htmlOptions'=>array(
-//                'id'=>'recargasVentasClaro'
-//                ),
-//            ),
-//        array(
-//            'name'=>'DifClaro',
-//            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasClaro-($data->RecargaCelularClaro+$data->RecargaFonoClaro))',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: red;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialBrightstarClaro'
-//                ),
-//            ),
-//        ),
-//    )
-//);
+
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'balanceReporteBrighstarOculta',
+    'htmlOptions'=>array(
+        'class'=>'grid-view ReporteBrighstar oculta',
+        'rel'=>'total',
+        'name'=>'oculta',
+        ),
+    'dataProvider'=>$model->disable(),
+    'afterAjaxUpdate'=>'reinstallDatePicker2',
+    'filter'=>$model,
+    'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        array(
+            'name'=>'Fecha',
+            'header'=>'Fecha',
+            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                'model'=>$model,
+                'attribute'=>'Fecha',
+                'language'=>'ja',
+                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
+                'htmlOptions'=>array(
+                    'id'=>'datepicker_for_Fecha',
+                    'size'=>'10',
+                    ),
+                'defaultOptions'=>array(
+                    'showOn'=>'focus',
+                    'dateFormat'=>'yy-mm-dd',
+                    'showOtherMonths'=>true,
+                    'selectOtherMonths'=>true,
+                    'changeMonth'=>true,
+                    'changeYear'=>true,
+                    'showButtonPanel'=>true,
+                    )
+                ),
+                true),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                'id'=>'fecha',
+                ),
+            ),
+        array(
+            'name'=>'CABINA_Id',
+            'value'=>'$data->cABINA->Nombre',
+            'type'=>'text',
+            'filter'=>Cabina::getListCabina(),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;'
+                ),
+            ),
+        array(
+            'name'=>'DifMov',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 1)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarMovistar',
+                ),
+            ),
+        array(
+            'name'=>'DifClaro',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 2)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarClaro',
+                ),
+            ),
+        array(
+            'name'=>'DifDirecTv',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 4)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'DifNextel',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 3)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarNextel',
+                ),
+            ),
+        ),
+    )
+);
+
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();

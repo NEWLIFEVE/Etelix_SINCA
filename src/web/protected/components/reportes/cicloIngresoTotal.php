@@ -131,9 +131,9 @@
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineTotals(round($TotalDiferencialCapturaSoles,2),round($TotalDiferencialCapturaSoles,2)), $type).'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineTotals(round($TotalDiferencialCapturaDollar,2),round($TotalDiferencialCapturaDollar,2)), $type).'</td> 
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineTotals($TotalAcumuladoCaptura,$TotalAcumuladoCaptura), $type).'</td> 
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>    
                                         <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineTotals(round($TotalSobrante,2),round($TotalSobrante,2)), $type).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">'.Reportes::format(Reportes::defineTotals($TotalAcumuladoSobrante,$TotalAcumuladoSobrante), $type).'</td>   
+                                        <td '.Reportes::defineStyleTd(2).' id="totalMontoDeposito">N/A</td>    
                                       </tr>
                                     </tbody>
                            </table>';

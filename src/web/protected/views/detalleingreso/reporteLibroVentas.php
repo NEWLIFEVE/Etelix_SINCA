@@ -60,8 +60,6 @@ if(!isset($fancybox)){
 <?php
 }
 
-
-
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balanceLibroVentas',
     'htmlOptions'=>array(
@@ -201,144 +199,144 @@ $this->widget('zii.widgets.grid.CGridView', array(
     )
 );
 
-//$this->widget('zii.widgets.grid.CGridView', array(
-//    'id'=>'balanceLibroVentasOculta',
-//    'htmlOptions'=>array(
-//        'class'=>'grid-view LibroVentas oculta',
-//        'rel'=>'total',
-//        'name'=>'oculta',
-//    ),
-//    'dataProvider'=>$model->disable(),
-//    'afterAjaxUpdate'=>'reinstallDatePicker2',
-//    'filter'=>$model,
-//    'columns'=>array(
-//      /*Columnas Ocultas*/  
-//      array(
-//        'name'=>'Id',
-//        'value'=>'$data->Id',
-//        'type'=>'text',
-//        'headerHtmlOptions' => array('style' => 'display:none'),
-//        'htmlOptions'=>array(
-//            'id'=>'ids',
-//            'style'=>'display:none',
-//          ),
-//          'filterHtmlOptions' => array('style' => 'display:none'),
-//        ),
-//        array(
-//        'name'=>'CABINA_Id',
-//        'value'=>'$data->CABINA_Id',
-//        'type'=>'text',
-//        'headerHtmlOptions' => array('style' => 'display:none'),
-//        'htmlOptions'=>array(
-//            'id'=>'cabinas',
-//            'style'=>'display:none',
-//          ),
-//          'filterHtmlOptions' => array('style' => 'display:none'),
-//        ),
-//        /*  Fin Cabinas Ocultas */
-//        array(
-//            'name'=>'Fecha',
-//            'header'=>'Fecha',
-//            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
-//                'model'=>$model,
-//                'attribute'=>'Fecha',
-//                'language'=>'ja',
-//                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
-//                'htmlOptions'=>array(
-//                    'id'=>'datepicker_for_Fecha',
-//                    'size'=>'10',
-//                    ),
-//                'defaultOptions'=>array(
-//                    'showOn'=>'focus',
-//                    'dateFormat'=>'yy-mm-dd',
-//                    'showOtherMonths'=>true,
-//                    'selectOtherMonths'=>true,
-//                    'changeMonth'=>true,
-//                    'changeYear'=>true,
-//                    'showButtonPanel'=>true,
-//                    )
-//                ),
-//            true),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'id'=>'fecha',
-//                ),
-//            ),
-//        array(
-//            'name'=>'CABINA_Id',
-//            'value'=>'$data->cABINA->Nombre',
-//            'type'=>'text',
-//            'filter'=>Cabina::getListCabina(),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'id'=>'cabina',
-//                )
-//            ),
-//        array(
-//            'name'=>'Trafico',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->FechaMes, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'trafico',
-//                ),
-//            ),
-//        array(
-//            'name'=>'ServMov',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->FechaMes, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'recargaMov',
-//                ),
-//            ),
-//        array(
-//            'name'=>'ServClaro',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->FechaMes, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'recargaClaro',
-//                ),
-//            ),
-//        array(
-//            'name'=>'ServDirecTv',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->FechaMes, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'ServDirecTv',
-//                ),
-//            ),
-//        array(
-//            'name'=>'ServNextel',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->FechaMes, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'ServNextel',
-//                ),
-//            ),
-//        array(
-//            'name'=>'OtrosServiciosFullCarga',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","OtrosServiciosFullCarga", $data->Fecha, $data->CABINA_Id, 8)',
-//            'htmlOptions'=>array(
-//                'id'=>'otrosServiciosFullCarga',
-//                ),
-//            ),
-//        array(
-//            'name'=>'OtrosServicios',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","servicio", $data->FechaMes, $data->CABINA_Id, 8)',
-//            'htmlOptions'=>array(
-//                'id'=>'otrosServicios',
-//                ),
-//            ),
-//        array(
-//            'name'=>'TotalVentas',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaMes, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'totalVentas',
-//                ),
-//            ),
-//        ),
-//    )
-//);
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'balanceLibroVentasOculta',
+    'htmlOptions'=>array(
+        'class'=>'grid-view LibroVentas oculta',
+        'rel'=>'total',
+        'name'=>'oculta',
+    ),
+    'dataProvider'=>$model->disable(),
+    'afterAjaxUpdate'=>'reinstallDatePicker2',
+    'filter'=>$model,
+    'columns'=>array(
+      /*Columnas Ocultas*/  
+      array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        array(
+        'name'=>'CABINA_Id',
+        'value'=>'$data->CABINA_Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'cabinas',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        /*  Fin Cabinas Ocultas */
+        array(
+            'name'=>'Fecha',
+            'header'=>'Fecha',
+            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                'model'=>$model,
+                'attribute'=>'Fecha',
+                'language'=>'ja',
+                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
+                'htmlOptions'=>array(
+                    'id'=>'datepicker_for_Fecha',
+                    'size'=>'15',
+                    ),
+                'defaultOptions'=>array(
+                    'showOn'=>'focus',
+                    'dateFormat'=>'yy-mm-dd',
+                    'showOtherMonths'=>true,
+                    'selectOtherMonths'=>true,
+                    'changeMonth'=>true,
+                    'changeYear'=>true,
+                    'showButtonPanel'=>true,
+                    )
+                ),
+            true),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                'id'=>'fecha',
+                ),
+            ),
+        array(
+            'name'=>'CABINA_Id',
+            'value'=>'$data->cABINA->Nombre',
+            'type'=>'text',
+            'filter'=>Cabina::getListCabina(),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;width: 10%;',
+                'id'=>'cabina',
+                )
+            ),
+        array(
+            'name'=>'Trafico',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'trafico',
+                ),
+            ),
+        array(
+            'name'=>'ServMov',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaMov',
+                ),
+            ),
+        array(
+            'name'=>'ServClaro',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaClaro',
+                ),
+            ),
+        array(
+            'name'=>'ServDirecTv',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'ServNextel',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServNextel',
+                ),
+            ),
+        array(
+            'name'=>'OtrosServiciosFullCarga',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","OtrosServiciosFullCarga", $data->Fecha, $data->CABINA_Id, 8)',
+            'htmlOptions'=>array(
+                'id'=>'otrosServiciosFullCarga',
+                ),
+            ),
+        array(
+            'name'=>'OtrosServicios',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","servicio", $data->Fecha, $data->CABINA_Id, 8)',
+            'htmlOptions'=>array(
+                'id'=>'otrosServicios',
+                ),
+            ),
+        array(
+            'name'=>'TotalVentas',
+            'value'=>'Yii::app()->format->formatDecimal(Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id))',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'totalVentas',
+                ),
+            ),
+        ),
+    )
+);
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();

@@ -25,6 +25,7 @@ $(document).ready(function()
     changeCheckboxLocutorio();
     changeStatus();
     canbioCuenta();
+
 //    changeStatusNovedad();
     $("#Detallegasto_category").change(function () {
             selectGasto();
@@ -123,7 +124,7 @@ $(document).ready(function()
         
         var arrayCols = new Array('ServDirecTv','ServNextel','diferencialFullCarga','diferencialBrightstarMovistar',
                                   'diferencialBrightstarClaro','diferencialBrightstarDirecTv','diferencialBrightstarNextel',
-                                  'diferencialCapturaSoles','diferencialCapturaDollar','acumulado','sobrante','sobranteAcum',
+                                  'diferencialCapturaSoles','diferencialCapturaDollar','acumuladoCI','sobrante','sobranteAcumCI',
                                   'otrosServiciosFullCarga','traficoCapturaDollar','traficoCapturaSoles','diferencialCapturaSoles','diferencialCapturaDollar');
         var diferente=['No Declarado','No Declarado','0.00','0.00','0.00','&nbsp;','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00',''];
         for(var i=0;i<arrayCols.length;i++){

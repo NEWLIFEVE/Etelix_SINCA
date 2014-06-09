@@ -441,8 +441,8 @@ class LogController extends Controller
                 array('label'=>'__________REPORTES___________','url'=>array('')),
                 array('label'=>'Reporte Libro Ventas','url'=>array('detalleingreso/reporteLibroVentas')),
                 array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
-                array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
+                array('label'=>'Reporte FullCarga','url'=>array('detalleingreso/reporteFullCarga')),
+                array('label'=>'Reporte Captura','url'=>array('detalleingreso/reporteCaptura')),
                 array('label'=>'Reporte Ciclo de Ingresos','url'=>array('detalleingreso/cicloIngresos')),
                 array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('detalleingreso/cicloIngresosTotal')),
                 );
@@ -453,13 +453,13 @@ class LogController extends Controller
             return array(
                 array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
                 array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
-                array('label'=>'Reporte Brightstar','url'=>array('balance/reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
+                array('label'=>'Reporte FullCarga','url'=>array('detalleingreso/reporteFullCarga')),
+                array('label'=>'Reporte Captura','url'=>array('detalleingreso/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('detalleingreso/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('detalleingreso/cicloIngresosTotal')),
                 array('label'=>'_____________________________','url'=>array('')),
-                array('label'=>'Administrar Balances','url'=>array('balance/admin')),
-                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
+                array('label'=>'Administrar Balances','url'=>array('detalleingreso/adminBalance')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('log/controlPanel')),
                 array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
                 );
         }

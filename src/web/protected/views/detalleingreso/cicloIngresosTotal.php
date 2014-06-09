@@ -654,9 +654,9 @@ function reinstallDatePicker(id, data) {
             <td style="text-align: center;">N/A</td>
             <td id="totaldiferencialCapturaSoles" class="dif" style="text-align: center;"></td>
             <td id="totaldiferencialCapturaDollar" class="dif" style="text-align: center;"></td>
-            <td id="totalacumulado" style="text-align: center;"></td>
+            <td id="totalacumulado" style="text-align: center;">N/A</td>
             <td id="totalsobrante" class="dif" style="text-align: center;"></td>
-            <td id="totalsobranteAcum" style="text-align: center;"></td>
+            <td id="totalsobranteAcum" style="text-align: center;">N/A</td>
         </tr>
     </tbody>
 </table>

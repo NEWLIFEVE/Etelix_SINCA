@@ -172,9 +172,9 @@ $this->menu=LogController::controlAcceso($tipoUsuario);
         <div>
             <!-- Leyenda de las Reglas de Declaracion -->
             <div style="width: 56%;float: left;" class="filters">&nbsp;</div>
-            <div style="width: 60%;float: right;" class="filters">
+            <div style="width: 63%;float: right;" class="filters">
                 <div style="padding-top: 5%;" class="filters"></div>
-                <div id="mostrarReglas" class="filters">
+                <div id="mostrarReglas" class="filters" style="cursor: pointer;">
                     Reglas de declaraci&oacute;n
                 </div>
                 <div id="tablaReglas" class="ocultar filters">
@@ -198,20 +198,20 @@ $this->menu=LogController::controlAcceso($tipoUsuario);
             </div>
             
             <!-- Leyenda del Horario de las Cabinas -->
-            <div style="width: 60%;float: right;" class="filters">
+            <div style="width: 63%;float: right;" class="filters">
                 <div style="padding-top: 2%;" class="filters"></div>
-                <div id="mostrarHorario" class="filters">
+                <div id="mostrarHorario" class="filters" style="cursor: pointer;">
                     Horario de trabajo de las cabinas
                 </div>
                 <div id="tablaHorarios" class="ocultar filters">
                     <table class="filters">
                         
                         <tr >
-                            <td> Cabina </td> 
-                            <td> Hora Inicio </td> 
-                            <td> Hora Fin </td> 
-                            <td> Hora Inicio Domingo </td> 
-                            <td> Hora Fin Domingo</td>
+                            <td> <b> CABINA </b> </td> 
+                            <td> <b> HORA INICIO </b> </td> 
+                            <td> <b> HORA FIN </b> </td> 
+                            <td> <b> HORA INICIO DOMINGO </b> </td> 
+                            <td> <b> HORA FIN DOMINGO </b> </td>
                         </tr>
                         
                         <?php 
@@ -225,10 +225,10 @@ $this->menu=LogController::controlAcceso($tipoUsuario);
                         
                         <tr>
                             <td> <?php echo $hours->Nombre; ?> </td> 
-                            <td> <?php echo $hours->HoraIni; ?> </td> 
-                            <td> <?php echo $hours->HoraFin; ?> </td> 
-                            <td> <?php echo $hours->HoraIniDom; ?> </td> 
-                            <td> <?php echo $hours->HoraFinDom; ?> </td>
+                            <td  style="text-align: center;"> <?php echo $hours->HoraIni; ?> </td> 
+                            <td style="text-align: center;"> <?php echo $hours->HoraFin; ?> </td> 
+                            <td style="text-align: center;"> <?php echo $hours->HoraIniDom; ?> </td> 
+                            <td style="text-align: center;"> <?php echo $hours->HoraFinDom; ?> </td>
                         </tr>
                         
                         <?php 

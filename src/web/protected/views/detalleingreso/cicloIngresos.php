@@ -329,7 +329,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'acumulado',
+                'id'=>'acumuladoCI',
                 ),
             ),
         array('name'=>'Sobrante',
@@ -352,7 +352,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'sobranteAcum',
+                'id'=>'sobranteAcumCI',
                 ),
             ),
         ),
@@ -361,8 +361,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
 /**********************************************************************************************************************************************/
 /*****************************************CICLO DE INGRESOS RESUMIDO INACTIVAS*****************************************************************/
 
-/*
->>>>>>> 7f34b44cd8d0bf3bcf0431b240d9304e25fdbc0f
+    
 $this->widget('zii.widgets.grid.CGridView',array(
     'id'=>'balanceCicloIngresosResumidoOculta',
     'htmlOptions'=>array(
@@ -387,17 +386,18 @@ $this->widget('zii.widgets.grid.CGridView',array(
         ),
         array(
             'name'=>'Fecha',
+            'header'=>'Fecha',
             'htmlOptions'=>array(
                 'id'=>'fecha',
                 ),
             'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'model'=>$model,
-                'attribute'=>'Fecha',
+                'attribute'=>'Fecha',    
                 'language'=>'ja',
                 'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
                 'htmlOptions'=>array(
-                    'id'=>'datepicker_for_Fecha_oculta',
-                    'size'=>'10',
+                    'id'=>'datepicker_for_Fecha',
+                    'size'=>'25',
                     ),
                 'defaultOptions'=>array(
                     'showOn'=>'focus',
@@ -414,14 +414,15 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'name'=>'CABINA_Id',
             'value'=>'$data->cABINA->Nombre',
             'type'=>'text',
-            'filter'=>Cabina::getListCabinaInactivas(),
+            'filter'=>Cabina::getListCabina(),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;'
+                'style'=>'text-align: center;width: 100px;',
+                'size'=>'35',
                 )
             ),
         array(
-            'name'=>'Total',
-            'value'=>'Yii::app()->format->formatDecimal($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)',
+            'name'=>'TotalVentas',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center;  width:150px;',
@@ -429,8 +430,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'DifBancoCI',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI+$data->RecargaCelularMov+$data->RecargaFonoYaMov+$data->RecargaCelularClaro+$data->RecargaFonoClaro+$data->OtrosServicios)))',
+            'name'=>'DiferencialBan',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->Fecha,$data->CABINA_Id,1)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -440,8 +441,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'ConciliacionBancariaCI',
-            'value'=>'Yii::app()->format->formatDecimal($data->MontoBanco-$data->MontoDeposito)',
+            'name'=>'ConciliacionBan',
+            'value'=>'CicloIngresoModelo::getDifConBancario($data->Fecha,$data->CABINA_Id,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
@@ -450,10 +451,22 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'concilicacionBancaria',
                 ),
             ),
+//        array(
+//            'name'=>'DifFullCarga',
+//            'value'=>'Detalleingreso::getDifFullCarga($data->Fecha, $data->CABINA_Id)',
+//            'type'=>'text',
+//            'htmlOptions'=>array(
+//                'style' => '',
+//                'class'=>'dif',
+//                'name'=>'dif',
+//                'id'=>'diferencialFullCarga',
+//                ),
+//            ),
         array(
             'name'=>'DifMov',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasMov-($data->RecargaCelularMov+$data->RecargaFonoYaMov))',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 1)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -463,8 +476,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
             ),
         array(
             'name'=>'DifClaro',
-            'value'=>'Yii::app()->format->formatDecimal($data->RecargaVentasClaro-($data->RecargaCelularClaro+$data->RecargaFonoClaro))',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 2)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
@@ -473,69 +487,103 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 ),
             ),
         array(
-            'name'=>'Paridad',
-            'value'=>'Yii::app()->format->formatDecimal($data->pARIDAD->Valor)',
+            'name'=>'DifDirecTv',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 4)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'DifNextel',
+            'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 3)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(255,153,51,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBrightstarNextel',
+                ),
+            ),
+        array(
+            'name'=>'Paridad',
+            'value'=>'Paridad::getParidad($data->Fecha)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('background: rgba(204,153,204,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'id'=>'paridad',
+                ),
             ),
         array(
             'name'=>'DifSoles',
-            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI)-($data->TraficoCapturaDollar*$data->pARIDAD->Valor))',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,2)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialCapturaSoles',
+                'id'=>'',
                 ),
             ),
-        array('name'=>'DifDollar',
-            'value'=>'Yii::app()->format->formatDecimal(($data->FijoLocal+$data->FijoProvincia+$data->FijoLima+$data->Rural+$data->Celular+$data->LDI-$data->TraficoCapturaDollar*$data->pARIDAD->Valor)/$data->pARIDAD->Valor)',
+        array(
+            'name'=>'DifDollar',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,1)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialCapturaDollar',
+                'id'=>'',
+            ),
+        ),
+        array(
+            'name'=>'Acumulado',
+            'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,3)',
+            'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'',
                 ),
             ),
-        array('name'=>'Acumulado',
-            'value'=>'Yii::app()->format->formatDecimal(Balance::Acumulado($data->Fecha,$data->CABINA_Id,false))',
+        array(
+            'name'=>'Sobrante',
+            'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'acumulado',
+                'id'=>'',
                 ),
             ),
-        array('name'=>'Sobrante',
-            'value'=>'Yii::app()->format->formatDecimal(Balance::sobrante($data->Fecha,$data->CABINA_Id,"inactivas"))',
+
+        array(
+            'name'=>'SobranteAcum',
+            'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,$data->CABINA_Id,true)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'sobrante',
-                ),
-            ),
-        array('name'=>'SobranteAcum',
-            'value'=>'Yii::app()->format->formatDecimal(Balance::SobranteAcumulado($data->Fecha,$data->CABINA_Id,false))',
-            'type'=>'text',
-            'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
-                'class'=>'dif',
-                'name'=>'dif',
-                'id'=>'sobranteAcum',
+                'id'=>'',
                 ),
             ),
         ),
     )
 );
-<<<<<<< HEAD
 
-=======
- * 
- */
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();
@@ -582,9 +630,9 @@ function reinstallDatePicker(id, data) {
             <td style="text-align: center;">N/A</td>
             <td id="totaldiferencialCapturaSoles" class="dif" style="text-align: center;"></td>
             <td id="totaldiferencialCapturaDollar" class="dif" style="text-align: center;"></td>
-            <td id="totalacumulado" style="text-align: center;"></td>
+            <td id="totalacumuladoCI" style="text-align: center;"></td>
             <td id="totalsobrante" class="dif" style="text-align: center;"></td>
-            <td id="totalsobranteAcum" style="text-align: center;"></td>
+            <td id="totalsobranteAcumCI" style="text-align: center;"></td>
         </tr>
     </tbody>
 </table>

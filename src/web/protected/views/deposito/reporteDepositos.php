@@ -172,112 +172,120 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
     )
 );
-//$this->widget('zii.widgets.grid.CGridView', array(
-//    'id'=>'balanceReporteDepositosOculta',
-//    'htmlOptions'=>array(
-//        'class'=>'grid-view ReporteDepositos oculta',
-//        'rel'=>'total',
-//        'name'=>'oculta',
-//        ),
-//    'dataProvider'=>$model->disable(),
-//    'afterAjaxUpdate'=>'reinstallDatePicker2',
-//    'filter'=>$model,
-//    'columns'=>array(
-//        array(
-//        'name'=>'id',
-//        'value'=>'$data->id',
-//        'type'=>'text',
-//        'headerHtmlOptions' => array('style' => 'display:none'),
-//        'htmlOptions'=>array(
-//            'id'=>'ids',
-//            'style'=>'display:none',
-//          ),
-//          'filterHtmlOptions' => array('style' => 'display:none'),
-//        ),
-//        array(
-//            'name'=>'FechaCorrespondiente',
-//            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-//                'model'=>$model,
-//                'attribute'=>'FechaCorrespondiente',
-//                'language'=>'ja',
-//                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
-//                'htmlOptions'=>array(
-//                    'id'=>'datepicker_for_Fecha',
-//                    'size'=>'10',
-//                    ),
-//                'defaultOptions'=>array(
-//                    'showOn'=>'focus',
-//                    'dateFormat'=>'yy-mm-dd',
-//                    'showOtherMonths'=>true,
-//                    'selectOtherMonths'=>true,
-//                    'changeMonth'=>true,
-//                    'changeYear'=>true,
-//                    'showButtonPanel'=>true,
-//                    )
-//                ),
-//            true),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                'id'=>'fecha',
-//                ),
-//            ),
-//        array(
-//            'name'=>'CABINA_Id',
-//            'value'=>'$data->cABINA->Nombre',
-//            'type'=>'text',
-//            'filter'=>Cabina::getListCabina(),
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center;',
-//                ),
-//            ),
-//        array(
-//            'name'=>'TotalVentas',
-//            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'id'=>'totalVentas',
-//                ),
-//            ),
-//        array(
-//            'name'=>'MontoDep',
-//            'value'=>'Deposito::valueNull($data->MontoDep)',
-//            'htmlOptions'=>array(
-//                'id'=>'montoDeposito',
-//                ),
-//            ),
-//        'NumRef',
-//        array(
-//            'name'=>'MontoBanco',
-//            'value'=>'Deposito::valueNull($data->MontoBanco)',
-//            'htmlOptions'=>array(
-//                'id'=>'montoBanco',
-//                ),
-//            ),
-//        array(
-//            'name'=>'DiferencialBancario',
-//            'value'=>'Deposito::valueNull(round(($data->MontoBanco-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->FechaCorrespondiente, $data->CABINA_Id)),2))',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'diferencialBancario'
-//                ),
-//            ),
-//        array(
-//            'name'=>'ConciliacionBancaria',
-//            'value'=>'Deposito::valueNull(round(($data->MontoBanco-$data->MontoDep),2))',
-//            'type'=>'text',
-//            'htmlOptions'=>array(
-//                'style'=>'text-align: center; color: green;',
-//                'class'=>'dif',
-//                'name'=>'dif',
-//                'id'=>'concilicacionBancaria'
-//                ),
-//            ),
-//        ),
-//    )
-//);
+
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'balanceReporteDepositosOculta',
+    'htmlOptions'=>array(
+        'class'=>'grid-view ReporteDepositos oculta',
+        'rel'=>'total',
+        'name'=>'oculta',
+        ),
+    'dataProvider'=>$model->disable(),
+    'afterAjaxUpdate'=>'reinstallDatePicker2',
+    'filter'=>$model,
+    'columns'=>array(
+        array(
+        'name'=>'Id',
+        'value'=>'$data->Id',
+        'type'=>'text',
+        'headerHtmlOptions' => array('style' => 'display:none'),
+        'htmlOptions'=>array(
+            'id'=>'ids',
+            'style'=>'display:none',
+          ),
+          'filterHtmlOptions' => array('style' => 'display:none'),
+        ),
+        array(
+            'name'=>'Fecha',
+            'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                'model'=>$model,
+                'attribute'=>'Fecha',
+                'language'=>'ja',
+                'i18nScriptFile'=>'jquery.ui.datepicker-ja.js',
+                'htmlOptions'=>array(
+                    'id'=>'datepicker_for_Fecha',
+                    'size'=>'10',
+                    ),
+                'defaultOptions'=>array(
+                    'showOn'=>'focus',
+                    'dateFormat'=>'yy-mm-dd',
+                    'showOtherMonths'=>true,
+                    'selectOtherMonths'=>true,
+                    'changeMonth'=>true,
+                    'changeYear'=>true,
+                    'showButtonPanel'=>true,
+                    )
+                ),
+            true),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                'id'=>'fecha',
+                ),
+            ),
+        array(
+            'name'=>'CABINA_Id',
+            'value'=>'$data->cABINA->Nombre',
+            'type'=>'text',
+            'filter'=>Cabina::getListCabina(),
+            'htmlOptions'=>array(
+                'style'=>'text-align: center;',
+                ),
+            ),
+        array(
+            'name'=>'TotalVentasDep',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'totalVentas',
+                ),
+            ),
+        array(
+            'name'=>'MontoDep',
+            'value'=>'Deposito::valueNull(Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoDep)',
+            'htmlOptions'=>array(
+                'id'=>'montoDeposito',
+                ),
+            ),
+        array(
+            'name'=>'NumRef',
+            'value'=>'Deposito::valueNull(Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->NumRef)',
+            'htmlOptions'=>array(
+                'id'=>'numRef',
+                ),
+            ),
+        array(
+            'name'=>'MontoBanco',
+            'value'=>'Deposito::valueNull(Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoBanco)',
+            'htmlOptions'=>array(
+                'id'=>'montoBanco',
+                ),
+            ),
+        array(
+            'name'=>'DiferencialBancario',
+            'value'=>'Deposito::valueNull(round((Deposito::getMontoBanco($data->Fecha, $data->CABINA_Id)-Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)),2))',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'diferencialBancario'
+                ),
+            ),
+        array(
+            'name'=>'ConciliacionBancaria',
+            'value'=>'Deposito::valueNull(round((Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoBanco-Deposito::getDataDeposito($data->Fecha, $data->CABINA_Id)->MontoDep),2))',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'style'=>'text-align: center; color: green;',
+                'class'=>'dif',
+                'name'=>'dif',
+                'id'=>'concilicacionBancaria'
+                ),
+            ),
+        ),
+    )
+);
+
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
 function reinstallDatePicker(id, data) {
     $('#datepicker_for_Fecha').datepicker();
