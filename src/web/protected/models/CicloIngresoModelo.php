@@ -200,13 +200,13 @@ class CicloIngresoModelo extends CActiveRecord
             
             if($cabina != NULL){
                 
-                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
-                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha' AND CABINA_Id = $cabina;");
+                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha' AND CABINA_Id = $cabina;");
 
             }else{
                 
-                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha';");
-                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha';");
+                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha';");
+                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha';");
 
             }
             

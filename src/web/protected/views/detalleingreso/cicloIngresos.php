@@ -165,6 +165,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
         array(
             'name'=>'Fecha',
             'header'=>'Fecha',
+            'headerHtmlOptions' => array('style' => 'width: 9%'),
             'htmlOptions'=>array(
                 'id'=>'fecha',
                 ),
@@ -202,6 +203,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'name'=>'TotalVentas',
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'width: 6%'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center;  width:150px;',
                 'id'=>'totalVentas',
@@ -319,9 +321,10 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'class'=>'dif',
                 'name'=>'dif',
                 'id'=>'diferencialCapturaDollar',
+                ),
             ),
-        ),
-        array('name'=>'Acumulado',
+        array(
+            'name'=>'Acumulado',
             'value'=>'CicloIngresoModelo::getDifCaptura($data->Fecha,$data->CABINA_Id,3)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(204,153,204,1) !important;'),
@@ -332,7 +335,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'acumuladoCI',
                 ),
             ),
-        array('name'=>'Sobrante',
+        array(
+            'name'=>'Sobrante',
             'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,$data->CABINA_Id,false)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),
@@ -343,8 +347,8 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'id'=>'sobrante',
                 ),
             ),
-
-        array('name'=>'SobranteAcum',
+        array(
+            'name'=>'SobranteAcum',
             'value'=>'CicloIngresoModelo::getSobrante($data->Fecha,$data->CABINA_Id,true)',
             'type'=>'text',
             'headerHtmlOptions' => array('style' => 'background: rgba(46,135,255,1) !important;'),

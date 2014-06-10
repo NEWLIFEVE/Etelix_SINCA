@@ -205,11 +205,13 @@ class SaldoCabina extends CActiveRecord
                 $criteria->addCondition("cABINA.status = 1 AND cABINA.Id != 18 AND cABINA.Id != 19");
                 $criteria->group='Fecha,CABINA_Id';
                 
-                if($cabina!=NULL)
+                if($cabina!=NULL){
                     $criteria->addCondition("CABINA_Id=$cabina");
-                if($mes!=NULL)
-                    $criteria->addCondition("Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'");
+                }
                 
+                if($mes!=NULL){
+                    $criteria->addCondition("Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'");
+                }
                 
                 $pagina=Cabina::model()->count(array(
                         'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
@@ -268,7 +270,6 @@ class SaldoCabina extends CActiveRecord
                 {
                     $fechaParametro = "$idBalancesActualizados";
                     $criteriaAux=new CDbCriteria;
-        //            $criteriaAux->addCondition("Fecha='$fechaParametro'");
                     $criteriaAux->addCondition(
                             array(
                                 "EXTRACT(YEAR FROM Fecha)='".date("Y",strtotime($fechaParametro))."'",
@@ -301,7 +302,14 @@ class SaldoCabina extends CActiveRecord
                     $pagina=self::model()->count($condition);
                     
                     if($post == 'admin')
-                        $pagina=NULL;
+                        $pagina=Cabina::model()->count(array(
+                        'condition'=>'status=:status AND Id!=:Id AND Id!=:Id2',
+                        'params'=>array(
+                            ':status'=>1,
+                            ':Id'=>18,
+                            ':Id2'=>19,
+                            ),
+                        ));
                     
                     $orden="Fecha DESC, cABINA.Nombre ASC";
                 }
@@ -310,7 +318,9 @@ class SaldoCabina extends CActiveRecord
 			'criteria'=>$criteria,
                         'sort'=>array('defaultOrder'=>$orden),
                         'pagination'=>array('pageSize'=>$pagina),
-		));
+		)); 
+                
+                
 	}
         
         public function disable($post=null,$mes=null,$cabina=null)

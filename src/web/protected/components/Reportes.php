@@ -28,6 +28,12 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function estadoResultado($day,$name,$dir)
+    {
+        $var=  estadoResultado::reporte($day,$name,$dir);
+        return $var;
+    }
+    
     /**
      * Documentacion va aqui
      */

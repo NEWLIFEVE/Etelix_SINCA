@@ -266,6 +266,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'name'=>'CABINA_Id',
             'value'=>'$data->tagTodasLasCabina',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'width: 2%'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center;'
                 )
@@ -274,8 +275,9 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'name'=>'TotalVentas',
             'value'=> 'Detalleingreso::getLibroVentas("LibroVentas","TotalVentas", $data->Fecha)',
             'type'=>'text',
+            'headerHtmlOptions' => array('style' => 'width: 6%'),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;  width:150px;',
+                'style'=>'text-align: center;  width: 200px',
                 'id'=>'totalVentas',
                 ),
             ),
@@ -346,7 +348,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'paridad',
+                'id'=>'diferencialBrightstarNextel',
                 ),
             ),
         array(
@@ -356,7 +358,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'headerHtmlOptions' => array('background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
                 'style'=>'text-align: center; color: green;',
-                'id'=>'diferencialCapturaSoles',
+                'id'=>'paridad',
                 ),
             ),
         array(

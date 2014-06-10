@@ -561,10 +561,15 @@ $(document).ready(function()
              
             var gridview = '';
             
-            if($(this).attr('id') == 'ExcelCompleto')
+            if($(this).attr('id') == 'ExcelCompleto'){
                 gridview = 'reporteConsolidado';
-            else
+            }
+            if($(this).attr('id') == 'ExcelResumido'){
                 gridview = 'reporteConsolidadoResumido';
+            }
+            if($(this).attr('id') == 'ExcelCabina'){
+                gridview = 'estadoResultado';
+            }
             
             var name = genNameFile(gridview);
             var mes = $('div#fecha2').text();
@@ -1477,6 +1482,9 @@ $(document).ready(function()
         }
         if(gridview=='reporteConsolidadoResumido'){
             name = 'SINCA Reporte Consolidado Resumido de Fallas'+fecha;
+        }
+        if(gridview=='estadoResultado'){
+            name = 'SINCA Estado de Resultados Cabinas Peru'+fecha;
         }
 
         return name;   

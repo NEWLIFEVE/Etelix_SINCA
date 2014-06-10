@@ -48,6 +48,7 @@ class DetalleingresoController extends Controller
                         'Pop',
                         'ReporteFullCarga',
                         'ReporteCaptura',
+                        'EstadoResultado',
                     ),
                     'users'=>Users::UsuariosPorTipo(3),
                 ),
@@ -443,6 +444,18 @@ class DetalleingresoController extends Controller
             ));
         }
         
+        public function actionEstadoResultado()
+        {
+            $model=new Detalleingreso('search');
+            $model->unsetAttributes();  // clear any default values
+            if (isset($_GET['Detalleingreso']))
+                $model->attributes = $_GET['Detalleingreso'];
+
+            $this->render('estadoResultado', array(
+                'model' => $model,
+            ));
+        }
+        
         public function actionAdminIngreso()
         {
             $model=new Detalleingreso('search');
@@ -730,8 +743,14 @@ class DetalleingresoController extends Controller
         if($tipoUsuario==1)
         {
             return array(
-                //array('label' => 'Declarar Inicio Jornada', 'url' => array('log/createInicioJornada')),
-            );
+                    array('label'=>'Declarar Inicio Jornada','url'=>array('log/createInicioJornada')),
+                    array('label'=>'Declarar Saldo Apertura','url'=>array('saldocabina/createApertura')),
+                    array('label'=>'Declarar Ventas','url'=>array('detalleingreso/createLlamadas')),
+                    array('label'=>'Declarar Deposito','url'=>array('deposito/createDeposito')),
+                    array('label'=>'Declarar Saldo Cierre','url'=>array('saldocabina/createCierre')),
+                    array('label'=>'Declarar Fin Jornada','url'=>array('log/createFinJornada')),
+                    array('label'=>'Mostrar Balances de Cabina','url'=>array('detalleingreso/adminBalance')),
+                );
         }
         /* GERENTE DE OPERACIONES */
         if($tipoUsuario==2)

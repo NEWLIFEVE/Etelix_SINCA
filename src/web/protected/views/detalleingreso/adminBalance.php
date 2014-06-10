@@ -9,10 +9,10 @@ $mes = null;
 
     if($tipoUsuario == 1){
         $cabina = Yii::app()->getModule('user')->user()->CABINA_Id;
-        $_POST['vista'] = 'admin';
+        $_POST = 'admin';
     }else{
         $cabina = NULL;
-        $_POST['vista'] = NULL;
+        $_POST = NULL;
     }
 ?>
 
