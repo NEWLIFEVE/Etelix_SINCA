@@ -716,6 +716,7 @@ class Spreadsheet_Excel_Reader {
                 $_SESSION['fecha'] = $fechaActual;
                 
                 $i = 0;
+                $j = 0;
                 
                 
                 
@@ -728,7 +729,7 @@ class Spreadsheet_Excel_Reader {
                     $cabina = Cabina::model()->find("CodigoBolsa = '$nombreCabinaActual'")->Id;
                     
                     $montoIngresoActual = str_replace(',','.',$this->val($row,$columnaIngresoMonto,$sheet));
-                    $tipoIngresoActual = str_replace(' ', '',$this->val($row,$columnaIngresoServicio,$sheet));
+                    $tipoIngresoActual = $this->val($row,$columnaIngresoServicio,$sheet);
                     $ingresos = TipoIngresos::getIdIngresoFullCarga($tipoIngresoActual);
                     
                     
@@ -738,41 +739,42 @@ class Spreadsheet_Excel_Reader {
                     $_SESSION['cabinas'][$i] = $cabina;
                     $_SESSION['monto'][$i] = $montoIngresoActual;
                     $_SESSION['servicio'][$i] = $ingresos;
-                    $i++;
+                    
+                    
+                    
+                    $Ingreso = Detalleingreso::model()->find("FechaMes = '$fechaActual' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingresos AND USERS_Id = 58");
+
+                    if($Ingreso == NULL){
+
+                        $Ingreso = new Detalleingreso;
+                        $Ingreso->FechaMes = $fechaActual;
+                        $Ingreso->Monto = $montoIngresoActual;     
+                        $Ingreso->CABINA_Id = $cabina;
+                        $Ingreso->USERS_Id = 58;
+                        $Ingreso->TIPOINGRESO_Id = $ingresos;
+                        $Ingreso->moneda = 2;
+
+                        if($cabina == 17){
+                            $Ingreso->CUENTA_Id = 2;
+                        }else{
+                            $Ingreso->CUENTA_Id = 4;
+                        }
+
+                        $Ingreso->FechaTransf = NULL;
+                        $Ingreso->TransferenciaPago = NULL;
+                        $Ingreso->Descripcion = NULL;
+                        if($Ingreso->save()){
+                            $j++;
+                        }
                      
-                  
-//                    //=========== VALORES DE LAS COLUMNAS EN EN EXCEL - FIN ====================
-//
-//                    $cabinaId = Cabina::model()->findBySql("SELECT Id FROM cabina where Nombre='".$nombreCabinaActual."';");
-//                    $registro = Balance::model()->findBySql("SELECT * FROM balance where Fecha='".$fechaActual."' AND CABINA_Id=".$cabinaId->Id." AND RecargaVentasMov is NULL;");
-//                    if($registro!=NULL) {
-//
-//                        $iteracionMax   = 0;
-//                        $montoAcum      = 0;
-//                        $rowNext        = $row;
-//
-//                        for($rowNext;$rowNext<=$this->rowcount($sheet);$rowNext++) {
-//
-//                            if($fechaActual == $this->val($rowNext,$columnaFecha,$sheet) 
-//                                    && $nombreCabinaActual == Yii::app()->format->formatearNombreCabina($this->val($rowNext,$columnaNombreCabina,$sheet),"brightstar")){
-//
-//                                $montoAcum += Yii::app()->format->formatExcelDecimal($this->val($rowNext,$columnaMontoMovistar,$sheet));
-//                                $iteracionMax++;
-//
-//                            }
-//
-//                            if($iteracionMax > 4){
-//                                break;
-//                            }
-//                        }
-//
-//                        $registro->RecargaVentasMov = $montoAcum;
-//                        $registro->update();
-//                    }
+                    }
+                    
+                    $i++;
                      
                 }
                 
                 if($i > 0){
+                    $_SESSION['regintros'] = $j;
                     Detalleingreso::verificarDifFullCarga($fechaActual,$arrayCabina,$arrayTipoIngreso);
                 }
  

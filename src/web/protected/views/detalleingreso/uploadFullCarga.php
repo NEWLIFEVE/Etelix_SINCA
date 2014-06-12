@@ -41,7 +41,11 @@ echo '<input type="hidden" name="UpdateFile[Valor]">';
 echo "<span class='buttons'>".CHTML::button('Grabar en Base de Datos',  array('submit' => Yii::app()->createUrl("detalleingreso/UploadFullCarga")))."</span>";
 echo CHtml::endForm();
 
-
+if(isset($_SESSION['regintros'])){
+    echo '<br><br>';
+    echo 'Registros Guardados: '.$_SESSION['regintros'];
+    unset($_SESSION['regintros']);
+} 
 
 echo '<br><br><br><br><br>';
 echo '<h1>Generar Trafico de Captura</h1>

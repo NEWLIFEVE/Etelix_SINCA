@@ -135,15 +135,14 @@ class TipoIngresos extends CActiveRecord
             
 		if($nombre != null)
 		{
-			$model=self::model()->find('Nombre=:nombre',array(':nombre'=>$nombre));
+			$model=self::model()->findBySql("SELECT Id FROM tipo_ingresos WHERE Nombre = '$nombre';");
 			if($model == null)
 			{
-				return 2;
-				
+                            return 2;
 			}
 			else
 			{
-				return $model->Id;
+                            return $model->Id;
 			}
 		}
         }

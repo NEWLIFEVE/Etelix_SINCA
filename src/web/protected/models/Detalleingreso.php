@@ -442,6 +442,22 @@ class Detalleingreso extends CActiveRecord
                                 return $trafico->Trafico;
                         }
                     }
+                    elseif($atributo == 'traficoER'){
+                        $trafico = self::model()->findBySql("SELECT SUM(d.Monto) as Trafico 
+                                                             FROM detalleingreso as d
+                                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                                             WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
+                                                             AND d.CABINA_Id = $cabinaId AND t.COMPANIA_Id = 5 AND t.Clase = 1;");
+                        if ($trafico == NULL) {
+                            return '0.00';
+                        } else {
+                            if ($trafico->Trafico == NULL)
+                                return '0.00';
+                            else
+                                return $trafico->Trafico;
+                        }
+                    }
                     elseif($atributo == 'ServMov'){
                         $ServMov = self::model()->findBySql("SELECT SUM(d.Monto) as ServMov 
                                                                 FROM detalleingreso as d
@@ -863,7 +879,7 @@ class Detalleingreso extends CActiveRecord
             
             $fechaIngreso = $fecha;
             $cabinas = array_keys(array_count_values(array_unique($arrayCabina)));
-            $tipoIngresos = array_unique($arrayTipoIngreso);
+            $tipoIngresos = array_keys(array_count_values(array_unique($arrayTipoIngreso)));
             
             for($i=0;$i<count($cabinas);$i++) {
 
