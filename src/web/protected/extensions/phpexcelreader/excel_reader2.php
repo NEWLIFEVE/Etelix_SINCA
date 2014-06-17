@@ -662,6 +662,13 @@ class Spreadsheet_Excel_Reader {
             //*********** NUMEROS DE COLUMNAS EN EN EXCEL - COMIENZO **********************************
 
 
+            /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS CAPTURA.XLS *****************///*|*/
+            /*|*/                                                                                 /*|*/
+            /*|*/      $columnaCapturaFecha        = 12;                                           /*|*/
+            /*|*/      $columnaCodigoCapturaCabina = 3;                                           /*|*/
+            /*|*/      $columnaCapturaoMonto       = 9;                                          /*|*/
+            /*|*/      $columnaCaptura             = 0;                                           /*|*/
+            /*|*/                                                                                 /*|*/
             /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS FULLCARGA.XLS ***************///*|*/
             /*|*/                                                                                 /*|*/
             /*|*/      $columnaIngresoFecha      = 0;                                             /*|*/
@@ -698,6 +705,9 @@ class Spreadsheet_Excel_Reader {
             
             //=========== NUMEROS DE COLUMNAS EN EN EXCEL - FIN =======================================
             
+            if($tipo=="Captura"){
+
+            }
             if($tipo=="FullCarga"){
                 
                 $_SESSION['cabinas'] = Array();
@@ -774,7 +784,7 @@ class Spreadsheet_Excel_Reader {
                 }
                 
                 if($i > 0){
-                    $_SESSION['regintros'] = $j;
+                    $_SESSION['regintrosFC'] = $j;
                     Detalleingreso::verificarDifFullCarga($fechaActual,$arrayCabina,$arrayTipoIngreso);
                 }
  

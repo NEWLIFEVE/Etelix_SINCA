@@ -129,7 +129,10 @@ class qqFileUploader {
         //Nombre del archivo
         $filename = $pathinfo['filename'];
         
-        if(stripos($filename, "F")!==FALSE && stripos($filename, "ll")!==FALSE){
+        if(stripos($filename, "Reporte")!==FALSE && stripos($filename, "Ipsmarx")!==FALSE){
+            $filename="Captura";
+        }
+        elseif(stripos($filename, "F")!==FALSE && stripos($filename, "ll")!==FALSE){
             $filename="FullCarga";
         }
         elseif(stripos($filename, "m")!==FALSE && stripos($filename, "v")!==FALSE){

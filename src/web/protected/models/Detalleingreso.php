@@ -932,4 +932,47 @@ class Detalleingreso extends CActiveRecord
 
         }
         
+        public static function getDataFullCarga($fecha,$cabina,$compania){
+        
+            if($compania == 'SubArriendos'){
+
+                $sql="SELECT SUM(d.Monto) as Monto
+                      FROM detalleingreso as d
+                      INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                      INNER JOIN users as u ON u.id = d.USERS_Id
+                      WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
+                      AND d.CABINA_Id = $cabina 
+                      AND t.Id = 1 AND t.Clase = 1;";
+
+            }elseif($compania != 'SubArriendos'){
+
+                $sql="SELECT SUM(d.Monto) as Monto
+                      FROM detalleingreso as d
+                      INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                      INNER JOIN users as u ON u.id = d.USERS_Id
+                      WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
+                      AND d.CABINA_Id = $cabina 
+                      AND t.COMPANIA_Id = $compania AND t.Clase = 1;";
+
+            }
+
+
+            $servicios = self::model()->findBySql($sql);
+
+            if($servicios == NULL){
+
+                return '0.00';
+
+            }else{
+
+                if($servicios->Monto == NULL){
+                    return '0.00';
+                }else{
+                    return  $servicios->Monto;
+                }
+
+            }
+
+        }
+        
 }

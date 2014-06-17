@@ -52,6 +52,7 @@ class Detallegasto extends CActiveRecord
     public $tipogasto_id;
     public $cabina_id;
     public $moneda_id;
+    public $moneda;
     //
 
     /**

@@ -46,8 +46,18 @@ $(document).ready(function()
 
     });
     
-});
+    //MUEVE EL SCROLL VERTICAL EN EL ESTADO DE RESULTADO
+    scrollER();
     
+});
+   
+    function scrollER(){
+        $('tbody.scrollTable').scroll(function(){
+            $('tbody.scrollTable').scrollTop($(this).scrollTop());    
+        });
+        
+    }
+   
     function FechaBalance()
     {
         verificarFechaBalance('Ventas','Detalleingreso_FechaMes');
@@ -1963,8 +1973,8 @@ $(document).ready(function()
                         $('div#ventasServicios table#'+select.replace(" ","")+' tr#'+select.replace(" ","")).append(
                                     '<td> ' +	
                                         '<div class="row">'+
-                                            '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+changeNameVentas(arrayServicios[i])+' (S/.)</label>'+
-                                            '<input id="Detalle_'+arrayServicios[i]+'" name="Detalle['+arrayServicios[i]+']" type="text">'+
+                                            '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+arrayServicios[i]+' (S/.)</label>'+
+                                            '<input id="Detalle_'+arrayServicios[i]+'" name="Detalle['+arrayServicios[i].replace(" ","")+']" type="text">'+
                                         '</div>'+
                                     '</td>'); 
                     }    

@@ -1312,3 +1312,22 @@ table.detail-view th {
     border: 1px white solid;
     padding: 0.3em;
 }
+
+
+
+
+thead.scrollTable, tbody.scrollTable { 
+    display: block; 
+}
+
+thead.scrollTable th, tbody.scrollTable td { 
+    width: 150px;
+
+}
+
+tbody.scrollTable {
+    height: 460px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
