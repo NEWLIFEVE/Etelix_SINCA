@@ -293,13 +293,8 @@ $this->menu= DetalleingresoController::controlAcceso($tipoUsuario);
                                         $".$ingresosTotal."
                                    </td>";
                     }elseif($i == 16 || $i == 32 || $i == 42 || $i == 44 || $i == 60 || $i == 62 || $i == 64 || $i == 65){
-                        $content.="<td style='background-color: #DADFE4;height: 51px;vertical-align: middle;'>
-                                        <table style='margin-bottom: 0px;font-size: 10px;'>
-                                            <tr>
-                                                <td style='border: 1px #FFFFFF !important;'>$i</td>
-                                                <td style='border: 1px #FFFFFF !important;'>$i</td>
-                                            </tr>
-                                        </table>
+                        $content.="<td style='background-color: #DADFE4;height: 51px;vertical-align: middle;text-align: right;margin-bottom: 0px;font-size: 10px;'>
+                                        $i
                                    </td>";
                     }else{
                         if($i == 2){

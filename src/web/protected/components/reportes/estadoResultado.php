@@ -44,6 +44,7 @@ class estadoResultado extends Reportes
             }    
             elseif($dir==NULL){
                 $objWriter->save('php://output');
+                $objWriter->setPreCalculateFormulas(true);
                 exit;
             }
 
@@ -149,7 +150,7 @@ class estadoResultado extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.Id = 1 AND t.Clase = 1;";
+                  AND t.Nombre = 'Subarriendo';";
             
         }elseif($compania != 'SubArriendos'){
             
@@ -159,7 +160,7 @@ class estadoResultado extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.COMPANIA_Id = $compania AND t.Clase = 1;";
+                  AND t.COMPANIA_Id = $compania AND u.tipo = 4;";
             
         }
         
@@ -191,18 +192,20 @@ class estadoResultado extends Reportes
             $sql="SELECT d.Monto as Monto, moneda
                   FROM detallegasto as d
                   INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                  INNER JOIN category as ca ON ca.id = t.category_id
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.Id IN(1,6,14,29);";
+                  AND ca.id = 1 AND t.Id != 39;";
         }elseif($egreso == 'Otros'){
             $sql="SELECT d.Monto as Monto, moneda
                   FROM detallegasto as d
                   INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                  INNER JOIN category as ca ON ca.id = t.category_id
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.Id IN(5,24,33,34,61);";
+                  AND ca.id IN(2,4,5,6,7,8);";
         }elseif($egreso != 'Generales'){
             $sql="SELECT d.Monto as Monto, moneda
                   FROM detallegasto as d
@@ -321,13 +324,13 @@ class estadoResultado extends Reportes
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(40);
             
             //QUITA EL ESPACIO EN BLANCO
-            $objPHPExcel->getActiveSheet()->getRowDimension('11')->setRowHeight(0);   
-            $objPHPExcel->getActiveSheet()->getRowDimension('20')->setRowHeight(0);   
-            $objPHPExcel->getActiveSheet()->getRowDimension('26')->setRowHeight(0);   
-            $objPHPExcel->getActiveSheet()->getRowDimension('28')->setRowHeight(0);   
-            $objPHPExcel->getActiveSheet()->getRowDimension('37')->setRowHeight(0);  
-            $objPHPExcel->getActiveSheet()->getRowDimension('39')->setRowHeight(0);  
-            $objPHPExcel->getActiveSheet()->getRowDimension('41')->setRowHeight(0);  
+//            $objPHPExcel->getActiveSheet()->getRowDimension('11')->setRowHeight(0);   
+//            $objPHPExcel->getActiveSheet()->getRowDimension('20')->setRowHeight(0);   
+//            $objPHPExcel->getActiveSheet()->getRowDimension('26')->setRowHeight(0);   
+//            $objPHPExcel->getActiveSheet()->getRowDimension('28')->setRowHeight(0);   
+//            $objPHPExcel->getActiveSheet()->getRowDimension('37')->setRowHeight(0);  
+//            $objPHPExcel->getActiveSheet()->getRowDimension('39')->setRowHeight(0);  
+//            $objPHPExcel->getActiveSheet()->getRowDimension('41')->setRowHeight(0);  
             
             
             $cols_asrray = Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
@@ -368,6 +371,15 @@ class estadoResultado extends Reportes
             $otrosServTotal = 0;
             $ventasTotal = 0;
             
+            $traficoDollarMargen = 0;
+            $servMovDollarMargen = 0;
+            $servClaroDollarMargen = 0;
+            $servDirecTvDollarMargen = 0;
+            $servNextelDollarMargen = 0;
+            $subArriendoMargen = 0;
+            $totalVentasMargen = 0;
+            $totalMargen = 0;
+            
             $alquiler = 0;
             $nomina = 0;
             $servGenerales = 0;
@@ -381,6 +393,12 @@ class estadoResultado extends Reportes
             $otrosImpuestos = 0;
                 
             $totalImpuestos = 0;
+            
+            
+            $TOTALEBITDA = 0;
+            $GANANCIANETA = 0;
+            $AJUSTECICLOINGRESO = 0;
+            $GANANCIATOTALNETA = 0;
 
             
             //SCROLL ESTATICO VERTICAL
@@ -429,6 +447,17 @@ class estadoResultado extends Reportes
                 $ventas = round(($servMovDollar + $servClaroDollar + $servDirecTvDollar + $servNextelDollar),2);
                 $ingresosTotal = ($traficoDollar+$ventas+$subArriendoDollar);
                 
+                //VALORES DEL CONTENIDO (MARGEN)
+                $traficoDollarMargen = $traficoDollar;
+                $servMovDollarMargen = $servMovDollar;
+                $servClaroDollarMargen = $servClaroDollar;
+                $servDirecTvDollarMargen = $servDirecTvDollar;
+                $servNextelDollarMargen = $servNextelDollar;
+                $subArriendoMargen = $subArriendoDollar;
+                
+                $totalVentasMargen = $servMovDollarMargen+$servClaroDollarMargen+$servDirecTvDollarMargen+$servNextelDollarMargen;
+                $totalMargen = $traficoDollarMargen+$totalVentasMargen+$subArriendoMargen;
+                
                 //VALORES DEL CONTENIDO (EGRESOS)
                 $alquiler = self::getDataEgresos($day, $value->Id, $paridad, 39);
                 $nomina = self::getDataEgresos($day, $value->Id, $paridad, 75);
@@ -443,6 +472,19 @@ class estadoResultado extends Reportes
                 $otrosImpuestos = self::getDataImpuestos($day, $value->Id, $paridad, 'Otros');
                 
                 $totalImpuestos = $sunat+$arbitrios+$otrosImpuestos+($traficoDollar*0.5/100)+($traficoDollar*0.5/100)+($traficoDollar*1/100)+($ingresosTotal*1.5/100);
+                
+                //VALORES DE CONTENIDO (TOTALES)
+                $TOTALEBITDA = $totalMargen-$totalGastos;
+                $GANANCIANETA = $TOTALEBITDA - $totalImpuestos;
+                $AJUSTECICLOINGRESO = 0;
+                $GANANCIATOTALNETA = $GANANCIANETA + $AJUSTECICLOINGRESO;
+                
+                
+                
+                
+                
+                
+                
                 
                 
                 //TOTAL DE LLAMADAS EN SOLES POR CABINA
@@ -516,12 +558,41 @@ class estadoResultado extends Reportes
                 self::fontSite($cols_asrray[($i+1)].'25','000000','10','right',$objPHPExcel);
                 self::setCurrency($cols_asrray[($i+1)].'25','USD$',$objPHPExcel);
                 
+                
                 //MARGEN
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'12', $totalMargen);
+                self::fontSite($cols_asrray[($i+1)].'12','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[($i+1)].'12','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'13', $traficoDollarMargen);
+                self::fontSite($cols_asrray[($i+1)].'13','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[($i+1)].'13','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'14', $totalVentasMargen);
+                self::fontSite($cols_asrray[($i+1)].'14','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[($i+1)].'14','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$i].'15', $servMovDollarMargen);
+                self::fontSite($cols_asrray[$i].'15','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[$i].'15','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$i].'16', $servClaroDollarMargen);
+                self::fontSite($cols_asrray[$i].'16','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[$i].'16','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$i].'17', $servDirecTvDollarMargen);
+                self::fontSite($cols_asrray[$i].'17','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[$i].'17','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$i].'18', $servNextelDollarMargen);
+                self::fontSite($cols_asrray[$i].'18','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[$i].'18','USD$',$objPHPExcel);
+                
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'19', $subArriendoDollar);
                 self::fontSite($cols_asrray[($i+1)].'19','000000','10','right',$objPHPExcel);
                 self::setCurrency($cols_asrray[($i+1)].'19','USD$',$objPHPExcel);
                 
-                
+
                 //IMPUESTOS
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'29', $totalImpuestos);
                 self::fontSite($cols_asrray[($i+1)].'29','000000','10','right',$objPHPExcel);
@@ -556,12 +627,31 @@ class estadoResultado extends Reportes
                 self::setCurrency($cols_asrray[($i+1)].'36','USD$',$objPHPExcel);
                 
                 
+                //TOTALES
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'27', $TOTALEBITDA);
+                self::fontSite($cols_asrray[($i+1)].'27','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[($i+1)].'27','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'38', $GANANCIANETA);
+                self::fontSite($cols_asrray[($i+1)].'38','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[($i+1)].'38','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'40', $AJUSTECICLOINGRESO);
+                self::fontSite($cols_asrray[($i+1)].'40','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[($i+1)].'40','USD$',$objPHPExcel);
+                
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'42', "=SUM(".$cols_asrray[($i+1)].'38'.":".$cols_asrray[($i+1)].'40'.")");
+                self::fontSite($cols_asrray[($i+1)].'42','000000','10','right',$objPHPExcel);
+                self::setCurrency($cols_asrray[($i+1)].'42','USD$',$objPHPExcel);
+
+                
+                
                 //CONFIGURACION DEL ESTILO
                 self::borderColor($cols_asrray[$i].'1','000000',$objPHPExcel);
                 self::borderColor($cols_asrray[$i].'2','000000',$objPHPExcel);
                 
-                $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[$i])->setWidth(13);
-                $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[($i+1)])->setWidth(13);
+                $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[$i])->setWidth(16);
+                $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[($i+1)])->setWidth(16);
                 
                 //TITULOS EN GRIS
                 self::cellColor($cols_asrray[$i].'3', 'AAAAAA',$objPHPExcel);
