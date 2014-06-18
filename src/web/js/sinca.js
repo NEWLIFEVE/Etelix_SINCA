@@ -1494,7 +1494,7 @@ $(document).ready(function()
             name = 'SINCA Reporte Consolidado Resumido de Fallas'+fecha;
         }
         if(gridview=='estadoResultado'){
-            name = 'SINCA Estado de Resultados Cabinas Peru'+fecha;
+            name = 'SINCA EEFF Cabinas Peru'+fecha;
         }
 
         return name;   

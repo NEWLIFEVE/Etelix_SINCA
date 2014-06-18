@@ -196,6 +196,7 @@ class estadoResultado extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
+                  AND d.status IN(2,3)     
                   AND ca.id = 1 AND t.Id != 39;";
         }elseif($egreso == 'Otros'){
             $sql="SELECT d.Monto as Monto, moneda
@@ -205,14 +206,16 @@ class estadoResultado extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND ca.id IN(2,4,5,6,7,8);";
-        }elseif($egreso != 'Generales'){
+                  AND d.status IN(2,3)      
+                  AND ca.id IN(2,4,5,7,8);";
+        }elseif($egreso != 'Generales' || $egreso != 'Otros'){
             $sql="SELECT d.Monto as Monto, moneda
                   FROM detallegasto as d
                   INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
+                  AND d.status IN(2,3)      
                   AND t.Id = $egreso;";
         }
 
@@ -264,15 +267,16 @@ class estadoResultado extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.Id IN(54);";
+                  AND t.Id IN(12);";
         }elseif($egreso == 'Otros'){
             $sql="SELECT d.Monto as Monto, moneda
                   FROM detallegasto as d
                   INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
+                  INNER JOIN category as ca ON ca.id = t.category_id
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.Id IN(41);";
+                  AND ca.id IN(6) AND t.Id != 6;";
         }
 
         $gasto = Detallegasto::model()->findAllBySql($sql);
@@ -301,6 +305,79 @@ class estadoResultado extends Reportes
             
         }
 
+    }
+    
+    //DATA DE CICLO DE INGRESO
+    public static function getDataCicloIngreso($fecha,$cabina,$paridad){
+        
+        $montoAcomulado = 0;
+        
+        $año = date("Y", strtotime($fecha));
+        $mes = date("m", strtotime($fecha));
+
+        $sql = "SELECT SUM(IFNULL(DiferencialBancario,0)) as DiferencialBancario,
+                SUM(IFNULL(DiferencialMovistar,0)) as DiferencialMovistar,
+                SUM(IFNULL(DiferencialClaro,0)) as DiferencialClaro,
+                SUM(IFNULL(DiferencialNextel,0)) as DiferencialNextel,
+                SUM(IFNULL(DiferencialDirectv,0)) as DiferencialDirectv,
+                SUM(IFNULL(DiferencialCaptura,0)) as DiferencialCaptura
+                FROM ciclo_ingreso 
+                WHERE EXTRACT(YEAR FROM Fecha) = '$año' 
+                AND EXTRACT(MONTH FROM Fecha) = '$mes'
+                AND CABINA_Id = $cabina;";
+
+        $modelAcum = CicloIngresoModelo::model()->findBySql($sql);
+        
+        if($modelAcum == NULL){
+            $montoAcomulado = 0.00;
+        }else{
+            $montoAcomulado = round((($modelAcum->DiferencialBancario+$modelAcum->DiferencialMovistar+$modelAcum->DiferencialClaro+$modelAcum->DiferencialNextel+$modelAcum->DiferencialDirectv+($modelAcum->DiferencialCaptura*$paridad))/$paridad),2);
+        }
+        
+        return $montoAcomulado;
+
+    }
+    
+    //DATA DE SORI - COSTO DE LAS LLAMADAS
+    public static function getCostoLlamada($fecha,$cabina)
+    {
+        
+        $arrayCarriers = Array();
+        $arrayCa = Array();
+        $cabinaNombre = Cabina::getNombreCabina2($cabina);
+        
+
+        if($cabinaNombre != 'ETELIX - PERU'){
+            $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%$cabinaNombre%';");
+        }else{
+            $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
+        }
+
+        foreach ($cabinasSori as $key2 => $value) {
+            $arrayCa[0][$key2] = $value->id;
+            $arrayCarriers[0] = implode(',', $arrayCa[0]);
+        }
+
+        $model = BalanceSori::model()->findBySql("SELECT SUM(b.cost) as cost
+                                           FROM balance as b
+                                           WHERE b.date_balance >= '$fecha-01' 
+                                           AND b.date_balance <= '$fecha-31'
+                                           AND b.id_carrier_customer IN($arrayCarriers[0])
+                                           AND id_destination is NULL;");
+
+        if($model != NULL){
+
+            if($model->cost != NULL){
+                return round($model->cost,2);
+            }else{
+                return 0.00;
+            }    
+
+        }else{
+            return 0.00;
+        }
+            
+        
     }
     
 
@@ -380,6 +457,12 @@ class estadoResultado extends Reportes
             $totalVentasMargen = 0;
             $totalMargen = 0;
             
+            $costoLlamadas = 0;
+            $comisionMov = 0;
+            $comisionClaro = 0;
+            $comisionDiecTv = 0;
+            $comisionNextel = 0;
+            
             $alquiler = 0;
             $nomina = 0;
             $servGenerales = 0;
@@ -443,18 +526,22 @@ class estadoResultado extends Reportes
                 $servClaroTotal = $servClaroTotal + $servClaro;
                 $servDirecTvTotal = $servDirecTvTotal + $servDirecTv;
                 $servNextelTotal = $servNextelTotal + $servNextel;
-
                 $ventas = round(($servMovDollar + $servClaroDollar + $servDirecTvDollar + $servNextelDollar),2);
                 $ingresosTotal = ($traficoDollar+$ventas+$subArriendoDollar);
                 
                 //VALORES DEL CONTENIDO (MARGEN)
-                $traficoDollarMargen = $traficoDollar;
-                $servMovDollarMargen = $servMovDollar;
-                $servClaroDollarMargen = $servClaroDollar;
-                $servDirecTvDollarMargen = $servDirecTvDollar;
-                $servNextelDollarMargen = $servNextelDollar;
+                $costoLlamadas = self::getCostoLlamada($day, $value->Id);
+                $comisionMov = 0;
+                $comisionClaro = 0;
+                $comisionDiecTv = 0;
+                $comisionNextel = 0;
+
+                $traficoDollarMargen = $traficoDollar-$costoLlamadas;
+                $servMovDollarMargen = $servMovDollar-$comisionMov;
+                $servClaroDollarMargen = $servClaroDollar-$comisionClaro;
+                $servDirecTvDollarMargen = $servDirecTvDollar-$comisionDiecTv;
+                $servNextelDollarMargen = $servNextelDollar-$comisionNextel;
                 $subArriendoMargen = $subArriendoDollar;
-                
                 $totalVentasMargen = $servMovDollarMargen+$servClaroDollarMargen+$servDirecTvDollarMargen+$servNextelDollarMargen;
                 $totalMargen = $traficoDollarMargen+$totalVentasMargen+$subArriendoMargen;
                 
@@ -463,20 +550,18 @@ class estadoResultado extends Reportes
                 $nomina = self::getDataEgresos($day, $value->Id, $paridad, 75);
                 $servGenerales = self::getDataEgresos($day, $value->Id, $paridad, 'Generales');
                 $otrosGastos = self::getDataEgresos($day, $value->Id, $paridad, 'Otros');
-                
                 $totalGastos = $alquiler+$nomina+$servGenerales+$otrosGastos;
                 
                 //VALORES DEL CONTENIDO (IMPUESTOS)
                 $sunat = self::getDataImpuestos($day, $value->Id, $paridad, 'Sunat');
                 $arbitrios = self::getDataImpuestos($day, $value->Id, $paridad, 'Arbitiros');
                 $otrosImpuestos = self::getDataImpuestos($day, $value->Id, $paridad, 'Otros');
-                
                 $totalImpuestos = $sunat+$arbitrios+$otrosImpuestos+($traficoDollar*0.5/100)+($traficoDollar*0.5/100)+($traficoDollar*1/100)+($ingresosTotal*1.5/100);
                 
                 //VALORES DE CONTENIDO (TOTALES)
                 $TOTALEBITDA = $totalMargen-$totalGastos;
                 $GANANCIANETA = $TOTALEBITDA - $totalImpuestos;
-                $AJUSTECICLOINGRESO = 0;
+                $AJUSTECICLOINGRESO = self::getDataCicloIngreso($day, $value->Id, $paridad);
                 $GANANCIATOTALNETA = $GANANCIANETA + $AJUSTECICLOINGRESO;
                 
                 
