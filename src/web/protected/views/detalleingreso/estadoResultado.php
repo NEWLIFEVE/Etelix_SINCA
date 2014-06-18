@@ -96,5 +96,5 @@ $this->menu= DetalleingresoController::controlAcceso($tipoUsuario);
     
     
     
-</div>    
+  
     
