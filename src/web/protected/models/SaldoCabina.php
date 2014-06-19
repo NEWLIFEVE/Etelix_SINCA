@@ -233,8 +233,9 @@ class SaldoCabina extends CActiveRecord
                     
                     $pagina=31;
                     
-                    if($mes!=NULL)
+                    if($mes!=NULL){
                         $criteriaAux->addCondition("Fecha<='".$mes."-31' AND Fecha>='".$mes."-01'");
+                    }    
                     
                     if(isset($mes) || isset($cabina))
                     {

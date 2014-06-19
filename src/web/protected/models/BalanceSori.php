@@ -226,5 +226,6 @@ class BalanceSori extends CActiveRecord
                 return '0.00';
             }    
 	}
+        
 
 }

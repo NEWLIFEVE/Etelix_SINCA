@@ -160,7 +160,7 @@ class estadoResultado extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.COMPANIA_Id = $compania AND u.tipo = 4;";
+                  AND t.COMPANIA_Id = $compania AND u.tipo = 1;";
             
         }
         
@@ -169,12 +169,12 @@ class estadoResultado extends Reportes
         
         if($servicios == NULL){
             
-            return '0,00';
+            return 0.00;
             
         }else{
             
             if($servicios->Monto == NULL){
-                return '0,00';
+                return 0.00;
             }else{
                 return  $servicios->Monto;
             }
@@ -380,6 +380,316 @@ class estadoResultado extends Reportes
         
     }
     
+    public static function generateTotal($cols_asrray,$cellGranTotales,$objPHPExcel) {
+        
+            //COLUMNA DE GRAN TOTALES
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$cellGranTotales].'1', 'GRAN TOTAL');
+            $objPHPExcel->setActiveSheetIndex(0)->getStyle($cols_asrray[$cellGranTotales].'1')->getFont()->setSize(16);
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells($cols_asrray[$cellGranTotales].'1:'.$cols_asrray[($cellGranTotales+1)].'2');
+            
+            
+            self::cellColor($cols_asrray[$cellGranTotales].'1', 'ff9900',$objPHPExcel);
+            self::font($cols_asrray[$cellGranTotales].'1','FFFFFF','14',$objPHPExcel);
+            
+            $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[$cellGranTotales])->setWidth(16);
+            $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[($cellGranTotales+1)])->setWidth(16);
+            
+     
+            //BORDES DEL HEADER - GRAN TOTAL
+            for($i=1;$i<3;$i++){
+                self::borderColor($cols_asrray[$cellGranTotales].$i,'000000',$objPHPExcel);
+                self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$i,'000000','right',$objPHPExcel);
+            }
+//            
+            //BORDES DE LA CELDA COMPLETA - GRAN TOTAL
+            for($j=1;$j<43;$j++){
+                self::borderColor($cols_asrray[$cellGranTotales].$j,'FFFFFF',$objPHPExcel);
+                self::borderColor($cols_asrray[($cellGranTotales+1)].$j,'FFFFFF',$objPHPExcel);
+                self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$j,'000000','right',$objPHPExcel);
+                
+                if($j == 3 || $j == 12 || $j == 21 || $j == 27 || $j == 29 || $j == 38 || $j == 40 || $j == 42){
+                    self::cellColor($cols_asrray[$cellGranTotales].$j, 'AAAAAA',$objPHPExcel);
+                    self::cellColor($cols_asrray[($cellGranTotales+1)].$j, 'AAAAAA',$objPHPExcel);
+                    
+                    self::borderSiteColor($cols_asrray[$cellGranTotales].$j,'AAAAAA','right',$objPHPExcel);
+                    self::borderSiteColor($cols_asrray[$cellGranTotales].$j,'000000','left',$objPHPExcel);
+                    self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$j,'000000','right',$objPHPExcel);
+                }else{
+                    self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$j,'000000','right',$objPHPExcel);
+                } 
+                
+            }
+//            
+            //TOTAL DE INGRESOS
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'3', "=SUM(".$cols_asrray[(2)].'3'.":".$cols_asrray[($cellGranTotales-1)].'3'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'3','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'3','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'4', "=SUM(".$cols_asrray[(2)].'4'.":".$cols_asrray[($cellGranTotales-1)].'4'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'4','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'4','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'5', "=SUM(".$cols_asrray[(2)].'5'.":".$cols_asrray[($cellGranTotales-1)].'5'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'5','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'5','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'6', "=SUM(".$cols_asrray[(1)].'6'.":".$cols_asrray[($cellGranTotales-2)].'6'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'6','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'6','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'7', "=SUM(".$cols_asrray[(1)].'7'.":".$cols_asrray[($cellGranTotales-2)].'7'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'7','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'7','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'8', "=SUM(".$cols_asrray[(1)].'8'.":".$cols_asrray[($cellGranTotales-2)].'8'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'8','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'8','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'9', "=SUM(".$cols_asrray[(1)].'9'.":".$cols_asrray[($cellGranTotales-2)].'9'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'9','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'9','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'10', "=SUM(".$cols_asrray[(2)].'10'.":".$cols_asrray[($cellGranTotales-1)].'10'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'10','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'10','USD$',$objPHPExcel);
+
+            //TOTAL DE MARGEN
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'12', "=SUM(".$cols_asrray[(2)].'12'.":".$cols_asrray[($cellGranTotales-1)].'12'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'12','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'12','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'13', "=SUM(".$cols_asrray[(2)].'13'.":".$cols_asrray[($cellGranTotales-1)].'13'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'13','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'13','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'14', "=SUM(".$cols_asrray[(2)].'14'.":".$cols_asrray[($cellGranTotales-1)].'14'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'14','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'14','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'15', "=SUM(".$cols_asrray[(1)].'15'.":".$cols_asrray[($cellGranTotales-2)].'15'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'15','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'15','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'16', "=SUM(".$cols_asrray[(1)].'16'.":".$cols_asrray[($cellGranTotales-2)].'16'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'16','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'16','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'17', "=SUM(".$cols_asrray[(1)].'17'.":".$cols_asrray[($cellGranTotales-2)].'17'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'17','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'17','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'18', "=SUM(".$cols_asrray[(1)].'18'.":".$cols_asrray[($cellGranTotales-2)].'18'.")");
+            self::fontSite($cols_asrray[($cellGranTotales)].'18','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales)].'18','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'19', "=SUM(".$cols_asrray[(2)].'19'.":".$cols_asrray[($cellGranTotales-1)].'19'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'19','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'19','USD$',$objPHPExcel);
+            
+            //TOTAL DE EGRESOS
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'21', "=SUM(".$cols_asrray[(2)].'21'.":".$cols_asrray[($cellGranTotales-1)].'21'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'21','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'21','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'22', "=SUM(".$cols_asrray[(2)].'22'.":".$cols_asrray[($cellGranTotales-1)].'22'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'22','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'22','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'23', "=SUM(".$cols_asrray[(2)].'23'.":".$cols_asrray[($cellGranTotales-1)].'23'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'23','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'23','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'24', "=SUM(".$cols_asrray[(2)].'24'.":".$cols_asrray[($cellGranTotales-1)].'24'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'24','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'24','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'25', "=SUM(".$cols_asrray[(2)].'25'.":".$cols_asrray[($cellGranTotales-1)].'25'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'25','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'25','USD$',$objPHPExcel);
+            
+            //TOTAL DE TOTAL EBITDA
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'27', "=SUM(".$cols_asrray[(2)].'27'.":".$cols_asrray[($cellGranTotales-1)].'27'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'27','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'27','USD$',$objPHPExcel);
+            
+            //TOTAL DE IMPUESTOS
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'29', "=SUM(".$cols_asrray[(2)].'29'.":".$cols_asrray[($cellGranTotales-1)].'29'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'29','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'29','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'30', "=SUM(".$cols_asrray[(2)].'30'.":".$cols_asrray[($cellGranTotales-1)].'30'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'30','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'30','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'31', "=SUM(".$cols_asrray[(2)].'31'.":".$cols_asrray[($cellGranTotales-1)].'31'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'31','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'31','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'32', "=SUM(".$cols_asrray[(2)].'32'.":".$cols_asrray[($cellGranTotales-1)].'32'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'32','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'32','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'33', "=SUM(".$cols_asrray[(2)].'33'.":".$cols_asrray[($cellGranTotales-1)].'33'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'33','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'33','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'34', "=SUM(".$cols_asrray[(2)].'34'.":".$cols_asrray[($cellGranTotales-1)].'34'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'34','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'34','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'35', "=SUM(".$cols_asrray[(2)].'35'.":".$cols_asrray[($cellGranTotales-1)].'35'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'35','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'35','USD$',$objPHPExcel);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'36', "=SUM(".$cols_asrray[(2)].'36'.":".$cols_asrray[($cellGranTotales-1)].'36'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'36','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'36','USD$',$objPHPExcel);
+            
+            //TOTAL DE Ganancia Neta
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'38', "=SUM(".$cols_asrray[(2)].'38'.":".$cols_asrray[($cellGranTotales-1)].'38'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'38','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'38','USD$',$objPHPExcel);
+            
+            //TOTAL DE CICLO DE INGRESOS
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'40', "=SUM(".$cols_asrray[(2)].'40'.":".$cols_asrray[($cellGranTotales-1)].'40'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'40','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'40','USD$',$objPHPExcel);
+            
+            //TOTAL DE GANANCIA TOTAL NETA
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'42', "=SUM(".$cols_asrray[(2)].'42'.":".$cols_asrray[($cellGranTotales-1)].'42'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'42','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'42','USD$',$objPHPExcel);
+        
+    }
+    
+    public static function generateTitles($objPHPExcel) {
+        
+        //VALORES DE LA CELDA DE TITULOS (CELDA A)
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', 'INGRESOS');
+        $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);      
+        self::fontSite('A3','000000','11','right',$objPHPExcel);
+        self::cellColor('A3', 'AAAAAA',$objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A12', 'MARGEN OPERATIVO BRUTO');
+        $objPHPExcel->getActiveSheet()->getRowDimension('12')->setRowHeight(20);      
+        self::fontSite('A12','000000','11','right',$objPHPExcel);
+        self::cellColor('A12', 'AAAAAA',$objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A21', 'EGRESOS');
+        $objPHPExcel->getActiveSheet()->getRowDimension('21')->setRowHeight(20);      
+        self::fontSite('A21','000000','11','right',$objPHPExcel);
+        self::cellColor('A21', 'AAAAAA',$objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A27', 'TOTAL EBITDA');
+        $objPHPExcel->getActiveSheet()->getRowDimension('27')->setRowHeight(20);      
+        self::fontSite('A27','000000','11','right',$objPHPExcel);
+        self::cellColor('A27', 'AAAAAA',$objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A29', 'IMPUESTOS (Alicuota sobre las ventas)');
+        $objPHPExcel->getActiveSheet()->getRowDimension('29')->setRowHeight(20);      
+        self::fontSite('A29','000000','11','right',$objPHPExcel);
+        self::cellColor('A29', 'AAAAAA',$objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A38', 'Ganancia Neta (Sin Merma Ciclo de Ingreso)');
+        $objPHPExcel->getActiveSheet()->getRowDimension('38')->setRowHeight(20);      
+        self::fontSite('A38','000000','11','right',$objPHPExcel);
+        self::cellColor('A38', 'AAAAAA',$objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A40', 'AJUSTE POR CICLO DE INGRESOS');
+        $objPHPExcel->getActiveSheet()->getRowDimension('40')->setRowHeight(20);      
+        self::fontSite('A40','000000','11','right',$objPHPExcel);
+        self::cellColor('A40', 'AAAAAA',$objPHPExcel);
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A42', 'GANANCIA TOTAL NETA');
+        $objPHPExcel->getActiveSheet()->getRowDimension('42')->setRowHeight(20);      
+        self::fontSite('A42','000000','11','right',$objPHPExcel);
+        self::cellColor('A42', 'AAAAAA',$objPHPExcel);
+
+        //INGRESOS
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', 'Ingresos Llamadas');
+        self::fontSite('A4','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A4', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', 'Ingresos Por Servicios');
+        self::fontSite('A5','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A5', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', 'Ingresos Servicios Movistar');
+        self::fontSite('A6','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A6', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', 'Ingresos Servicios Claro');
+        self::fontSite('A7','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A7', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', 'Ingresos Servicios DirecTv');
+        self::fontSite('A8','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A8', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', 'Ingresos Servicios Nextel');
+        self::fontSite('A9','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A9', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A10', 'Ingresos Varios (Subarriendos)');
+        self::fontSite('A10','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A10', '1967B2',$objPHPExcel);
+
+        //MARGEN OPERATIVO BRUTO
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A13', 'Ingresos Llamadas');
+        self::fontSite('A13','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A13', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A14', 'Ingresos Por Servicios');
+        self::fontSite('A14','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A14', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A15', 'Ingresos Servicios Movistar');
+        self::fontSite('A15','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A15', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A16', 'Ingresos Servicios Claro');
+        self::fontSite('A16','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A16', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A17', 'Ingresos Servicios DirecTv');
+        self::fontSite('A17','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A17', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A18', 'Ingresos Servicios Nextel');
+        self::fontSite('A18','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A18', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A19', 'Ingresos Varios (Subarriendos)');
+        self::fontSite('A19','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A19', '1967B2',$objPHPExcel);
+
+        //EGRESOS 
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A22', 'Alquiler Local');
+        self::fontSite('A22','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A22', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A23', 'Nomina');
+        self::fontSite('A23','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A23', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A24', 'Servicios Generales');
+        self::fontSite('A24','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A24', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A25', 'Otros Gastos (Rep, Mto., Reemplazo Eq.)');
+        self::fontSite('A25','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A25', '1967B2',$objPHPExcel);
+
+        //IMPUESTOS (Alicuota sobre las ventas)
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A30', 'Osiptel (0.5% de las Vts Llamadas)');
+        self::fontSite('A30','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A30', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A31', 'Fitel (1% de las Vts Llamadas)');
+        self::fontSite('A31','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A31', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A32', 'MTC (0.5% de las Vts Llamadas)');
+        self::fontSite('A32','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A32', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A33', 'Sunat (IGV)');
+        self::fontSite('A33','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A33', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A34', 'Sunat (Renta 3era) (1.5% de las Vtas TOTALES)');
+        self::fontSite('A34','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A34', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A35', 'Arbitrios');
+        self::fontSite('A35','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A35', '1967B2',$objPHPExcel);
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A36', 'Otros Impuestos');
+        self::fontSite('A36','FFFFFF','10','left',$objPHPExcel);
+        self::cellColor('A36', '1967B2',$objPHPExcel);
+    }
+
+
 
     //GENERA LA 2DA HOJA DEL REPORTE (MATRIZ GENERAL POR DIA)
     private function _genSheetOne($objPHPExcel,$day){
@@ -423,7 +733,7 @@ class estadoResultado extends Reportes
             $nombreCabinas = Cabina::model()->findAllBySql("SELECT Id, Nombre FROM cabina WHERE status = 1 AND Id !=18 AND Id != 19 ORDER BY Nombre;");
             $cellGranTotales = (count($nombreCabinas)*2)+1;
             
-            $paridad = Paridad::model()->findBySql("SELECT Valor FROM paridad WHERE Fecha <= '$day-31' ORDER BY Fecha DESC LIMIT 1;")->Valor;
+            $paridad = Paridad::model()->findBySql("SELECT Valor FROM paridad WHERE Fecha <= '$day-01' ORDER BY Fecha DESC LIMIT 1;")->Valor;
             
             
             
@@ -530,13 +840,13 @@ class estadoResultado extends Reportes
                 $ingresosTotal = ($traficoDollar+$ventas+$subArriendoDollar);
                 
                 //VALORES DEL CONTENIDO (MARGEN)
-                $costoLlamadas = self::getCostoLlamada($day, $value->Id);
+                $costoLlamadas = 0;
                 $comisionMov = 0;
                 $comisionClaro = 0;
                 $comisionDiecTv = 0;
                 $comisionNextel = 0;
 
-                $traficoDollarMargen = $costoLlamadas;
+                $traficoDollarMargen = $traficoDollar-$costoLlamadas;
                 $servMovDollarMargen = $servMovDollar-$comisionMov;
                 $servClaroDollarMargen = $servClaroDollar-$comisionClaro;
                 $servDirecTvDollarMargen = $servDirecTvDollar-$comisionDiecTv;
@@ -556,7 +866,7 @@ class estadoResultado extends Reportes
                 $sunat = self::getDataImpuestos($day, $value->Id, $paridad, 'Sunat');
                 $arbitrios = self::getDataImpuestos($day, $value->Id, $paridad, 'Arbitiros');
                 $otrosImpuestos = self::getDataImpuestos($day, $value->Id, $paridad, 'Otros');
-                $totalImpuestos = $sunat+$arbitrios+$otrosImpuestos+($traficoDollar*0.5/100)+($traficoDollar*0.5/100)+($traficoDollar*1/100)+($ingresosTotal*1.5/100);
+                $totalImpuestos = $sunat+$arbitrios+$otrosImpuestos+($traficoDollar*0.5/100)+($traficoDollar*0.5/100)+($traficoDollar*1/100)+($traficoDollar*1.5/100);
                 
                 //VALORES DE CONTENIDO (TOTALES)
                 $TOTALEBITDA = $totalMargen-$totalGastos;
@@ -699,7 +1009,7 @@ class estadoResultado extends Reportes
                 self::fontSite($cols_asrray[($i+1)].'33','000000','10','right',$objPHPExcel);
                 self::setCurrency($cols_asrray[($i+1)].'33','USD$',$objPHPExcel);
                 
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'34', ($ingresosTotal*1.5/100));
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'34', ($traficoDollar*1.5/100));
                 self::fontSite($cols_asrray[($i+1)].'34','000000','10','right',$objPHPExcel);
                 self::setCurrency($cols_asrray[($i+1)].'34','USD$',$objPHPExcel);
                 
@@ -763,242 +1073,11 @@ class estadoResultado extends Reportes
                 
             }
             
-            //COLUMNA DE GRAN TOTALES
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$cellGranTotales].'1', 'GRAN TOTAL');
-            $objPHPExcel->setActiveSheetIndex(0)->getStyle($cols_asrray[$cellGranTotales].'1')->getFont()->setSize(16);
-            $objPHPExcel->setActiveSheetIndex(0)->mergeCells($cols_asrray[$cellGranTotales].'1:'.$cols_asrray[($cellGranTotales+1)].'2');
+            //GENERA LA COLUMNA TOTALES CON SUS VALORES
+            self::generateTotal($cols_asrray,$cellGranTotales,$objPHPExcel);
             
-            
-            self::cellColor($cols_asrray[$cellGranTotales].'1', 'ff9900',$objPHPExcel);
-            self::font($cols_asrray[$cellGranTotales].'1','FFFFFF','14',$objPHPExcel);
-            
-            $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[$cellGranTotales])->setWidth(16);
-            $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[($cellGranTotales+1)])->setWidth(16);
-            
-     
-            //BORDES DEL HEADER - GRAN TOTAL
-            for($i=1;$i<3;$i++){
-                self::borderColor($cols_asrray[$cellGranTotales].$i,'000000',$objPHPExcel);
-                self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$i,'000000','right',$objPHPExcel);
-            }
-//            
-            //BORDES DE LA CELDA COMPLETA - GRAN TOTAL
-            for($j=1;$j<43;$j++){
-                self::borderColor($cols_asrray[$cellGranTotales].$j,'FFFFFF',$objPHPExcel);
-                self::borderColor($cols_asrray[($cellGranTotales+1)].$j,'FFFFFF',$objPHPExcel);
-                self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$j,'000000','right',$objPHPExcel);
-                
-                if($j == 3 || $j == 12 || $j == 21 || $j == 27 || $j == 29 || $j == 38 || $j == 40 || $j == 42){
-                    self::cellColor($cols_asrray[$cellGranTotales].$j, 'AAAAAA',$objPHPExcel);
-                    self::cellColor($cols_asrray[($cellGranTotales+1)].$j, 'AAAAAA',$objPHPExcel);
-                    
-                    self::borderSiteColor($cols_asrray[$cellGranTotales].$j,'AAAAAA','right',$objPHPExcel);
-                    self::borderSiteColor($cols_asrray[$cellGranTotales].$j,'000000','left',$objPHPExcel);
-                    self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$j,'000000','right',$objPHPExcel);
-                }else{
-                    self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$j,'000000','right',$objPHPExcel);
-                } 
-                
-            }
-//            
-            //TOTAL DE INGRESOS
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'3', "=SUM(".$cols_asrray[(2)].'3'.":".$cols_asrray[($cellGranTotales-1)].'3'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'3','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'3','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'4', "=SUM(".$cols_asrray[(2)].'4'.":".$cols_asrray[($cellGranTotales-1)].'4'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'4','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'4','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'5', "=SUM(".$cols_asrray[(2)].'5'.":".$cols_asrray[($cellGranTotales-1)].'5'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'5','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'5','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'6', "=SUM(".$cols_asrray[(1)].'6'.":".$cols_asrray[($cellGranTotales-2)].'6'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'6','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'6','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'7', "=SUM(".$cols_asrray[(1)].'7'.":".$cols_asrray[($cellGranTotales-2)].'7'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'7','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'7','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'8', "=SUM(".$cols_asrray[(1)].'8'.":".$cols_asrray[($cellGranTotales-2)].'8'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'8','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'8','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'9', "=SUM(".$cols_asrray[(1)].'9'.":".$cols_asrray[($cellGranTotales-2)].'9'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'9','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'9','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'10', "=SUM(".$cols_asrray[(2)].'10'.":".$cols_asrray[($cellGranTotales-1)].'10'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'10','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'10','USD$',$objPHPExcel);
-
-            //TOTAL DE MARGEN
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'12', "=SUM(".$cols_asrray[(2)].'12'.":".$cols_asrray[($cellGranTotales-1)].'12'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'12','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'12','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'13', "=SUM(".$cols_asrray[(2)].'13'.":".$cols_asrray[($cellGranTotales-1)].'13'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'13','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'13','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'14', "=SUM(".$cols_asrray[(2)].'14'.":".$cols_asrray[($cellGranTotales-1)].'14'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'14','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'14','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'15', "=SUM(".$cols_asrray[(1)].'15'.":".$cols_asrray[($cellGranTotales-2)].'15'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'15','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'15','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'16', "=SUM(".$cols_asrray[(1)].'16'.":".$cols_asrray[($cellGranTotales-2)].'16'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'16','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'16','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'17', "=SUM(".$cols_asrray[(1)].'17'.":".$cols_asrray[($cellGranTotales-2)].'17'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'17','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'17','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales)].'18', "=SUM(".$cols_asrray[(1)].'18'.":".$cols_asrray[($cellGranTotales-2)].'18'.")");
-            self::fontSite($cols_asrray[($cellGranTotales)].'18','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales)].'18','USD$',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'19', "=SUM(".$cols_asrray[(2)].'19'.":".$cols_asrray[($cellGranTotales-1)].'19'.")");
-            self::fontSite($cols_asrray[($cellGranTotales+1)].'19','000000','10','right',$objPHPExcel);
-            self::setCurrency($cols_asrray[($cellGranTotales+1)].'19','USD$',$objPHPExcel);
-            
-            
-            
-            
-            
-            //VALORES DE LA CELDA DE TITULOS (CELDA A)
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A3', 'INGRESOS');
-            $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);      
-            self::fontSite('A3','000000','11','right',$objPHPExcel);
-            self::cellColor('A3', 'AAAAAA',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A12', 'MARGEN OPERATIVO BRUTO');
-            $objPHPExcel->getActiveSheet()->getRowDimension('12')->setRowHeight(20);      
-            self::fontSite('A12','000000','11','right',$objPHPExcel);
-            self::cellColor('A12', 'AAAAAA',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A21', 'EGRESOS');
-            $objPHPExcel->getActiveSheet()->getRowDimension('21')->setRowHeight(20);      
-            self::fontSite('A21','000000','11','right',$objPHPExcel);
-            self::cellColor('A21', 'AAAAAA',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A27', 'TOTAL EBITDA');
-            $objPHPExcel->getActiveSheet()->getRowDimension('27')->setRowHeight(20);      
-            self::fontSite('A27','000000','11','right',$objPHPExcel);
-            self::cellColor('A27', 'AAAAAA',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A29', 'IMPUESTOS (Alicuota sobre las ventas)');
-            $objPHPExcel->getActiveSheet()->getRowDimension('29')->setRowHeight(20);      
-            self::fontSite('A29','000000','11','right',$objPHPExcel);
-            self::cellColor('A29', 'AAAAAA',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A38', 'Ganancia Neta (Sin Merma Ciclo de Ingreso)');
-            $objPHPExcel->getActiveSheet()->getRowDimension('38')->setRowHeight(20);      
-            self::fontSite('A38','000000','11','right',$objPHPExcel);
-            self::cellColor('A38', 'AAAAAA',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A40', 'AJUSTE POR CICLO DE INGRESOS');
-            $objPHPExcel->getActiveSheet()->getRowDimension('40')->setRowHeight(20);      
-            self::fontSite('A40','000000','11','right',$objPHPExcel);
-            self::cellColor('A40', 'AAAAAA',$objPHPExcel);
-            
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A42', 'GANANCIA TOTAL NETA');
-            $objPHPExcel->getActiveSheet()->getRowDimension('42')->setRowHeight(20);      
-            self::fontSite('A42','000000','11','right',$objPHPExcel);
-            self::cellColor('A42', 'AAAAAA',$objPHPExcel);
-            
-            //INGRESOS
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', 'Ingresos Llamadas');
-            self::fontSite('A4','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A4', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', 'Ingresos Por Servicios');
-            self::fontSite('A5','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A5', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', 'Ingresos Servicios Movistar');
-            self::fontSite('A6','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A6', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', 'Ingresos Servicios Claro');
-            self::fontSite('A7','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A7', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', 'Ingresos Servicios DirecTv');
-            self::fontSite('A8','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A8', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', 'Ingresos Servicios Nextel');
-            self::fontSite('A9','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A9', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A10', 'Ingresos Varios (Subarriendos)');
-            self::fontSite('A10','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A10', '1967B2',$objPHPExcel);
-            
-            //MARGEN OPERATIVO BRUTO
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A13', 'Ingresos Llamadas');
-            self::fontSite('A13','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A13', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A14', 'Ingresos Por Servicios');
-            self::fontSite('A14','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A14', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A15', 'Ingresos Servicios Movistar');
-            self::fontSite('A15','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A15', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A16', 'Ingresos Servicios Claro');
-            self::fontSite('A16','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A16', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A17', 'Ingresos Servicios DirecTv');
-            self::fontSite('A17','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A17', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A18', 'Ingresos Servicios Nextel');
-            self::fontSite('A18','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A18', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A19', 'Ingresos Varios (Subarriendos)');
-            self::fontSite('A19','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A19', '1967B2',$objPHPExcel);
-            
-            //EGRESOS 
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A22', 'Alquiler Local');
-            self::fontSite('A22','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A22', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A23', 'Nomina');
-            self::fontSite('A23','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A23', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A24', 'Servicios Generales');
-            self::fontSite('A24','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A24', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A25', 'Otros Gastos (Rep, Mto., Reemplazo Eq.)');
-            self::fontSite('A25','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A25', '1967B2',$objPHPExcel);
-            
-            //IMPUESTOS (Alicuota sobre las ventas)
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A30', 'Osiptel (0.5% de las Vts Llamadas)');
-            self::fontSite('A30','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A30', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A31', 'Fitel (1% de las Vts Llamadas)');
-            self::fontSite('A31','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A31', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A32', 'MTC (0.5% de las Vts Llamadas)');
-            self::fontSite('A32','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A32', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A33', 'Sunat (IGV)');
-            self::fontSite('A33','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A33', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A34', 'Sunat (Renta 3era) (1.5% de las Vtas TOTALES)');
-            self::fontSite('A34','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A34', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A35', 'Arbitrios');
-            self::fontSite('A35','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A35', '1967B2',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A36', 'Otros Impuestos');
-            self::fontSite('A36','FFFFFF','10','left',$objPHPExcel);
-            self::cellColor('A36', '1967B2',$objPHPExcel);
-            
-            
-//            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A15', 'Sub Total');
-//            self::fontSite('A15','000000','11','right',$objPHPExcel);
-
+            //GENERA LOS TITULOS DE LA COLUMNA 'A'
+            self::generateTitles($objPHPExcel);
 
             
     }

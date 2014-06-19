@@ -430,7 +430,6 @@ class Detalleingreso extends CActiveRecord
                         $trafico = self::model()->findBySql("SELECT SUM(d.Monto) as Trafico 
                                                              FROM detalleingreso as d
                                                              INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
-                                                             INNER JOIN users as u ON u.id = d.USERS_Id
                                                              WHERE d.FechaMes = '$fecha' 
                                                              AND d.CABINA_Id = $cabinaId AND t.COMPANIA_Id = 5 AND t.Clase = 1;");
                         if ($trafico == NULL) {
@@ -519,7 +518,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND t.COMPANIA_Id != 12 AND t.Clase = 1;";
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND t.Clase = 1;";
                         }elseif($cabinaId == NULL){
                             $sql = "SELECT SUM(d.Monto) as TotalVentas 
                                                                 FROM detalleingreso as d
