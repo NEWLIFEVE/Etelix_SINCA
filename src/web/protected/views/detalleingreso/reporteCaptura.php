@@ -279,7 +279,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialCapturaSoles',
+                'id'=>'',
                 ),
             ),
         array(
@@ -291,7 +291,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
                 'style'=>'text-align: center; color: green;',
                 'class'=>'dif',
                 'name'=>'dif',
-                'id'=>'diferencialCapturaDollar',
+                'id'=>'',
             ),
         ),
         ),

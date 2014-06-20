@@ -152,7 +152,17 @@ class estadoResultado extends Reportes
                   AND d.CABINA_Id = $cabina 
                   AND t.Nombre = 'Subarriendo';";
             
-        }elseif($compania != 'SubArriendos'){
+        }elseif($compania == 'TraficoCaptura'){
+            
+            $sql="SELECT SUM(d.Monto) as Monto
+                  FROM detalleingreso as d
+                  INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                  INNER JOIN users as u ON u.id = d.USERS_Id
+                  WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
+                  AND d.CABINA_Id = $cabina 
+                  AND t.Nombre = 'TraficoCapturaDollar';";
+            
+        }elseif($compania != 'SubArriendos' && $compania != 'TraficoCaptura'){
             
             $sql="SELECT SUM(d.Monto) as Monto
                   FROM detalleingreso as d
@@ -814,11 +824,8 @@ class estadoResultado extends Reportes
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells($cols_asrray[$i].'1:'.$cols_asrray[($i+1)].'2');
 
                 //VALORES DEL CONTENIDO (INGRESOS)
-                $trafico = self::getDataFullCarga($day,$value->Id,5);
-                $traficoSoles = $trafico;
-                $traficoTotal = $traficoTotal + $trafico;
-                $traficoDollar = round(($traficoSoles/$paridad),2);
-                $traficoTotalDollar = $traficoTotalDollar + round(($trafico/$paridad),2);
+                $trafico = self::getDataFullCarga($day,$value->Id,'TraficoCaptura');
+                $traficoDollar = $trafico;
                 
                 $servMov = self::getDataFullCarga($day,$value->Id,1);
                 $servClaro = self::getDataFullCarga($day,$value->Id,2);

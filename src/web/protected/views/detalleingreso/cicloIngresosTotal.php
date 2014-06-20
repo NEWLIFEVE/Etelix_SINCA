@@ -357,7 +357,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'type'=>'text',
             'headerHtmlOptions' => array('background: rgba(204,153,204,1) !important;'),
             'htmlOptions'=>array(
-                'style'=>'text-align: center; color: green;',
+                'style'=>'text-align: center;',
                 'id'=>'paridad',
                 ),
             ),
@@ -647,8 +647,8 @@ function reinstallDatePicker(id, data) {
             <td id="totalFecha"></td>
             <td id="todas">Todas</td>
             <td id="totalVentas2"></td>
-            <td id="totalDiferencialBancario" class="dif" style="text-align: center;"></td>
-            <td id="totalConcilicacionBancaria" style="text-align: center;"></td> 
+            <td id="totaldiferencialBancario" class="dif" style="text-align: center;"></td>
+            <td id="totalconcilicacionBancaria" style="text-align: center;"></td> 
             <td id="totaldiferencialBrightstarMovistar" class="dif" style="text-align: center;"></td>
             <td id="totaldiferencialBrightstarClaro" class="dif" style="text-align: center;"></td>
             <td id="totaldiferencialBrightstarDirecTv" class="dif" style="text-align: center;"></td>

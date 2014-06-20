@@ -106,7 +106,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
                 true),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;',
+                'style'=>'text-align: center;width: 56px;',
                 'id'=>'fecha',
                 ),
             ),
@@ -116,7 +116,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type'=>'text',
             'filter'=>Cabina::getListCabina(),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;'
+                'style'=>'text-align: center;width: 80px;'
+                ),
+            ),
+        array(
+            'name'=>'ServMov',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaMov',
+                'style'=>'text-align: center;',
                 ),
             ),
         array(
@@ -132,6 +141,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
             ),
         array(
+            'name'=>'ServClaro',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaClaro',
+                'style'=>'text-align: center;',
+                ),
+            ),
+        array(
             'name'=>'DifClaro',
             'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 2)',
             'type'=>'text',
@@ -144,6 +162,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
             ),
         array(
+            'name'=>'ServDirecTv',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServDirecTv',
+                'style'=>'text-align: center;',
+                ),
+            ),
+        array(
             'name'=>'DifDirecTv',
             'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 4)',
             'type'=>'text',
@@ -153,6 +180,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'class'=>'dif',
                 'name'=>'dif',
                 'id'=>'diferencialBrightstarDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'ServNextel',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServNextel',
+                'style'=>'text-align: center;',
                 ),
             ),
         array(
@@ -217,7 +253,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
                 true),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;',
+                'style'=>'text-align: center;width: 56px;',
                 'id'=>'fecha',
                 ),
             ),
@@ -227,7 +263,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type'=>'text',
             'filter'=>Cabina::getListCabina(),
             'htmlOptions'=>array(
-                'style'=>'text-align: center;'
+                'style'=>'text-align: center;width: 80px;'
+                ),
+            ),
+        array(
+            'name'=>'ServMov',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaMov',
+                'style'=>'text-align: center;',
                 ),
             ),
         array(
@@ -243,6 +288,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
             ),
         array(
+            'name'=>'ServClaro',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'recargaClaro',
+                'style'=>'text-align: center;',
+                ),
+            ),
+        array(
             'name'=>'DifClaro',
             'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 2)',
             'type'=>'text',
@@ -255,6 +309,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
             ),
         array(
+            'name'=>'ServDirecTv',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServDirecTv',
+                'style'=>'text-align: center;',
+                ),
+            ),
+        array(
             'name'=>'DifDirecTv',
             'value'=>'CicloIngresoModelo::getDifFullCarga($data->Fecha, $data->CABINA_Id, 4)',
             'type'=>'text',
@@ -264,6 +327,15 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 'class'=>'dif',
                 'name'=>'dif',
                 'id'=>'diferencialBrightstarDirecTv',
+                ),
+            ),
+        array(
+            'name'=>'ServNextel',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->Fecha, $data->CABINA_Id)',
+            'type'=>'text',
+            'htmlOptions'=>array(
+                'id'=>'ServNextel',
+                'style'=>'text-align: center;',
                 ),
             ),
         array(
@@ -302,23 +374,37 @@ function reinstallDatePicker2(id, data) {
             <th style="background:#ff9900; color:white;">Fecha</th>
             <th style="background:#ff9900; color:white;">Cabinas</th>
             <!--<th id="balanceTotalesBrightstar1" style="background:#ff9900; color:white;"></th>-->
+            <th id="totalRecargaMov" style="background:#ff9900; color:white;">Servicios Movistar (S/.)</th>
             <th id="totalesDiferencialBrightstarMovistar" style="background:#ff9900; color:white;"></th>
-            <!--<th id="balanceTotalesBrightstar3" style="background:#ff9900; color:white;"></th>-->
+            
+            <th id="totalRecargaClaro" style="background:#ff9900; color:white;">Servicios Claro (S/.)</th>
             <th id="totalesDiferencialBrightstarClaro" style="background:#ff9900; color:white;"></th>
+            
+            <th id="totalServDirecTv" style="background:#ff9900; color:white;">Servicios DirecTv (S/.)</th>
             <th id="totalesDiferencialBrightstarDirecTv" style="background:#ff9900; color:white;">Diferencial DirecTv (S/.)</th>
+            
+            <th id="totalServNextel" style="background:#ff9900; color:white;">Servicios Nextel (S/.)</th>
             <th id="totalesDiferencialBrightstarNextel" style="background:#ff9900; color:white;">Diferencial Nextel (S/.)</th>
         </tr>
     </thead>
     <tbody>
         <tr class="odd">
-            <td id="totalFecha" style="width: 95px;"></td>
-            <td id="todas" style="width: 135px; text-align: center;"> Todas </td>
+            <td id="totalFecha" style="width: 56px;"></td>
+            <td id="todas" style="width: 80px; text-align: center;"> Todas </td>
             <!--<td id="balanceTotalesBrightstar1"></td>-->
+            <td id="totalRecargaMov" class="dif" style="text-align: center;"></td>
             <td id="totalesDiferencialBrightstarMovistar" class="dif" style="text-align: center;"></td>
-            <!--<td id="balanceTotalesBrightstar3"></td>-->
+            
+            <td id="totalRecargaClaro" class="dif" style="text-align: center;"></td>
             <td id="totalesDiferencialBrightstarClaro" class="dif" style="text-align: center;"></td>
+            
+            <td id="totalServDirecTv" class="dif" style="text-align: center;"></td>
             <td id="totaldiferencialBrightstarDirecTv" class="dif" style="text-align: center;"></td>
+            
+            <td id="totalServNextel" class="dif" style="text-align: center;"></td>
             <td id="totaldiferencialBrightstarNextel" class="dif" style="text-align: center;"></td>
+            
+            
         </tr>
     </tbody>
 </table>

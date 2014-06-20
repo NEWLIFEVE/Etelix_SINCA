@@ -325,9 +325,16 @@ class Reportes extends CApplicationComponent
                             <tr >
                                 <th '.self::defineStyleHeader("brightstar").' id="Fechas" width="70">Fecha</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c2" width="80">Cabina</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios Movistar (S/.)</th>    
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Diferencial Movistar (S/.)</th>
+                                
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios Claro (S/.)</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Diferencial Claro (S/.)</th>
+
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios DirecTv (S/.)</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Diferencial DirecTv (S/.))</th>
+
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios Nextel (S/.)</th>
                                 <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Nextel (S/.)</th>   
                             </tr>
                         </thead>';

@@ -111,7 +111,7 @@
                 }
                 
                 if($report == null){    
-                    $balanceTotals = cicloIngreso::get_ModelTotal($ids);
+//                    $balanceTotals = cicloIngreso::get_ModelTotal($ids);
                 }else{
                     $balanceTotals = cicloIngreso::get_Model_Ayer_Total($report);
                 }
@@ -260,7 +260,7 @@
                     
                 }
                 
-                 $balanceTotals = cicloIngreso::get_ModelTotalComplete($ids);
+//                 $balanceTotals = cicloIngreso::get_ModelTotalComplete($ids);
                  $table.=  Reportes::defineHeader("cicloIC")
                                 .'<tr >
                                         <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$registro->Fecha.'</td>
@@ -323,26 +323,36 @@
         
         public static function get_Model_Ayer($date) 
         {
-            $sql = "SELECT b.CABINA_Id, b.id as id, b.fecha as Fecha, c.nombre as cabina, 
-                   (IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0)) as TotalVentas,  
-                   (IFNULL(b.MontoBanco,0)-(IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0))) as DiferencialBancario,
-                   (IFNULL(b.MontoBanco,0)-IFNULL(b.MontoDeposito,0)) as ConciliacionBancaria,
-                   (IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0))) as DifMov,
-                   (IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0))) as DifClaro,
-                   IFNULL(p.Valor,0) AS Paridad,
-		   ((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor)) as DifSoles,
-                   (((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor))/p.Valor) as DifDollar,
-                   IFNULL(b.Acumulado,0) AS Acumulado,
-                   sobranteActual(b.Id,b.MontoBanco,b.RecargaVentasMov,b.RecargaVentasClaro,b.TraficoCapturaDollar) AS Sobrante,
-                   IFNULL(b.SobranteAcum,0) AS SobranteAcum
-
-                    FROM balance b
-                    INNER JOIN cabina as c ON c.id = b.CABINA_Id
-                    INNER JOIN paridad as p ON p.id = b.PARIDAD_Id
-                    WHERE b.Fecha = CONCAT(YEAR(CURDATE()),'-0',MONTH(CURDATE()),'-',DAY(CURDATE())-1)
+            
+            
+            $sql = "SELECT s.Id, s.Fecha, s.CABINA_Id, c.Nombre as Cabina
+                    FROM saldo_cabina as s
+                    INNER JOIN cabina as c ON c.id = s.CABINA_Id
+                    WHERE s.Fecha = CONCAT(YEAR(CURDATE()),'-0',MONTH(CURDATE()),'-',DAY(CURDATE())-1)
                     AND b.CABINA_Id NOT IN (18,19)
 		    AND c.status  = 1
-                    order by b.fecha desc, c.nombre asc;";
+                    order by s.Fecha DESC, c.Nombre ASC;";
+            
+//            $sql = "SELECT b.CABINA_Id, b.id as id, b.fecha as Fecha, c.nombre as cabina, 
+//                   (IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0)) as TotalVentas,  
+//                   (IFNULL(b.MontoBanco,0)-(IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)+IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0)+IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0)+IFNULL(b.OtrosServicios,0))) as DiferencialBancario,
+//                   (IFNULL(b.MontoBanco,0)-IFNULL(b.MontoDeposito,0)) as ConciliacionBancaria,
+//                   (IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0))) as DifMov,
+//                   (IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0))) as DifClaro,
+//                   IFNULL(p.Valor,0) AS Paridad,
+//		   ((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor)) as DifSoles,
+//                   (((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0))-(IFNULL(b.TraficoCapturaDollar,0)*p.Valor))/p.Valor) as DifDollar,
+//                   IFNULL(b.Acumulado,0) AS Acumulado,
+//                   sobranteActual(b.Id,b.MontoBanco,b.RecargaVentasMov,b.RecargaVentasClaro,b.TraficoCapturaDollar) AS Sobrante,
+//                   IFNULL(b.SobranteAcum,0) AS SobranteAcum
+//
+//                    FROM balance b
+//                    INNER JOIN cabina as c ON c.id = b.CABINA_Id
+//                    INNER JOIN paridad as p ON p.id = b.PARIDAD_Id
+//                    WHERE b.Fecha = CONCAT(YEAR(CURDATE()),'-0',MONTH(CURDATE()),'-',DAY(CURDATE())-1)
+//                    AND b.CABINA_Id NOT IN (18,19)
+//		    AND c.status  = 1
+//                    order by b.fecha desc, c.nombre asc;";
             
               return Balance::model()->findAllBySql($sql); 
          

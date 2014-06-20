@@ -164,7 +164,7 @@ $('.search-form form').submit(function(){
         ),
       array(
         'name'=>'SaldoLibro',
-        'value'=>'Yii::app()->format->formatDecimal($data->SaldoApBanco+Balance::sumMontoBanco($data->Fecha,$data->CUENTA_Id)-Detallegasto::sumGastosBanco($data->Fecha,$data->CUENTA_Id))',
+        'value'=>'Yii::app()->format->formatDecimal($data->SaldoApBanco+Deposito::sumMontoBanco($data->Fecha,$data->CUENTA_Id)-Detallegasto::sumGastosBanco($data->Fecha,$data->CUENTA_Id))',
         'type'=>'text',
         'htmlOptions'=>array(
           'style'=>'text-align: center;',

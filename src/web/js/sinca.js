@@ -135,7 +135,8 @@ $(document).ready(function()
         var arrayCols = new Array('ServDirecTv','ServNextel','diferencialFullCarga','diferencialBrightstarMovistar',
                                   'diferencialBrightstarClaro','diferencialBrightstarDirecTv','diferencialBrightstarNextel',
                                   'diferencialCapturaSoles','diferencialCapturaDollar','acumuladoCI','sobrante','sobranteAcumCI',
-                                  'otrosServiciosFullCarga','traficoCapturaDollar','traficoCapturaSoles','diferencialCapturaSoles','diferencialCapturaDollar');
+                                  'otrosServiciosFullCarga','traficoCapturaDollar','traficoCapturaSoles','diferencialCapturaSoles','diferencialCapturaDollar',
+                                  'diferencialBancario','concilicacionBancaria');
         var diferente=['No Declarado','No Declarado','0.00','0.00','0.00','&nbsp;','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00',''];
         for(var i=0;i<arrayCols.length;i++){
             totalsBalance(arrayCols[i],diferente[i]);
@@ -150,7 +151,7 @@ $(document).ready(function()
             suma = suma + parseFloat($(this).html()) ; 
         });
         if(suma==0){
-            $('div#totales table tr td#total'+columna).text('No Declarados');
+            $('div#totales table tr td#total'+columna).text('0.00');
         }else{
             $('div#totales tr td#total'+columna).text(suma.toFixed(2));
         }

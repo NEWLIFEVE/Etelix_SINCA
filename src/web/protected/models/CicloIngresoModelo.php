@@ -181,13 +181,13 @@ class CicloIngresoModelo extends CActiveRecord
             
             if($model != NULL){
                 if($compania == 1){
-                    return ($model->DiferencialMovistar != NULL) ? round($model->DiferencialMovistar,2) : '0.00';
+                    return ($model->DiferencialMovistar != NULL) ? $model->DiferencialMovistar : '0.00';
                 }elseif($compania == 2){
-                    return ($model->DiferencialClaro != NULL) ? round($model->DiferencialClaro,2) : '0.00';
+                    return ($model->DiferencialClaro != NULL) ? $model->DiferencialClaro : '0.00';
                 }elseif($compania == 3){
-                    return ($model->DiferencialNextel != NULL) ? round($model->DiferencialNextel,2) : '0.00';
+                    return ($model->DiferencialNextel != NULL) ? $model->DiferencialNextel : '0.00';
                 }elseif($compania == 4){
-                    return ($model->DiferencialDirectv != NULL) ? round($model->DiferencialDirectv,2) : '0.00';
+                    return ($model->DiferencialDirectv != NULL) ? $model->DiferencialDirectv : '0.00';
                 }
             }else{
                 return '0.00';
@@ -200,13 +200,13 @@ class CicloIngresoModelo extends CActiveRecord
             
             if($cabina != NULL){
                 
-                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
-                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha' AND CABINA_Id = $cabina;");
+                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha' AND CABINA_Id = $cabina;");
 
             }else{
                 
-                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha';");
-                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0.00)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha';");
+                $model = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as DiferencialCaptura FROM ciclo_ingreso WHERE Fecha = '$fecha';");
+                $Acumulado = self::model()->findBySql("SELECT SUM(IFNULL(DiferencialCaptura,0)) as AcumuladoSobrante FROM ciclo_ingreso WHERE Fecha >= '$primero_mes' AND Fecha <= '$fecha';");
 
             }
             
@@ -215,19 +215,19 @@ class CicloIngresoModelo extends CActiveRecord
             if($model != NULL){
                 
                 if($moneda == 1){
-                    return ($model->DiferencialCaptura != NULL) ? round($model->DiferencialCaptura,2) : '0.00';
+                    return ($model->DiferencialCaptura != NULL) ? $model->DiferencialCaptura : '0.00';
                 }elseif($moneda == 2){
-                    return ($model->DiferencialCaptura != NULL) ? round(($model->DiferencialCaptura*$paridad),2) : '0.00';
+                    return ($model->DiferencialCaptura != NULL) ? number_format($model->DiferencialCaptura*$paridad, 2, '.', '') : '0.00';
                 }elseif($moneda == 3){
 
-                    return ($Acumulado != NULL) ? round(($Acumulado->AcumuladoSobrante),2) : '0.00';
+                    return ($Acumulado != NULL) ? ($Acumulado->AcumuladoSobrante) : '0.00';
 
                 }
                 
             }else{
                 if($moneda == 3){
                     
-                    return ($Acumulado != NULL) ? round(($Acumulado->AcumuladoSobrante),2) : '0.00';
+                    return ($Acumulado != NULL) ? ($Acumulado->AcumuladoSobrante) : '0.00';
 
                 }else{
                     return '0.00';
@@ -286,7 +286,7 @@ class CicloIngresoModelo extends CActiveRecord
                 //SOBRANTE
                 if($model != NULL){
 
-                    return round((($model->DiferencialBancario+$model->DiferencialMovistar+$model->DiferencialClaro+$model->DiferencialNextel+$model->DiferencialDirectv+($model->DiferencialCaptura*$paridad))/$paridad),2);
+                    return number_format((($model->DiferencialBancario+$model->DiferencialMovistar+$model->DiferencialClaro+$model->DiferencialNextel+$model->DiferencialDirectv+($model->DiferencialCaptura*$paridad))/$paridad), 2, '.', '');
 
                 }else{
                     return '0.00';
@@ -296,7 +296,7 @@ class CicloIngresoModelo extends CActiveRecord
                 //SOBRANTE ACUMULADO
                 if($modelAcum != NULL){
 
-                    return round((($modelAcum->DiferencialBancario+$modelAcum->DiferencialMovistar+$modelAcum->DiferencialClaro+$modelAcum->DiferencialNextel+$modelAcum->DiferencialDirectv+($modelAcum->DiferencialCaptura*$paridad))/$paridad),2);
+                    return number_format((($modelAcum->DiferencialBancario+$modelAcum->DiferencialMovistar+$modelAcum->DiferencialClaro+$modelAcum->DiferencialNextel+$modelAcum->DiferencialDirectv+($modelAcum->DiferencialCaptura*$paridad))/$paridad), 2, '.', '');
 
                 }else{
                     return '0.00';
