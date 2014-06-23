@@ -669,7 +669,7 @@ class SiteController extends Controller
         {
             $name = str_replace("/","_",$_GET['name']);
             $dir = Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$name.".xlsx";
-            $dia = $_GET['mes'];
+            $dia = $_GET['date'];
             $cuerpo = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;>".$_GET['name']."<h2>";
             
             $body = Yii::app()->reporte->estadoResultado($dia,$name,$dir);

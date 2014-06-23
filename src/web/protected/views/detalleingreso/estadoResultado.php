@@ -55,7 +55,7 @@ $this->menu= DetalleingresoController::controlAcceso($tipoUsuario);
     <div id="botonsExport">
     <ul>
         <li style="width: 200px;">
-             Por Cabinas   <img id="CorreoResumido" title="Enviar Consolidado Resumido por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoConsolidado" />
+             Generar Exportables   <img id="CorreoResumidoER" title="Enviar Consolidado Resumido por Correo" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/mail.png" class="botonCorreoConsolidado" />
                            <img id="ExcelCabina" title="Exportar Consolidado Resumido a Excel" src="<?php echo Yii::app()->request->baseUrl; ?>/themes/mattskitchen/img/excel.png" class="botonExcelConsolidado" />
         </li>
         <li style="width: 200px;display: none;">

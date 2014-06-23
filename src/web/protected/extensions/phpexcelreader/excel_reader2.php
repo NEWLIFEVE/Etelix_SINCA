@@ -664,9 +664,9 @@ class Spreadsheet_Excel_Reader {
 
             /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS CAPTURA.XLS *****************///*|*/
             /*|*/                                                                                 /*|*/
-            /*|*/      $columnaCapturaFecha        = 12;                                           /*|*/
-            /*|*/      $columnaCodigoCapturaCabina = 3;                                           /*|*/
-            /*|*/      $columnaCapturaoMonto       = 9;                                          /*|*/
+            /*|*/      $columnaCapturaFecha        = 12;                                          /*|*/
+            /*|*/      $columnaCodigoCapturaCabina = 1;                                           /*|*/
+            /*|*/      $columnaCapturaoMonto       = 22;                                          /*|*/
             /*|*/      $columnaCaptura             = 0;                                           /*|*/
             /*|*/                                                                                 /*|*/
             /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS FULLCARGA.XLS ***************///*|*/
@@ -706,7 +706,26 @@ class Spreadsheet_Excel_Reader {
             //=========== NUMEROS DE COLUMNAS EN EN EXCEL - FIN =======================================
             
             if($tipo=="Captura"){
-
+                
+                $_SESSION['cabinasC'] = Array();
+                $_SESSION['montoC'] = Array();
+                $_SESSION['fechaC'] = Array();
+                
+                $i = 0;
+                $j = 0;
+                
+                $countRow = ($this->rowcount($sheet)-2);
+                
+                for($row=2;$row<=$countRow;$row++) {
+                    
+                    $_SESSION['cabinasC'][$i] = $this->val($row,$columnaCodigoCapturaCabina,$sheet);
+                    $_SESSION['montoC'][$i] = round($this->val($row,$columnaCapturaoMonto,$sheet),2);
+                    $_SESSION['fechaC'][$i] = date('Y-m-d',strtotime($this->val($row,$columnaCapturaFecha,$sheet)));
+                    
+                    $i++;
+                    
+                }
+                
             }
             if($tipo=="FullCarga"){
                 

@@ -1042,15 +1042,22 @@ $(document).ready(function()
             $("#loading").css("display", "inline");
             
             var gridview = '';
-            
-            if($(this).attr('id') == 'CorreoCompleto')
+
+            if($(this).attr('id') == 'CorreoCompleto'){
                 gridview = 'reporteConsolidado';
-            else
+            }
+            if($(this).attr('id') == 'CorreoResumido'){
                 gridview = 'reporteConsolidadoResumido';
+            }
+            if($(this).attr('id') == 'CorreoResumidoER'){
+                gridview = 'estadoResultado';
+            }
+            
+            
             
             var date = $('div#fecha2').text();
             var name = genNameFile(gridview);
-            //alert(mes);
+//            alert(date);
             
             if($('div#fecha2').length){
             //Creamos la variable que contiene la tabla generada.

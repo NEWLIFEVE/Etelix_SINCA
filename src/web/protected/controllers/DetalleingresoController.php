@@ -319,55 +319,115 @@ class DetalleingresoController extends Controller
             
             if(isset($_POST["UpdateFileCaptura"])){
                 
-                $phpExcelPath = Yii::getPathOfAlias('application.components');
-                include($phpExcelPath . DIRECTORY_SEPARATOR . 'PHPExcel.php');
-                
-                $_SESSION['cabinasC'] = Array();
-                $_SESSION['montoC'] = Array();
-                $_SESSION['fechaC'] = Array();
-                
-                $i = 0;
+                Yii::import('ext.phpexcelreader.JPhpExcelReader');
 
-                $fileName1='Captura.xlsx';
+                $fileName1='Captura.xls';
                 $ruta = Yii::getPathOfAlias('webroot.uploads').DIRECTORY_SEPARATOR;
                 $ruta1=$ruta.$usuario.DIRECTORY_SEPARATOR.$fileName1;
 
                 if(file_exists($ruta1)){
-                    
-                    $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-                    $objPHPExcel = $objReader->load($ruta1);
-                    $sheet = $objPHPExcel->getSheet(0); 
-                    $highestRow = $sheet->getHighestRow(); 
-                    $highestColumn = $sheet->getHighestColumn();
-
-                    for ($row = 2; $row < 10; $row++){
-                         $_SESSION['cabinasC'][$i] = $sheet->getCell('A'.$row)->getValue();
-                         $_SESSION['fechaC'][$i] = date('Y-j-m', PHPExcel_Shared_Date::ExcelToPHP($sheet->getCell('L'.$row)->getValue()));
-                         $_SESSION['montoC'][$i] = $sheet->getCell('Q'.$row)->getValue();
-                         $i++;
-                    }
-
-
+                    $data1=new JPhpExcelReader($ruta1);
+                    $data1->saveDB("Captura");
                 }elseif(!file_exists($ruta1)){
                     Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
                 }
- 
+                
+//                $phpExcelPath = Yii::getPathOfAlias('application.components');
+//                include($phpExcelPath . DIRECTORY_SEPARATOR . 'PHPExcel.php');
+//                
+//                $_SESSION['cabinasC'] = Array();
+//                $_SESSION['montoC'] = Array();
+//                $_SESSION['fechaC'] = Array();
+//                
+//                $i = 0;
+//
+//                $fileName1='Captura.xlsx';
+//                $fileName2='Captura.xls';
+//                $ruta = Yii::getPathOfAlias('webroot.uploads').DIRECTORY_SEPARATOR;
+//                $ruta1=$ruta.$usuario.DIRECTORY_SEPARATOR.$fileName1;
+//                $ruta2=$ruta.$usuario.DIRECTORY_SEPARATOR.$fileName2;
+//
+//                if(file_exists($ruta1) || file_exists($ruta2)){
+//                    
+//                    if(file_exists($ruta1))
+//                        $ruta = $ruta1;
+//                    elseif(file_exists($ruta2))
+//                        $ruta = $ruta2;
+//                    
+//                    $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+//                    $objPHPExcel = $objReader->load($ruta);
+//                    $sheet = $objPHPExcel->getSheet(0); 
+//                    $highestRow = $sheet->getHighestRow(); 
+//                    $highestColumn = $sheet->getHighestColumn();
+//
+//                    for ($row = 2; $row < 10; $row++){
+//                         $_SESSION['cabinasC'][$i] = $sheet->getCell('A'.$row)->getValue();
+//                         $_SESSION['fechaC'][$i] = date('Y-j-m', PHPExcel_Shared_Date::ExcelToPHP($sheet->getCell('L'.$row)->getValue()));
+//                         $_SESSION['montoC'][$i] = $sheet->getCell('Q'.$row)->getValue();
+//                         $i++;
+//                    }
+//
+//
+//                }elseif(!file_exists($ruta1)){
+//                    Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
+//                }
+// 
                 if(isset($_SESSION['cabinasC']) && isset($_SESSION['montoC']) && isset($_SESSION['fechaC'])){
                     
-                    echo 'Cabinas: ';
-                    var_dump($_SESSION['cabinasC']);
-                    echo '<br><br>';
-                    echo 'Montos: ';
-                    var_dump($_SESSION['montoC']);
-                    echo '<br><br>';
-                    echo 'Fechas: ';
-                    var_dump($_SESSION['fechaC']);
+                    $arrayCabinas = $_SESSION['cabinasC'];
+                    $arrayFechas = $_SESSION['fechaC'];
+                    $arrayMontos = $_SESSION['montoC'];
+                    $arrayMontoSumado = Array();
+                    $i = 0;
                     
-                }    
+//                    echo 'Cabinas: ';
+//                    var_dump($arrayCabinas);
+//                    echo '<br><br>';
+//                    echo 'Montos: ';
+//                    var_dump($_SESSION['montoC']);
+//                    echo '<br><br>';
+//                    echo 'Fechas: ';
+//                    var_dump($arrayFechas);
 
-//                    if(file_exists($ruta1)){
-//                        unlink($ruta1);
-//                    }
+                    
+                    
+                    echo '<br><br>';
+                    foreach ($arrayCabinas as $key => $value){
+
+                        $cabina = substr($value, 0, -12);
+                        $arrayMontoSumado[$cabina] = NULL;
+
+                    }
+                    
+                    foreach ($arrayCabinas as $key => $value){
+
+                        $cabina = substr($value, 0, -12);  
+                        $fecha = $arrayFechas[$key];
+                        $arrayMontoSumado[$cabina][$fecha] = NULL;          
+                    }
+                    
+                    foreach ($arrayCabinas as $key => $value){
+
+                        $cabina = substr($value, 0, -12);  
+                        $fecha = $arrayFechas[$key];
+                        $arrayMontoSumado[$cabina][$fecha] += $arrayMontos[$key];                             
+                    }
+                    
+                    echo '<pre>';
+                    print_r($arrayMontoSumado);
+                    echo '</pre>';
+
+                }    
+//
+//                if(file_exists($ruta1) || file_exists($ruta2)){
+//                    
+//                    if(file_exists($ruta1))
+//                        $ruta = $ruta1;
+//                    elseif(file_exists($ruta2))
+//                        $ruta = $ruta2;
+//                    
+//                    unlink($ruta);
+//                }
 
                 
             }
