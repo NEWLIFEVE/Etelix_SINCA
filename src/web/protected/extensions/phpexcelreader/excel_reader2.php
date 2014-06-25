@@ -738,6 +738,8 @@ class Spreadsheet_Excel_Reader {
                 $arrayCabina = Array();
                 $arrayTipoIngreso = Array();
                 
+                $arrayLista = Array();
+                
                 
 //                $fechaExtraida = explode(', ',$fechaCapturada);
 //                $list=explode('-', $fechaExtraida[1]);
@@ -775,33 +777,43 @@ class Spreadsheet_Excel_Reader {
 
                     $Ingreso = Detalleingreso::model()->find("FechaMes = '$fechaCapturada' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingresos AND USERS_Id = 58");
 
-                    if($Ingreso == NULL){
-
-                        $Ingreso = new Detalleingreso;
-                        $Ingreso->FechaMes = $fechaCapturada;
-                        $Ingreso->Monto = $montoIngresoActual;     
-                        $Ingreso->CABINA_Id = $cabina;
-                        $Ingreso->USERS_Id = 58;
-                        $Ingreso->TIPOINGRESO_Id = $ingresos;
-                        $Ingreso->moneda = 2;
-
-                        if($cabina == 17){
-                            $Ingreso->CUENTA_Id = 2;
-                        }else{
-                            $Ingreso->CUENTA_Id = 4;
-                        }
-
-                        $Ingreso->FechaTransf = NULL;
-                        $Ingreso->TransferenciaPago = NULL;
-                        $Ingreso->Descripcion = NULL;
-                        if($Ingreso->save()){
-                            $j++;
-                        }
-                     
-                    }
+                    
+                    
+                    
+//                    if($Ingreso == NULL){
+//
+//                        $Ingreso = new Detalleingreso;
+//                        $Ingreso->FechaMes = $fechaCapturada;
+//                        $Ingreso->Monto = $montoIngresoActual;     
+//                        $Ingreso->CABINA_Id = $cabina;
+//                        $Ingreso->USERS_Id = 58;
+//                        $Ingreso->TIPOINGRESO_Id = $ingresos;
+//                        $Ingreso->moneda = 2;
+//
+//                        if($cabina == 17){
+//                            $Ingreso->CUENTA_Id = 2;
+//                        }else{
+//                            $Ingreso->CUENTA_Id = 4;
+//                        }
+//
+//                        $Ingreso->FechaTransf = NULL;
+//                        $Ingreso->TransferenciaPago = NULL;
+//                        $Ingreso->Descripcion = NULL;
+//                        if($Ingreso->save()){
+//                            $j++;
+//                        }
+//                     
+//                    }
                     
                     $i++;
                      
+                }
+                
+                foreach ($arrayCabina as $key => $value){
+
+                    $cabina = substr($value, 0, -12);
+                    $arrayMontoSumado[$cabina] = NULL;
+
                 }
                 
 //                if($i > 0){

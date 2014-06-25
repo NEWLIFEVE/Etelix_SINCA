@@ -66,6 +66,8 @@ class DetalleingresoController extends Controller
                         'DynamicIngresosRegistrado',
                         'CreateLlamadas',
                         'AdminBalance',
+                        'View',
+                        'Viewall',
                     ),
                     'users'=>Users::UsuariosPorTipo(1),
                 ),
@@ -225,7 +227,7 @@ class DetalleingresoController extends Controller
                                                                     array(':fecha'=>$Fecha,':cabina'=>$cabina,':ingreso'=>TipoIngresos::getIdIngreso($key)));
                         if($balanceExistente==NULL){
                             
-                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso($key);
+                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso(str_replace('_', ' ', $key));
                             $arrayCabina[$i] = $cabina;
                             
                             $model=new Detalleingreso;
@@ -250,13 +252,15 @@ class DetalleingresoController extends Controller
                 if($i>0){
                     LogController::RegistrarLog(3,$Fecha);
                     Detalleingreso::verificarDifFullCarga($Fecha,$arrayCabina,$arrayTipoIngreso);
-                    $this->redirect(array('adminBalance'));
+                    $this->redirect(array('detalleingreso/view','id'=>SaldoCabina::getIdFromDate($Fecha,$cabina)));
                 }else{
                     Yii::app()->user->setFlash('error', "ERROR: La Fecha Indicada ya Posee los Ingresos Declarados");
                     $this->redirect(array('createLlamadas'));
                 }
-            }
 
+            }
+            
+            
             $this->render('createLlamadas', array(
                 'model'=>$model,
             ));

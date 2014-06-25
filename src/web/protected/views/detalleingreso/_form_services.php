@@ -9,7 +9,7 @@ Yii::import('webroot.protected.controllers.SiteController');
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'ventas-fullcarga-form',
+	'id'=>'balance-form',
 	'enableAjaxValidation'=>true,
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
@@ -117,7 +117,7 @@ Yii::import('webroot.protected.controllers.SiteController');
         </td>
   </tr>      
 </table>
-<br><br>
+<br>
 
 <div id="ventasServicios">
     

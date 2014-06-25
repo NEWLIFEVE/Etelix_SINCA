@@ -232,7 +232,7 @@ class DepositoController extends Controller
                     if($model->save())
                     {
                         LogController::RegistrarLog(4,$fechaAux);
-                        $this->redirect(array('balance/view','id'=>SaldoCabina::getIdFromDate($fechaAux2,$cabina)));
+                        $this->redirect(array('detalleingreso/view','id'=>SaldoCabina::getIdFromDate($fechaAux2,$cabina)));
                     }
                 }
                 else
