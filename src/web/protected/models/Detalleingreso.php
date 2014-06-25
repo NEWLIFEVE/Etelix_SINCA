@@ -974,4 +974,45 @@ class Detalleingreso extends CActiveRecord
 
         }
         
+        public static function getCostoLlamada($fecha)
+        {
+
+            $arrayCarriers = Array();
+            $arrayCa = Array();
+            $cabinaNombre = Cabina::getNombreCabina2($cabina);
+
+
+            if($cabinaNombre != 'ETELIX - PERU'){
+                $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%$cabinaNombre%';");
+            }else{
+                $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
+            }
+
+            foreach ($cabinasSori as $key2 => $value) {
+                $arrayCa[0][$key2] = $value->id;
+                $arrayCarriers[0] = implode(',', $arrayCa[0]);
+            }
+
+            $model = BalanceSori::model()->findBySql("SELECT SUM(b.cost) as cost
+                                                      FROM balance as b
+                                                      WHERE b.date_balance >= '$fecha-01' 
+                                                      AND b.date_balance <= '$fecha-31'
+                                                      AND b.id_carrier_customer IN($arrayCarriers[0])
+                                                      AND id_destination is NULL;");
+
+            if($model != NULL){
+
+                if($model->cost != NULL){
+                    return round($model->cost,2);
+                }else{
+                    return 0.00;
+                }    
+
+            }else{
+                return 0.00;
+            }
+
+
+        }
+        
 }

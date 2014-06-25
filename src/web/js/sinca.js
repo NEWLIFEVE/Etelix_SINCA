@@ -2140,7 +2140,7 @@ $(document).ready(function()
                     succes: alert,
                   }).responseText;
                   
-                  
+//                  alert(verificar);
 
               if(vista == 'Ventas'){    
                   mensaje = 'ERROR: No Existe El Balance para la Fecha Indicada';
@@ -2178,24 +2178,25 @@ $(document).ready(function()
                   }
                   $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
                   //$('form#balance-form input#'+inputDate).css('float','left');
-                  $('form#balance-form input,form#balance-form select').prop('disabled', true);
-                  $('form#balance-form input#'+inputDate).prop('disabled', false);
+                  $('form#ventas-fullcarga-form input,form#ventas-fullcarga-form select').prop('disabled', true);
+                  $('form#ventas-fullcarga-form input#'+inputDate).prop('disabled', false);
               }
               if(verificar == 'true'){
-                  
+
                   $('form#balance-form input#'+inputDate).css('float','none');
                   $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
                   
-                  $('form#balance-form input,form#balance-form select').prop('disabled', false);
-                  $('form#balance-form select#Deposito_TiempoCierre').prop('disabled', true);
+                  $('form#ventas-fullcarga-form input,form#ventas-fullcarga-form select').prop('disabled', false);
+                  $('form#ventas-fullcarga-form select#Deposito_TiempoCierre').prop('disabled', true);
                   $('table#dateBalance div#errorDiv').remove();
                   
                   var ventasExistentes = verificaVentaExistente(FechaBalance);
                   if(ventasExistentes.length > 0)
                   {
                       for(var i = 0;i<ventasExistentes.length;i++){
-                          $('form#balance-form input#Detalle_'+ventasExistentes[i]).prop('disabled', true);
+                          $('form#ventas-fullcarga-form input#Detalle_'+ventasExistentes[i]).prop('disabled', true);
                       }
+                      
                       if(vista == 'Ventas'){   
                         $('#diaSemana').append('<div id="fieldB" style="color: #ff9900;max-width: 60%;text-align: left;">Los Campos Bloqueados Ya Fueron Registrados</div>');
                       }
@@ -2203,7 +2204,7 @@ $(document).ready(function()
                         $('div#fieldB').remove();
                       }
                   }else{
-                      $('form#balance-form input,form#balance-form select').prop('disabled', false);
+                      $('form#ventas-fullcarga-form input,form#ventas-fullcarga-form select').prop('disabled', false);
                   }
               }
 

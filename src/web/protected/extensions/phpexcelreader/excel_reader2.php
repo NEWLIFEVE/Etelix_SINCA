@@ -671,9 +671,9 @@ class Spreadsheet_Excel_Reader {
             /*|*/                                                                                 /*|*/
             /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS FULLCARGA.XLS ***************///*|*/
             /*|*/                                                                                 /*|*/
-            /*|*/      $columnaIngresoFecha      = 0;                                             /*|*/
+            /*|*/      $columnaIngresoFecha      = 10;                                            /*|*/
             /*|*/      $columnaCodigoBolsaCabina = 1;                                             /*|*/
-            /*|*/      $columnaIngresoMonto      = 10;                                            /*|*/
+            /*|*/      $columnaIngresoMonto      = 17;                                            /*|*/
             /*|*/      $columnaIngresoServicio   = 9;                                             /*|*/
             /*|*/                                                                                 /*|*/
              /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS MOVISTAR.XLS Y CLARO.XLS ****///*|*/
@@ -732,17 +732,18 @@ class Spreadsheet_Excel_Reader {
                 $_SESSION['cabinas'] = Array();
                 $_SESSION['monto'] = Array();
                 $_SESSION['servicio'] = Array();
-                $_SESSION['fecha'] = '';
+                $_SESSION['fecha'] = Array();
                 
+                $arrayFecha = Array();
                 $arrayCabina = Array();
                 $arrayTipoIngreso = Array();
                 
-                $fechaCapturada = $this->val(1,1,$sheet);
-                $fechaExtraida = explode(', ',$fechaCapturada);
-                $list=explode('-', $fechaExtraida[1]);
-                $fechaActual = $list[2]."-".$list[1]."-".$list[0];
                 
-                $_SESSION['fecha'] = $fechaActual;
+//                $fechaExtraida = explode(', ',$fechaCapturada);
+//                $list=explode('-', $fechaExtraida[1]);
+//                $fechaActual = $list[2]."-".$list[1]."-".$list[0];
+                
+//                $_SESSION['fecha'] = $fechaActual;
                 
                 $i = 0;
                 $j = 0;
@@ -753,30 +754,31 @@ class Spreadsheet_Excel_Reader {
 
                     //*********** VALORES DE LAS COLUMNAS EN EN EXCEL - COMIENZO ***************
 
+                    $fechaCapturada = $this->val($row,$columnaIngresoFecha,$sheet);
                     
                     $nombreCabinaActual = $this->val($row,$columnaCodigoBolsaCabina,$sheet);
                     $cabina = Cabina::model()->find("CodigoBolsa = '$nombreCabinaActual'")->Id;
                     
                     $montoIngresoActual = str_replace(',','.',$this->val($row,$columnaIngresoMonto,$sheet));
+                    
                     $tipoIngresoActual = $this->val($row,$columnaIngresoServicio,$sheet);
                     $ingresos = TipoIngresos::getIdIngresoFullCarga($tipoIngresoActual);
                     
-                    
+                    $arrayFecha[$i] = $fechaCapturada;
                     $arrayCabina[$i] = $cabina;
                     $arrayTipoIngreso[$i] = $ingresos;
                     
+                    $_SESSION['fecha'][$i] = $fechaCapturada;
                     $_SESSION['cabinas'][$i] = $cabina;
                     $_SESSION['monto'][$i] = $montoIngresoActual;
                     $_SESSION['servicio'][$i] = $ingresos;
-                    
-                    
-                    
-                    $Ingreso = Detalleingreso::model()->find("FechaMes = '$fechaActual' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingresos AND USERS_Id = 58");
+
+                    $Ingreso = Detalleingreso::model()->find("FechaMes = '$fechaCapturada' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingresos AND USERS_Id = 58");
 
                     if($Ingreso == NULL){
 
                         $Ingreso = new Detalleingreso;
-                        $Ingreso->FechaMes = $fechaActual;
+                        $Ingreso->FechaMes = $fechaCapturada;
                         $Ingreso->Monto = $montoIngresoActual;     
                         $Ingreso->CABINA_Id = $cabina;
                         $Ingreso->USERS_Id = 58;
@@ -802,10 +804,10 @@ class Spreadsheet_Excel_Reader {
                      
                 }
                 
-                if($i > 0){
-                    $_SESSION['regintrosFC'] = $j;
-                    Detalleingreso::verificarDifFullCarga($fechaActual,$arrayCabina,$arrayTipoIngreso);
-                }
+//                if($i > 0){
+//                    $_SESSION['regintrosFC'] = $j;
+//                    Detalleingreso::verificarDifFullCarga($fechaCapturada,$arrayCabina,$arrayTipoIngreso);
+//                }
  
                 
             }

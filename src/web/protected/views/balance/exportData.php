@@ -64,55 +64,55 @@ set_time_limit(7200);
 //
 ///*-------------------INICIO - EXPORTAR DATA DE BALANCE A SALDO CABINA--------------------------------------*/
 //
-$sql = "SELECT Fecha, IF(SaldoApMov = -1.00,0.00,SaldoApMov) as SaldoApMov, 
-        IF(SaldoApClaro = -1.00,0.00,SaldoApClaro) as SaldoApClaro, SaldoCierreMov, SaldoCierreClaro, CABINA_Id 
-        FROM balance
-        WHERE Fecha != '0000-00-00'
-        AND CABINA_Id != 18
-        AND CABINA_Id != 19
-        ORDER BY Fecha DESC;";
-
-$saldos = Balance::model()->findAllBySql($sql);
-////
-//echo '<table>';
-////
-////echo "<tr><td>Fecha</td> <td>Saldo Apertura Mov</td> <td>Saldo Apertura Claro</td>
-////          <td>Saldo Cierre Mov</td> <td>Saldo Cierre Claro</td> <td>CabinaId</td></tr>";
-////
-foreach ($saldos as $key => $value) {
-    
-    $Fecha = $value->Fecha;
-    $SaldoApMov = $value->SaldoApMov;
-    $SaldoApClaro = $value->SaldoApClaro;
-    $SaldoCierreMov = $value->SaldoCierreMov;
-    $SaldoCierreClaro = $value->SaldoCierreClaro;
-    $CabinaId = $value->CABINA_Id;
-////    
-//    echo "<tr>
-//            <td>$Fecha</td> <td>$SaldoApMov</td> <td>$SaldoApClaro</td>
-//            <td>$SaldoCierreMov</td> <td>$SaldoCierreClaro</td> <td>$CabinaId</td>
-//          </tr>";
-////    
-////    // CREATE SALDOS    
-    for($i=1;$i<3;$i++){
-        $SaldoCabina = new SaldoCabina;
-        $SaldoCabina->unsetAttributes(); 
-        $SaldoCabina->Fecha = $Fecha;
-        
-        if($i==1){
-            $SaldoCabina->SaldoAp = $SaldoApMov;
-            $SaldoCabina->SaldoCierre = $SaldoCierreMov;
-        }elseif($i==2){
-            $SaldoCabina->SaldoAp = $SaldoApClaro;
-            $SaldoCabina->SaldoCierre = $SaldoCierreClaro;
-        }   
-        
-        $SaldoCabina->COMPANIA_Id = $i;
-        $SaldoCabina->CABINA_Id = $CabinaId;
-        $SaldoCabina->save();
-    }
-
-}
+//$sql = "SELECT Fecha, IF(SaldoApMov = -1.00,0.00,SaldoApMov) as SaldoApMov, 
+//        IF(SaldoApClaro = -1.00,0.00,SaldoApClaro) as SaldoApClaro, SaldoCierreMov, SaldoCierreClaro, CABINA_Id 
+//        FROM balance
+//        WHERE Fecha != '0000-00-00'
+//        AND CABINA_Id != 18
+//        AND CABINA_Id != 19
+//        ORDER BY Fecha DESC;";
+//
+//$saldos = Balance::model()->findAllBySql($sql);
+//////
+////echo '<table>';
+//////
+//////echo "<tr><td>Fecha</td> <td>Saldo Apertura Mov</td> <td>Saldo Apertura Claro</td>
+//////          <td>Saldo Cierre Mov</td> <td>Saldo Cierre Claro</td> <td>CabinaId</td></tr>";
+//////
+//foreach ($saldos as $key => $value) {
+//    
+//    $Fecha = $value->Fecha;
+//    $SaldoApMov = $value->SaldoApMov;
+//    $SaldoApClaro = $value->SaldoApClaro;
+//    $SaldoCierreMov = $value->SaldoCierreMov;
+//    $SaldoCierreClaro = $value->SaldoCierreClaro;
+//    $CabinaId = $value->CABINA_Id;
+//////    
+////    echo "<tr>
+////            <td>$Fecha</td> <td>$SaldoApMov</td> <td>$SaldoApClaro</td>
+////            <td>$SaldoCierreMov</td> <td>$SaldoCierreClaro</td> <td>$CabinaId</td>
+////          </tr>";
+//////    
+//////    // CREATE SALDOS    
+//    for($i=1;$i<3;$i++){
+//        $SaldoCabina = new SaldoCabina;
+//        $SaldoCabina->unsetAttributes(); 
+//        $SaldoCabina->Fecha = $Fecha;
+//        
+//        if($i==1){
+//            $SaldoCabina->SaldoAp = $SaldoApMov;
+//            $SaldoCabina->SaldoCierre = $SaldoCierreMov;
+//        }elseif($i==2){
+//            $SaldoCabina->SaldoAp = $SaldoApClaro;
+//            $SaldoCabina->SaldoCierre = $SaldoCierreClaro;
+//        }   
+//        
+//        $SaldoCabina->COMPANIA_Id = $i;
+//        $SaldoCabina->CABINA_Id = $CabinaId;
+//        $SaldoCabina->save();
+//    }
+//
+//}
 //
 //echo '</table>';
 
@@ -316,3 +316,40 @@ foreach ($saldos as $key => $value) {
 //echo '</table>';
 //
 ///*-------------------FIN - EXPORTAR DATA DE BALANCE A CICLO INGRESO--------------------------------------*/
+
+
+
+
+
+
+///*---------------------------------------------------------*/
+//
+$sql = "SELECT * FROM sinca2prod.tipo_ingresos WHERE COMPANIA_Id = 1 AND ID NOT IN(10,18,47,14);";
+
+$depositos = TipoIngresos::model()->findAllBySql($sql);
+
+foreach ($depositos as $key => $value) {
+    
+    $Fecha = '2014-03-24';
+    $Valor = 0.050;
+    $Compania = 1;
+    $TipoComision = 1;
+    $TipoIngreso = $value->Id;
+    
+
+    
+    //CREATE DEPOSITOS
+    $Deposito = new Comision;
+    $Deposito->unsetAttributes(); 
+
+    $Deposito->Fecha = $Fecha;
+    $Deposito->Valor = $Valor;
+    $Deposito->COMPANIA_Id = $Compania;
+    $Deposito->TIPOCOMISION_Id = $TipoComision;
+    $Deposito->TIPOINGRESO_Id = $TipoIngreso;
+    $Deposito->save();
+    
+}
+
+
+///*---------------------------------------------------------*/
