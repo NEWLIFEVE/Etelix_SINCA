@@ -209,6 +209,20 @@ class BalanceSori extends CActiveRecord
             }    
 	}
         
+        public static function getCostoLlamadas($fecha,$cabina)
+	{
+            $model = self::model()->findBySql("SELECT SUM(b.cost) as cost
+                                               FROM balance as b
+                                               WHERE b.date_balance = '$fecha'
+                                               AND b.id_carrier_customer IN($cabina)
+                                               AND id_destination is NULL;");
+            if($model->cost != NULL){
+                return round($model->cost,2);
+            }else{
+                return '0.00';
+            }    
+	}
+        
         public static function getCostoLlamada($fecha,$cabina)
 	{
             $año = date("Y", strtotime($fecha));

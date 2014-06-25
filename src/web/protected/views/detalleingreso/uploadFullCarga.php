@@ -122,8 +122,8 @@ $form=$this->beginWidget('CActiveForm', array(
             'showButtonPanel' => 'false', 
             'constrainInput' => 'false',
             'showAnim' => 'show',
-            'minDate'=>'-7D', //fecha minima
-            'maxDate'=> "-1D", //fecha maxima
+//            'minDate'=>'-7D', //fecha minima
+//            'maxDate'=> "-1D", //fecha maxima
                
              ),
             'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaTrafico', ),
@@ -141,6 +141,63 @@ $form=$this->beginWidget('CActiveForm', array(
 <?php   
 
 echo "<span class='buttons'>".CHtml::submitButton('Generar Trafico de Captura',array('id'=>'submitTrafico'))."</span>";
+
+$this->endWidget();
+
+echo '</div>';
+
+
+echo '<br><br><br><br><br>';
+
+echo '<h1>Generar Costos de Llamadas desde SORI</h1>
+<div class="form">';
+
+$form=$this->beginWidget('CActiveForm', array(
+	'id'=>'costoCaptura-form',
+	'enableAjaxValidation'=>true,
+        'action'=>Yii::app()->createUrl('/Detalleingreso/CreateCostoLlamadas'),
+    )
+);
+
+?>
+
+<table width="200" border="1" id="dateCostoCaptura">
+  <tr>
+    <td>
+
+<div class="row">
+    
+<?php echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
+<?php $this->widget('zii.widgets.jui.CJuiDatePicker', 
+            array(
+            'language' => 'es', 
+            'model' => $model,
+            'attribute'=>'FechaMes',
+            'options' => array(
+            'changeMonth' => 'true',//para poder cambiar mes
+            'changeYear' => 'true',//para poder cambiar año
+            'showButtonPanel' => 'false', 
+            'constrainInput' => 'false',
+            'showAnim' => 'show',
+//            'minDate'=>'-7D', //fecha minima
+//            'maxDate'=> "-1D", //fecha maxima
+               
+             ),
+            'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaCosto', ),
+        ));                                                            ?>
+ <?php echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana2','style'=>'color:forestgreen')); ?>
+ <?php echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
+                 
+    
+</div>
+        
+    </td>
+  </tr>   
+</table>        
+
+<?php   
+
+echo "<span class='buttons'>".CHtml::submitButton('Generar Costo de Llamadas',array('id'=>'submitTrafico'))."</span>";
 
 $this->endWidget();
 

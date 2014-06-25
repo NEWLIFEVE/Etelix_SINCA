@@ -50,6 +50,7 @@ class DetalleingresoController extends Controller
                         'ReporteFullCarga',
                         'ReporteCaptura',
                         'EstadoResultado',
+                        'CreateCostoLlamadas',
                     ),
                     'users'=>Users::UsuariosPorTipo(3),
                 ),
@@ -741,6 +742,57 @@ class DetalleingresoController extends Controller
                     Yii::app()->user->setFlash('error',"Trafico de Captura (USD$) - Ya Existen Datos para la Fecha Seleccionada");
                 }elseif($i < 0){
                     Yii::app()->user->setFlash('error',"Trafico de Captura (USD$) - No se ha Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada");
+                }
+            }
+            $this->redirect('/detalleingreso/uploadFullCarga');
+       }
+       
+       public function actionCreateCostoLlamadas() {
+
+            $arrayCarriers = Array();
+            $arrayCa = Array();
+            
+            if($_POST['Detalleingreso']['FechaMes']){
+                
+                $list = explode('/', $_POST['Detalleingreso']['FechaMes']);
+                $fecha = $list[2]."-".$list[1]."-".$list[0];
+                $i = 0;
+                $paridad = Paridad::getParidad($fecha);
+                $cabinasActivas = Cabina::model()->findAll('Id != 18 AND Id != 19 AND status = 1');
+
+                
+                foreach ($cabinasActivas as $key => $cabinas) {
+
+                    $cabinaId = Cabina::getId($cabinas->Nombre);
+
+                    if($cabinas->Nombre != 'ETELIX - PERU'){
+                        $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%$cabinas->Nombre%';");
+                    }else{
+                        $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
+                    }
+
+                    foreach ($cabinasSori as $key2 => $value) {
+                        $arrayCa[$key][$key2] = $value->id;
+                        $arrayCarriers[$key] = implode(',', $arrayCa[$key]);
+                    }
+
+                    $montoSoriCosto = BalanceSori::getCostoLlamadas($fecha,$arrayCarriers[$key]);
+
+                    $modeCicloIngreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabinaId AND TIPOINGRESO_Id = 16");
+                    if($modeCicloIngreso != NULL){
+                        $modeCicloIngreso->Costo_Comision = round(($montoSoriCosto),2);
+                        if($modeCicloIngreso->save()){
+                            $i++;
+                        }
+                    }
+
+                }
+
+
+                if($i > 0){
+                    Yii::app()->user->setFlash('success',"Costo de Llamadas (USD$) - Datos Guardados Satisfactoriamente");
+                }elseif($i == 0){
+                    Yii::app()->user->setFlash('error',"Costo de Llamadas (USD$) - Ya Existen Datos para la Fecha Seleccionada");
                 }
             }
             $this->redirect('/detalleingreso/uploadFullCarga');

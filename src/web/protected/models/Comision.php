@@ -58,6 +58,8 @@ class Comision extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'cOMPANIA' => array(self::BELONGS_TO, 'Compania', 'COMPANIA_Id'),
+                        'tIPOCOMISION' => array(self::BELONGS_TO, 'Tipocomision', 'TIPOCOMISION_Id'),
+                        'tIPOINGRESO' => array(self::BELONGS_TO,'TipoIngresos', 'TIPOINGRESO_Id'),
 		);
 	}
 
@@ -71,6 +73,8 @@ class Comision extends CActiveRecord
 			'Fecha' => 'Fecha',
 			'Valor' => 'Valor',
 			'COMPANIA_Id' => 'Compania',
+                        'TIPOCOMISION_Id' => 'Tipocomision',
+			'TIPOINGRESO_Id' => 'Tipoingreso',
 		);
 	}
 
@@ -89,6 +93,8 @@ class Comision extends CActiveRecord
 		$criteria->compare('Fecha',$this->Fecha,true);
 		$criteria->compare('Valor',$this->Valor,true);
 		$criteria->compare('COMPANIA_Id',$this->COMPANIA_Id);
+                $criteria->compare('TIPOCOMISION_Id',$this->TIPOCOMISION_Id);
+		$criteria->compare('TIPOINGRESO_Id',$this->TIPOINGRESO_Id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
