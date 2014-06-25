@@ -139,14 +139,14 @@ class DetalleingresoController extends Controller
         public function actionView($id)
         {
             $this->render('view', array(
-                'model'=>$this->loadModel($id),
+                'model'=>$this->loadModelBalance($id),
             ));
         }
         
         public function actionViewall($id)
         {
             $this->render('viewall', array(
-                'model'=>$this->loadModel($id),
+                'model'=>$this->loadModelBalance($id),
             ));
         }
         
@@ -803,6 +803,14 @@ class DetalleingresoController extends Controller
         
         public function loadModel($id) {
             $model = Detalleingreso::model()->findBySql("SELECT detalleingreso.* FROM detalleingreso WHERE detalleingreso.Id = $id");
+
+            if ($model === null)
+                throw new CHttpException(404, 'The requested page does not exist.');
+            return $model;
+        }
+        
+        public function loadModelBalance($id) {
+            $model = Detalleingreso::model()->findBySql("SELECT saldo_cabina.* FROM saldo_cabina WHERE saldo_cabina.Id = $id");
 
             if ($model === null)
                 throw new CHttpException(404, 'The requested page does not exist.');
