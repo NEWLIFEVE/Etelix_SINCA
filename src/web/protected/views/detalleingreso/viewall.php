@@ -100,7 +100,7 @@ $background = '';
                                                         WHERE d.FechaMes = '$modelView->Fecha' 
                                                         AND d.CABINA_Id = $modelView->CABINA_Id 
                                                         AND t.Clase = 1 
-                                                        AND t.Id > 8 
+                                                        AND t.Id > 9 
                                                         GROUP BY t.Nombre
                                                         ORDER BY d.TIPOINGRESO_Id;");
         
@@ -120,7 +120,7 @@ $background = '';
                 $totalVentas = $totalVentas + $monto;
 
                 echo "<tr class='$background'>
-                        <th>".Detalleingreso::changeName($value->Nombre)."</th>
+                        <th>".$value->Nombre."</th>
                         <td>".$monto."</td>
                       </tr>";
 

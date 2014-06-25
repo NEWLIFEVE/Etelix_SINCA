@@ -822,6 +822,8 @@ class Detalleingreso extends CActiveRecord
                 'Rural'=>'Rural (S/.)',
                 'LDI'=>'LDI (S/.)',
                 
+                'Otros'=>'Otros Servicios (S/.)',
+                
                 //Movistar
                'RecargaCelularMov'=>'Recarga Celular Movistar (S/.)',
                'RecargaFonoYaMov'=>'Recarga Fono Ya Movistar (S/.)',

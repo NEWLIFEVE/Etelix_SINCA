@@ -136,7 +136,7 @@ if(Yii::app()->getModule('user')->user()->tipo == '1')
                 $totalVentas = $totalVentas + $monto;
 
                 echo "<tr class='$background'>
-                        <th>".Detalleingreso::changeName($value->Nombre)."</th>
+                        <th>".$value->Nombre."</th>
                         <td>".$monto."</td>
                       </tr>";
 
@@ -305,7 +305,7 @@ $this->widget('zii.widgets.CDetailView', array('data'=>$model,'attributes'=>arra
                 $totalVentas = $totalVentas + $monto;
 
                 echo "<tr class='$background'>
-                        <th>".Detalleingreso::changeName($value->Nombre)."</th>
+                        <th>".$value->Nombre."</th>
                         <td>".$monto."</td>
                       </tr>";
 
