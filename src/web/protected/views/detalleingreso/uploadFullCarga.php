@@ -1,4 +1,6 @@
 <?php
+set_time_limit(18000); 
+
 $tipoUsuario = Yii::app()->getModule('user')->user(Yii::app()->user->id)->tipo;
 $this->menu=DetalleingresoController::controlAccesoBalance($tipoUsuario);
 
@@ -24,7 +26,7 @@ array(
         'config'=>array(
                'action'=>Yii::app()->createUrl('detalleingreso/upload'),
                'allowedExtensions'=>array("xls","xlsx"),//array("jpg","jpeg","gif","exe","mov" and etc...
-               'sizeLimit'=>1*1024*1024,// maximum file size in bytes
+               'sizeLimit'=>10*1024*1024,// maximum file size in bytes
                //'minSizeLimit'=>10*1024*1024,// minimum file size in bytes
                'onComplete'=>"js:function(id, fileName, responseJSON){ alert(fileName); }",
                'messages'=>array(
@@ -122,8 +124,8 @@ $form=$this->beginWidget('CActiveForm', array(
             'showButtonPanel' => 'false', 
             'constrainInput' => 'false',
             'showAnim' => 'show',
-//            'minDate'=>'-7D', //fecha minima
-//            'maxDate'=> "-1D", //fecha maxima
+            'minDate'=>'-7D', //fecha minima
+            'maxDate'=> "-1D", //fecha maxima
                
              ),
             'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaTrafico', ),

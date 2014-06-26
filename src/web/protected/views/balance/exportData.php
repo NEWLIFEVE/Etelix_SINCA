@@ -324,17 +324,37 @@ set_time_limit(7200);
 
 ///*---------------------------------------------------------*/
 //
-$sql = "SELECT * FROM sinca2prod.tipo_ingresos WHERE COMPANIA_Id = 1 AND ID NOT IN(10,18,47,14);";
+$sql = "SELECT * FROM sinca2prod.tipo_ingresos WHERE COMPANIA_Id NOT IN(1,2,5,6) AND Clase != 2 ORDER BY COMPANIA_Id;";
 
 $depositos = TipoIngresos::model()->findAllBySql($sql);
 
 foreach ($depositos as $key => $value) {
     
     $Fecha = '2014-03-24';
-    $Valor = 0.050;
-    $Compania = 1;
-    $TipoComision = 1;
+    $Compania = $value->COMPANIA_Id;
     $TipoIngreso = $value->Id;
+    
+    if($TipoIngreso == 23 || $TipoIngreso == 24 || $TipoIngreso == 25 || $TipoIngreso == 26 ){
+        $Valor = 0.150;
+        $TipoComision = 1;
+    }elseif($Compania == 3){
+        $Valor = 0.085;
+        $TipoComision = 1;
+    }elseif($Compania == 4 || $TipoIngreso == 31){
+        $Valor = 0.060;
+        $TipoComision = 1;
+    }elseif($TipoIngreso == 29){
+        $Valor = 0.25;
+        $TipoComision = 2;
+    }elseif($TipoIngreso == 33 ){
+        $Valor = 0.60;
+        $TipoComision = 2;
+    }elseif($Compania == 10){
+        $Valor = 0.50;
+        $TipoComision = 2;
+    }
+    
+    
     
 
     

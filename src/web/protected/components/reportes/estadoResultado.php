@@ -170,7 +170,51 @@ class estadoResultado extends Reportes
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
                   AND d.CABINA_Id = $cabina 
-                  AND t.COMPANIA_Id = $compania AND u.tipo = 1;";
+                  AND t.COMPANIA_Id = $compania AND u.tipo = 4;";
+            
+        }
+        
+
+        $servicios = Detalleingreso::model()->findBySql($sql);
+        
+        if($servicios == NULL){
+            
+            return 0.00;
+            
+        }else{
+            
+            if($servicios->Monto == NULL){
+                return 0.00;
+            }else{
+                return  $servicios->Monto;
+            }
+            
+        }
+
+    }
+    
+    //DATA DE LOS COSTOS Y LAS COMISIONES DE FULLCARGA
+    public static function getDataComisionFullCarga($fecha,$cabina,$compania){
+        
+        if($compania == 'llamadas'){
+            
+            $sql="SELECT SUM(d.Costo_Comision) as Monto
+                  FROM detalleingreso as d
+                  INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                  INNER JOIN users as u ON u.id = d.USERS_Id
+                  WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
+                  AND d.CABINA_Id = $cabina 
+                  AND t.Nombre = 'TraficoCapturaDollar';";
+            
+        }elseif($compania != 'llamadas'){
+            
+            $sql="SELECT SUM(d.Costo_Comision) as Monto
+                  FROM detalleingreso as d
+                  INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                  INNER JOIN users as u ON u.id = d.USERS_Id
+                  WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
+                  AND d.CABINA_Id = $cabina 
+                  AND t.COMPANIA_Id = $compania AND u.tipo = 4;";
             
         }
         
@@ -847,11 +891,11 @@ class estadoResultado extends Reportes
                 $ingresosTotal = ($traficoDollar+$ventas+$subArriendoDollar);
                 
                 //VALORES DEL CONTENIDO (MARGEN)
-                $costoLlamadas = 0;
-                $comisionMov = 0;
-                $comisionClaro = 0;
-                $comisionDiecTv = 0;
-                $comisionNextel = 0;
+                $costoLlamadas = self::getDataComisionFullCarga($day,$value->Id,'llamadas')/$paridad;
+                $comisionMov = self::getDataComisionFullCarga($day,$value->Id,1)/$paridad;
+                $comisionClaro = self::getDataComisionFullCarga($day,$value->Id,2)/$paridad;
+                $comisionDiecTv = self::getDataComisionFullCarga($day,$value->Id,4)/$paridad;
+                $comisionNextel = self::getDataComisionFullCarga($day,$value->Id,3)/$paridad;
 
                 $traficoDollarMargen = $traficoDollar-$costoLlamadas;
                 $servMovDollarMargen = $servMovDollar-$comisionMov;

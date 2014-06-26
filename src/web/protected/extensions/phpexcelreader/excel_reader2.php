@@ -64,6 +64,11 @@ define('START_BLOCK_POS', 0x74);
 define('SIZE_POS', 0x78);
 define('IDENTIFIER_OLE', pack("CCCCCCCC",0xd0,0xcf,0x11,0xe0,0xa1,0xb1,0x1a,0xe1));
 
+define('MAX_STR',512000);
+define('MAX_MEM',96000000);
+ini_set("memory_limit",-1);
+
+
 
 function GetInt4d($data, $pos) {
 	$value = ord($data[$pos]) | (ord($data[$pos+1])	<< 8) | (ord($data[$pos+2]) << 16) | (ord($data[$pos+3]) << 24);
@@ -673,7 +678,7 @@ class Spreadsheet_Excel_Reader {
             /*|*/                                                                                 /*|*/
             /*|*/      $columnaIngresoFecha      = 10;                                            /*|*/
             /*|*/      $columnaCodigoBolsaCabina = 1;                                             /*|*/
-            /*|*/      $columnaIngresoMonto      = 17;                                            /*|*/
+            /*|*/      $columnaIngresoMonto      = 19;                                            /*|*/
             /*|*/      $columnaIngresoServicio   = 9;                                             /*|*/
             /*|*/                                                                                 /*|*/
              /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS MOVISTAR.XLS Y CLARO.XLS ****///*|*/
@@ -734,24 +739,19 @@ class Spreadsheet_Excel_Reader {
                 $_SESSION['servicio'] = Array();
                 $_SESSION['fecha'] = Array();
                 
+                $_SESSION['list'] = Array();
+                
                 $arrayFecha = Array();
                 $arrayCabina = Array();
                 $arrayTipoIngreso = Array();
-                
-                $arrayLista = Array();
-                
-                
-//                $fechaExtraida = explode(', ',$fechaCapturada);
-//                $list=explode('-', $fechaExtraida[1]);
-//                $fechaActual = $list[2]."-".$list[1]."-".$list[0];
-                
-//                $_SESSION['fecha'] = $fechaActual;
+                $arrayMonto = Array();
+
                 
                 $i = 0;
                 $j = 0;
                 
                 
-                
+                //LECTURA DEL ARCHIVO
                 for($row=4;$row<=$this->rowcount($sheet);$row++) {
 
                     //*********** VALORES DE LAS COLUMNAS EN EN EXCEL - COMIENZO ***************
@@ -769,52 +769,128 @@ class Spreadsheet_Excel_Reader {
                     $arrayFecha[$i] = $fechaCapturada;
                     $arrayCabina[$i] = $cabina;
                     $arrayTipoIngreso[$i] = $ingresos;
+                    $arrayMonto[$i] = $montoIngresoActual;
                     
                     $_SESSION['fecha'][$i] = $fechaCapturada;
                     $_SESSION['cabinas'][$i] = $cabina;
                     $_SESSION['monto'][$i] = $montoIngresoActual;
                     $_SESSION['servicio'][$i] = $ingresos;
 
-                    $Ingreso = Detalleingreso::model()->find("FechaMes = '$fechaCapturada' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingresos AND USERS_Id = 58");
-
-                    
-                    
-                    
-//                    if($Ingreso == NULL){
-//
-//                        $Ingreso = new Detalleingreso;
-//                        $Ingreso->FechaMes = $fechaCapturada;
-//                        $Ingreso->Monto = $montoIngresoActual;     
-//                        $Ingreso->CABINA_Id = $cabina;
-//                        $Ingreso->USERS_Id = 58;
-//                        $Ingreso->TIPOINGRESO_Id = $ingresos;
-//                        $Ingreso->moneda = 2;
-//
-//                        if($cabina == 17){
-//                            $Ingreso->CUENTA_Id = 2;
-//                        }else{
-//                            $Ingreso->CUENTA_Id = 4;
-//                        }
-//
-//                        $Ingreso->FechaTransf = NULL;
-//                        $Ingreso->TransferenciaPago = NULL;
-//                        $Ingreso->Descripcion = NULL;
-//                        if($Ingreso->save()){
-//                            $j++;
-//                        }
-//                     
-//                    }
-                    
                     $i++;
                      
                 }
                 
-                foreach ($arrayCabina as $key => $value){
+                //ARRAYS DE CALCULO
+                $arrayMontoComision = Array();
+                $arrayLista = Array();
+                $arrayListaComision = Array();
+                $arrayListaTotal = Array();
 
-                    $cabina = substr($value, 0, -12);
-                    $arrayMontoSumado[$cabina] = NULL;
+                //LLENADO DEL ARRAY DE LOS MONTOS DE LAS COMISIONES
+                foreach ($arrayTipoIngreso as $key => $value) {
+
+                    $montoComision = Comision::model()->findBySql("SELECT * FROM comision WHERE TIPOINGRESO_Id = $value AND Fecha <= '$arrayFecha[$key]' ORDER BY Fecha DESC LIMIT 1;");
+
+                    $tipoComision = ($montoComision == NULL) ? 0 : $montoComision->TIPOCOMISION_Id;
+                    $arrayMontoComision[$key] = ($montoComision == NULL) ? 0.00 : $montoComision->Valor;
+
+                    if($tipoComision == 0){
+                        $arrayListaTotal[$key] = $arrayMonto[$key];
+                    }
+                    if($tipoComision == 1){
+                        $arrayListaTotal[$key] = $arrayMonto[$key]*$arrayMontoComision[$key];   
+                    }
+                    if($tipoComision == 2){
+                        $arrayListaTotal[$key] = $arrayMontoComision[$key];     
+                    }
 
                 }
+
+                //LLENADO DEL ARRAY DE LAS FECHAS, CABINAS Y MONTOS 
+                for($i=0;$i<4;$i++){
+
+                    $j = 0;
+                    foreach ($arrayFecha as $key => $value){
+
+                        if($i==0){
+                            $fecha = $arrayFecha[$j];
+                            $arrayLista[$fecha] = NULL;
+                            $arrayListaComision[$fecha] = NULL;
+                            $j++;
+                        }
+                        if($i==1){
+                            $fecha = $arrayFecha[$j];
+                            $cabina = $arrayCabina[$key];  
+                            $arrayLista[$fecha][$cabina] = NULL; 
+                            $arrayListaComision[$fecha][$cabina] = NULL;   
+                            $j++;
+                        }
+                        if($i==2){
+                            $fecha = $arrayFecha[$j];
+                            $cabina = $arrayCabina[$key];  
+                            $ingreso = $arrayTipoIngreso[$key];  
+                            $arrayLista[$fecha][$cabina][$ingreso] = NULL; 
+                            $arrayListaComision[$fecha][$cabina][$ingreso] = NULL;   
+                            $j++;
+                        }
+                        if($i==3){
+                            $cabina = $arrayCabina[$key];  
+                            $fecha = $arrayFecha[$j];
+                            $ingreso = $arrayTipoIngreso[$key];  
+                            $arrayLista[$fecha][$cabina][$ingreso] += $arrayMonto[$key];  
+                            $arrayListaComision[$fecha][$cabina][$ingreso] += $arrayListaTotal[$key];  
+                            $j++;
+                        }
+
+                    }
+
+                }
+
+                //RECORRIDO DE LOS ARRAY CON TODOS LOS DATOS AGRUPADOS (GUARDADO EN BASE DE DATOS)
+                foreach ($arrayLista as $key => $value) {
+
+                    foreach ($arrayLista[$key] as $key2 => $value2) {
+
+                        foreach ($arrayLista[$key][$key2] as $key3 => $value3) {
+
+                            $fecha = $key;
+                            $cabina = $key2;       
+                            $ingreso = $key3;
+                            $monto = $arrayLista[$key][$key2][$key3];
+                            $montoComision = $arrayListaComision[$key][$key2][$key3];        
+
+                            
+                            $Ingreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingreso AND USERS_Id = 58");
+                            if($Ingreso == NULL){
+
+                                $Ingreso = new Detalleingreso;
+                                $Ingreso->FechaMes = $fecha;
+                                $Ingreso->Monto = $monto;  
+                                $Ingreso->Costo_Comision = $montoComision;  
+                                $Ingreso->CABINA_Id = $cabina;
+                                $Ingreso->USERS_Id = 58;
+                                $Ingreso->TIPOINGRESO_Id = $ingreso;
+                                $Ingreso->moneda = 2;
+
+                                if($cabina == 17){
+                                    $Ingreso->CUENTA_Id = 2;
+                                }else{
+                                    $Ingreso->CUENTA_Id = 4;
+                                }
+
+                                $Ingreso->FechaTransf = NULL;
+                                $Ingreso->TransferenciaPago = NULL;
+                                $Ingreso->Descripcion = NULL;
+                                $Ingreso->save();
+
+                            }
+
+                        }
+                    }
+
+                }
+
+
                 
 //                if($i > 0){
 //                    $_SESSION['regintrosFC'] = $j;

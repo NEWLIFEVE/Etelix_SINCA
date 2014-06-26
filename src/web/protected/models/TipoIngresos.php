@@ -131,6 +131,22 @@ class TipoIngresos extends CActiveRecord
 		}
         }
         
+        public static function getNombreIngreso($id){
+            
+		if($id != null)
+		{
+			$model=self::model()->find('Id=:id',array(':id'=>$id));
+			if($model == null)
+			{
+                                return 'No Definido';
+			}
+			else
+			{
+				return $model->Nombre;
+			}
+		}
+        }
+        
         public static function getIdIngresoFullCarga($nombre){
             
 		if($nombre != null)
