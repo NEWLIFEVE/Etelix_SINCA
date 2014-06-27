@@ -133,7 +133,7 @@ class DetalleingresoController extends Controller
             $model->unsetAttributes();  // clear any default values
             if(isset($_GET['SaldoCabina'])) $model->attributes=$_GET['SaldoCabina'];
 
-            $this->render('/balance/exportData', array(
+            $this->render('adminBalance', array(
                 'model'=>$model,
             ));
         }
@@ -287,81 +287,11 @@ class DetalleingresoController extends Controller
                 }
                 
                 if(isset($_SESSION['cabinas'])){
-                    
-//                    //DATOS DEL ARCHIVO
-//                    $arrayFecha =  $_SESSION['fecha'];
-//                    $arrayCabina =  $_SESSION['cabinas'];
-//                    $arrayTipoIngreso =  $_SESSION['servicio'];
-//                    $arrayMonto =  $_SESSION['monto'];
-//                    
-//                    //ARRAYS DE CALCULO
-//                    $arrayMontoComision = Array();
-//                    $arrayLista = Array();
-//                    $arrayListaComision = Array();
-//                    $arrayListaTotal = Array();
-//                    
-//                    foreach ($arrayTipoIngreso as $key => $value) {
-//                        
-//                        $montoComision = Comision::model()->findBySql("SELECT * FROM comision WHERE TIPOINGRESO_Id = $value AND Fecha <= '$arrayFecha[$key]' ORDER BY Fecha DESC LIMIT 1;");
-//                        
-//                        $tipoComision = ($montoComision == NULL) ? 0 : $montoComision->TIPOCOMISION_Id;
-//                        $arrayMontoComision[$key] = ($montoComision == NULL) ? 0.00 : $montoComision->Valor;
-//                        
-//                        if($tipoComision == 0){
-//                            $arrayListaTotal[$key] = $arrayMonto[$key];
-//                        }
-//                        if($tipoComision == 1){
-//                            $arrayListaTotal[$key] = $arrayMonto[$key]*$arrayMontoComision[$key];   
-//                        }
-//                        if($tipoComision == 2){
-//                            $arrayListaTotal[$key] = $arrayMontoComision[$key];     
-//                        }
-//                        
-//                    }
-//
-//                    
-//                    for($i=0;$i<4;$i++){
-//                        
-//                        $j = 0;
-//                        foreach ($arrayFecha as $key => $value){
-//
-//                            if($i==0){
-//                                $fecha = $arrayFecha[$j];
-//                                $arrayLista[$fecha] = NULL;
-//                                $arrayListaComision[$fecha] = NULL;
-//                                $j++;
-//                            }
-//                            if($i==1){
-//                                $fecha = $arrayFecha[$j];
-//                                $cabina = $arrayCabina[$key];  
-//                                $arrayLista[$fecha][$cabina] = NULL; 
-//                                $arrayListaComision[$fecha][$cabina] = NULL;   
-//                                $j++;
-//                            }
-//                            if($i==2){
-//                                $fecha = $arrayFecha[$j];
-//                                $cabina = $arrayCabina[$key];  
-//                                $ingreso = $arrayTipoIngreso[$key];  
-//                                $arrayLista[$fecha][$cabina][$ingreso] = NULL; 
-//                                $arrayListaComision[$fecha][$cabina][$ingreso] = NULL;   
-//                                $j++;
-//                            }
-//                            if($i==3){
-//                                $cabina = $arrayCabina[$key];  
-//                                $fecha = $arrayFecha[$j];
-//                                $ingreso = $arrayTipoIngreso[$key];  
-//                                $arrayLista[$fecha][$cabina][$ingreso] += $arrayMonto[$key];  
-//                                $arrayListaComision[$fecha][$cabina][$ingreso] += $arrayListaTotal[$key];  
-//                                $j++;
-//                            }
-//                            
-//                        }
-//                        
-//                    }
-     
+
                     //ELIMINA EL ARCHIVO DESPUES DEL PROCESO
                     if(file_exists($ruta1)){
                         unlink($ruta1);
+                        unset($_SESSION['cabinas']);
                     }
                     
                 }
