@@ -891,17 +891,17 @@ class estadoResultado extends Reportes
                 $ingresosTotal = ($traficoDollar+$ventas+$subArriendoDollar);
                 
                 //VALORES DEL CONTENIDO (MARGEN)
-                $costoLlamadas = self::getDataComisionFullCarga($day,$value->Id,'llamadas')/$paridad;
+                $costoLlamadas = self::getDataComisionFullCarga($day,$value->Id,'llamadas');
                 $comisionMov = self::getDataComisionFullCarga($day,$value->Id,1)/$paridad;
                 $comisionClaro = self::getDataComisionFullCarga($day,$value->Id,2)/$paridad;
                 $comisionDiecTv = self::getDataComisionFullCarga($day,$value->Id,4)/$paridad;
                 $comisionNextel = self::getDataComisionFullCarga($day,$value->Id,3)/$paridad;
 
                 $traficoDollarMargen = $traficoDollar-$costoLlamadas;
-                $servMovDollarMargen = $servMovDollar-$comisionMov;
-                $servClaroDollarMargen = $servClaroDollar-$comisionClaro;
-                $servDirecTvDollarMargen = $servDirecTvDollar-$comisionDiecTv;
-                $servNextelDollarMargen = $servNextelDollar-$comisionNextel;
+                $servMovDollarMargen = $comisionMov;
+                $servClaroDollarMargen = $comisionClaro;
+                $servDirecTvDollarMargen = $comisionDiecTv;
+                $servNextelDollarMargen = $comisionNextel;
                 $subArriendoMargen = $subArriendoDollar;
                 $totalVentasMargen = $servMovDollarMargen+$servClaroDollarMargen+$servDirecTvDollarMargen+$servNextelDollarMargen;
                 $totalMargen = $traficoDollarMargen+$totalVentasMargen+$subArriendoMargen;

@@ -220,6 +220,8 @@ class Detalleingreso extends CActiveRecord
 		$criteria->compare('CABINA_Id',$this->CABINA_Id);
 		$criteria->compare('CUENTA_Id',$this->CUENTA_Id);
                 
+                $criteria->condition = 'TIPOINGRESO_Id = 2';
+                
                 if($cabina!=NULL)
                     $criteria->addCondition("CABINA_Id=$cabina");
                 if($mes!=NULL)

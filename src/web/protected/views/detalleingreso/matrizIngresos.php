@@ -31,6 +31,7 @@ $sql="SELECT d.FechaMes, d.Monto, d.CABINA_Id, d.TIPOINGRESO_Id, t.Nombre as nom
       AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
       AND d.TIPOINGRESO_Id=t.Id
       AND d.CABINA_Id=c.Id
+      AND d.TIPOINGRESO_Id=2
       GROUP BY t.Nombre
       ORDER BY t.Nombre = 'COMUN CABINA', c.Nombre;";
 
@@ -104,9 +105,7 @@ if (count($model)> 0) { ?>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>
         <?php 
 
-        $nombre_cabinas = Cabina::model()->findAllBySQL("SELECT Id, Nombre FROM cabina 
-                                      WHERE status=1 AND id !=18
-                                      ORDER BY Nombre = 'COMUN CABINA', Nombre;");
+        $nombre_cabinas = Cabina::model()->findAllBySQL("SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre;");
         
         foreach ($nombre_cabinas as $key => $value) {
             $cabinass[$key] = $value->Nombre;
@@ -167,13 +166,13 @@ if (count($model)> 0) { ?>
         $MTS="";
         $MTD="";
           
-            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre";
+            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre;";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
                 $sqlMontoGasto = "SELECT d.Monto as Monto, d.moneda,
                                     (
-                                    SELECT  d.Monto as Monto
+                                    SELECT SUM(d.Monto) as Monto
                                     FROM detalleingreso d  
                                     WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                     AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
@@ -184,7 +183,7 @@ if (count($model)> 0) { ?>
                                     ) as MontoDolares, 
 
                                     (
-                                    SELECT  d.Monto as Monto
+                                    SELECT SUM(d.Monto) as Monto
                                     FROM detalleingreso d 
                                     WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                     AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
@@ -210,7 +209,7 @@ if (count($model)> 0) { ?>
                                     $fondo = 'background: #00992B;';
                                 }
                             if ($count>0){
-                                    $content.="<td></td>";
+                                    
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
                                         $content.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
                                     }else{
@@ -219,7 +218,7 @@ if (count($model)> 0) { ?>
 
                             }else{
                                 
-                                $content.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
+                                $content.="<td rowspan='0' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
                                     if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
                                         $content.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
                                     }else{
@@ -231,7 +230,7 @@ if (count($model)> 0) { ?>
                     if ($count>0){
                         $content.="<td></td>";
                     }else{
-                        $content.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                        $content.="<td rowspan='0' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
                     }
                 }
                 $count++;
@@ -286,6 +285,7 @@ if (count($model)> 0) { ?>
                                WHERE d.CABINA_Id = $cabina->Id 
                                AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
+                               AND TIPOINGRESO_Id = 2
                                AND d.moneda = 2;";       
    
                 $totales = Detalleingreso::model()->findAllBySql($sqlTotales);
@@ -300,9 +300,9 @@ if (count($model)> 0) { ?>
                 }
             }
             
-            $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1)
+            $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND TIPOINGRESO_Id = 2)
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2) 
+                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND TIPOINGRESO_Id = 2) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
@@ -332,6 +332,7 @@ if (count($model)> 0) { ?>
                                WHERE d.CABINA_Id = $cabina->Id 
                                AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
+                               AND TIPOINGRESO_Id = 2    
                                AND d.moneda = 1;";        
                 
                 
