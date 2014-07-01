@@ -466,7 +466,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 1 AND t.Clase = 1;");
+                                                                AND t.COMPANIA_Id = 1 AND u.tipo = 1;");
                         if($ServMov->ServMov == NULL)
                             return '0.00';
                         else
@@ -479,7 +479,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 2 AND t.Clase = 1;");
+                                                                AND t.COMPANIA_Id = 2 AND u.tipo = 1;");
                         if($ServClaro->ServClaro == NULL)
                             return '0.00';
                         else
@@ -492,7 +492,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 3 AND t.Clase = 1;");
+                                                                AND t.COMPANIA_Id = 3 AND u.tipo = 1;");
                         if($ServNextel->ServNextel == NULL)
                             return '0.00';
                         else
@@ -505,7 +505,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id = 4 AND t.Clase = 1;");
+                                                                AND t.COMPANIA_Id = 4 AND u.tipo = 1;");
                         if($ServDirecTv->ServDirecTv == NULL)
                             return '0.00';
                         else
@@ -520,14 +520,14 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND t.Clase = 1;";
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND u.tipo = 1;";
                         }elseif($cabinaId == NULL){
                             $sql = "SELECT SUM(d.Monto) as TotalVentas 
                                                                 FROM detalleingreso as d
                                                                 INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
-                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND t.Clase = 1;";
+                                                                AND t.COMPANIA_Id > 0 AND t.COMPANIA_Id != 12 AND u.tipo = 1;";
                         }
                         
                         //$TotalVentas = 0;
@@ -547,7 +547,7 @@ class Detalleingreso extends CActiveRecord
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
-                                                                AND t.COMPANIA_Id > 6 AND t.COMPANIA_Id != 12 AND t.Clase = 1;");
+                                                                AND t.COMPANIA_Id > 6 AND t.COMPANIA_Id != 12 AND u.tipo = 1;");
                         if($TotalVentas->TotalVentas == NULL)
                             return '0.00';
                         else
@@ -871,7 +871,7 @@ class Detalleingreso extends CActiveRecord
             return $nameFormate[$name];
         }
         
-        public static function verificarDifFullCarga($fecha,$arrayCabina,$arrayTipoIngreso)
+        public static function verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso)
         {
             $ventasOperador = 0;
             $ventasEtelix = 0;
@@ -880,7 +880,7 @@ class Detalleingreso extends CActiveRecord
             $tipoIngresos = Array();
             $compania = NULL;
             
-            $fechaIngreso = $fecha;
+            $fechaIngreso = array_keys(array_count_values(array_unique($arrayFecha)));
             $cabinas = array_keys(array_count_values(array_unique($arrayCabina)));
             $tipoIngresos = array_keys(array_count_values(array_unique($arrayTipoIngreso)));
             
@@ -894,7 +894,7 @@ class Detalleingreso extends CActiveRecord
                                                                 FROM detalleingreso as d
                                                                 INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                                 INNER JOIN users as u ON u.id = d.USERS_Id
-                                                                WHERE d.FechaMes = '$fechaIngreso'
+                                                                WHERE d.FechaMes = '$fechaIngreso[$i]'
                                                                 AND d.CABINA_Id = $cabinas[$i] 
                                                                 AND t.COMPANIA_Id = $compania->COMPANIA_Id    
                                                                 AND u.tipo = 1;")->DifDollar;
@@ -903,7 +903,7 @@ class Detalleingreso extends CActiveRecord
                                                               FROM detalleingreso as d
                                                               INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                                                               INNER JOIN users as u ON u.id = d.USERS_Id
-                                                              WHERE d.FechaMes = '$fechaIngreso'
+                                                              WHERE d.FechaMes = '$fechaIngreso[$i]'
                                                               AND d.CABINA_Id = $cabinas[$i] 
                                                               AND t.COMPANIA_Id = $compania->COMPANIA_Id       
                                                               AND u.tipo = 4;")->DifDollar;

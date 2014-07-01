@@ -177,7 +177,8 @@ $mes = null;
       array(
         'header'=>'Detalle',
         'class'=>'CButtonColumn',
-        'buttons'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+//        'buttons'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+        'buttons'=>Utility::ver(1),  
         ),
       ),
     )
@@ -318,7 +319,7 @@ $mes = null;
       array(
         'header'=>'Detalle',
         'class'=>'CButtonColumn',
-        'buttons'=>Utility::ver(Yii::app()->getModule('user')->user()->tipo),
+        'buttons'=>Utility::ver(1),
         ),
       ),
     )

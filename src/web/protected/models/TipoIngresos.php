@@ -103,7 +103,7 @@ class TipoIngresos extends CActiveRecord
         }
         
         public static function getListTipoIngreso(){
-            return CHtml::listData(TipoIngresos::model()->findAll("Id = 1"), 'Id', 'Nombre');
+            return CHtml::listData(TipoIngresos::model()->findAll("Nombre = 'Subarriendo'"), 'Id', 'Nombre');
         }
         
         public static function getListTipoVentas(){
@@ -154,7 +154,7 @@ class TipoIngresos extends CActiveRecord
 			$model=self::model()->findBySql("SELECT Id FROM tipo_ingresos WHERE Nombre = '$nombre';");
 			if($model == null)
 			{
-                            return 2;
+//                            return 2;
 			}
 			else
 			{

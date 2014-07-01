@@ -47,16 +47,44 @@ $(document).ready(function()
     });
     
     //MUEVE EL SCROLL VERTICAL EN EL ESTADO DE RESULTADO
-    scrollER();
+    allMesaggeLoading();
     
 });
-   
-    function scrollER(){
-        $('tbody.scrollTable').scroll(function(){
-            $('tbody.scrollTable').scrollTop($(this).scrollTop());    
-        });
+    
+    
+    function messageLoading(texto,boton){
         
+        $('#'+boton).on('click',function(event)
+        {
+            var file = $('ul li.qq-upload-success').text();
+
+            if(file != ''){
+                $("#loading").html(texto+" !!<div id='gif_loading'>"+
+                    "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                        "</div>"+
+                    "</div>");
+                $("#nombreContenedor").css("display", "inline");
+                $("#loading").css("display", "inline");
+            }
+        });
     }
+    
+    
+    
    
     function FechaBalance()
     {

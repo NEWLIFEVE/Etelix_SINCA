@@ -146,7 +146,7 @@ class SiteController extends Controller
         switch ($tipoUsuario) {
             case 1: return '/site/recordatorio';
             break;
-            case 2: return '/balance/index';
+            case 2: return '/detalleingreso/UploadFullCarga';
             break;
             case 3: return '/log/controlPanel';
             break;
@@ -186,7 +186,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/uploadFullCarga'),'label'=>'Reportes/Balances','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/detalleingreso/uploadFullCarga'),'label'=>'Reportes/Balances','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/pabrightstar/create'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/create'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/GerenteOp)','visible'=>!Yii::app()->user->isGuest),
@@ -227,7 +227,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/controlPanel'),'label'=>'Balances','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/log/controlPanel'),'label'=>'Balances','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/novedad/admin'),'label'=>'Fallas','visible'=>!Yii::app()->user->isGuest),
@@ -243,7 +243,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/controlPanel'),'label'=>'Reportes','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/log/controlPanel'),'label'=>'Reportes','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest), 
                 array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest), 
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/GerenteCont)','visible'=>!Yii::app()->user->isGuest),

@@ -161,7 +161,7 @@ if (count($model)> 0) { ?>
         $MTD="";
         
           
-            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18 ORDER BY Nombre";
+            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND Id !=18 AND Id !=19 ORDER BY Nombre";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
@@ -191,7 +191,7 @@ if (count($model)> 0) { ?>
 
                             }else{
                                 
-                                $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->beneficiario</h3></td>";
+                                $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->beneficiario</h3></td>";
                                 $content.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
                                     
                             }
@@ -199,7 +199,9 @@ if (count($model)> 0) { ?>
                     if ($count>0){
                         $content.="<td></td>";
                     }else{
-                        $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->beneficiario</h3></td>";
+                        $content.="<td style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td><td style='width: 200px; background: #1967B2'><h3>$gasto->beneficiario</h3></td>";
+                        $content.="<td></td>";
+                        
                     }
                 }
                 $count++;

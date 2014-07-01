@@ -845,8 +845,10 @@ class Spreadsheet_Excel_Reader {
                     }
 
                 }
-
+                
+                
                 //RECORRIDO DE LOS ARRAY CON TODOS LOS DATOS AGRUPADOS (GUARDADO EN BASE DE DATOS)
+                $a = 0;
                 foreach ($arrayLista as $key => $value) {
 
                     foreach ($arrayLista[$key] as $key2 => $value2) {
@@ -859,42 +861,52 @@ class Spreadsheet_Excel_Reader {
                             $monto = $arrayLista[$key][$key2][$key3];
                             $montoComision = $arrayListaComision[$key][$key2][$key3];        
 
+//                            $_SESSION['fecha'][$a] = $fecha;
+//                            $_SESSION['cabinas'][$a] = $cabina;
+//                            $_SESSION['monto'][$a] = $monto;
+//                            $_SESSION['montoComision'][$a] = $montoComision;
+//                            $_SESSION['servicio'][$a] = $ingreso;
                             
-                            $Ingreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingreso AND USERS_Id = 58");
-                            if($Ingreso == NULL){
-
-                                $Ingreso = new Detalleingreso;
-                                $Ingreso->FechaMes = $fecha;
-                                $Ingreso->Monto = $monto;  
-                                $Ingreso->Costo_Comision = $montoComision;  
-                                $Ingreso->CABINA_Id = $cabina;
-                                $Ingreso->USERS_Id = 58;
-                                $Ingreso->TIPOINGRESO_Id = $ingreso;
-                                $Ingreso->moneda = 2;
-
-                                if($cabina == 17){
-                                    $Ingreso->CUENTA_Id = 2;
-                                }else{
-                                    $Ingreso->CUENTA_Id = 4;
-                                }
-
-                                $Ingreso->FechaTransf = NULL;
-                                $Ingreso->TransferenciaPago = NULL;
-                                $Ingreso->Descripcion = NULL;
-                                $Ingreso->save();
-
-                            }
+                            
+                            
+//                            $Ingreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingreso AND USERS_Id = 58");
+//                            if($Ingreso == NULL){
+//
+//                                $Ingreso = new Detalleingreso;
+//                                $Ingreso->FechaMes = $fecha;
+//                                $Ingreso->Monto = $monto;  
+//                                $Ingreso->Costo_Comision = $montoComision;  
+//                                $Ingreso->CABINA_Id = $cabina;
+//                                $Ingreso->USERS_Id = 58;
+//                                $Ingreso->TIPOINGRESO_Id = $ingreso;
+//                                $Ingreso->moneda = 2;
+//
+//                                if($cabina == 17){
+//                                    $Ingreso->CUENTA_Id = 2;
+//                                }else{
+//                                    $Ingreso->CUENTA_Id = 4;
+//                                }
+//
+//                                $Ingreso->FechaTransf = NULL;
+//                                $Ingreso->TransferenciaPago = NULL;
+//                                $Ingreso->Descripcion = NULL;
+//                                if($Ingreso->save()){
+//                                    $a++;
+//                                }
+//
+//                            }
 
                         }
                     }
 
                 }
+                
+                 $_SESSION['list'][0] = $a;
 
 
                 
 //                if($i > 0){
-//                    $_SESSION['regintrosFC'] = $j;
-//                    Detalleingreso::verificarDifFullCarga($fechaCapturada,$arrayCabina,$arrayTipoIngreso);
+//                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
 //                }
  
                 

@@ -14,7 +14,10 @@ $this->menu=DetalleingresoController::controlAccesoBalance($tipoUsuario);
 ?>
 
 <h1>Cargar Archivos FullCarga</h1>
-
+<div id="nombreContenedor" class="black_overlay"></div>
+<div id="loading" class="ventana_flotante"></div>
+<div id="complete" class="ventana_flotante2"></div>
+<div id="error" class="ventana_flotante3"></div>
 <?php 
 
 
@@ -36,7 +39,7 @@ array(
                                  'emptyError'=>"{file} is empty, please select files again without it.",
                                  'onLeave'=>"The files are being uploaded, if you leave now the upload will be cancelled."
                                 ),
-               'showMessage'=>"js:function(message){ alert(message); }"
+               'showMessage'=>"js:messageLoading('Guardando Ingresos...','yt0')"
               )
 )); 
 
@@ -46,10 +49,10 @@ echo '<input type="hidden" name="UpdateFile[Valor]">';
 echo "<span class='buttons'>".CHTML::button('Grabar en Base de Datos',  array('submit' => Yii::app()->createUrl("detalleingreso/UploadFullCarga")))."</span>";
 echo CHtml::endForm();
 
-if(isset($_SESSION['regintrosFC'])){
+if(isset($_SESSION['list'][0])){
     echo '<br><br>';
-    echo 'Registros de FullCarga Guardados: '.$_SESSION['regintrosFC'];
-    unset($_SESSION['regintrosFC']);
+    echo 'Registros de FullCarga Guardados: '.$_SESSION['list'][0];
+    unset($_SESSION['list'][0]);
 } 
 
 
@@ -181,8 +184,8 @@ $form=$this->beginWidget('CActiveForm', array(
             'showButtonPanel' => 'false', 
             'constrainInput' => 'false',
             'showAnim' => 'show',
-//            'minDate'=>'-7D', //fecha minima
-//            'maxDate'=> "-1D", //fecha maxima
+            'minDate'=>'-7D', //fecha minima
+            'maxDate'=> "-1D", //fecha maxima
                
              ),
             'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaCosto', ),
