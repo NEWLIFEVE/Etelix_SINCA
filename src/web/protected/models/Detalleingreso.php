@@ -97,6 +97,11 @@ class Detalleingreso extends CActiveRecord
         public $SobranteAcum;
         
         public $Ventas;
+        
+        public $FechaInicioCaptura;
+        public $FechaFinCaptura;
+        
+        public $Vereficar;
 
         public function tableName()
 	{

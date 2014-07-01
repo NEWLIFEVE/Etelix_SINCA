@@ -169,9 +169,10 @@ class estadoResultado extends Reportes
                   INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                   INNER JOIN users as u ON u.id = d.USERS_Id
                   WHERE d.FechaMes >= '$fecha-01' AND d.FechaMes <= '$fecha-31' 
-                  AND d.CABINA_Id = $cabina 
-                  AND t.COMPANIA_Id = $compania AND u.tipo = 4;";
-            
+                  AND d.CABINA_Id = $cabina     
+                  AND t.COMPANIA_Id = $compania 
+                  AND t.Clase = 1 
+                  AND u.tipo = 4;";
         }
         
 

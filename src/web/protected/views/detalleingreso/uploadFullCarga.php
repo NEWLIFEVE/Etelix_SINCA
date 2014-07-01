@@ -113,31 +113,63 @@ $form=$this->beginWidget('CActiveForm', array(
   <tr>
     <td>
 
-<div class="row">
+<div class="row" id="FechaInicioCaptura" style="width: 50%;float: left;">
     
-<?php echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
-<?php $this->widget('zii.widgets.jui.CJuiDatePicker', 
-            array(
-            'language' => 'es', 
-            'model' => $model,
-            'attribute'=>'FechaMes',
-            'options' => array(
-            'changeMonth' => 'true',//para poder cambiar mes
-            'changeYear' => 'true',//para poder cambiar año
-            'showButtonPanel' => 'false', 
-            'constrainInput' => 'false',
-            'showAnim' => 'show',
-            'minDate'=>'-7D', //fecha minima
-            'maxDate'=> "-1D", //fecha maxima
-               
-             ),
-            'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaTrafico', ),
-        ));                                                            ?>
- <?php echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); ?>
- <?php echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
+    <?php echo $form->labelEx($model,'FechaInicioCaptura',array('label'=>'Fecha Inicio')); ?>
+    <?php $this->widget('zii.widgets.jui.CJuiDatePicker', 
+                array(
+                'language' => 'es', 
+                'model' => $model,
+                'attribute'=>'FechaInicioCaptura',
+                'options' => array(
+                'changeMonth' => 'true',//para poder cambiar mes
+                'changeYear' => 'true',//para poder cambiar año
+                'showButtonPanel' => 'false', 
+                'constrainInput' => 'false',
+                'showAnim' => 'show',
+//                'minDate'=>'-7D', //fecha minima
+//                'maxDate'=> "-1D", //fecha maxima
+
+                 ),
+                'htmlOptions'=>array('readonly'=>'readonly','id'=>'Inicio','class'=>'Fecha',  ),
+            ));   
+
+    ?>
+     <?php echo CHtml::label('', 'diaSemana',array('id'=>'diaSemanaInicio','style'=>'color:forestgreen','class'=>'diaSemanaInicio', )); ?>
+     <?php echo $form->error($model,'FechaInicioCaptura',array('readonly'=>'readonly')); ?>
                  
     
 </div>
+        
+<div class="row" id="FechaFinalCaptura" style="width: 50%;float: left;">
+    
+    <?php echo $form->checkBox($model,'Vereficar',array('id'=>'checkFechaFin','style'=>'float:left;margin-top:28px;margin-right:15px;')); ?>
+    
+    <?php echo $form->labelEx($model,'FechaFinCaptura',array('label'=>'Fecha Final')); ?>
+    <?php $this->widget('zii.widgets.jui.CJuiDatePicker', 
+                array(
+                'language' => 'es', 
+                'model' => $model,
+                'attribute'=>'FechaFinCaptura',
+                'options' => array(
+                'changeMonth' => 'true',//para poder cambiar mes
+                'changeYear' => 'true',//para poder cambiar año
+                'showButtonPanel' => 'false', 
+                'constrainInput' => 'false',
+                'showAnim' => 'show',
+//                'minDate'=>'-7D', //fecha minima
+//                'maxDate'=> "-1D", //fecha maxima
+
+                 ),
+                'htmlOptions'=>array('readonly'=>'readonly','id'=>'Fin','class'=>'Fecha','disabled'=>'disabled'),
+            ));   
+
+    ?>
+     <?php echo CHtml::label('', 'diaSemana',array('id'=>'diaSemanaFin','style'=>'color:forestgreen;margin-left:30px;','class'=>'diaSemanaFin',)); ?>
+     <?php echo $form->error($model,'FechaFinCaptura',array('readonly'=>'readonly')); ?>
+                 
+    
+</div>        
         
     </td>
   </tr>   
@@ -154,15 +186,15 @@ echo '</div>';
 
 echo '<br><br><br><br><br>';
 
-echo '<h1>Generar Costos de Llamadas desde SORI</h1>
-<div class="form">';
-
-$form=$this->beginWidget('CActiveForm', array(
-	'id'=>'costoCaptura-form',
-	'enableAjaxValidation'=>true,
-        'action'=>Yii::app()->createUrl('/Detalleingreso/CreateCostoLlamadas'),
-    )
-);
+//echo '<h1>Generar Costos de Llamadas desde SORI</h1>
+//<div class="form">';
+//
+//$form=$this->beginWidget('CActiveForm', array(
+//	'id'=>'costoCaptura-form',
+//	'enableAjaxValidation'=>true,
+//        'action'=>Yii::app()->createUrl('/Detalleingreso/CreateCostoLlamadas'),
+//    )
+//);
 
 ?>
 
@@ -172,41 +204,41 @@ $form=$this->beginWidget('CActiveForm', array(
 
 <div class="row">
     
-<?php echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
-<?php $this->widget('zii.widgets.jui.CJuiDatePicker', 
-            array(
-            'language' => 'es', 
-            'model' => $model,
-            'attribute'=>'FechaMes',
-            'options' => array(
-            'changeMonth' => 'true',//para poder cambiar mes
-            'changeYear' => 'true',//para poder cambiar año
-            'showButtonPanel' => 'false', 
-            'constrainInput' => 'false',
-            'showAnim' => 'show',
-            'minDate'=>'-7D', //fecha minima
-            'maxDate'=> "-1D", //fecha maxima
-               
-             ),
-            'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaCosto', ),
-        ));                                                            ?>
- <?php echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana2','style'=>'color:forestgreen')); ?>
- <?php echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
+<?php // echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
+<?php // $this->widget('zii.widgets.jui.CJuiDatePicker', 
+//            array(
+//            'language' => 'es', 
+//            'model' => $model,
+//            'attribute'=>'FechaMes',
+//            'options' => array(
+//            'changeMonth' => 'true',//para poder cambiar mes
+//            'changeYear' => 'true',//para poder cambiar año
+//            'showButtonPanel' => 'false', 
+//            'constrainInput' => 'false',
+//            'showAnim' => 'show',
+//            'minDate'=>'-7D', //fecha minima
+//            'maxDate'=> "-1D", //fecha maxima
+//               
+//             ),
+//            'htmlOptions'=>array('readonly'=>'readonly','id'=>'FechaCosto', ),
+//        ));                                                            ?>
+ <?php // echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana2','style'=>'color:forestgreen')); ?>
+ <?php // echo $form->error($model,'FechaMes',array('readonly'=>'readonly')); ?>
                  
     
-</div>
+<!--</div>
         
     </td>
   </tr>   
-</table>        
+</table>        -->
 
 <?php   
 
-echo "<span class='buttons'>".CHtml::submitButton('Generar Costo de Llamadas',array('id'=>'submitTrafico'))."</span>";
-
-$this->endWidget();
-
-echo '</div>';
+//echo "<span class='buttons'>".CHtml::submitButton('Generar Costo de Llamadas',array('id'=>'submitTrafico'))."</span>";
+//
+//$this->endWidget();
+//
+//echo '</div>';
 
 ?>
 

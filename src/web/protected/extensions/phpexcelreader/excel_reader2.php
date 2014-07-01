@@ -869,32 +869,32 @@ class Spreadsheet_Excel_Reader {
                             
                             
                             
-//                            $Ingreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingreso AND USERS_Id = 58");
-//                            if($Ingreso == NULL){
-//
-//                                $Ingreso = new Detalleingreso;
-//                                $Ingreso->FechaMes = $fecha;
-//                                $Ingreso->Monto = $monto;  
-//                                $Ingreso->Costo_Comision = $montoComision;  
-//                                $Ingreso->CABINA_Id = $cabina;
-//                                $Ingreso->USERS_Id = 58;
-//                                $Ingreso->TIPOINGRESO_Id = $ingreso;
-//                                $Ingreso->moneda = 2;
-//
-//                                if($cabina == 17){
-//                                    $Ingreso->CUENTA_Id = 2;
-//                                }else{
-//                                    $Ingreso->CUENTA_Id = 4;
-//                                }
-//
-//                                $Ingreso->FechaTransf = NULL;
-//                                $Ingreso->TransferenciaPago = NULL;
-//                                $Ingreso->Descripcion = NULL;
-//                                if($Ingreso->save()){
-//                                    $a++;
-//                                }
-//
-//                            }
+                            $Ingreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingreso AND USERS_Id = 58");
+                            if($Ingreso == NULL){
+
+                                $Ingreso = new Detalleingreso;
+                                $Ingreso->FechaMes = $fecha;
+                                $Ingreso->Monto = $monto;  
+                                $Ingreso->Costo_Comision = $montoComision;  
+                                $Ingreso->CABINA_Id = $cabina;
+                                $Ingreso->USERS_Id = 58;
+                                $Ingreso->TIPOINGRESO_Id = $ingreso;
+                                $Ingreso->moneda = 2;
+
+                                if($cabina == 17){
+                                    $Ingreso->CUENTA_Id = 2;
+                                }else{
+                                    $Ingreso->CUENTA_Id = 4;
+                                }
+
+                                $Ingreso->FechaTransf = NULL;
+                                $Ingreso->TransferenciaPago = NULL;
+                                $Ingreso->Descripcion = NULL;
+                                if($Ingreso->save()){
+                                    $a++;
+                                }
+
+                            }
 
                         }
                     }
@@ -903,11 +903,9 @@ class Spreadsheet_Excel_Reader {
                 
                  $_SESSION['list'][0] = $a;
 
-
-                
-//                if($i > 0){
-//                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
-//                }
+                if($i > 0){
+                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
+                }
  
                 
             }

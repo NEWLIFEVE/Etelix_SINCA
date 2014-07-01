@@ -244,8 +244,9 @@ class DetalleingresoController extends Controller
                                                                     array(':fecha'=>$Fecha,':cabina'=>$cabina,':ingreso'=>TipoIngresos::getIdIngreso($key)));
                         if($balanceExistente==NULL){
                             
-                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso(str_replace('_', ' ', $key));
+                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso($key);
                             $arrayCabina[$i] = $cabina;
+                            $arrayFecha[$i] = $Fecha;
                             
                             $model=new Detalleingreso;
                             $model->FechaMes = $Fecha; 
@@ -260,20 +261,22 @@ class DetalleingresoController extends Controller
                                 $model->CUENTA_Id = 4;
                             }    
 
-                            $model->save();
-                            $i++;
+                            if($model->save()){
+                                $i++;
+                            }
                         }
                     }
                 }
 
                 if($i>0){
                     LogController::RegistrarLog(3,$Fecha);
-                    Detalleingreso::verificarDifFullCarga($Fecha,$arrayCabina,$arrayTipoIngreso);
+                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
                     $this->redirect(array('detalleingreso/view','id'=>SaldoCabina::getIdFromDate($Fecha,$cabina)));
                 }else{
                     Yii::app()->user->setFlash('error', "ERROR: La Fecha Indicada ya Posee los Ingresos Declarados");
                     $this->redirect(array('createLlamadas'));
                 }
+
 
             }
             
@@ -302,9 +305,6 @@ class DetalleingresoController extends Controller
                 }elseif(!file_exists($ruta1)){
                     Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
                 }
-                
-                
-                
                 
                 if(isset($_SESSION['cabinas'])){
                     
@@ -705,68 +705,92 @@ class DetalleingresoController extends Controller
             $arrayCarriers = Array();
             $arrayCa = Array();
             
-            if($_POST['Detalleingreso']['FechaMes']){
-                
-                $list = explode('/', $_POST['Detalleingreso']['FechaMes']);
+            if($_POST['Detalleingreso']['FechaInicioCaptura']){
+
+                $list = explode('/', $_POST['Detalleingreso']['FechaInicioCaptura']);
                 $fecha = $list[2]."-".$list[1]."-".$list[0];
-                $i = 0;
-                $paridad = Paridad::getParidad($fecha);
-                $cabinasActivas = Cabina::model()->findAll('Id != 18 AND Id != 19 AND status = 1');
-
-                $logSori = LogSori::getLogSori($fecha);
-                if(count($logSori) > 1){
                 
-                    foreach ($cabinasActivas as $key => $cabinas) {
-
-                        $cabinaId = Cabina::getId($cabinas->Nombre);
-                        
-                        if($cabinas->Nombre != 'ETELIX - PERU'){
-                            $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%$cabinas->Nombre%';");
-                        }else{
-                            $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
-                        }
-                        
-                        foreach ($cabinasSori as $key2 => $value) {
-                            $arrayCa[$key][$key2] = $value->id;
-                            $arrayCarriers[$key] = implode(',', $arrayCa[$key]);
-                        }
-                        
-                        $montoSoriCaptura = BalanceSori::getTraficoCaptura($fecha,$arrayCarriers[$key]);
-                        $verificaIngreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabinaId AND TIPOINGRESO_Id = 15");
-                        
-                        if($verificaIngreso == NULL && $montoSoriCaptura != 0){
-                            $modelIngreso = new Detalleingreso;
-                            $modelIngreso->Monto = $montoSoriCaptura;
-                            $modelIngreso->FechaMes = $fecha;        
-                            $modelIngreso->CABINA_Id = $cabinaId;
-                            $modelIngreso->USERS_Id=  58;
-                            $modelIngreso->TIPOINGRESO_Id = 15;
-                            $modelIngreso->moneda = 1;
-                            if($cabinaId == 17){
-                                $modelIngreso->CUENTA_Id = 2; 
-                            }else{
-                                $modelIngreso->CUENTA_Id = 4; 
-                            }    
-                            
-                            if($modelIngreso->save()){ 
-                                $i++; 
-                                
-                                $ventasTrafico = Detalleingreso::getLibroVentas("LibroVentas","trafico", $fecha,$cabinaId);
-                                
-                                $modeCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$fecha' AND CABINA_Id = $cabinaId");
-                                if($modeCicloIngreso != NULL){
-                                    $modeCicloIngreso->DiferencialCaptura = round(($ventasTrafico-$montoSoriCaptura*$paridad)/$paridad,2);
-                                    $modeCicloIngreso->AcumuladoCaptura = Detalleingreso::getAcumulado($fecha,$cabinaId);
-                                    $modeCicloIngreso->save();
-                                }
-
-                            }
-                        }    
-
+                if($_POST['Detalleingreso']['Vereficar']){
+                    
+                    if($_POST['Detalleingreso']['FechaFinCaptura']){
+                        $list2 = explode('/', $_POST['Detalleingreso']['FechaFinCaptura']);
+                        $fecha2 = $list2[2]."-".$list2[1]."-".$list2[0];
+                    }else{
+                        $fecha2 = $fecha;
                     }
                     
                 }else{
-                    $i = -1;
+                    $fecha2 = $fecha;
+                }
+
+                $i = 0;
+                $cabinasActivas = Cabina::model()->findAll('Id != 18 AND Id != 19 AND status = 1');
+                
+                    for($dia=$fecha; $dia<=$fecha2; $dia=date("Y-m-d", strtotime($dia ."+ 1 days"))){
+                        
+                        
+                        $paridad = Paridad::getParidad($dia);
+                        $logSori = LogSori::getLogSori($dia);
+                        
+                        if(count($logSori) > 1){
+                        
+                            foreach ($cabinasActivas as $key => $cabinas) {
+
+                                $cabinaId = $cabinas->Id;
+
+                                if($cabinas->Nombre != 'ETELIX - PERU'){
+                                    $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%$cabinas->Nombre%';");
+                                }else{
+                                    $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
+                                }
+
+                                foreach ($cabinasSori as $key2 => $value) {
+                                    $arrayCa[$key][$key2] = $value->id;
+                                    $arrayCarriers[$key] = implode(',', $arrayCa[$key]);
+                                }
+
+                                $montoSoriRevenue = BalanceSori::getTraficoCaptura($dia,$arrayCarriers[$key]);
+                                $montoSoriCosto = BalanceSori::getCostoLlamadas($dia,$arrayCarriers[$key]);
+
+                                $verificaIngreso = Detalleingreso::model()->find("FechaMes = '$dia' AND CABINA_Id = $cabinaId AND TIPOINGRESO_Id = 16");
+                                
+                                if($verificaIngreso == NULL && $montoSoriCaptura != 0){
+                                    $modelIngreso = new Detalleingreso;
+                                    $modelIngreso->Monto = $montoSoriRevenue;
+                                    $modelIngreso->FechaMes = $dia;        
+                                    $modelIngreso->CABINA_Id = $cabinaId;
+                                    $modelIngreso->USERS_Id=  58;
+                                    $modelIngreso->TIPOINGRESO_Id = 16;
+                                    $modelIngreso->moneda = 1;
+                                    if($cabinaId == 17){
+                                        $modelIngreso->CUENTA_Id = 2; 
+                                    }else{
+                                        $modelIngreso->CUENTA_Id = 4; 
+                                    }    
+                                    $modelIngreso->Costo_Comision = $montoSoriCosto;
+                                    
+                                    if($modelIngreso->save()){ 
+                                        $i++; 
+                                        
+                                        $ventasTrafico = Detalleingreso::getLibroVentas("LibroVentas","trafico", $dia,$cabinaId);                                       
+                                        $modeCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$dia' AND CABINA_Id = $cabinaId");
+                                        if($modeCicloIngreso != NULL){
+                                            $modeCicloIngreso->DiferencialCaptura = round(($ventasTrafico-$montoSoriRevenue*$paridad)/$paridad,2);
+                                            $modeCicloIngreso->AcumuladoCaptura = Detalleingreso::getAcumulado($dia,$cabinaId);
+                                            $modeCicloIngreso->save();
+                                        }
+        
+                                    }elseif($modelIngreso->save(false)){
+                                        $i++; 
+                                    }
+                                }    
+
+                            }
+                        
+                    }else{
+                        $i = $i -1;
+                    }
+                    
                 }
 
                 if($i > 0){
@@ -776,62 +800,12 @@ class DetalleingresoController extends Controller
                 }elseif($i < 0){
                     Yii::app()->user->setFlash('error',"Trafico de Captura (USD$) - No se ha Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada");
                 }
+
             }
-            $this->redirect('/detalleingreso/uploadFullCarga');
-       }
-       
-       public function actionCreateCostoLlamadas() {
-
-            $arrayCarriers = Array();
-            $arrayCa = Array();
-            
-            if($_POST['Detalleingreso']['FechaMes']){
-                
-                $list = explode('/', $_POST['Detalleingreso']['FechaMes']);
-                $fecha = $list[2]."-".$list[1]."-".$list[0];
-                $i = 0;
-                $paridad = Paridad::getParidad($fecha);
-                $cabinasActivas = Cabina::model()->findAll('Id != 18 AND Id != 19 AND status = 1');
-
-                
-                foreach ($cabinasActivas as $key => $cabinas) {
-
-                    $cabinaId = Cabina::getId($cabinas->Nombre);
-
-                    if($cabinas->Nombre != 'ETELIX - PERU'){
-                        $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%$cabinas->Nombre%';");
-                    }else{
-                        $cabinasSori = Carrier::model()->findAllBySql("SELECT id FROM carrier WHERE name LIKE '%ETELIX.COM%';");
-                    }
-
-                    foreach ($cabinasSori as $key2 => $value) {
-                        $arrayCa[$key][$key2] = $value->id;
-                        $arrayCarriers[$key] = implode(',', $arrayCa[$key]);
-                    }
-
-                    $montoSoriCosto = BalanceSori::getCostoLlamadas($fecha,$arrayCarriers[$key]);
-
-                    $modeCicloIngreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabinaId AND TIPOINGRESO_Id = 16");
-                    if($modeCicloIngreso != NULL){
-                        $modeCicloIngreso->Costo_Comision = round(($montoSoriCosto),2);
-                        if($modeCicloIngreso->save()){
-                            $i++;
-                        }
-                    }
-
-                }
-
-
-                if($i > 0){
-                    Yii::app()->user->setFlash('success',"Costo de Llamadas (USD$) - Datos Guardados Satisfactoriamente");
-                }elseif($i == 0){
-                    Yii::app()->user->setFlash('error',"Costo de Llamadas (USD$) - Ya Existen Datos para la Fecha Seleccionada");
-                }
-            }
-            
             
             $this->redirect('/detalleingreso/uploadFullCarga');
        }
+
 	
         protected function performAjaxValidation($model)
         {
@@ -844,7 +818,7 @@ class DetalleingresoController extends Controller
         
         protected function performAjaxValidationBalance($model)
         {
-            if(isset($_POST['ajax']) && $_POST['ajax'] === 'ventas-fullcarga-form')
+            if(isset($_POST['ajax']) && $_POST['ajax'] === 'balance-form')
             {
                 echo CActiveForm::validate($model);
                 Yii::app()->end();

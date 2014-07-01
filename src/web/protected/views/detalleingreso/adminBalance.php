@@ -112,7 +112,7 @@ $mes = null;
         'name'=>'CABINA_Id',
         'value'=>'$data->cABINA->Nombre',
         'type'=>'text',
-        'filter'=>Cabina::getListCabina(),
+        'filter'=>($tipoUsuario == 1) ? '' : Cabina::getListCabina(),
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
             'id'=>'cabina',
@@ -121,15 +121,18 @@ $mes = null;
       array(
         'name'=>'SaldoAp',
         'value'=>'$data->SaldoAp',
+        'filter'=>($tipoUsuario == 1) ? '' : '<input type="text">',  
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'aperturaMov',
           ),
+         
         ),
       array(
             'name'=>'Trafico',
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","trafico", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
+            'filter'=>($tipoUsuario == 1) ? '' : '<input type="text">',  
             'htmlOptions'=>array(
                 'id'=>'trafico',
                 ),
@@ -138,6 +141,7 @@ $mes = null;
             'name'=>'ServMov',
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
+            'filter'=>($tipoUsuario == 1) ? '' : '<input type="text">',  
             'htmlOptions'=>array(
                 'id'=>'recargaMov',
                 ),
@@ -146,6 +150,7 @@ $mes = null;
             'name'=>'ServClaro',
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
+            'filter'=>($tipoUsuario == 1) ? '' : '<input type="text">',      
             'htmlOptions'=>array(
                 'id'=>'recargaClaro',
                 ),
@@ -154,6 +159,7 @@ $mes = null;
             'name'=>'ServDirecTv',
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
+            'filter'=>($tipoUsuario == 1) ? '' : '<input type="text">',  
             'htmlOptions'=>array(
                 'id'=>'ServDirecTv',
                 ),
@@ -162,6 +168,7 @@ $mes = null;
             'name'=>'ServNextel',
             'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
+            'filter'=>($tipoUsuario == 1) ? '' : '<input type="text">',  
             'htmlOptions'=>array(
                 'id'=>'ServNextel',
                 ),
@@ -169,6 +176,7 @@ $mes = null;
       array(
         'name'=>'MontoDeposito',
         'value'=>'Deposito::getDeposito($data->Fecha, $data->CABINA_Id)',
+        'filter'=>($tipoUsuario == 1) ? '' : '<input type="text">',    
         'htmlOptions'=>array(
           'style'=>'text-align: center;',
           'id'=>'montoDeposito',

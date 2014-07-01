@@ -46,15 +46,50 @@ $(document).ready(function()
 
     });
 
+    labelNameWeek();
+    messageLoading('Generando Trafico Captura...','submitTrafico');
     
 });
     
+    function labelNameWeek(){
+        
+        $("input.Fecha").change(function () {
+
+            var dias_semana = new Array("","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
+            var FechaBalance = $(this).val();
+            var idInput = $(this).attr('id');
+            var arrayFecha = FechaBalance.split("/");
+            var NuevaFecha = arrayFecha[2]+'-'+arrayFecha[1]+'-'+arrayFecha[0];
+
+           $("label.diaSemana"+idInput).text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
+
+        });
+        
+        $("input#checkFechaFin").change(function () {
+
+            var checkbox = $(this).attr('checked');
+            if(checkbox != 'checked'){
+                $('input#Fin').prop('disabled', true);      
+            }else{
+                $('input#Fin').prop('disabled', false);
+            }
+
+
+        });
+       
+        
+    }
     
     function messageLoading(texto,boton){
         
         $('#'+boton).on('click',function(event)
         {
-            var file = $('ul li.qq-upload-success').text();
+
+            if(boton == 'yt0'){
+                var file = $('ul li.qq-upload-success').text();
+            }else{
+                var file = 'Mostrar';
+            }
 
             if(file != ''){
                 $("#loading").html(texto+" !!<div id='gif_loading'>"+
@@ -90,7 +125,7 @@ $(document).ready(function()
         verificarFechaBalance('SaldoApertura','SaldoCabina_Fecha_Apertura');
         verificarFechaBalance('SaldoCierre','SaldoCabina_Fecha');
         verificarFechaBalance('Deposito','Deposito_FechaCorrespondiente');
-        verificarFechaTraficoCaptura('TraficoCaptura','FechaTrafico');
+        verificarFechaTraficoCaptura('TraficoCaptura','Inicio');
     }
 
     function changeStatusNovedad()
@@ -2094,7 +2129,6 @@ $(document).ready(function()
       function verificarFechaTraficoCaptura(vista,inputDate)
       {
               $("input#"+inputDate).change(function () {
-                  
                   var FechaBalance = '';
                   var verificar = '';
                   var mensaje = '';
@@ -2115,6 +2149,7 @@ $(document).ready(function()
               if(vista == 'TraficoCaptura'){    
                   mensaje = 'ERROR: No se han Cargado los Archivos Definitivos de las Rutas Internal y External para la Fecha Seleccionada';
               }
+              console.log(verificar);
               
               $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
               
@@ -2122,7 +2157,7 @@ $(document).ready(function()
                   if($('div#errorDiv').length){
 
                   }else{
-                      $('table#dateTraficoCaptura div.row').append('<div id="errorDiv" style="color: red;max-width: 100%;text-align: left;"></div>');
+                      $('table#dateTraficoCaptura div#FechaInicioCaptura').append('<div id="errorDiv" style="color: red;max-width: 100%;text-align: left;"></div>');
                       $('div#errorDiv').text(mensaje);
                   }
                   $('form#traficoCaptura-form input#submitTrafico').prop('disabled', true);
