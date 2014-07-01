@@ -45,9 +45,7 @@ $(document).ready(function()
         gentotalsBalance();
 
     });
-    
-    //MUEVE EL SCROLL VERTICAL EN EL ESTADO DE RESULTADO
-    allMesaggeLoading();
+
     
 });
     
