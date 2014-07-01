@@ -242,8 +242,8 @@ class DetalleingresoController extends Controller
                         $balanceExistente = Detalleingreso::model()->find('FechaMes=:fecha AND CABINA_Id=:cabina AND TIPOINGRESO_Id=:ingreso',
                                                                     array(':fecha'=>$Fecha,':cabina'=>$cabina,':ingreso'=>TipoIngresos::getIdIngreso($key)));
                         if($balanceExistente==NULL){
-                            
-                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso($key);
+
+                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso( str_replace('_',' ',$key));
                             $arrayCabina[$i] = $cabina;
                             $arrayFecha[$i] = $Fecha;
                             
