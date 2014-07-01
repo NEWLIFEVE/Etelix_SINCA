@@ -58,11 +58,13 @@ class DetalleingresoController extends Controller
                     'actions'=>array(
                         'index',
                         'viewIngreso',
+                        'createIngreso',
                         'DynamicTipoIngreso',
                         'DynamicBalanceAnterios',
                         'DynamicIngresosRegistrado',
                         'DynamicTraficoCaptura',
                         'AdminBalance',
+                        'CreateLlamadas',
                         'View',
                         'Viewall',
                     ),
