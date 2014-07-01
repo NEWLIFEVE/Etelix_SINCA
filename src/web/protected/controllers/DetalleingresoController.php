@@ -58,29 +58,13 @@ class DetalleingresoController extends Controller
                     'actions'=>array(
                         'index',
                         'viewIngreso',
-                        'createIngreso',
-                        'adminIngreso',
-                        'MatrizIngresos',
                         'DynamicTipoIngreso',
                         'DynamicBalanceAnterios',
                         'DynamicIngresosRegistrado',
-                        'CreateTraficoCaptura',
                         'DynamicTraficoCaptura',
                         'AdminBalance',
-                        'ReporteLibroVentas',
-                        'CreateLlamadas',
                         'View',
                         'Viewall',
-                        'UploadFullCarga',
-                        'UploadCaptura',
-                        'GuardarExcelBD',
-                        'Upload',
-                        'CicloIngresos',
-                        'cicloIngresosTotal',
-                        'Pop',
-                        'ReporteFullCarga',
-                        'ReporteCaptura',
-                        'EstadoResultado',
                     ),
                     'users'=>Users::UsuariosPorTipo(1),
                 ),
@@ -127,7 +111,24 @@ class DetalleingresoController extends Controller
                         'DynamicTipoIngreso',
                         'DynamicBalanceAnterios',
                         'DynamicIngresosRegistrado',
-                        'CreateTraficoCaptura'
+                        'CreateTraficoCaptura',
+                        'DynamicTraficoCaptura',
+                        'AdminBalance',
+                        'ReporteLibroVentas',
+                        'CreateLlamadas',
+                        'View',
+                        'Viewall',
+                        'UploadFullCarga',
+                        'UploadCaptura',
+                        'GuardarExcelBD',
+                        'Upload',
+                        'CicloIngresos',
+                        'cicloIngresosTotal',
+                        'Pop',
+                        'ReporteFullCarga',
+                        'ReporteCaptura',
+                        'EstadoResultado',
+                        'CreateCostoLlamadas',
                     ),
                     'users'=>Users::UsuariosPorTipo(2),
                 ),
@@ -240,7 +241,7 @@ class DetalleingresoController extends Controller
                                                                     array(':fecha'=>$Fecha,':cabina'=>$cabina,':ingreso'=>TipoIngresos::getIdIngreso($key)));
                         if($balanceExistente==NULL){
                             
-                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso($key);
+                            $arrayTipoIngreso[$i] = TipoIngresos::getIdIngreso(str_replace('_', ' ', $key));
                             $arrayCabina[$i] = $cabina;
                             
                             $model=new Detalleingreso;
@@ -265,20 +266,22 @@ class DetalleingresoController extends Controller
                 if($i>0){
                     LogController::RegistrarLog(3,$Fecha);
                     Detalleingreso::verificarDifFullCarga($Fecha,$arrayCabina,$arrayTipoIngreso);
-                    $this->redirect(array('adminBalance'));
+                    $this->redirect(array('detalleingreso/view','id'=>SaldoCabina::getIdFromDate($Fecha,$cabina)));
                 }else{
                     Yii::app()->user->setFlash('error', "ERROR: La Fecha Indicada ya Posee los Ingresos Declarados");
                     $this->redirect(array('createLlamadas'));
                 }
-            }
 
+            }
+            
+            
             $this->render('createLlamadas', array(
                 'model'=>$model,
             ));
         }
         
         public function actionUploadFullCarga() {
-
+            
             $model = new Detalleingreso;
             $usuario = Yii::app()->getModule('user')->user()->username;
             
@@ -297,25 +300,52 @@ class DetalleingresoController extends Controller
                     Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
                 }
                 
-//                if(isset($_SESSION['cabinas'])){
+                
+                
+                
+                if(isset($_SESSION['cabinas'])){
+                    
+                    
+//                    echo '<table>';
+//                    echo '<tr>
 //                    
-//                    echo 'Cabinas: ';
-//                    var_dump($_SESSION['cabinas']);
-//                    echo '<br><br>';
-//                    echo 'Monto: ';
-//                    var_dump($_SESSION['monto']);
-//                    echo '<br><br>';
-//                    echo 'Fecha: ';
-//                    echo $_SESSION['fecha'];
-//                    echo '<br><br>';
-//                    echo 'Servicios: ';
-//                    var_dump($_SESSION['servicio']);
-//  
+//                            <td>Fecha</td>
+//                            <td>Cabina</td>
+//                            <td>Ingreso</td>
+//                            <td>Monto</td>
+//                            <td>Comision</td>
+//
+//                          </tr>';
+//                    
+//                    for($a=0;$a<count($_SESSION['fecha']);$a++){
+//                        $_SESSION['fecha'][$a];
+//                        $_SESSION['cabinas'][$a];
+//                        $_SESSION['monto'][$a];
+//                        $_SESSION['montoComision'][$a];
+//                        $_SESSION['servicio'][$a];
+//                        
+//                        echo '<tr>
+//
+//                                <td>'.$_SESSION['fecha'][$a].'</td>
+//                                <td>'.$_SESSION['cabinas'][$a].'</td>
+//                                <td>'.$_SESSION['servicio'][$a].'</td>
+//                                <td>'.$_SESSION['monto'][$a].'</td>
+//                                <td>'.$_SESSION['montoComision'][$a].'</td>
+//
+//                              </tr>';
+//                        
+//                    }
+//                    
+//                    echo '</table>';
+//                    
+
+                    //ELIMINA EL ARCHIVO DESPUES DEL PROCESO
                     if(file_exists($ruta1)){
                         unlink($ruta1);
+                        unset($_SESSION['cabinas']);
                     }
-//                    
-//                }
+                    
+                }
                 
             }
 
@@ -515,7 +545,7 @@ class DetalleingresoController extends Controller
 
             $folder=$carpetaUsuario.$usuario.DIRECTORY_SEPARATOR;// folder for uploaded files
             $allowedExtensions=array("xls","XLS","xlsx","XLSX");//array("jpg","jpeg","gif","exe","mov" and etc...
-            $sizeLimit=1*1024*1024;// maximum file size in bytes
+            $sizeLimit=40*1024*1024;// maximum file size in bytes
             $uploader=new qqFileUploader($allowedExtensions, $sizeLimit);
             $result=$uploader->handleUpload($folder);
             $return=htmlspecialchars(json_encode($result), ENT_NOQUOTES);
@@ -795,6 +825,8 @@ class DetalleingresoController extends Controller
                     Yii::app()->user->setFlash('error',"Costo de Llamadas (USD$) - Ya Existen Datos para la Fecha Seleccionada");
                 }
             }
+            
+            
             $this->redirect('/detalleingreso/uploadFullCarga');
        }
 	
@@ -1054,20 +1086,20 @@ class DetalleingresoController extends Controller
         if($tipoUsuario==2)
         {
             return array(
-                array('label'=>'Cargar data FullCarga y SORI','url'=>array('balance/uploadFullCarga')),
+                array('label'=>'Cargar data FullCarga y SORI','url'=>array('detalleingreso/uploadFullCarga')),
 //                array('label'=>'Ingresar Datos Brightstar','url'=>array('balance/brightstar')),
 //                array('label'=>'Ingresar Datos Captura','url'=>array('balance/captura')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
-                array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
-                array('label'=>'Reporte FullCarga','url'=>array('balance/reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
+                array('label'=>'Reporte Libro Ventas','url'=>array('detalleingreso/reporteLibroVentas')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
+                array('label'=>'Reporte FullCarga','url'=>array('detalleingreso/reporteFullCarga')),
+                array('label'=>'Reporte Captura','url'=>array('detalleingreso/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('detalleingreso/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('detalleingreso/cicloIngresosTotal')),
                 array('label'=>'_____________________________','url' => array('')),
-                array('label'=>'Administrar Balances','url'=>array('balance/admin')),
+                array('label'=>'Administrar Balances','url'=>array('detalleingreso/adminBalance')),
                 array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
-                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('log/controlPanel')),
                 );
         }
         //ADMINISTRADOR 
@@ -1106,31 +1138,31 @@ class DetalleingresoController extends Controller
         if($tipoUsuario==5)
         {
             return array(
-                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
-                array('label'=>'Administrar Balances','url'=>array('balance/admin')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('log/controlPanel')),
+                array('label'=>'Administrar Balances','url'=>array('detalleingreso/adminBalance')),
                 array('label'=>'Horarios Cabina','url'=>array('cabina/admin')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
-                array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
-                array('label'=>'Reporte FullCarga','url'=>array('balance/reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
+                array('label'=>'Reporte Libro Ventas','url'=>array('detalleingreso/reporteLibroVentas')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
+                array('label'=>'Reporte FullCarga','url'=>array('detalleingreso/reporteFullCarga')),
+                array('label'=>'Reporte Captura','url'=>array('detalleingreso/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('detalleingreso/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('detalleingreso/cicloIngresosTotal')),
                 );
         }
         //GERENTE CONTABILIDAD
         if($tipoUsuario==6)
         {
             return array(
-                array('label'=>'Tablero de Control de Actv.','url'=>array('balance/controlPanel')),
+                array('label'=>'Tablero de Control de Actv.','url'=>array('log/controlPanel')),
                 array('label'=>'Administrar Balances','url'=>array('balance/admin')),
                 array('label'=>'__________REPORTES___________','url'=>array('')),
-                array('label'=>'Reporte Libro Ventas','url'=>array('balance/reporteLibroVentas')),
-                array('label'=>'Reporte Depositos Bancarios','url'=>array('balance/reporteDepositos')),
-                array('label'=>'Reporte FullCarga','url'=>array('balance/reporteBrightstar')),
-                array('label'=>'Reporte Captura','url'=>array('balance/reporteCaptura')),
-                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('balance/cicloIngresos')),
-                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('balance/cicloIngresosTotal')),
+                array('label'=>'Reporte Libro Ventas','url'=>array('detalleingreso/reporteLibroVentas')),
+                array('label'=>'Reporte Depositos Bancarios','url'=>array('deposito/reporteDepositos')),
+                array('label'=>'Reporte FullCarga','url'=>array('detalleingreso/reporteFullCarga')),
+                array('label'=>'Reporte Captura','url'=>array('detalleingreso/reporteCaptura')),
+                array('label'=>'Reporte Ciclo de Ingresos','url'=>array('detalleingreso/cicloIngresos')),
+                array('label'=>'Reporte Ciclo de Ingresos Total','url'=>array('detalleingreso/cicloIngresosTotal')),
                 );
         }
     }

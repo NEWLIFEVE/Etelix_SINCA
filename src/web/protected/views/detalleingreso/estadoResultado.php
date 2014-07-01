@@ -27,6 +27,8 @@ $mes2 = date("m", strtotime($mes));
         
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu= DetalleingresoController::controlAcceso($tipoUsuario);
+
+
 ?>
 <script>
     $(document).ready(function(){

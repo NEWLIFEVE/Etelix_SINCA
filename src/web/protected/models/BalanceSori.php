@@ -216,11 +216,16 @@ class BalanceSori extends CActiveRecord
                                                WHERE b.date_balance = '$fecha'
                                                AND b.id_carrier_customer IN($cabina)
                                                AND id_destination is NULL;");
-            if($model->cost != NULL){
-                return round($model->cost,2);
+            
+            if($model != NULL){
+                if($model->cost != NULL){
+                    return round($model->cost,2);
+                }else{
+                    return 0.00;
+                }   
             }else{
-                return '0.00';
-            }    
+                return 0.00;
+            }
 	}
         
         public static function getCostoLlamada($fecha,$cabina)

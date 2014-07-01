@@ -180,7 +180,7 @@ class Novedad extends CActiveRecord
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        'sort'=>array('defaultOrder'=>'Fecha DESC, STATUS_ID ASC'),
+                        'sort'=>array('defaultOrder'=>'Fecha DESC, Hora DESC, STATUS_ID ASC'),
 		));
 	}
         

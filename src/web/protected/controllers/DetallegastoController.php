@@ -54,6 +54,7 @@ class DetallegastoController extends Controller {
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
+                    'matrizNomina',
                 ),
                 'users'=>Users::UsuariosPorTipo(2),
             ),

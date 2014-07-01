@@ -91,7 +91,7 @@ $this->menu=DetalleingresoController::controlAcceso($tipoUsuario);
 <br><br><br>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'detalleingreso-grid',
-	'dataProvider'=>$model->search($cabina,$mes),
+	'dataProvider'=>$model->search($_POST,$cabina,$mes),
         'htmlOptions'=>array(
             'class'=>'grid-view ReporteDepositos',
             'rel'=>'total',

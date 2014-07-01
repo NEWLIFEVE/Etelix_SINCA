@@ -137,7 +137,7 @@ class SaldocabinaController extends Controller
                     if($model->save())
                     {
                         LogController::RegistrarLog(2,$fecha);
-                        $this->redirect(array('/detalleingreso/adminBalance'));
+                        $this->redirect(array('detalleingreso/view','id'=>SaldoCabina::getIdFromDate($fecha,$cabina)));
                     }
                 }
             }
@@ -163,7 +163,7 @@ class SaldocabinaController extends Controller
                     if($SaldoApertura->save())
                     {
                         LogController::RegistrarLog(8,$fecha);
-                        $this->redirect(array('/detalleingreso/adminBalance'));
+                        $this->redirect(array('detalleingreso/view','id'=>SaldoCabina::getIdFromDate($fecha,$cabina)));
                     }
                 }
                 else

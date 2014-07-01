@@ -45,18 +45,44 @@ $(document).ready(function()
         gentotalsBalance();
 
     });
-    
-    //MUEVE EL SCROLL VERTICAL EN EL ESTADO DE RESULTADO
-    scrollER();
+
     
 });
-   
-    function scrollER(){
-        $('tbody.scrollTable').scroll(function(){
-            $('tbody.scrollTable').scrollTop($(this).scrollTop());    
-        });
+    
+    
+    function messageLoading(texto,boton){
         
+        $('#'+boton).on('click',function(event)
+        {
+            var file = $('ul li.qq-upload-success').text();
+
+            if(file != ''){
+                $("#loading").html(texto+" !!<div id='gif_loading'>"+
+                    "<div id='spinningSquaresG_1' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_2' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_3' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_4' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_5' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_6' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_7' class='spinningSquaresG'>"+
+                        "</div>"+
+                        "<div id='spinningSquaresG_8' class='spinningSquaresG'>"+
+                        "</div>"+
+                    "</div>");
+                $("#nombreContenedor").css("display", "inline");
+                $("#loading").css("display", "inline");
+            }
+        });
     }
+    
+    
+    
    
     function FechaBalance()
     {
@@ -1963,28 +1989,19 @@ $(document).ready(function()
                     
                 }else{
                     $('div#ventasServicios').append(
-                    '<div id="'+select.replace(" ","")+'" style="">'+
+                    '<div id="'+select.replace(" ","")+'" style="margin-top: 2%;">'+
                     '<h2>'+select.replace(" ","")+'</h2>'+
-                    '<table id="'+select.replace(" ","")+'" width="200" border="1">'+
-                      '<tr>'+
-                        '<td colspan="'+arrayServicios.length+'">'+
-                          '<img id="'+select.replace(" ","")+'" class="removeDiv" title="Quitar Servicio" src="/themes/mattskitchen/img/close.png" style="float:right;" />'+
-                        '</td>'+
-                      '</tr>'+
-                      '<tr id="'+select.replace(" ","")+'">'+
-                      '</tr>'+
-                    '</table>'+
+                    '<img id="'+select.replace(" ","")+'" class="removeDiv" title="Quitar Servicio" src="/themes/mattskitchen/img/close.png" style="float:right;" />'+
+                    '<div id="'+select.replace(" ","")+'" style="margin-top: 4%;"></div>'+
                     '</div>'+
                     '<br>');
 
                     for(var i=0;i<arrayServicios.length;i++){
-                        $('div#ventasServicios table#'+select.replace(" ","")+' tr#'+select.replace(" ","")).append(
-                                    '<td> ' +	
-                                        '<div class="row">'+
-                                            '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+arrayServicios[i]+' (S/.)</label>'+
-                                            '<input id="Detalle_'+arrayServicios[i]+'" name="Detalle['+arrayServicios[i].replace(" ","")+']" type="text">'+
-                                        '</div>'+
-                                    '</td>'); 
+                        $('div#ventasServicios div#'+select.replace(" ","")+' div#'+select.replace(" ","")).append(
+                            '<div class="row" style="width: 50%; /*float: left;*/display: inline-table;">'+
+                                    '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+arrayServicios[i]+' (S/.)</label>'+
+                                    '<input id="Detalle_'+arrayServicios[i].replace(" ","_")+'" name="Detalle['+arrayServicios[i].replace(" ","_")+']" type="text">'+
+                            '</div>'); 
                     }    
 
 
@@ -1996,7 +2013,7 @@ $(document).ready(function()
                             if(ventasExistentes.length > 0)
                             {
                                 for(var i = 0;i<ventasExistentes.length;i++){
-                                    $('form#balance-form input#Detalle_'+ventasExistentes[i]).prop('disabled', true);
+                                    $('form#balance-form input#Detalle_'+ventasExistentes[i].replace(" ","_")).prop('disabled', true);
                                 }
                             }else{
                                 $('form#balance-form input,form#balance-form select').prop('disabled', false);
@@ -2178,23 +2195,24 @@ $(document).ready(function()
                   }
                   $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
                   //$('form#balance-form input#'+inputDate).css('float','left');
-                  $('form#ventas-fullcarga-form input,form#ventas-fullcarga-form select').prop('disabled', true);
-                  $('form#ventas-fullcarga-form input#'+inputDate).prop('disabled', false);
+                  $('form#balance-form input,form#balance-form select').prop('disabled', true);
+                  $('form#balance-form input#'+inputDate).prop('disabled', false);
               }
               if(verificar == 'true'){
 
                   $('form#balance-form input#'+inputDate).css('float','none');
                   $("#diaSemana").text(dias_semana[(new Date(NuevaFecha).getDay()+1)]);
                   
-                  $('form#ventas-fullcarga-form input,form#ventas-fullcarga-form select').prop('disabled', false);
-                  $('form#ventas-fullcarga-form select#Deposito_TiempoCierre').prop('disabled', true);
+                  $('form#balance-form input,form#balance-form select').prop('disabled', false);
+                  $('form#balance-form select#Deposito_TiempoCierre').prop('disabled', true);
                   $('table#dateBalance div#errorDiv').remove();
                   
                   var ventasExistentes = verificaVentaExistente(FechaBalance);
                   if(ventasExistentes.length > 0)
                   {
+                      
                       for(var i = 0;i<ventasExistentes.length;i++){
-                          $('form#ventas-fullcarga-form input#Detalle_'+ventasExistentes[i]).prop('disabled', true);
+                          $('form#balance-form input#Detalle_'+ventasExistentes[i].replace(" ","_")).prop('disabled', true);
                       }
                       
                       if(vista == 'Ventas'){   
@@ -2204,7 +2222,7 @@ $(document).ready(function()
                         $('div#fieldB').remove();
                       }
                   }else{
-                      $('form#ventas-fullcarga-form input,form#ventas-fullcarga-form select').prop('disabled', false);
+                      $('form#balance-form input,form#balance-form select').prop('disabled', false);
                   }
               }
 

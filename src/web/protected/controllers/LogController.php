@@ -63,6 +63,20 @@ class LogController extends Controller
 					),
 				'users'=>Users::UsuariosPorTipo(3),
 				),
+                        array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(
+					'index',
+					'view',
+					'create',
+					'update',
+					'admin',
+					'delete',
+					'enviarEmail',
+                                        'ControlPanel',
+					),
+				'users'=>Users::UsuariosPorTipo(2),
+				),        
 			array(
 				'allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(

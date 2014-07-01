@@ -116,7 +116,7 @@ if(Yii::app()->getModule('user')->user()->tipo == '1')
                                                         WHERE d.FechaMes = '$modelView->Fecha' 
                                                         AND d.CABINA_Id = $modelView->CABINA_Id 
                                                         AND t.Clase = 1 
-                                                        AND t.Id > 8 
+                                                        AND t.Id > 9 
                                                         GROUP BY t.Nombre
                                                         ORDER BY d.TIPOINGRESO_Id;");
         
@@ -173,33 +173,102 @@ if(Yii::app()->getModule('user')->user()->tipo == '1')
         </tr>
         
         <!-- DATOS DEL DEPOSITO --> 
-        <tr class="even">
-            <th>Monto Banco (S/.) 'C'</th>
-            <td><?php echo Yii::app()->format->formatDecimal($modelDeposito->MontoBanco);?></td>
-        </tr>
         <tr class="odd">
             <th>Monto Deposito (S/.) 'B'</th>
-            <td><?php echo Yii::app()->format->formatDecimal($modelDeposito->MontoDep);?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->MontoDep == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo Yii::app()->format->formatDecimal($modelDeposito->MontoDep);
+                }
+            }
+
+            ?></td>
         </tr>
         <tr class="even">
             <th>Numero de Ref Deposito</th>
-            <td><?php echo ($modelDeposito->NumRef == NULL) ? 'No asignado' : $modelDeposito->NumRef;?></td>
+            <td><?php 
+
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->NumRef == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->NumRef;
+                }
+            }
+            
+            ?></td>
         </tr>
         <tr class="odd">
             <th>Nombre del Depositante</th>
-            <td><?php echo ($modelDeposito->Depositante == NULL) ? 'No asignado' : $modelDeposito->Depositante;?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->Depositante == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->Depositante;
+                }
+            }
+
+            ?></td>
         </tr>
         <tr class="even">
             <th>Fecha del Deposito</th>
-            <td><?php echo $modelDeposito->Fecha;?></td>
+            <td><?php 
+
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->Fecha == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->Fecha;
+                }
+            }
+
+            ?></td>
         </tr>
         <tr class="odd">
             <th>Hora del Deposito</th>
-            <td><?php echo $modelDeposito->Hora;?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->Hora == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->Hora;
+                }
+            }
+            
+
+               ?></td>
         </tr>
         <tr class="even">
             <th>Tiempo de Cierre de Cabina (min)</th>
-            <td><?php echo ($modelDeposito->TiempoCierre == NULL) ? 'No asignado' : $modelDeposito->TiempoCierre;?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->TiempoCierre == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->TiempoCierre;
+                }
+            }
+
+            ?></td>
         </tr>
 
     </tbody>
@@ -285,7 +354,7 @@ $this->widget('zii.widgets.CDetailView', array('data'=>$model,'attributes'=>arra
                                                         WHERE d.FechaMes = '$modelView->Fecha' 
                                                         AND d.CABINA_Id = $modelView->CABINA_Id 
                                                         AND t.Clase = 1 
-                                                        AND t.Id > 8 
+                                                        AND t.Id > 9 
                                                         GROUP BY t.Nombre
                                                         ORDER BY d.TIPOINGRESO_Id;");
         
@@ -305,7 +374,7 @@ $this->widget('zii.widgets.CDetailView', array('data'=>$model,'attributes'=>arra
                 $totalVentas = $totalVentas + $monto;
 
                 echo "<tr class='$background'>
-                        <th>".$value->Nombre."</th>
+                        <th>".$value->Nombre." (S/.)</th>
                         <td>".$monto."</td>
                       </tr>";
 
@@ -314,7 +383,7 @@ $this->widget('zii.widgets.CDetailView', array('data'=>$model,'attributes'=>arra
         }else{
             
             echo "<tr class='$background'>
-                    <th>Ventas FullCarga</th>
+                    <th>Ventas FullCarga (S/.)</th>
                     <td>No Declaradas</td>
                   </tr>";
             
@@ -344,33 +413,117 @@ $this->widget('zii.widgets.CDetailView', array('data'=>$model,'attributes'=>arra
         <!-- DATOS DEL DEPOSITO --> 
         <tr class="even">
             <th>Monto Banco (S/.) 'C'</th>
-            <td><?php echo ($modelDeposito == NULL) ? '0.00' : Yii::app()->format->formatDecimal($modelDeposito->MontoBanco); ?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->MontoBanco == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo Yii::app()->format->formatDecimal($modelDeposito->MontoBanco);
+                }
+            }
+
+            ?></td>
         </tr>
         <tr class="odd">
             <th>Monto Deposito (S/.) 'B'</th>
-            <td><?php echo ($modelDeposito == NULL) ? '0.00' : Yii::app()->format->formatDecimal($modelDeposito->MontoDep); ?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->MontoDep == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo Yii::app()->format->formatDecimal($modelDeposito->MontoDep);
+                }
+            }
+
+            ?></td>
         </tr>
         <tr class="even">
             <th>Numero de Ref Deposito</th>
-            <td><?php if($modelDeposito == NULL || $modelDeposito->NumRef) echo 'No Declarado'; else echo $modelDeposito->NumRef;?></td>
+            <td><?php 
+
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->NumRef == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->NumRef;
+                }
+            }
+            
+            ?></td>
         </tr>
         <tr class="odd">
             <th>Nombre del Depositante</th>
-            <td><?php if($modelDeposito == NULL || $modelDeposito->Depositante) echo 'No Declarado'; else echo $modelDeposito->Depositante;?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->Depositante == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->Depositante;
+                }
+            }
+
+            ?></td>
         </tr>
         <tr class="even">
             <th>Fecha del Deposito</th>
-            <td><?php if($modelDeposito == NULL || $modelDeposito->Fecha) echo 'No Declarada'; else echo $modelDeposito->Fecha;?></td>
+            <td><?php 
+
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->Fecha == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->Fecha;
+                }
+            }
+
+            ?></td>
         </tr>
         <tr class="odd">
             <th>Hora del Deposito</th>
-            <td><?php if($modelDeposito == NULL || $modelDeposito->Hora) echo 'No Declarada'; else echo $modelDeposito->Hora;?></td>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->Hora == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->Hora;
+                }
+            }
+            
+
+               ?></td>
         </tr>
         <tr class="even">
             <th>Tiempo de Cierre de Cabina (min)</th>
-            <td><?php if($modelDeposito == NULL || $modelDeposito->TiempoCierre == NULL) echo 'No Declarado'; else echo $modelDeposito->TiempoCierre;?></td>
-        </tr>
+            <td><?php 
+            
+            if($modelDeposito == NULL){
+                echo 'No asignado';
+            }else{
+                if($modelDeposito->TiempoCierre == NULL){
+                    echo 'No asignado';
+                }else{
+                    echo $modelDeposito->TiempoCierre;
+                }
+            }
 
+            ?></td>
+        </tr>
     </tbody>
 </table>    
     
