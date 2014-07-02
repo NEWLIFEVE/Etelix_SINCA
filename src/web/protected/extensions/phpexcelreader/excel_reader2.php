@@ -901,10 +901,11 @@ class Spreadsheet_Excel_Reader {
 
                 }
                 
-                 $_SESSION['list'][0] = $a;
+//                 $_SESSION['list'][0] = $a;
 
                 if($i > 0){
-                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
+                    Detalleingreso::deleteVentasFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
+//                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
                 }
  
                 

@@ -3,7 +3,6 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'SINCA Consola',
-	'laguage'=>'es',
 	'timeZone'=>'America/Lima',
 	'charset'=>'utf-8',
 	// preloading 'log' component
@@ -11,15 +10,18 @@ return array(
         'import'=>array(
 		'application.models.*',
 		'application.components.*',
-        'application.modules.user.models.*',
+                'application.modules.user.models.*',
 		'application.modules.user.components.*',
 		'application.components.reportes.*'
 		),
 	// application components
 	'components'=>array(
-		'controlactividades'=>array(
-			'class'=>"application.components.TableroActividades",
+		'costocaptura'=>array(
+			'class'=>"application.components.GenerarCostoCapturaAutomatico",
 			),
+                'controlactividades'=>array(
+			'class'=>"application.components.TableroActividades",
+			),        
 		'cicloingreso'=>array(
 			'class'=>"application.components.CicloIngresoAutomatico",
 			),

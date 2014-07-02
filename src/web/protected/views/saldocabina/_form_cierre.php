@@ -23,6 +23,9 @@ Yii::import('webroot.protected.controllers.SiteController');
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'balance-form',
 	'enableAjaxValidation'=>true,
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+         ),
 )); ?>
 
 	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>

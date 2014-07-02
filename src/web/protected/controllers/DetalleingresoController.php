@@ -305,9 +305,9 @@ class DetalleingresoController extends Controller
                     Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
                 }
                 
-                if(isset($_SESSION['cabinas'])){
-                    
-                    
+//                if(isset($_SESSION['cabinas'])){
+//                    
+//                    
 //                    echo '<table>';
 //                    echo '<tr>
 //                    
@@ -347,7 +347,7 @@ class DetalleingresoController extends Controller
                         unset($_SESSION['cabinas']);
                     }
                     
-                }
+//                }
                 
             }
 
@@ -731,7 +731,7 @@ class DetalleingresoController extends Controller
                         $paridad = Paridad::getParidad($dia);
                         $logSori = LogSori::getLogSori($dia);
                         
-                        if(count($logSori) > 1){
+                        if(count($logSori) > 1 && $fecha <= $fecha2){
                         
                             foreach ($cabinasActivas as $key => $cabinas) {
 
@@ -753,7 +753,7 @@ class DetalleingresoController extends Controller
 
                                 $verificaIngreso = Detalleingreso::model()->find("FechaMes = '$dia' AND CABINA_Id = $cabinaId AND TIPOINGRESO_Id = 16");
                                 
-                                if($verificaIngreso == NULL && $montoSoriCaptura != 0){
+                                if($verificaIngreso == NULL && $montoSoriRevenue != 0){
                                     $modelIngreso = new Detalleingreso;
                                     $modelIngreso->Monto = $montoSoriRevenue;
                                     $modelIngreso->FechaMes = $dia;        
@@ -771,26 +771,23 @@ class DetalleingresoController extends Controller
                                     if($modelIngreso->save()){ 
                                         $i++; 
                                         
-                                        $ventasTrafico = Detalleingreso::getLibroVentas("LibroVentas","trafico", $dia,$cabinaId);                                       
-                                        $modeCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$dia' AND CABINA_Id = $cabinaId");
-                                        if($modeCicloIngreso != NULL){
-                                            $modeCicloIngreso->DiferencialCaptura = round(($ventasTrafico-$montoSoriRevenue*$paridad)/$paridad,2);
-                                            $modeCicloIngreso->AcumuladoCaptura = Detalleingreso::getAcumulado($dia,$cabinaId);
-                                            $modeCicloIngreso->save();
-                                        }
+                                        CicloIngresoModelo::saveDifCaptura($dia,$cabinaId,$montoSoriRevenue,$paridad);
         
                                     }elseif($modelIngreso->save(false)){
                                         $i++; 
+                                        
+                                        CicloIngresoModelo::saveDifCaptura($dia,$cabinaId,$montoSoriRevenue,$paridad);
+                                        
                                     }
                                 }    
 
                             }
                         
-                    }else{
-                        $i = $i -1;
-                    }
+                        }else{
+                            $i = $i -1;
+                        }
                     
-                }
+                    }
 
                 if($i > 0){
                     Yii::app()->user->setFlash('success',"Trafico de Captura (USD$) - Datos Guardados Satisfactoriamente");
@@ -844,7 +841,7 @@ class DetalleingresoController extends Controller
         {
             $arrayTipoIn = Array();
             $compania = Compania::getId($_GET['compania']);
-            $data = TipoIngresos::model()->findAllBySql("SELECT Nombre FROM tipo_ingresos WHERE COMPANIA_Id = $compania;");
+            $data = TipoIngresos::model()->findAllBySql("SELECT Nombre FROM tipo_ingresos WHERE COMPANIA_Id = $compania AND Clase = 1;");
             
             foreach ($data as $key => $value) {
                 $arrayTipoIn[$key] = $value->Nombre;

@@ -1295,6 +1295,7 @@ section {
     display: table !important;
 }
 
+
 table#ventas tr td, table.items tr td{
     text-align: center;
 }

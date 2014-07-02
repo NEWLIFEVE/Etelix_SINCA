@@ -128,7 +128,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 'constrainInput' => 'false',
                 'showAnim' => 'show',
 //                'minDate'=>'-7D', //fecha minima
-//                'maxDate'=> "-1D", //fecha maxima
+                'maxDate'=> "-1D", //fecha maxima
 
                  ),
                 'htmlOptions'=>array('readonly'=>'readonly','id'=>'Inicio','class'=>'Fecha',  ),
@@ -158,7 +158,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 'constrainInput' => 'false',
                 'showAnim' => 'show',
 //                'minDate'=>'-7D', //fecha minima
-//                'maxDate'=> "-1D", //fecha maxima
+                'maxDate'=> "-1D", //fecha maxima
 
                  ),
                 'htmlOptions'=>array('readonly'=>'readonly','id'=>'Fin','class'=>'Fecha','disabled'=>'disabled'),
@@ -198,11 +198,11 @@ echo '<br><br><br><br><br>';
 
 ?>
 
-<table width="200" border="1" id="dateCostoCaptura">
+<!--<table width="200" border="1" id="dateCostoCaptura">
   <tr>
     <td>
 
-<div class="row">
+<div class="row">-->
     
 <?php // echo $form->labelEx($model,'FechaMes',array('label'=>'Fecha')); ?>
 <?php // $this->widget('zii.widgets.jui.CJuiDatePicker', 

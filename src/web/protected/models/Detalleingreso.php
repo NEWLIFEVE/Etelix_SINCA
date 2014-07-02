@@ -876,6 +876,46 @@ class Detalleingreso extends CActiveRecord
             return $nameFormate[$name];
         }
         
+        
+        public static function deleteVentasFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso) {
+            
+            $fechaIngreso = NULL;
+            $cabinas = Array();
+            $tipoIngresos = Array();
+            $compania = NULL;
+            
+            $fechaIngreso = array_keys(array_count_values(array_unique($arrayFecha)));
+            $cabinas = array_keys(array_count_values(array_unique($arrayCabina)));
+            $tipoIngresos = array_keys(array_count_values(array_unique($arrayTipoIngreso)));
+            
+            for($h=0;$h<count($fechaIngreso);$h++) {
+                
+                for($i=0;$i<count($cabinas);$i++) {
+
+                    for($j=0;$j<count($tipoIngresos);$j++) {
+                        
+                        $compania = TipoIngresos::model()->findBySql("SELECT COMPANIA_Id FROM tipo_ingresos WHERE Id = $tipoIngresos[$j];");
+                        $modelIngreso = Detalleingreso::model()->findBySql("SELECT d.Id as Id 
+                                                                            FROM detalleingreso as d
+                                                                            INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                            INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                            WHERE d.FechaMes = '$fechaIngreso[$h]'
+                                                                            AND d.CABINA_Id = $cabinas[$i]
+                                                                            AND t.COMPANIA_Id = $compania->COMPANIA_Id
+                                                                            AND t.Clase = 2
+                                                                            AND u.tipo = 4;");
+                        
+                        if($modelIngreso != NULL){
+                            Detalleingreso::model()->deleteByPk($modelIngreso->Id);
+                        }
+                        
+                    }
+                    
+                }
+            }    
+            
+        }
+        
         public static function verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso)
         {
             $ventasOperador = 0;
@@ -889,51 +929,72 @@ class Detalleingreso extends CActiveRecord
             $cabinas = array_keys(array_count_values(array_unique($arrayCabina)));
             $tipoIngresos = array_keys(array_count_values(array_unique($arrayTipoIngreso)));
             
-            for($i=0;$i<count($cabinas);$i++) {
+            for($h=0;$h<count($fechaIngreso);$h++) {
+                
+                for($i=0;$i<count($cabinas);$i++) {
 
-                for($j=0;$j<count($tipoIngresos);$j++) {
+                    for($j=0;$j<count($tipoIngresos);$j++) {
 
-                    $compania = TipoIngresos::model()->findBySql("SELECT COMPANIA_Id FROM tipo_ingresos WHERE Id = $tipoIngresos[$j];");
+                        $compania = TipoIngresos::model()->findBySql("SELECT COMPANIA_Id FROM tipo_ingresos WHERE Id = $tipoIngresos[$j];");
 
-                    $ventasOperador = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
-                                                                FROM detalleingreso as d
-                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
-                                                                INNER JOIN users as u ON u.id = d.USERS_Id
-                                                                WHERE d.FechaMes = '$fechaIngreso[$i]'
-                                                                AND d.CABINA_Id = $cabinas[$i] 
-                                                                AND t.COMPANIA_Id = $compania->COMPANIA_Id    
-                                                                AND u.tipo = 1;")->DifDollar;
-                    
-                    $ventasEtelix = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
-                                                              FROM detalleingreso as d
-                                                              INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
-                                                              INNER JOIN users as u ON u.id = d.USERS_Id
-                                                              WHERE d.FechaMes = '$fechaIngreso[$i]'
-                                                              AND d.CABINA_Id = $cabinas[$i] 
-                                                              AND t.COMPANIA_Id = $compania->COMPANIA_Id       
-                                                              AND u.tipo = 4;")->DifDollar;
+                        $ventasOperador = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
+                                                                    FROM detalleingreso as d
+                                                                    INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                    INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                    WHERE d.FechaMes = '$fechaIngreso[$h]'
+                                                                    AND d.CABINA_Id = $cabinas[$i] 
+                                                                    AND t.COMPANIA_Id = $compania->COMPANIA_Id    
+                                                                    AND u.tipo = 1;")->DifDollar;
 
-                    if($ventasOperador != NULL && $ventasEtelix != NULL){
+                        $ventasEtelix = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
+                                                                  FROM detalleingreso as d
+                                                                  INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                  INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                  WHERE d.FechaMes = '$fechaIngreso[$h]'
+                                                                  AND d.CABINA_Id = $cabinas[$i] 
+                                                                  AND t.COMPANIA_Id = $compania->COMPANIA_Id
+                                                                  AND t.Clase = 1    
+                                                                  AND u.tipo = 4;")->DifDollar;
 
-                        $modelCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$fechaIngreso' AND CABINA_Id = $cabinas[$i]");
-                        if($modelCicloIngreso != NULL){
-                            
-                            if($compania->COMPANIA_Id == 1){
-                                $modelCicloIngreso->DiferencialMovistar = round(($ventasEtelix-$ventasOperador),2);
-                            }elseif($compania->COMPANIA_Id == 2){
-                                $modelCicloIngreso->DiferencialClaro = round(($ventasEtelix-$ventasOperador),2);
-                            }elseif($compania->COMPANIA_Id == 3){
-                                $modelCicloIngreso->DiferencialNextel= round(($ventasEtelix-$ventasOperador),2);
-                            }elseif($compania->COMPANIA_Id == 4){
-                                $modelCicloIngreso->DiferencialDirectv = round(($ventasEtelix-$ventasOperador),2);
+                        if($ventasOperador != NULL && $ventasEtelix != NULL){
+
+                            $modelCicloIngreso = CicloIngresoModelo::model()->find("Fecha = '$fechaIngreso[$h]' AND CABINA_Id = $cabinas[$i]");
+                            if($modelCicloIngreso != NULL){
+
+                                if($compania->COMPANIA_Id == 1){
+                                    $modelCicloIngreso->DiferencialMovistar = round(($ventasEtelix-$ventasOperador),2);
+                                }elseif($compania->COMPANIA_Id == 2){
+                                    $modelCicloIngreso->DiferencialClaro = round(($ventasEtelix-$ventasOperador),2);
+                                }elseif($compania->COMPANIA_Id == 3){
+                                    $modelCicloIngreso->DiferencialNextel= round(($ventasEtelix-$ventasOperador),2);
+                                }elseif($compania->COMPANIA_Id == 4){
+                                    $modelCicloIngreso->DiferencialDirectv = round(($ventasEtelix-$ventasOperador),2);
+                                }
+
+                                $modelCicloIngreso->save();
+
+                            }elseif($modelCicloIngreso == NULL){
+                                
+                                $modelCI = new CicloIngresoModelo;
+                                $modelCI->Fecha = $fechaIngreso[$h];
+                                $modelCI->CABINA_Id = $cabinas[$i];   
+
+                                if($compania->COMPANIA_Id == 1){
+                                    $modelCI->DiferencialMovistar = round(($ventasEtelix-$ventasOperador),2);
+                                }elseif($compania->COMPANIA_Id == 2){
+                                    $modelCI->DiferencialClaro = round(($ventasEtelix-$ventasOperador),2);
+                                }elseif($compania->COMPANIA_Id == 3){
+                                    $modelCI->DiferencialNextel= round(($ventasEtelix-$ventasOperador),2);
+                                }elseif($compania->COMPANIA_Id == 4){
+                                    $modelCI->DiferencialDirectv = round(($ventasEtelix-$ventasOperador),2);
+                                }
+
+                                $modelCI->save();
                             }
-                            
-                            $modelCicloIngreso->save();
-                            
+
                         }
 
                     }
-                    
                 }
                     
             }

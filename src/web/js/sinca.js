@@ -84,11 +84,15 @@ $(document).ready(function()
         
         $('#'+boton).on('click',function(event)
         {
-
+            
+            var file = '';
+            
             if(boton == 'yt0'){
-                var file = $('ul li.qq-upload-success').text();
+                file = $('ul li.qq-upload-success').text();
+            }else if(boton == 'submitTrafico'){
+                file = $('input#Inicio').val();
             }else{
-                var file = 'Mostrar';
+                file = 'Mostrar';
             }
 
             if(file != ''){
@@ -2035,7 +2039,7 @@ $(document).ready(function()
                         $('div#ventasServicios div#'+select.replace(" ","")+' div#'+select.replace(" ","")).append(
                             '<div class="row" style="width: 50%; /*float: left;*/display: inline-table;">'+
                                     '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+arrayServicios[i]+' (S/.)</label>'+
-                                    '<input id="Detalle_'+arrayServicios[i].replace(" ","_")+'" name="Detalle['+arrayServicios[i].replace(" ","_")+']" type="text">'+
+                                    '<input id="Detalle_'+arrayServicios[i].split(' ').join('_')+'" name="Detalle['+arrayServicios[i].replace(" ","_")+']" type="number" min="1">'+
                             '</div>'); 
                     }    
 
@@ -2048,7 +2052,8 @@ $(document).ready(function()
                             if(ventasExistentes.length > 0)
                             {
                                 for(var i = 0;i<ventasExistentes.length;i++){
-                                    $('form#balance-form input#Detalle_'+ventasExistentes[i].replace(" ","_")).prop('disabled', true);
+                                    $('form#balance-form input#Detalle_'+ventasExistentes[i].split(' ').join('_')).prop('disabled', true);
+                                    $('form#balance-form input#Detalle_'+ventasExistentes[i].split(' ').join('_')).val('');
                                 }
                             }else{
                                 $('form#balance-form input,form#balance-form select').prop('disabled', false);
@@ -2157,7 +2162,7 @@ $(document).ready(function()
                   if($('div#errorDiv').length){
 
                   }else{
-                      $('table#dateTraficoCaptura div#FechaInicioCaptura').append('<div id="errorDiv" style="color: red;max-width: 100%;text-align: left;"></div>');
+                      $('table#dateTraficoCaptura div#FechaInicioCaptura').append('<div id="errorDiv" style="color: red;max-width: 100%;text-align: left;position: absolute;"></div>');
                       $('div#errorDiv').text(mensaje);
                   }
                   $('form#traficoCaptura-form input#submitTrafico').prop('disabled', true);
@@ -2243,11 +2248,13 @@ $(document).ready(function()
                   $('table#dateBalance div#errorDiv').remove();
                   
                   var ventasExistentes = verificaVentaExistente(FechaBalance);
+
                   if(ventasExistentes.length > 0)
                   {
                       
                       for(var i = 0;i<ventasExistentes.length;i++){
-                          $('form#balance-form input#Detalle_'+ventasExistentes[i].replace(" ","_")).prop('disabled', true);
+                          $('form#balance-form input#Detalle_'+ventasExistentes[i].split(' ').join('_')).prop('disabled', true);
+                          $('form#balance-form input#Detalle_'+ventasExistentes[i].split(' ').join('_')).val('');
                       }
                       
                       if(vista == 'Ventas'){   

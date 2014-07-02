@@ -305,4 +305,33 @@ class CicloIngresoModelo extends CActiveRecord
             
         }
         
+        public static function saveCicloIngreso($fecha,$cabinaId) {
+            
+            $newModelCI = new CicloIngresoModelo;
+            $newModelCI->Fecha = $fecha;
+            $newModelCI->CABINA_Id = $cabinaId;   
+            $newModelCI->save();
+            
+        }
+        
+        public static function saveDifCaptura($fecha,$cabinaId,$montoSoriRevenue,$paridad) {
+            
+            $ventasTrafico = Detalleingreso::getLibroVentas("LibroVentas","trafico", $fecha,$cabinaId);                                       
+            $modeCicloIngreso = self::model()->find("Fecha = '$fecha' AND CABINA_Id = $cabinaId");
+            if($modeCicloIngreso != NULL){
+                $modeCicloIngreso->DiferencialCaptura = round(($ventasTrafico-$montoSoriRevenue*$paridad)/$paridad,2);
+                $modeCicloIngreso->AcumuladoCaptura = Detalleingreso::getAcumulado($fecha,$cabinaId);
+                $modeCicloIngreso->save();
+            }elseif($modeCicloIngreso == NULL){
+                $newModelCI = new CicloIngresoModelo;
+                $newModelCI->Fecha = $fecha;
+                $newModelCI->CABINA_Id = $cabinaId;   
+                $newModelCI->DiferencialCaptura = round(($ventasTrafico-$montoSoriRevenue*$paridad)/$paridad,2);
+                $newModelCI->AcumuladoCaptura = Detalleingreso::getAcumulado($fecha,$cabinaId);
+                $newModelCI->save();
+
+            }
+            
+        }
+        
 }
