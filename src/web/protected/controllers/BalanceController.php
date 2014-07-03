@@ -200,6 +200,7 @@ class BalanceController extends Controller
         );
     }
 
+
     /**
      * Displays a particular model.
      * @access public
