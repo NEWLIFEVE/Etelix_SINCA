@@ -10,7 +10,7 @@
             $ingresos=null;
             $egresos=0;
             $model=Banco::model()->find('Id=:id',array(':id'=>$id));
-	    $balances=Balance::model()->findAll('CUENTA_Id=:id AND FechaDep=:fecha',array(':id'=>$model->CUENTA_Id,':fecha'=>$model->Fecha));
+	    $balances=  Deposito::model()->findAll('CUENTA_Id=:id AND Fecha=:fecha',array(':id'=>$model->CUENTA_Id,':fecha'=>$model->Fecha));
 	    $gastos=Detallegasto::model()->findAll('FechaTransf=:fecha AND CUENTA_Id=:id',array(':id'=>$model->CUENTA_Id,':fecha'=>$model->Fecha));
 
             if($model != NULL){

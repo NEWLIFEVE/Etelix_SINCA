@@ -3,7 +3,7 @@
 /* @var $model Balance */
 $this->breadcrumbs=array(
 	'Balances'=>array('index'),
-        'id'=>$model->Id,
+        'id'=>$model->id,
 );
 Yii::import('webroot.protected.controllers.BancoController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
@@ -37,23 +37,23 @@ $('.search-form form').submit(function(){
 echo CHtml::beginForm('','post',array('name'=>'monto', 'id'=>'banco'));
 $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'balance-grid',
-    'dataProvider'=>$model->searchEs('checkBanco'),
+    'dataProvider'=>$model->search('MontoBanco',$mes,$cabina),
     'columns'=>array(
-            'FechaDep',
-    'HoraDep',
-		'Fecha',
+            'Fecha',
+    'Hora',
+		'FechaCorrespondiente',
     array(
         'name'=>'CABINA_Id',
         'value'=>'$data->cABINA->Nombre',
         'type'=>'text',
         ),
-    'MontoDeposito',
-    'NumRefDeposito',
+    'MontoDep',
+    'NumRef',
 
     array(
         'name'=>'MontoBanco',
         'type'=>'raw',
-        'value'=>'CHtml::textField("MontoBanco$data->Id",$data->MontoBanco,array("style"=>"width:50px;"))',
+        'value'=>'CHtml::textField("MontoBanco$data->id",$data->MontoBanco,array("style"=>"width:50px;"))',
         'htmlOptions'=>array(
             "width"=>"50px"
             ),

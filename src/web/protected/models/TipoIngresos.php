@@ -45,6 +45,7 @@ class TipoIngresos extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'detalleingresos' => array(self::HAS_MANY, 'Detalleingreso', 'TIPOINGRESO_Id'),
+                        'cOMPANIA' => array(self::BELONGS_TO, 'Compania', 'COMPANIA_Id'),
 		);
 	}
 
@@ -79,6 +80,7 @@ class TipoIngresos extends CActiveRecord
 
 		$criteria->compare('Id',$this->Id);
 		$criteria->compare('Nombre',$this->Nombre,true);
+                $criteria->compare('COMPANIA_Id',$this->COMPANIA_Id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,6 +102,14 @@ class TipoIngresos extends CActiveRecord
             return CHtml::listData(TipoIngresos::model()->findAll(), 'Id', 'Nombre');
         }
         
+        public static function getListTipoIngreso(){
+            return CHtml::listData(TipoIngresos::model()->findAll("Nombre = 'Subarriendo'"), 'Id', 'Nombre');
+        }
+        
+        public static function getListTipoVentas(){
+            return CHtml::listData(TipoIngresos::model()->findAll('Id>1 AND Id<13'), 'Id', 'Nombre');
+        }
+        
         public static function getIdIngreso($nombre){
             
 		if($nombre != null)
@@ -117,6 +127,38 @@ class TipoIngresos extends CActiveRecord
 			else
 			{
 				return $model->Id;
+			}
+		}
+        }
+        
+        public static function getNombreIngreso($id){
+            
+		if($id != null)
+		{
+			$model=self::model()->find('Id=:id',array(':id'=>$id));
+			if($model == null)
+			{
+                                return 'No Definido';
+			}
+			else
+			{
+				return $model->Nombre;
+			}
+		}
+        }
+        
+        public static function getIdIngresoFullCarga($nombre){
+            
+		if($nombre != null)
+		{
+			$model=self::model()->findBySql("SELECT Id FROM tipo_ingresos WHERE Nombre = '$nombre';");
+			if($model == null)
+			{
+//                            return 2;
+			}
+			else
+			{
+                            return $model->Id;
 			}
 		}
         }

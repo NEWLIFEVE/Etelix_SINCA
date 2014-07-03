@@ -478,10 +478,10 @@ margin-right: 38px;
   color: #fff;
 } 
 
-.botonCorreo:hover, .botonCorreoPanel:hover, .botonExcel:hover, .botonExcelCompleto:hover, 
+.botonCorreo:hover,.botonCorreoNew:hover, .botonCorreoPanel:hover, .botonExcel:hover,.botonExcelNew:hover, .botonExcelCompleto:hover, 
 .printButton:hover, .botonExcelTotal:hover, .botonCorreoTotal:hover, .printButtonTotal:hover,
 .botonExcelMatriz:hover, .printButtonMatriz:hover, .botonCorreoMatriz:hover, .botonExcelPanel:hover,
-.printButtonPanel:hover, .botonCorreoConsolidado:hover, .botonExcelConsolidado:hover
+.printButtonPanel:hover, .botonCorreoConsolidado:hover, .botonExcelConsolidado:hover, .printButtonNew:hover
 {
     opacity: 0.5;
 }
@@ -619,7 +619,6 @@ div.grid-view.detalleCuenta table.items tbody tr th,
   background: rgba(255,187,0,1) !important;
 }
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c6,
-.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c7,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c6,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumidoOculta_c7,
 .CicloIngresosResumido table.items th#balanceCicloIngresosTotalResumido_c6,
@@ -630,6 +629,7 @@ div.grid-view.detalleCuenta table.items tbody tr th,
   background: rgba(255,153,51,1) !important;
 }
 .ReportePABrighstar table.items th#reportePaBrightstar_c7,
+.CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c7,
 .ReportePABrighstar table.items th#reportePaBrightstar_c8,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c8,
 .CicloIngresosResumido table.items th#balanceCicloIngresosResumido_c9,
@@ -1293,5 +1293,42 @@ background-color:#ff9900;
 
 section {
     display: table !important;
+}
+
+
+table#ventas tr td, table.items tr td{
+    text-align: center;
+}
+
+table#DetailretesoMov tr td, table.items tr td{
+    text-align: left;
+}
+
+table.detail-view th {
+    width: 200px !important;
+}
+
+.grid-view table.items th, .grid-view table.items td {
+    font-size: 0.89em !important;
+    border: 1px white solid;
+    padding: 0.3em;
+}
+
+
+
+
+thead.scrollTable, tbody.scrollTable { 
+    display: block; 
+}
+
+thead.scrollTable th, tbody.scrollTable td { 
+    width: 150px;
+
+}
+
+tbody.scrollTable {
+    height: 460px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 

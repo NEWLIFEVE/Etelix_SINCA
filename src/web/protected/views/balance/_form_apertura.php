@@ -28,6 +28,9 @@ Yii::import('webroot.protected.controllers.SiteController');
 
 	<?php echo $form->errorSummary($model); ?>
 
+<table width="200" border="1" id="dateBalance">
+  <tr>
+    <td>       
 	<div  class="row" >
 		<?php echo $form->labelEx($model,'Fecha'); ?>
 		<?php //echo $form->textField($model,'Fecha'); ?>
@@ -45,33 +48,28 @@ Yii::import('webroot.protected.controllers.SiteController');
                     'minDate'=>'-7D', //fecha minima
                     'maxDate'=> "-0D", //fecha maxima
                      ),
-                        'htmlOptions'=>array('readonly'=>'readonly'),
+                        'htmlOptions'=>array('readonly'=>'readonly','id'=>'SaldoCabina_Fecha_Apertura','style'=>'float: left;'),
                 )); 
                     echo CHtml::label('', 'diaSemana',array('id'=>'diaSemana','style'=>'color:forestgreen')); 
                 ?>
 		<?php echo $form->error($model,'Fecha',array('readonly'=>'readonly')); ?>
 	</div>
+    </td>
+  </tr>
+</table>
         
+<table width="200" border="1" >
+  <tr>
+    <td>         
 	<div class="row">
-		<?php echo $form->labelEx($model,'SaldoApMov'); ?>
-		<?php echo $form->textField($model,'SaldoApMov',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'SaldoApMov'); ?>
+		<?php echo $form->labelEx($model,'SaldoAp'); ?>
+		<?php echo $form->textField($model,'SaldoAp',array('size'=>15,'maxlength'=>15)); ?>
+		<?php echo $form->error($model,'SaldoAp'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'SaldoApClaro'); ?>
-		<?php echo $form->textField($model,'SaldoApClaro',array('size'=>15,'maxlength'=>15)); ?>
-		<?php echo $form->error($model,'SaldoApClaro'); ?>
-	</div>
-      
+    </td>
+  </tr>
+</table>
         
-        
-        <div class="row" style="display:none;">
-		<?php echo $form->labelEx($model,'CABINA_Id'); ?>
-		<?php echo $form->textField($model,'CABINA_Id'); ?>
-		<?php echo $form->error($model,'CABINA_Id'); ?>
-	</div>
-
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Declarar' : 'Save',array('confirm'=> SiteController::mensajesConfirm(1))); ?>
 	</div>

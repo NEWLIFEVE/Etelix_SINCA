@@ -4,12 +4,15 @@
     {
         public static function reporte($ids,$name,$type) 
         {
-//            $acumuladoSaldoApMov = 0;
-//            $acumuladoSaldoApClaro = 0;
-//            $acumuladoTrafico = 0;
-//            $acumuladoRecargasMov = 0;
-//            $acumuladoRecargasClaro = 0;
-//            $acumuladoDepositos = 0;
+            $acumuladoServMovistar = 0;
+            $acumuladoServClaro= 0;
+            $acumuladoServDirectv = 0;
+            $acumuladoServNextel = 0;
+            
+            $acumuladoDifMovistar = 0;
+            $acumuladoDifClaro= 0;
+            $acumuladoDifDirectv = 0;
+            $acumuladoDifNextel = 0;
             
             $balance = brightstar::get_Model($ids);
             if($balance != NULL){
@@ -20,28 +23,66 @@
                         Reportes::defineHeader("brightstar")
                         .'<tbody>';
                 foreach ($balance as $key => $registro) {
+                    
+                    $servMovistar = Detalleingreso::getLibroVentas("LibroVentas","ServMov", $registro->Fecha, $registro->CABINA_Id);
+                    $servClaro = Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $registro->Fecha, $registro->CABINA_Id);
+                    $servDirectv = Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $registro->Fecha, $registro->CABINA_Id);
+                    $servNextel = Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $registro->Fecha, $registro->CABINA_Id);
+                    
+                    $DifMov = CicloIngresoModelo::getDifFullCarga($registro->Fecha, $registro->CABINA_Id, 1);
+                    $DifClaro = CicloIngresoModelo::getDifFullCarga($registro->Fecha, $registro->CABINA_Id, 2);
+                    $DifDirectv = CicloIngresoModelo::getDifFullCarga($registro->Fecha, $registro->CABINA_Id, 4);
+                    $DifNextel = CicloIngresoModelo::getDifFullCarga($registro->Fecha, $registro->CABINA_Id, 3);
 
                     $table.=   '<tr >
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.$registro->cabina.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->RecargaMovistar), $type).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifMov,$registro->DifMov), $type).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->RecargaClaro), $type).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($registro->DifClaro,$registro->DifClaro), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Cabina.'</td>
+                                        
+                                    
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($servMovistar,$servMovistar), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($DifMov,$DifMov), $type).'</td>    
+                                    
+
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($servClaro,$servClaro), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($DifClaro,$DifClaro), $type).'</td>
+                                    
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($servDirectv,$servDirectv), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($DifDirectv,$DifDirectv), $type).'</td>
+                                    
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($servNextel,$servNextel), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Reportes::defineMonto($DifNextel,$DifNextel), $type).'</td>
                                 </tr>
                                 ';
+                    
+                    $acumuladoDifMovistar = $acumuladoDifMovistar + $DifMov;
+                    $acumuladoDifClaro= $acumuladoDifClaro + $DifClaro;
+                    $acumuladoDifDirectv = $acumuladoDifDirectv + $DifDirectv;
+                    $acumuladoDifNextel = $acumuladoDifNextel + $DifNextel;
+                    
+                    $acumuladoServMovistar = $acumuladoServMovistar + $servMovistar;
+                    $acumuladoServClaro= $acumuladoServClaro + $servClaro;
+                    $acumuladoServDirectv = $acumuladoServDirectv + $servDirectv;
+                    $acumuladoServNextel = $acumuladoServNextel + $servNextel;
 
                 }
                 
-                 $balanceTotals = brightstar::get_ModelTotal($ids);
+//                 $balanceTotals = brightstar::get_ModelTotal($ids);
                  $table.=  Reportes::defineHeader("brightstar")
                                 .'<tr >
-                                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$balanceTotals->Fecha.'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalFecha">'.$registro->Fecha.'</td>
                                         <td '.Reportes::defineStyleTd(2).' id="todas">Todas</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaMovistar), $type).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::format(Reportes::defineTotals($balanceTotals->DifMov,$balanceTotals->DifMov), $type).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($balanceTotals->RecargaClaro), $type).'</td>
-                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($balanceTotals->DifClaro,$balanceTotals->DifClaro), $type).'</td>
+
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::format(Reportes::defineTotals($acumuladoServMovistar,$acumuladoServMovistar), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin1">'.Reportes::format(Reportes::defineTotals($acumuladoDifMovistar,$acumuladoDifMovistar), $type).'</td>                                        
+
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::format(Reportes::defineTotals($acumuladoServClaro,$acumuladoServClaro), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="vistaAdmin2">'.Reportes::format(Reportes::defineTotals($acumuladoDifClaro,$acumuladoDifClaro), $type).'</td>                                        
+
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($acumuladoServDirectv,$acumuladoServDirectv), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalTrafico">'.Reportes::format(Reportes::defineTotals($acumuladoDifDirectv,$acumuladoDifDirectv), $type).'</td>                                        
+
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($acumuladoServNextel,$acumuladoServNextel), $type).'</td>
+                                        <td '.Reportes::defineStyleTd(2).' id="totalRecargaMov">'.Reportes::format(Reportes::defineTotals($acumuladoDifNextel,$acumuladoDifNextel), $type).'</td>    
                                       </tr>
                                     </tbody>
                            </table>';
@@ -54,17 +95,13 @@
          
         public static function get_Model($ids) 
         {
-            $sql = "SELECT b.id as id, b.fecha as Fecha, c.nombre as cabina,
-                    b.RecargaVentasMov as RecargaMovistar,
-                    (IFNULL(b.RecargaVentasMov,0)-(IFNULL(b.RecargaCelularMov,0)+IFNULL(b.RecargaFonoYaMov,0))) as DifMov,
-                    b.RecargaVentasClaro as RecargaClaro, 
-                    (IFNULL(b.RecargaVentasClaro,0)-(IFNULL(b.RecargaCelularClaro,0)+IFNULL(b.RecargaFonoClaro,0))) as DifClaro
-                    FROM balance b
-                    INNER JOIN cabina as c ON c.id = b.CABINA_Id
-                    WHERE b.id IN ($ids) 
-                    order by b.fecha desc, c.nombre asc;";
+            $sql = "SELECT s.Id, s.Fecha, s.CABINA_Id, c.Nombre as Cabina
+                    FROM saldo_cabina as s
+                    INNER JOIN cabina as c ON c.id = s.CABINA_Id
+                    WHERE s.Id IN ($ids) 
+                    order by s.Fecha DESC, c.Nombre ASC;";
             
-              return Balance::model()->findAllBySql($sql); 
+              return SaldoCabina::model()->findAllBySql($sql); 
          
         }
         

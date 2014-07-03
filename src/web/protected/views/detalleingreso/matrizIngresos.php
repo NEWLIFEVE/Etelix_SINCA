@@ -26,13 +26,19 @@ $año = date("Y", strtotime($mes));
 $mes2 = date("m", strtotime($mes));
         
 $sql="SELECT d.FechaMes, d.Monto, d.CABINA_Id, d.TIPOINGRESO_Id, t.Nombre as nombreTipoDetalle 
-      FROM detalleingreso as d, tipo_ingresos as t, cabina as c
+      FROM detalleingreso as d, tipo_ingresos as t, cabina as c, users as u
       WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' 
       AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
       AND d.TIPOINGRESO_Id=t.Id
       AND d.CABINA_Id=c.Id
+      AND d.USERS_Id=u.id
+      AND u.tipo != 1
+      AND t.Id != 14
+      AND t.Id != 15
       GROUP BY t.Nombre
-      ORDER BY c.Nombre = 'COMUN CABINA', c.Nombre;";
+      ORDER BY t.Nombre;";
+
+
 $model = Detalleingreso::model()->findAllBySql($sql);
 $tipoUsuario=Yii::app()->getModule('user')->user()->tipo;
 $this->menu=DetalleIngresoController::controlAcceso($tipoUsuario);
@@ -100,18 +106,16 @@ if (count($model)> 0) { ?>
 <table id="tablaIngresos" class="matrizGastos" border="1" style="border-collapse:collapse;width:auto;">
     <thead>
         <th style="background-color: #ff9900;"><img style="padding-left: 5px; width: 17px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Monitor.png" /></th>
-        <th style="background-color: #ff9900;"><h3>Chimbote</h3></th>
-        <th style="background-color: #ff9900;"><h3>Etelix-Peru</h3></th>
-        <th style="background-color: #ff9900;"><h3>Huancayo</h3></th>
-        <th style="background-color: #ff9900;"><h3>Iquitos 01</h3></th>
-        <th style="background-color: #ff9900;"><h3>Iquitos 03</h3></th>
-        <th style="background-color: #ff9900;"><h3>Piura</h3></th>
-        <th style="background-color: #ff9900;"><h3>Pucallpa</h3></th>
-        <th style="background-color: #ff9900;"><h3>Surquillo</h3></th>
-        <th style="background-color: #ff9900;"><h3>Tarapoto</h3></th>
-        <th style="background-color: #ff9900;"><h3>Trujillo 01</h3></th>
-        <th style="background-color: #ff9900;"><h3>Trujillo 03</h3></th>
-        <th style="background-color: #ff9900;"><h3>Comun Cabina</h3></th>
+        <?php 
+
+        $nombre_cabinas = Cabina::model()->findAllBySQL("SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre;");
+        
+        foreach ($nombre_cabinas as $key => $value) {
+            $cabinass[$key] = $value->Nombre;
+            echo "<th style='background-color: #ff9900;'><h3>".$cabinass[$key]."</h3></th>";
+        }
+
+        ?>
         <th style='background: #DADFE4;width: 0px;'></th>
         <th style="background-color: #ff9900;"><h3>Total Soles</h3></th>
         <th style="background-color: #ff9900;"><h3>Total Dolares</h3></th>
@@ -119,6 +123,7 @@ if (count($model)> 0) { ?>
 </thead>
 <tbody>
     <tr style="background-color: #DADFE4;">
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -155,6 +160,7 @@ if (count($model)> 0) { ?>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
               </tr>";
  
         foreach ($model as $key => $gasto) {
@@ -163,76 +169,102 @@ if (count($model)> 0) { ?>
         $MTS="";
         $MTD="";
           
-            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre";
+            $sqlCabinas = "SELECT * FROM cabina WHERE status = 1  AND id !=18 ORDER BY Nombre = 'COMUN CABINA', Nombre;";
             $cabinas = Cabina::model()->findAllBySql($sqlCabinas);
             $count = 0;
             foreach ($cabinas as $key => $cabina) {
-                $sqlMontoGasto = "SELECT d.Monto as Monto, d.moneda,
+                $sqlMontoGasto = "SELECT SUM(d.Monto) as Monto, d.moneda,
                                     (
-                                    SELECT  d.Monto as Monto
-                                    FROM detalleingreso d  
+                                    SELECT SUM(d.Monto) as Monto
+                                    FROM detalleingreso d, users as u, tipo_ingresos as t 
                                     WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                     AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
                                     AND d.CABINA_Id = $cabina->Id
                                     AND d.moneda = 1
+                                    AND d.TIPOINGRESO_Id=t.Id
+                                    AND d.USERS_Id=u.id
+                                    AND u.tipo != 1
+                                    AND d.TIPOINGRESO_Id = $gasto->TIPOINGRESO_Id
                                     GROUP BY d.moneda
                                     ) as MontoDolares, 
 
                                     (
-                                    SELECT  d.Monto as Monto
-                                    FROM detalleingreso d 
+                                    SELECT SUM(d.Monto) as Monto
+                                    FROM detalleingreso d, users as u, tipo_ingresos as t 
                                     WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                     AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
                                     AND d.CABINA_Id = $cabina->Id
                                     AND d.moneda = 2
+                                    AND d.TIPOINGRESO_Id=t.Id
+                                    AND d.USERS_Id=u.id
+                                    AND u.tipo != 1
+                                    AND d.TIPOINGRESO_Id = $gasto->TIPOINGRESO_Id
                                     GROUP BY d.moneda
                                     )  as MontoSoles
                                     
-                                  FROM detalleingreso d
+                                  FROM detalleingreso d, users as u, tipo_ingresos as t 
                                   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                   AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2'
+                                  AND d.TIPOINGRESO_Id=t.Id
+                                  AND d.USERS_Id=u.id
+                                  AND u.tipo != 1  
+                                  AND d.TIPOINGRESO_Id = $gasto->TIPOINGRESO_Id    
                                   AND d.CABINA_Id = $cabina->Id;";
                 $MontoGasto = Detalleingreso::model()->findBySql($sqlMontoGasto);
-               
+                
                 if ($MontoGasto!=NULL){
-                     $moneda = Detallegasto::monedaGasto($MontoGasto->moneda);
-                                $fondo = '';
-                                if($moneda == 'S/.'){
-                                    $fondo = 'background: #1967B2;';
-                                }else{
-                                    $fondo = 'background: #00992B;';
-                                }
-                            if ($count>0){
-                                
-                                    if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-                                        $content.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
-                                    }else{
-                                        $content.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                                    }
-
-                            }else{
-                                
-                                $content.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
-                                    if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
-                                        $content.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
-                                    }else{
-                                        $content.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
-                                    }
-                                    
-                            }
-                }  else {
+                    $moneda = Detallegasto::monedaGasto($MontoGasto->moneda);
+                    $fondo = '';
+                    if($moneda == 'S/.'){ $fondo = 'background: #1967B2;'; }else{ $fondo = 'background: #00992B;'; }
+                    
                     if ($count>0){
+
+                        if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
+                            $content.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                        }else{
+                            if($MontoGasto->Monto == '0.00' || $MontoGasto->Monto == NULL)
+                                $content.="<td></td>";
+                            else
+                                $content.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                        }
+
+                    }else{
+                        $content.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
+                        if($MontoGasto->MontoDolares != null && $MontoGasto->MontoSoles != null){
+                            $content.="<td style='padding:0;color: #FFF; font-size:10px;'><table style='border-collapse:collapse;margin-bottom: 0px;'><tr style='background: #1967B2;'><td >$MontoGasto->MontoSoles S/.</td></tr> <tr style='background: #00992B;'><td >$MontoGasto->MontoDolares USD$</td></tr></table></td>";
+                        }else{
+                            if($MontoGasto->Monto == '0.00' || $MontoGasto->Monto == NULL)
+                                $content.="<td></td>";
+                            else
+                                $content.="<td style='width: 80px;color: #FFF; $fondo; font-size:10px;'>$MontoGasto->Monto $moneda</td>";
+                        }
+                        
+                    }
+                }else{
+                    if ($count>0){
+
                         $content.="<td></td>";
                     }else{
-                        $content.="<td rowspan='1' style='width: 200px; background: #1967B2'><h3>$gasto->nombreTipoDetalle</h3></td>";
+                        $content.="<td style='width: 200px; background: #1967B2'><h3 style='font-size:10px; color:#FFFFFF; background: none; text-align: center;'>$gasto->nombreTipoDetalle</h3></td>";
+                        $content.="<td></td>";
+                        
                     }
                 }
+
                 $count++;
             }
             
             $sqlT = "select 
-                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d, tipo_ingresos as t WHERE t.Id = $gasto->TIPOINGRESO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1) as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d, tipo_ingresos as t WHERE t.Id = $gasto->TIPOINGRESO_Id AND EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2) as MontoS
+                    (SELECT SUM(d.Monto) AS Monto 
+                                   FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id  
+                                   INNER JOIN users AS u ON d.USERS_Id=u.id  
+                                   WHERE t.Id=$gasto->TIPOINGRESO_Id AND EXTRACT(YEAR FROM d.FechaMes)='$año' AND EXTRACT(MONTH FROM d.FechaMes)='$mes2' AND d.moneda=1 
+                                    AND u.tipo != 1 ) as MontoD,
+                    (SELECT SUM(d.Monto) AS Monto 
+                                   FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id  
+                                   INNER JOIN users AS u ON d.USERS_Id=u.id  
+                                   WHERE t.Id=$gasto->TIPOINGRESO_Id AND EXTRACT(YEAR FROM d.FechaMes)='$año' AND EXTRACT(MONTH FROM d.FechaMes)='$mes2' AND d.moneda=2 
+                                    AND u.tipo != 1) as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
             $monts = Detalleingreso::model()->findAllBySql($sqlT);
@@ -248,13 +280,13 @@ if (count($model)> 0) { ?>
              if($MS!=null){
                  $tr.="<td style='width: 80px;color: #FFF; background: #1967B2; font-size:10px;'>$MS</td>";
              }else{
-                 $tr.="<td style='width: 80px;color: #FFF; background: none; font-size:10px;'>$MS</td>";
+                 $tr.="<td style='width: 80px;color: #FFF; background: none; font-size:10px;'></td>";
              }
              
              if($MD!=null){
                  $tr.="<td style='width: 80px;color: #FFF; background: #00992B; font-size:10px;'>$MD</td>";
              }else{
-                 $tr.="<td style='width: 80px;color: #FFF; background: none; font-size:10px;'>$MD</td>";
+                 $tr.="<td style='width: 80px;color: #FFF; background: none; font-size:10px;'></td>";
              }
     
      $tr.="</tr>";
@@ -272,9 +304,13 @@ if (count($model)> 0) { ?>
             foreach ($cabinas as $key => $cabina) {
                 $sqlTotales = "SELECT  sum(d.Monto) as MontoS 
                                FROM detalleingreso as d 
+                               INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id
+                               INNER JOIN users AS u ON d.USERS_Id=u.id  
                                WHERE d.CABINA_Id = $cabina->Id 
                                AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
+                               AND t.Id != 14 AND t.Id != 15     
+                               AND u.tipo != 1
                                AND d.moneda = 2;";       
    
                 $totales = Detalleingreso::model()->findAllBySql($sqlTotales);
@@ -289,9 +325,9 @@ if (count($model)> 0) { ?>
                 }
             }
             
-            $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1)
+            $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 1 AND u.tipo != 1 AND t.Id != 14 AND t.Id != 15  )
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2) 
+                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' AND d.moneda = 2 AND u.tipo != 1 AND t.Id != 14 AND t.Id != 15  ) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
@@ -318,10 +354,16 @@ if (count($model)> 0) { ?>
             foreach ($cabinas as $key => $cabina) {
                 $sqlTotales = "SELECT  sum(d.Monto) as MontoD 
                                FROM detalleingreso as d 
+                               INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id
+                               INNER JOIN users AS u ON d.USERS_Id=u.id  
                                WHERE d.CABINA_Id = $cabina->Id 
                                AND EXTRACT(YEAR FROM d.FechaMes) = '$año' 
                                AND EXTRACT(MONTH FROM d.FechaMes) = '$mes2' 
-                               AND d.moneda = 1;";        
+                               AND t.Id != 14
+			       AND t.Id != 15    
+                               AND u.tipo != 1   
+                               AND d.moneda = 1;";      
+                
                 
                 
                 $totales = Detalleingreso::model()->findAllBySql($sqlTotales);
