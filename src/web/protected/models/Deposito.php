@@ -13,24 +13,19 @@
  * @property string $Depositante
  * @property integer $CUENTA_Id
  * @property integer $CABINA_Id
+ * @property string $FechaCorrespondiente
+ * @property integer $TiempoCierre
  *
  * The followings are the available model relations:
- * @property Cuenta $cUENTA
  * @property Cabina $cABINA
+ * @property Cuenta $cUENTA
  */
 class Deposito extends CActiveRecord
 {
-
-        public $TotalVentas;
-        public $DiferencialBancario;
-        public $ConciliacionBancaria;
-        public $Cabina;
-        public $MontoDeposito;
-        public $NumRefDeposito;
-        public $FechaIngresoDeposito;
-
-
-        public function tableName()
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
 	{
 		return 'deposito';
 	}
@@ -43,13 +38,13 @@ class Deposito extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Fecha, FechaCorrespondiente, Hora, MontoDep, NumRef, CUENTA_Id, CABINA_Id', 'required'),
-			array('CUENTA_Id, CABINA_Id, MontoDep', 'numerical', 'integerOnly'=>true),
+			array('Fecha, Hora, MontoDep, NumRef, CUENTA_Id, CABINA_Id, FechaCorrespondiente', 'required'),
+			array('CUENTA_Id, CABINA_Id, TiempoCierre', 'numerical', 'integerOnly'=>true),
 			array('MontoDep, MontoBanco', 'length', 'max'=>15),
 			array('NumRef, Depositante', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, Fecha, FechaCorrespondiente, Hora, MontoDep, MontoBanco, NumRef, Depositante, CUENTA_Id, CABINA_Id', 'safe', 'on'=>'search'),
+			array('id, Fecha, Hora, MontoDep, MontoBanco, NumRef, Depositante, CUENTA_Id, CABINA_Id, FechaCorrespondiente, TiempoCierre', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,14 +56,11 @@ class Deposito extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'cUENTA' => array(self::BELONGS_TO, 'Cuenta', 'CUENTA_Id'),
 			'cABINA' => array(self::BELONGS_TO, 'Cabina', 'CABINA_Id'),
+			'cUENTA' => array(self::BELONGS_TO, 'Cuenta', 'CUENTA_Id'),
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
 	public function attributeLabels()
 	{
 		return array(

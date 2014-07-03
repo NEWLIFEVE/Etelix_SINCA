@@ -23,18 +23,17 @@
  */
 class CicloIngresoModelo extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
     
         public $TotalVentas;
         public $DifFullCarga;
         public $Paridad;
         public $DifSoles;
         public $DifDollar;
-
-
-        public function tableName()
+    
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
 	{
 		return 'ciclo_ingreso';
 	}

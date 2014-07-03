@@ -17,8 +17,7 @@
  */
 class SaldoCabina extends CActiveRecord
 {
-    
-        public $Cabina; 
+	public $Cabina; 
         public $OtrosServicios;
         public $OtrosServiciosFullCarga;
         public $Trafico;
@@ -78,10 +77,7 @@ class SaldoCabina extends CActiveRecord
         public $ConciliacionBancariaCI;
         public $tagTodasLasCabina='Todas';
         public $CaptSoles;
-
-        /**
-	 * @return string the associated database table name
-	 */
+        
 	public function tableName()
 	{
 		return 'saldo_cabina';
@@ -96,7 +92,7 @@ class SaldoCabina extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('SaldoAp, Fecha, CABINA_Id, COMPANIA_Id', 'required'),
-			array('CABINA_Id, COMPANIA_Id, SaldoAp, SaldoCierre', 'numerical', 'integerOnly'=>true),
+			array('CABINA_Id, COMPANIA_Id', 'numerical', 'integerOnly'=>true),
 			array('SaldoAp, SaldoCierre', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

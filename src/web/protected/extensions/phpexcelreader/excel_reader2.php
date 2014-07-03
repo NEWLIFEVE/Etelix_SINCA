@@ -905,7 +905,7 @@ class Spreadsheet_Excel_Reader {
 
                 if($i > 0){
                     Detalleingreso::deleteVentasFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
-//                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
+                    Detalleingreso::verificarDifFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
                 }
  
                 

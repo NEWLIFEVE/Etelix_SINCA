@@ -900,9 +900,13 @@ class DetalleingresoController extends Controller
                 $data = SaldoCabina::model()->findBySql("SELECT Id FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
             }
             if($etapaBalance == 'SaldoApertura'){
-                $data = SaldoCabina::model()->findBySql("SELECT Id FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
+                $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");
                 if($data != NULL) {
-                    $data = NULL; 
+                    if($data->SaldoAp != NULL || $data->SaldoAp != 0.00) {
+                        $data = NULL; 
+                    }elseif($data->SaldoAp == NULL || $data->SaldoAp == 0.00){
+                        $data = 'true';
+                    }
                 }else{
                     $data = 'true';
                 }
@@ -910,9 +914,9 @@ class DetalleingresoController extends Controller
             if($etapaBalance == 'SaldoCierre'){
                 $data = SaldoCabina::model()->findBySql("SELECT * FROM saldo_cabina WHERE Fecha = '$fecha' AND CABINA_Id = $cabina;");   
                 if($data != NULL) {
-                    if($data->SaldoCierre != NULL) {
+                    if($data->SaldoCierre != NULL || $data->SaldoCierre != 0.00) {
                         $data = NULL; 
-                    }else{
+                    }elseif($data->SaldoCierre == NULL || $data->SaldoCierre == 0.00){
                         $data = 'true';
                     }
                 }else{
