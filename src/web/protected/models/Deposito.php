@@ -27,6 +27,9 @@ class Deposito extends CActiveRecord
 	 */
     
         public $MontoDeposito;
+        public $NumRefDeposito;
+        public $FechaIngresoDeposito;
+
     
     
 	public function tableName()
