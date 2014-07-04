@@ -25,6 +25,10 @@ class Deposito extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+    
+        public $MontoDeposito;
+    
+    
 	public function tableName()
 	{
 		return 'deposito';
