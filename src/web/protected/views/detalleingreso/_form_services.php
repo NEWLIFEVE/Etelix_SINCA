@@ -71,14 +71,14 @@ Yii::import('webroot.protected.controllers.SiteController');
                 <tr>
                 <td>  	
                     <label for="Detalle_<?php echo $value->Nombre;?>"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
-                    <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="number">
+                    <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="number" min="1">
                 </td>
 <?php  
             }else{
 ?>                
                 <td>  	
                     <label for="Detalle_<?php echo $value->Nombre;?>"><?php echo Detalleingreso::changeName($value->Nombre);?></label>
-                    <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="number">
+                    <input id="Detalle_<?php echo $value->Nombre;?>" name="Detalle[<?php echo $value->Nombre;?>]" type="number" min="1">
                 </td>
                 </tr>
 <?php                

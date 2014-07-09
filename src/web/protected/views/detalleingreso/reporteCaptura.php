@@ -251,7 +251,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'type'=>'text',
             'htmlOptions'=>array(
                 'style'=>'text-align: center;',
-                'id'=>'traficoCapturaDollar',
+                'id'=>'',
                 ),
             ),
         array(
@@ -267,7 +267,7 @@ $this->widget('zii.widgets.grid.CGridView',array(
             'value'=>'round((Detalleingreso::TraficoCapturaDollar($data->Fecha,$data->CABINA_Id)*Paridad::getParidad($data->Fecha)),2)',
             'type'=>'text',
             'htmlOptions'=>array(
-                'id'=>'traficoCapturaSoles',
+                'id'=>'',
                 'style'=>'text-align: center;',
                 ),
             ),
