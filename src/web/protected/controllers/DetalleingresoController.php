@@ -305,50 +305,12 @@ class DetalleingresoController extends Controller
                     Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
                 }
                 
-//                if(isset($_SESSION['cabinas'])){
-//                    
-//                    
-//                    echo '<table>';
-//                    echo '<tr>
-//                    
-//                            <td>Fecha</td>
-//                            <td>Cabina</td>
-//                            <td>Ingreso</td>
-//                            <td>Monto</td>
-//                            <td>Comision</td>
-//
-//                          </tr>';
-//                    
-//                    for($a=0;$a<count($_SESSION['fecha']);$a++){
-//                        $_SESSION['fecha'][$a];
-//                        $_SESSION['cabinas'][$a];
-//                        $_SESSION['monto'][$a];
-//                        $_SESSION['montoComision'][$a];
-//                        $_SESSION['servicio'][$a];
-//                        
-//                        echo '<tr>
-//
-//                                <td>'.$_SESSION['fecha'][$a].'</td>
-//                                <td>'.$_SESSION['cabinas'][$a].'</td>
-//                                <td>'.$_SESSION['servicio'][$a].'</td>
-//                                <td>'.$_SESSION['monto'][$a].'</td>
-//                                <td>'.$_SESSION['montoComision'][$a].'</td>
-//
-//                              </tr>';
-//                        
-//                    }
-//                    
-//                    echo '</table>';
-//                    
-
                     //ELIMINA EL ARCHIVO DESPUES DEL PROCESO
                     if(file_exists($ruta1)){
                         unlink($ruta1);
                         unset($_SESSION['cabinas']);
                     }
-                    
-//                }
-                
+
             }
 
             $this->render('uploadFullCarga', array(
@@ -769,14 +731,20 @@ class DetalleingresoController extends Controller
 
                                 if($modelIngreso->save()){ 
                                     $i++; 
-
                                     CicloIngresoModelo::saveDifCaptura($dia,$cabinaId,$montoSoriRevenue,$paridad);
-
                                 }elseif($modelIngreso->save(false)){
-                                    $i++; 
-
+                                    $i++;
                                     CicloIngresoModelo::saveDifCaptura($dia,$cabinaId,$montoSoriRevenue,$paridad);
-
+                                }
+                            }elseif($verificaIngreso != NULL && $montoSoriRevenue != 0){
+                                $verificaIngreso->Monto = $montoSoriRevenue; 
+                                $verificaIngreso->Costo_Comision = $montoSoriCosto;
+                                if($verificaIngreso->save()){ 
+                                    $i++; 
+                                    CicloIngresoModelo::saveDifCaptura($dia,$cabinaId,$montoSoriRevenue,$paridad);
+                                }elseif($verificaIngreso->save(false)){
+                                    $i++;
+                                    CicloIngresoModelo::saveDifCaptura($dia,$cabinaId,$montoSoriRevenue,$paridad);
                                 }
                             }    
 

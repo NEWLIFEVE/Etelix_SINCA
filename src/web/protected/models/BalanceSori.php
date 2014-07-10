@@ -197,54 +197,96 @@ class BalanceSori extends CActiveRecord
         
         public static function getTraficoCaptura($fecha,$cabina)
 	{
-            $model = self::model()->findBySql("SELECT SUM(b.revenue) as revenue
-                                               FROM balance as b
-                                               WHERE b.date_balance = '$fecha'
-                                               AND b.id_carrier_customer IN($cabina)
-                                               AND id_destination is NULL;");
-            if($model->revenue != NULL){
-                return round($model->revenue,2);
-            }else{
-                return '0.00';
-            }    
+            $cost = 0;
+            $revenue = 0;
+            $margin = 0;   
+            $revenueCalculate = 0;
+            $revenueAbsolute = 0;
+            $revenueFinal = 0;
+            $model = self::model()->findAllBySql("SELECT b.cost as cost, b.revenue as revenue, b.margin as margin
+                                                FROM balance as b
+                                                WHERE b.date_balance = '$fecha'
+                                                AND b.id_carrier_customer IN($cabina)
+                                                AND id_destination is NULL;");
+            
+            
+            foreach ($model as $key => $value) {
+
+                if($value->cost != NULL) $cost = $value->cost; else $cost = 0;
+                if($value->revenue != NULL) $revenue = $value->revenue; else $revenue = 0;
+                if($value->margin != NULL) $margin = $value->margin; else $margin = 0;
+
+                $revenueCalculate = abs($margin + $cost);   
+                $revenueAbsolute = abs($revenue);
+
+                if($revenueAbsolute == $revenueCalculate){
+                    $revenueFinal = $revenueFinal + $revenueAbsolute;
+                }elseif($revenueAbsolute > $revenueCalculate){
+                    $revenueFinal = $revenueFinal + $revenueCalculate;
+                }elseif($revenueAbsolute < $revenueCalculate){
+                    $revenueFinal = $revenueFinal + $revenueAbsolute;
+                }
+            
+            }
+            
+            return round($revenueFinal,2);
+  
 	}
         
         public static function getCostoLlamadas($fecha,$cabina)
 	{
-            $model = self::model()->findBySql("SELECT SUM(b.cost) as cost
-                                               FROM balance as b
-                                               WHERE b.date_balance = '$fecha'
-                                               AND b.id_carrier_customer IN($cabina)
-                                               AND id_destination is NULL;");
+            $cost = 0;
+            $revenue = 0;
+            $margin = 0;        
+            $costCalculate = 0;
+            $costAbsolute = 0;
+            $costFinal = 0;
+            $model = self::model()->findAllBySql("SELECT b.cost as cost, b.revenue as revenue, b.margin as margin
+                                                FROM balance as b
+                                                WHERE b.date_balance = '$fecha'
+                                                AND b.id_carrier_customer IN($cabina)
+                                                AND id_destination is NULL;");
             
-            if($model != NULL){
-                if($model->cost != NULL){
-                    return round($model->cost,2);
-                }else{
-                    return 0.00;
-                }   
-            }else{
-                return 0.00;
+            
+            foreach ($model as $key => $value) {
+                
+                if($value->cost != NULL) $cost = $value->cost; else $cost = 0;
+                if($value->revenue != NULL) $revenue = $value->revenue; else $revenue = 0;
+                if($value->margin != NULL) $margin = $value->margin; else $margin = 0;
+
+                $costCalculate = abs($margin + $cost);   
+                $costAbsolute = abs($cost);
+
+                if($costAbsolute == $costCalculate){
+                    $costFinal = $costFinal + $costAbsolute;
+                }elseif($costAbsolute > $costCalculate){
+                    $costFinal = $costFinal + $costCalculate;
+                }elseif($costAbsolute < $costCalculate){
+                    $costFinal = $costFinal + $costAbsolute;
+                }
+            
             }
+            
+            return round($costFinal,2);
 	}
         
-        public static function getCostoLlamada($fecha,$cabina)
-	{
-            $año = date("Y", strtotime($fecha));
-            $mes = date("m", strtotime($fecha));
-        
-            $model = self::model()->findBySql("SELECT SUM(b.cost) as cost
-                                               FROM balance as b
-                                               WHERE b.date_balance >= '$fecha-01' 
-                                               AND b.date_balance <= '$fecha-31'
-                                               AND b.id_carrier_customer IN($cabina)
-                                               AND id_destination is NULL;");
-            if($model->cost != NULL){
-                return round($model->cost,2);
-            }else{
-                return '0.00';
-            }    
-	}
+//        public static function getCostoLlamada($fecha,$cabina)
+//	{
+//            $año = date("Y", strtotime($fecha));
+//            $mes = date("m", strtotime($fecha));
+//        
+//            $model = self::model()->findBySql("SELECT SUM(b.cost) as cost
+//                                               FROM balance as b
+//                                               WHERE b.date_balance >= '$fecha-01' 
+//                                               AND b.date_balance <= '$fecha-31'
+//                                               AND b.id_carrier_customer IN($cabina)
+//                                               AND id_destination is NULL;");
+//            if($model->cost != NULL){
+//                return round($model->cost,2);
+//            }else{
+//                return '0.00';
+//            }    
+//	}
         
 
 }

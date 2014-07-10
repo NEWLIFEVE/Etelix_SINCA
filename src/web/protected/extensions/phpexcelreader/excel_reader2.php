@@ -872,28 +872,36 @@ class Spreadsheet_Excel_Reader {
                             $Ingreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingreso AND USERS_Id = 58");
                             if($Ingreso == NULL){
 
-                                $Ingreso = new Detalleingreso;
-                                $Ingreso->FechaMes = $fecha;
-                                $Ingreso->Monto = $monto;  
-                                $Ingreso->Costo_Comision = $montoComision;  
-                                $Ingreso->CABINA_Id = $cabina;
-                                $Ingreso->USERS_Id = 58;
-                                $Ingreso->TIPOINGRESO_Id = $ingreso;
-                                $Ingreso->moneda = 2;
+                                $IngresoNuevo = new Detalleingreso;
+                                $IngresoNuevo->FechaMes = $fecha;
+                                $IngresoNuevo->Monto = $monto;  
+                                $IngresoNuevo->Costo_Comision = $montoComision;  
+                                $IngresoNuevo->CABINA_Id = $cabina;
+                                $IngresoNuevo->USERS_Id = 58;
+                                $IngresoNuevo->TIPOINGRESO_Id = $ingreso;
+                                $IngresoNuevo->moneda = 2;
 
                                 if($cabina == 17){
-                                    $Ingreso->CUENTA_Id = 2;
+                                    $IngresoNuevo->CUENTA_Id = 2;
                                 }else{
-                                    $Ingreso->CUENTA_Id = 4;
+                                    $IngresoNuevo->CUENTA_Id = 4;
                                 }
 
-                                $Ingreso->FechaTransf = NULL;
-                                $Ingreso->TransferenciaPago = NULL;
-                                $Ingreso->Descripcion = NULL;
-                                if($Ingreso->save()){
+                                $IngresoNuevo->FechaTransf = NULL;
+                                $IngresoNuevo->TransferenciaPago = NULL;
+                                $IngresoNuevo->Descripcion = NULL;
+                                if($IngresoNuevo->save()){
                                     $a++;
                                 }
 
+                            }else{
+                                $Ingreso->Monto = $monto;  
+                                $Ingreso->Costo_Comision = $montoComision;  
+                                if($Ingreso->save()){
+                                    $a++;
+                                }elseif($Ingreso->save(false)){
+                                    $a++;
+                                }
                             }
 
                         }
