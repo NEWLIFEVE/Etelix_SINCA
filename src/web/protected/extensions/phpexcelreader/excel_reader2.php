@@ -64,9 +64,9 @@ define('START_BLOCK_POS', 0x74);
 define('SIZE_POS', 0x78);
 define('IDENTIFIER_OLE', pack("CCCCCCCC",0xd0,0xcf,0x11,0xe0,0xa1,0xb1,0x1a,0xe1));
 
-define('MAX_STR',512000);
-define('MAX_MEM',96000000);
-ini_set("memory_limit",-1);
+//define('MAX_STR',512000);
+//define('MAX_MEM',96000000);
+//ini_set("memory_limit",-1);
 
 
 
