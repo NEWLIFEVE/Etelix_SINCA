@@ -254,7 +254,7 @@ class BalanceSori extends CActiveRecord
                 if($value->revenue != NULL) $revenue = $value->revenue; else $revenue = 0;
                 if($value->margin != NULL) $margin = $value->margin; else $margin = 0;
 
-                $costCalculate = abs($margin + $cost);   
+                $costCalculate = abs($revenue - $margin);   
                 $costAbsolute = abs($cost);
 
                 if($costAbsolute == $costCalculate){
