@@ -24,10 +24,10 @@
                         .'<tbody>';
                 foreach ($balance as $key => $registro) {
                     
-                    $servMovistar = Detalleingreso::getLibroVentas("LibroVentas","ServMov", $registro->Fecha, $registro->CABINA_Id);
-                    $servClaro = Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $registro->Fecha, $registro->CABINA_Id);
-                    $servDirectv = Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $registro->Fecha, $registro->CABINA_Id);
-                    $servNextel = Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $registro->Fecha, $registro->CABINA_Id);
+                    $servMovistar = Detalleingreso::getLibroVentas("LibroVentas","ServMovEtelix", $registro->Fecha, $registro->CABINA_Id);
+                    $servClaro = Detalleingreso::getLibroVentas("LibroVentas","ServClaroEtelix", $registro->Fecha, $registro->CABINA_Id);
+                    $servDirectv = Detalleingreso::getLibroVentas("LibroVentas","ServDirecTvEtelix", $registro->Fecha, $registro->CABINA_Id);
+                    $servNextel = Detalleingreso::getLibroVentas("LibroVentas","ServNextelEtelix", $registro->Fecha, $registro->CABINA_Id);
                     
                     $DifMov = CicloIngresoModelo::getDifFullCarga($registro->Fecha, $registro->CABINA_Id, 1);
                     $DifClaro = CicloIngresoModelo::getDifFullCarga($registro->Fecha, $registro->CABINA_Id, 2);

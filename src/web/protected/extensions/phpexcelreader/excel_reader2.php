@@ -669,8 +669,8 @@ class Spreadsheet_Excel_Reader {
 
             /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS CAPTURA.XLS *****************///*|*/
             /*|*/                                                                                 /*|*/
-            /*|*/      $columnaCapturaFecha        = 12;                                          /*|*/
-            /*|*/      $columnaCodigoCapturaCabina = 1;                                           /*|*/
+            /*|*/      $columnaCapturaFecha        = 13;                                          /*|*/
+            /*|*/      $columnaCodigoCapturaCabina = 3;                                           /*|*/
             /*|*/      $columnaCapturaoMonto       = 22;                                          /*|*/
             /*|*/      $columnaCaptura             = 0;                                           /*|*/
             /*|*/                                                                                 /*|*/
@@ -723,9 +723,16 @@ class Spreadsheet_Excel_Reader {
                 
                 for($row=2;$row<=$countRow;$row++) {
                     
-                    $_SESSION['cabinasC'][$i] = $this->val($row,$columnaCodigoCapturaCabina,$sheet);
-                    $_SESSION['montoC'][$i] = round($this->val($row,$columnaCapturaoMonto,$sheet),2);
-                    $_SESSION['fechaC'][$i] = date('Y-m-d',strtotime($this->val($row,$columnaCapturaFecha,$sheet)));
+                    $fechaCapturada = $this->val($row,$columnaCapturaFecha,$sheet);
+                    $codigoCabinaActual = $this->val($row,$columnaCodigoCapturaCabina,$sheet);
+                    $cabina = Cabina::model()->find("Codigo = '$codigoCabinaActual'")->Id;
+                    $montoTrafico = str_replace(',','.',$this->val($row,$columnaCapturaoMonto,$sheet));
+                    
+                    
+                    $_SESSION['cabinasC'][$i] = $cabina;
+                    $_SESSION['montoC'][$i] = $montoTrafico;
+                    $_SESSION['fechaC'][$i] = date('Y-m-d',strtotime($fechaCapturada));
+
                     
                     $i++;
                     
