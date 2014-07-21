@@ -19,13 +19,13 @@ $this->menu=DetalleingresoController::controlAccesoBalance($tipoUsuario);
 <h1>Declarar Ventas</h1>
 
 <?php
-//$horario = Utility::hora(12,true);
-//if($horario)
-//{
-//	echo "Lo sentimos, solo puede declarar ventas las 12:00pm.";
-//}
-//else
-//{
+$horario = Utility::hora(12,true);
+if($horario)
+{
+	echo "Lo sentimos, solo puede declarar ventas las 12:00pm.";
+}
+else
+{
 	echo $this->renderPartial('_form_services', array('model'=>$model));
-//}  
+}  
 ?>

@@ -42,11 +42,14 @@ class matrizIngresos extends Reportes
                     AND d.TIPOINGRESO_Id=t.Id
                     AND d.CABINA_Id=c.Id
                     AND d.USERS_Id=u.id
-                    AND u.tipo = 4
+                    AND u.tipo != 1
                     AND t.Id != 14
                     AND t.Id != 15
                     GROUP BY t.Nombre
                     ORDER BY t.Nombre;";
+            
+            
+            
             $model=  Detalleingreso::model()->findAllBySql($sql);
             if($model!=false)
             {
@@ -130,7 +133,7 @@ class matrizIngresos extends Reportes
                                     AND d.moneda = 1
                                     AND d.TIPOINGRESO_Id=t.Id
                                     AND d.USERS_Id=u.id
-                                    AND u.tipo = 4
+                                    AND u.tipo != 1
                                     AND d.TIPOINGRESO_Id = $gasto->TIPOINGRESO_Id
                                     GROUP BY d.moneda
                                     ) as MontoDolares, 
@@ -144,7 +147,7 @@ class matrizIngresos extends Reportes
                                     AND d.moneda = 2
                                     AND d.TIPOINGRESO_Id=t.Id
                                     AND d.USERS_Id=u.id
-                                    AND u.tipo = 4
+                                    AND u.tipo != 1
                                     AND d.TIPOINGRESO_Id = $gasto->TIPOINGRESO_Id
                                     GROUP BY d.moneda
                                     )  as MontoSoles
@@ -154,7 +157,7 @@ class matrizIngresos extends Reportes
                                   AND EXTRACT(MONTH FROM d.FechaMes) = '$mes'
                                   AND d.TIPOINGRESO_Id=t.Id
                                   AND d.USERS_Id=u.id
-                                  AND u.tipo = 4  
+                                  AND u.tipo != 1 
                                   AND d.TIPOINGRESO_Id = $gasto->TIPOINGRESO_Id    
                                   AND d.CABINA_Id = $cabina->Id;";
                         $MontoGasto=Detalleingreso::model()->findBySql($sqlMontoGasto);
@@ -225,12 +228,12 @@ class matrizIngresos extends Reportes
                                            FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id  
                                            INNER JOIN users AS u ON d.USERS_Id=u.id  
                                            WHERE t.Id=$gasto->TIPOINGRESO_Id AND EXTRACT(YEAR FROM d.FechaMes)='$año' AND EXTRACT(MONTH FROM d.FechaMes)='$mes' AND d.moneda=1 
-                                            AND u.tipo = 4 ) as MontoD,
+                                            AND u.tipo != 1 ) as MontoD,
                             (SELECT SUM(d.Monto) AS Monto 
                                            FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id  
                                            INNER JOIN users AS u ON d.USERS_Id=u.id  
                                            WHERE t.Id=$gasto->TIPOINGRESO_Id AND EXTRACT(YEAR FROM d.FechaMes)='$año' AND EXTRACT(MONTH FROM d.FechaMes)='$mes' AND d.moneda=2 
-                                            AND u.tipo = 4) as MontoS
+                                            AND u.tipo != 1) as MontoS
                             FROM detallegasto as d
                             LIMIT 1;";
                     $monts=Detalleingreso::model()->findBySql($sqlT);
@@ -265,10 +268,10 @@ class matrizIngresos extends Reportes
                 {
                     $sqlTotales="SELECT (SELECT SUM(d.Monto) AS Monto 
                                          FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN cabina AS c ON d.CABINA_Id=c.id INNER JOIN users AS u ON d.USERS_Id=u.id  
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND t.Id != 14 AND t.Id != 15 AND u.tipo = 4  ) AS MontoD,
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND t.Id != 14 AND t.Id != 15 AND u.tipo != 1 ) AS MontoD,
                                         (SELECT SUM(d.Monto) AS Monto 
                                          FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN cabina AS c ON d.CABINA_Id=c.id INNER JOIN users AS u ON d.USERS_Id=u.id  
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND t.Id != 14 AND t.Id != 15 AND u.tipo = 4  ) AS MontoS, 
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND t.Id != 14 AND t.Id != 15 AND u.tipo != 1  ) AS MontoS, 
                                         d.moneda
                                  FROM detalleingreso AS d";
                                          
@@ -279,9 +282,9 @@ class matrizIngresos extends Reportes
                     else $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;$borde'></td>";
                 }
 
-                $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND u.tipo = 4 AND t.Id != 14 AND t.Id != 15  )
+                $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND u.tipo != 1 AND t.Id != 14 AND t.Id != 15  )
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND u.tipo = 4 AND t.Id != 14 AND t.Id != 15  ) 
+                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND u.tipo != 1 AND t.Id != 14 AND t.Id != 15  ) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";
@@ -311,10 +314,10 @@ class matrizIngresos extends Reportes
                 {
                     $sqlTotales="SELECT (SELECT SUM(d.Monto) AS Monto 
                                          FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN cabina AS c ON d.CABINA_Id=c.id INNER JOIN users AS u ON d.USERS_Id=u.id  
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND t.Id != 14 AND t.Id != 15 AND u.tipo = 4  ) AS MontoD,
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=1 AND t.Id != 14 AND t.Id != 15 AND u.tipo != 1  ) AS MontoD,
                                         (SELECT SUM(d.Monto) AS Monto 
                                          FROM detalleingreso AS d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN cabina AS c ON d.CABINA_Id=c.id INNER JOIN users AS u ON d.USERS_Id=u.id  
-                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND t.Id != 14 AND t.Id != 15 AND u.tipo = 4  ) AS MontoS, 
+                                         WHERE d.CABINA_Id={$cabina->Id} AND EXTRACT(YEAR FROM d.FechaMes)='{$año}' AND EXTRACT(MONTH FROM d.FechaMes)='{$mes}' AND d.moneda=2 AND t.Id != 14 AND t.Id != 15 AND u.tipo != 1  ) AS MontoS, 
                                         d.moneda
                                  FROM detalleingreso AS d";
                     $total=Detalleingreso::model()->findBySql($sqlTotales);
@@ -322,9 +325,9 @@ class matrizIngresos extends Reportes
                     if($total->MontoD!=null) $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: #00992B;$borde'>".Reportes::format(Detalleingreso::montoGasto($total->MontoD), $type)."</td>";
                     else $tr.="<td style='padding:0;color: #FFFFFF;font-size:10px;background-color: none;$borde'></td>";
                 }      
-                $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND u.tipo = 4 AND t.Id != 14 AND t.Id != 15  )
+                $sqlTS = "select (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 1 AND u.tipo != 1 AND t.Id != 14 AND t.Id != 15  )
                     as MontoD,
-                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND u.tipo = 4 AND t.Id != 14 AND t.Id != 15  ) 
+                    (SELECT  sum(d.Monto) as Monto FROM detalleingreso as d INNER JOIN tipo_ingresos AS t ON d.TIPOINGRESO_Id=t.id INNER JOIN users AS u ON d.USERS_Id=u.id   WHERE EXTRACT(YEAR FROM d.FechaMes) = '$año' AND EXTRACT(MONTH FROM d.FechaMes) = '$mes' AND d.moneda = 2 AND u.tipo != 1 AND t.Id != 14 AND t.Id != 15  ) 
                     as MontoS
                     FROM detallegasto as d
                     LIMIT 1;";

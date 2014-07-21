@@ -121,7 +121,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'ServMov',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMov", $data->Fecha, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServMovEtelix", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaMov',
@@ -142,7 +142,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'ServClaro',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaro", $data->Fecha, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServClaroEtelix", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'recargaClaro',
@@ -163,7 +163,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'ServDirecTv',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTv", $data->Fecha, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServDirecTvEtelix", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'ServDirecTv',
@@ -184,7 +184,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             ),
         array(
             'name'=>'ServNextel',
-            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextel", $data->Fecha, $data->CABINA_Id)',
+            'value'=>'Detalleingreso::getLibroVentas("LibroVentas","ServNextelEtelix", $data->Fecha, $data->CABINA_Id)',
             'type'=>'text',
             'htmlOptions'=>array(
                 'id'=>'ServNextel',

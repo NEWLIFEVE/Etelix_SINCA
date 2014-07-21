@@ -128,7 +128,7 @@ set_time_limit(7200);
 //        RecargaVentasMov, RecargaVentasClaro, TraficoCapturaDollar
 //        FROM balance
 //        WHERE EXTRACT(YEAR FROM Fecha) = '2014' 
-//        AND EXTRACT(MONTH FROM Fecha) = '06'
+//        AND EXTRACT(MONTH FROM Fecha) = '07'
 //        AND Fecha IS NOT NULL 
 //        AND Fecha != '0000-00-00' 
 //        AND CABINA_Id != 18 AND CABINA_Id != 19
@@ -203,10 +203,10 @@ set_time_limit(7200);
 //    
 //    
 //}
-
-    
-
-    
+//
+//    
+//
+//    
 
 //echo '</table>';
 

@@ -116,7 +116,7 @@ class Detalleingreso extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('CABINA_Id, CUENTA_Id, moneda, Monto, FechaMes, USERS_Id, TIPOINGRESO_Id', 'required'),
+			array('CABINA_Id, CUENTA_Id, moneda, Monto, FechaMes, USERS_Id, TIPOINGRESO_Id, FechaBalance', 'required'),
 			array('Id, moneda, USERS_Id, TIPOINGRESO_Id, CABINA_Id, CUENTA_Id', 'numerical', 'integerOnly'=>true),
 			array('Monto', 'length', 'max'=>15),
 			array('Descripcion', 'length', 'max'=>245),
@@ -477,6 +477,19 @@ class Detalleingreso extends CActiveRecord
                         else
                             return $ServMov->ServMov;
                     }
+                    elseif($atributo == 'ServMovEtelix'){
+                        $ServMov = self::model()->findBySql("SELECT SUM(d.Monto) as ServMov 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 1 AND u.tipo != 1;");
+                        if($ServMov->ServMov == NULL)
+                            return '0.00';
+                        else
+                            return $ServMov->ServMov;
+                    }
                     elseif($atributo == 'ServClaro'){
                         $ServClaro = self::model()->findBySql("SELECT SUM(d.Monto) as ServClaro 
                                                                 FROM detalleingreso as d
@@ -485,6 +498,19 @@ class Detalleingreso extends CActiveRecord
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
                                                                 AND t.COMPANIA_Id = 2 AND u.tipo = 1;");
+                        if($ServClaro->ServClaro == NULL)
+                            return '0.00';
+                        else
+                            return $ServClaro->ServClaro;
+                    }
+                    elseif($atributo == 'ServClaroEtelix'){
+                        $ServClaro = self::model()->findBySql("SELECT SUM(d.Monto) as ServClaro 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 2 AND u.tipo != 1;");
                         if($ServClaro->ServClaro == NULL)
                             return '0.00';
                         else
@@ -503,6 +529,19 @@ class Detalleingreso extends CActiveRecord
                         else
                             return $ServNextel->ServNextel;
                     }
+                    elseif($atributo == 'ServNextelEtelix'){
+                        $ServNextel = self::model()->findBySql("SELECT SUM(d.Monto) as ServNextel 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 3 AND u.tipo != 1;");
+                        if($ServNextel->ServNextel == NULL)
+                            return '0.00';
+                        else
+                            return $ServNextel->ServNextel;
+                    }
                     elseif($atributo == 'ServDirecTv'){
                         $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as ServDirecTv 
                                                                 FROM detalleingreso as d
@@ -511,6 +550,19 @@ class Detalleingreso extends CActiveRecord
                                                                 WHERE d.FechaMes = '$fecha' 
                                                                 AND d.CABINA_Id = $cabinaId 
                                                                 AND t.COMPANIA_Id = 4 AND u.tipo = 1;");
+                        if($ServDirecTv->ServDirecTv == NULL)
+                            return '0.00';
+                        else
+                            return $ServDirecTv->ServDirecTv;
+                    }
+                    elseif($atributo == 'ServDirecTvEtelix'){
+                        $ServDirecTv = self::model()->findBySql("SELECT SUM(d.Monto) as ServDirecTv 
+                                                                FROM detalleingreso as d
+                                                                INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                                                INNER JOIN users as u ON u.id = d.USERS_Id
+                                                                WHERE d.FechaMes = '$fecha' 
+                                                                AND d.CABINA_Id = $cabinaId 
+                                                                AND t.COMPANIA_Id = 4 AND u.tipo != 1;");
                         if($ServDirecTv->ServDirecTv == NULL)
                             return '0.00';
                         else
@@ -954,7 +1006,7 @@ class Detalleingreso extends CActiveRecord
                                                                   AND d.CABINA_Id = $cabinas[$i] 
                                                                   AND t.COMPANIA_Id = $compania->COMPANIA_Id
                                                                   AND t.Clase = 1    
-                                                                  AND u.tipo = 4;")->DifDollar;
+                                                                  AND u.tipo != 1;")->DifDollar;
 
                         if($ventasOperador != NULL && $ventasEtelix != NULL){
 

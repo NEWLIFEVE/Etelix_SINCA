@@ -64,9 +64,9 @@ define('START_BLOCK_POS', 0x74);
 define('SIZE_POS', 0x78);
 define('IDENTIFIER_OLE', pack("CCCCCCCC",0xd0,0xcf,0x11,0xe0,0xa1,0xb1,0x1a,0xe1));
 
-define('MAX_STR',512000);
-define('MAX_MEM',96000000);
-ini_set("memory_limit",-1);
+//define('MAX_STR',512000);
+//define('MAX_MEM',96000000);
+//ini_set("memory_limit",-1);
 
 
 
@@ -669,8 +669,8 @@ class Spreadsheet_Excel_Reader {
 
             /*|*///******** COLUMNAS SELECCIONADAS EN LOS ARCHIVOS CAPTURA.XLS *****************///*|*/
             /*|*/                                                                                 /*|*/
-            /*|*/      $columnaCapturaFecha        = 12;                                          /*|*/
-            /*|*/      $columnaCodigoCapturaCabina = 1;                                           /*|*/
+            /*|*/      $columnaCapturaFecha        = 13;                                          /*|*/
+            /*|*/      $columnaCodigoCapturaCabina = 3;                                           /*|*/
             /*|*/      $columnaCapturaoMonto       = 22;                                          /*|*/
             /*|*/      $columnaCaptura             = 0;                                           /*|*/
             /*|*/                                                                                 /*|*/
@@ -723,9 +723,16 @@ class Spreadsheet_Excel_Reader {
                 
                 for($row=2;$row<=$countRow;$row++) {
                     
-                    $_SESSION['cabinasC'][$i] = $this->val($row,$columnaCodigoCapturaCabina,$sheet);
-                    $_SESSION['montoC'][$i] = round($this->val($row,$columnaCapturaoMonto,$sheet),2);
-                    $_SESSION['fechaC'][$i] = date('Y-m-d',strtotime($this->val($row,$columnaCapturaFecha,$sheet)));
+                    $fechaCapturada = $this->val($row,$columnaCapturaFecha,$sheet);
+                    $codigoCabinaActual = $this->val($row,$columnaCodigoCapturaCabina,$sheet);
+                    $cabina = Cabina::model()->find("Codigo = '$codigoCabinaActual'")->Id;
+                    $montoTrafico = str_replace(',','.',$this->val($row,$columnaCapturaoMonto,$sheet));
+                    
+                    
+                    $_SESSION['cabinasC'][$i] = $cabina;
+                    $_SESSION['montoC'][$i] = $montoTrafico;
+                    $_SESSION['fechaC'][$i] = date('Y-m-d',strtotime($fechaCapturada));
+
                     
                     $i++;
                     
@@ -872,28 +879,36 @@ class Spreadsheet_Excel_Reader {
                             $Ingreso = Detalleingreso::model()->find("FechaMes = '$fecha' AND CABINA_Id = $cabina AND TIPOINGRESO_Id = $ingreso AND USERS_Id = 58");
                             if($Ingreso == NULL){
 
-                                $Ingreso = new Detalleingreso;
-                                $Ingreso->FechaMes = $fecha;
-                                $Ingreso->Monto = $monto;  
-                                $Ingreso->Costo_Comision = $montoComision;  
-                                $Ingreso->CABINA_Id = $cabina;
-                                $Ingreso->USERS_Id = 58;
-                                $Ingreso->TIPOINGRESO_Id = $ingreso;
-                                $Ingreso->moneda = 2;
+                                $IngresoNuevo = new Detalleingreso;
+                                $IngresoNuevo->FechaMes = $fecha;
+                                $IngresoNuevo->Monto = $monto;  
+                                $IngresoNuevo->Costo_Comision = $montoComision;  
+                                $IngresoNuevo->CABINA_Id = $cabina;
+                                $IngresoNuevo->USERS_Id = 58;
+                                $IngresoNuevo->TIPOINGRESO_Id = $ingreso;
+                                $IngresoNuevo->moneda = 2;
 
                                 if($cabina == 17){
-                                    $Ingreso->CUENTA_Id = 2;
+                                    $IngresoNuevo->CUENTA_Id = 2;
                                 }else{
-                                    $Ingreso->CUENTA_Id = 4;
+                                    $IngresoNuevo->CUENTA_Id = 4;
                                 }
 
-                                $Ingreso->FechaTransf = NULL;
-                                $Ingreso->TransferenciaPago = NULL;
-                                $Ingreso->Descripcion = NULL;
-                                if($Ingreso->save()){
+                                $IngresoNuevo->FechaTransf = NULL;
+                                $IngresoNuevo->TransferenciaPago = NULL;
+                                $IngresoNuevo->Descripcion = NULL;
+                                if($IngresoNuevo->save()){
                                     $a++;
                                 }
 
+                            }else{
+                                $Ingreso->Monto = $monto;  
+                                $Ingreso->Costo_Comision = $montoComision;  
+                                if($Ingreso->save()){
+                                    $a++;
+                                }elseif($Ingreso->save(false)){
+                                    $a++;
+                                }
                             }
 
                         }
