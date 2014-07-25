@@ -1,12 +1,13 @@
 <?php
 
-class estadoResultado extends Reportes 
+class estadoResultadoRemo extends Reportes 
 {
      public static function reporte($day,$name,$dir) 
      {
 
+            
             $objPHPExcel = new PHPExcel();
-            $sheet = new estadoResultado(); 
+            $sheet = new estadoResultadoRemo(); 
 
             $objPHPExcel->
                     getProperties()
@@ -14,8 +15,8 @@ class estadoResultado extends Reportes
                             ->setLastModifiedBy("SINCA")
                             ->setTitle($name)
                             ->setSubject($name)
-                            ->setDescription("Estado Resultados Cabinas")
-                            ->setKeywords("SINCA Estado Resultados Cabinas")
+                            ->setDescription("Estado Resultados Cabinas REMO")
+                            ->setKeywords("SINCA Estado Resultados Cabinas REMO")
                             ->setCategory($name);
 
 
@@ -28,7 +29,7 @@ class estadoResultado extends Reportes
             //TITULOS DE LAS HOJAS
             $mes = Utility::monthName($day.'-01');
             $año = date("Y", strtotime($day.'-01')); 
-            $objPHPExcel->setActiveSheetIndex(0)->setTitle('EEFF CABINAS');
+            $objPHPExcel->setActiveSheetIndex(0)->setTitle('REMO CABINAS');
 
             //HOJA A MOSTRAR POR DEFECTO (MATRIZ DE FALLAS POR SEMANA)
             $objPHPExcel->setActiveSheetIndex(0);
@@ -48,6 +49,13 @@ class estadoResultado extends Reportes
                 exit;
             }
 
+    }
+    
+    public static function getMes($month){
+            $meses = array('January'=>'Enero','February'=>'Febrero','March'=>'Marzo','April'=>'Abril',
+                           'May'=>'Mayo','June'=>'Junio','July'=>'Julio','August'=>'Agosto',
+                           'September'=>'Septiembre','October'=>'Octubre','November'=>'Noviembre','December'=>'Diciembre');
+            return $meses[$month];
     }
     
     //ASIGNA COLOR A UNA CELDA ESPECIFICADA
@@ -140,10 +148,10 @@ class estadoResultado extends Reportes
 
 
     //DATA DE LOS SERVICIOS DE  FULLCARGA
-    public static function getDataFullCarga($fecha,$cabina,$compania){
+    public static function getDataFullCarga($fechaCapturada,$compania){
         
-        $primerDia = $fecha.'-01';
-        $ultimoDia = $fecha.'-31';
+        $primerDia = $fechaCapturada.'-01';
+        $ultimoDia = $fechaCapturada.'-31';
         $totalMonto = 0;
         
         for($fecha=$primerDia; $fecha<=$ultimoDia; $fecha=date("Y-m-d", strtotime($fecha ."+ 1 days"))){
@@ -157,7 +165,6 @@ class estadoResultado extends Reportes
                       INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND t.Nombre = 'Subarriendo';";
 
             }elseif($compania == 'TraficoCaptura'){
@@ -167,7 +174,6 @@ class estadoResultado extends Reportes
                       INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND t.Nombre = 'TraficoCapturaDollar';";
 
             }elseif($compania != 'SubArriendos' && $compania != 'TraficoCaptura'){
@@ -176,8 +182,7 @@ class estadoResultado extends Reportes
                       FROM detalleingreso as d
                       INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
-                      WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina     
+                      WHERE d.FechaMes = '$fecha'  
                       AND t.COMPANIA_Id = $compania 
                       AND t.Clase = 1 
                       AND u.tipo != 1;";
@@ -210,10 +215,10 @@ class estadoResultado extends Reportes
     }
     
     //DATA DE LOS COSTOS Y LAS COMISIONES DE FULLCARGA
-    public static function getDataComisionFullCarga($fecha,$cabina,$compania){
+    public static function getDataComisionFullCarga($fechaCapturada,$compania){
         
-        $primerDia = $fecha.'-01';
-        $ultimoDia = $fecha.'-31';
+        $primerDia = $fechaCapturada.'-01';
+        $ultimoDia = $fechaCapturada.'-31';
         $totalMonto = 0;
         
         for($fecha=$primerDia; $fecha<=$ultimoDia; $fecha=date("Y-m-d", strtotime($fecha ."+ 1 days"))){
@@ -227,7 +232,6 @@ class estadoResultado extends Reportes
                       INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha' 
-                      AND d.CABINA_Id = $cabina 
                       AND t.Nombre = 'TraficoCapturaDollar';";
 
             }elseif($compania != 'llamadas'){
@@ -237,7 +241,6 @@ class estadoResultado extends Reportes
                       INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha' 
-                      AND d.CABINA_Id = $cabina 
                       AND t.COMPANIA_Id = $compania AND u.tipo != 1;";
 
             }
@@ -269,10 +272,10 @@ class estadoResultado extends Reportes
     }
     
     //DATA DE LOS EGRESOS
-    public static function getDataEgresos($fecha,$cabina,$paridad,$egreso){
+    public static function getDataEgresos($fechaCapturada,$egreso){
         
-        $primerDia = $fecha.'-01';
-        $ultimoDia = $fecha.'-31';
+        $primerDia = $fechaCapturada.'-01';
+        $ultimoDia = $fechaCapturada.'-31';
         $totalMonto = 0;
         
         for($fecha=$primerDia; $fecha<=$ultimoDia; $fecha=date("Y-m-d", strtotime($fecha ."+ 1 days"))){
@@ -280,33 +283,32 @@ class estadoResultado extends Reportes
             $paridad = Paridad::model()->findBySql("SELECT Valor FROM paridad WHERE Fecha <= '$fecha' ORDER BY Fecha DESC LIMIT 1;")->Valor;
             
             if($egreso == 'Generales'){
-                $sql="SELECT d.Monto as Monto, moneda
+                $sql="SELECT d.Monto as Monto, d.moneda
                       FROM detallegasto as d
                       INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                       INNER JOIN category as ca ON ca.id = t.category_id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND d.status IN(2,3)     
-                      AND ca.id = 1 AND t.Id != 39;";
+                      AND ca.id = 1 AND t.Id NOT IN (39)
+                      AND d.CABINA_Id != 19;";
             }elseif($egreso == 'Otros'){
-                $sql="SELECT d.Monto as Monto, moneda
+                $sql="SELECT d.Monto as Monto, d.moneda
                       FROM detallegasto as d
                       INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                       INNER JOIN category as ca ON ca.id = t.category_id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND d.status IN(2,3)      
                       AND ca.id IN(2,4,5,8)
-                      AND t.id != 72;";
-            }elseif($egreso != 'Generales' || $egreso != 'Otros'){
-                $sql="SELECT d.Monto as Monto, moneda
+                      AND t.id != 72
+                      AND d.CABINA_Id != 19;";
+            }elseif($egreso != 'Generales' && $egreso != 'Otros'){
+                $sql="SELECT d.Monto as Monto, d.moneda
                       FROM detallegasto as d
                       INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND d.status IN(2,3)      
                       AND t.Id = $egreso;";
             }
@@ -321,27 +323,28 @@ class estadoResultado extends Reportes
 
                 foreach ($gasto as $key => $value) {
 
-                    if($value->moneda == 1){
-                        $totalMonto = $totalMonto + ($value->Monto);
-                    }elseif($value->moneda == 2){
-                        $totalMonto = $totalMonto + ($value->Monto/$paridad);
+                    if($value->Monto == NULL && $value->moneda == NULL){
+                        $totalMonto = $totalMonto + 0;
+                    }else{
+                        if($value->moneda == '1'){
+                            $totalMonto = $totalMonto + ($value->Monto);
+                        }elseif($value->moneda == '2'){
+                            $totalMonto = $totalMonto + ($value->Monto/$paridad);
+                        }
                     }
-
                 }
-
             }
-            
         }
         
         return $totalMonto;
-
+        $totalMonto = 0;
     }
     
     //DATA DE LOS IMPUESTOS
-    public static function getDataImpuestos($fecha,$cabina,$paridad,$egreso){
+    public static function getDataImpuestos($fechaCapturada,$egreso){
         
-        $primerDia = $fecha.'-01';
-        $ultimoDia = $fecha.'-31';
+        $primerDia = $fechaCapturada.'-01';
+        $ultimoDia = $fechaCapturada.'-31';
         $totalMonto = 0;
         
         for($fecha=$primerDia; $fecha<=$ultimoDia; $fecha=date("Y-m-d", strtotime($fecha ."+ 1 days"))){
@@ -354,7 +357,6 @@ class estadoResultado extends Reportes
                       INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND t.Id IN(7);";
             }elseif($egreso == 'Sunat'){
                 $sql="SELECT d.Monto as Monto, moneda
@@ -362,7 +364,6 @@ class estadoResultado extends Reportes
                       INNER JOIN tipogasto as t ON t.Id = d.TIPOGASTO_Id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND t.Id IN(12);";
             }elseif($egreso == 'Otros'){
                 $sql="SELECT d.Monto as Monto, moneda
@@ -371,7 +372,6 @@ class estadoResultado extends Reportes
                       INNER JOIN category as ca ON ca.id = t.category_id
                       INNER JOIN users as u ON u.id = d.USERS_Id
                       WHERE d.FechaMes = '$fecha'
-                      AND d.CABINA_Id = $cabina 
                       AND ca.id IN(6) AND t.Id != 6;";
             }
 
@@ -401,11 +401,11 @@ class estadoResultado extends Reportes
     }
     
     //DATA DE CICLO DE INGRESO
-    public static function getDataCicloIngreso($fecha,$cabina,$paridad){
+    public static function getDataCicloIngreso($fechaCapturada,$paridad){
         
         
-        $primerDia = $fecha.'-01';
-        $ultimoDia = $fecha.'-31';
+        $primerDia = $fechaCapturada.'-01';
+        $ultimoDia = $fechaCapturada.'-31';
         $totalMonto = 0;
         
         for($fecha=$primerDia; $fecha<=$ultimoDia; $fecha=date("Y-m-d", strtotime($fecha ."+ 1 days"))){
@@ -422,8 +422,7 @@ class estadoResultado extends Reportes
                     SUM(IFNULL(DiferencialDirectv,0)) as DiferencialDirectv,
                     SUM(IFNULL(DiferencialCaptura,0)) as DiferencialCaptura
                     FROM ciclo_ingreso 
-                    WHERE Fecha = '$fecha' 
-                    AND CABINA_Id = $cabina;";
+                    WHERE Fecha = '$fecha';";
 
             $modelAcum = CicloIngresoModelo::model()->findBySql($sql);
 
@@ -440,7 +439,7 @@ class estadoResultado extends Reportes
     }
     
     //DATA DE SORI - COSTO DE LAS LLAMADAS
-    public static function getCostoLlamada($fecha,$cabina)
+    public static function getCostoLlamada($fechaCapturada,$cabina)
     {
         
         $arrayCarriers = Array();
@@ -503,12 +502,12 @@ class estadoResultado extends Reportes
             }
 //            
             //BORDES DE LA CELDA COMPLETA - GRAN TOTAL
-            for($j=1;$j<43;$j++){
+            for($j=1;$j<45;$j++){
                 self::borderColor($cols_asrray[$cellGranTotales].$j,'FFFFFF',$objPHPExcel);
                 self::borderColor($cols_asrray[($cellGranTotales+1)].$j,'FFFFFF',$objPHPExcel);
                 self::borderSiteColor($cols_asrray[($cellGranTotales+1)].$j,'000000','right',$objPHPExcel);
                 
-                if($j == 3 || $j == 12 || $j == 21 || $j == 27 || $j == 29 || $j == 38 || $j == 40 || $j == 42){
+                if($j == 3 || $j == 12 || $j == 21 || $j == 27 || $j == 29 || $j == 38 || $j == 40 || $j == 42 || $j == 44){
                     self::cellColor($cols_asrray[$cellGranTotales].$j, 'AAAAAA',$objPHPExcel);
                     self::cellColor($cols_asrray[($cellGranTotales+1)].$j, 'AAAAAA',$objPHPExcel);
                     
@@ -656,10 +655,15 @@ class estadoResultado extends Reportes
             self::fontSite($cols_asrray[($cellGranTotales+1)].'40','000000','10','right',$objPHPExcel);
             self::setCurrency($cols_asrray[($cellGranTotales+1)].'40','USD$',$objPHPExcel);
             
-            //TOTAL DE GANANCIA TOTAL NETA
+            //TOTAL CAPEX
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'42', "=SUM(".$cols_asrray[(2)].'42'.":".$cols_asrray[($cellGranTotales-1)].'42'.")");
             self::fontSite($cols_asrray[($cellGranTotales+1)].'42','000000','10','right',$objPHPExcel);
             self::setCurrency($cols_asrray[($cellGranTotales+1)].'42','USD$',$objPHPExcel);
+            
+            //TOTAL DE GANANCIA TOTAL NETA
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($cellGranTotales+1)].'44', "=SUM(".$cols_asrray[(2)].'44'.":".$cols_asrray[($cellGranTotales-1)].'44'.")");
+            self::fontSite($cols_asrray[($cellGranTotales+1)].'44','000000','10','right',$objPHPExcel);
+            self::setCurrency($cols_asrray[($cellGranTotales+1)].'44','USD$',$objPHPExcel);
         
     }
     
@@ -696,15 +700,20 @@ class estadoResultado extends Reportes
         self::fontSite('A38','000000','11','right',$objPHPExcel);
         self::cellColor('A38', 'AAAAAA',$objPHPExcel);
 
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A40', 'AJUSTE POR CICLO DE INGRESOS');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A40', 'AJUSTE POR CICLO DE INGRESOS (PENDIENTE)');
         $objPHPExcel->getActiveSheet()->getRowDimension('40')->setRowHeight(20);      
         self::fontSite('A40','000000','11','right',$objPHPExcel);
         self::cellColor('A40', 'AAAAAA',$objPHPExcel);
 
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A42', 'GANANCIA TOTAL NETA');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A42', 'CAPEX');
         $objPHPExcel->getActiveSheet()->getRowDimension('42')->setRowHeight(20);      
         self::fontSite('A42','000000','11','right',$objPHPExcel);
         self::cellColor('A42', 'AAAAAA',$objPHPExcel);
+        
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A44', 'GANANCIA TOTAL NETA');
+        $objPHPExcel->getActiveSheet()->getRowDimension('44')->setRowHeight(20);      
+        self::fontSite('A44','000000','11','right',$objPHPExcel);
+        self::cellColor('A44', 'AAAAAA',$objPHPExcel);
 
         //INGRESOS
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A4', 'Ingresos Llamadas');
@@ -795,14 +804,15 @@ class estadoResultado extends Reportes
     //GENERA LA 2DA HOJA DEL REPORTE (MATRIZ GENERAL POR DIA)
     private function _genSheetOne($objPHPExcel,$day){
         
-            $mes = Utility::monthName($day.'-01');
-            $primerDia = $day.'-01';
-            $ultimoDia = $day.'-31';
+            $anio = 'AÑO '.date('Y', strtotime($day));
+            $mes = $day.'-01';
+            $mes_array = Array();
+            $anio_array = Array();
         
             //TITULO
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'EEFF CABINAS');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'REMO CABINAS');
             self::font('A1','FFFFFF','16',$objPHPExcel);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', $mes);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', $anio);
             self::font('A2','FFFFFF','16',$objPHPExcel);
             
             self::borderColor('A1','ff9900',$objPHPExcel);
@@ -811,7 +821,7 @@ class estadoResultado extends Reportes
             self::cellColor('A2', 'ff9900',$objPHPExcel);
 
 
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(40);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(42);
             
             //QUITA EL ESPACIO EN BLANCO
 //            $objPHPExcel->getActiveSheet()->getRowDimension('11')->setRowHeight(0);   
@@ -831,15 +841,16 @@ class estadoResultado extends Reportes
             $arrayFechas = Array('-01','-02','-03','-04','-05','-06','-07','-08','-09','-10','-11','-12','-13',
                                  '-14','-15','-16','-17','-18','-19','-20',
                                  '-21','-22','-23','-24','-25','-26','-27','-28','-29','-30','-31');
-            
-            
-            $nombreCabinas = Cabina::model()->findAllBySql("SELECT Id, Nombre FROM cabina WHERE status = 1 AND Id !=18 AND Id != 19 ORDER BY Nombre;");
-            $cellGranTotales = (count($nombreCabinas)*2)+1;
+
+            for($i=0;$i<5;$i++){
+                $mes_array[$i] = ucwords(strftime("%B", mktime(0, 0, 0, date('m',strtotime($mes))-$i)));
+                $anio_array[$i] = date('Y-m',strtotime("-".($i)." month", strtotime($mes)));
+            }
+
+            $cellGranTotales = (count($mes_array)*2)+1;
             
             $paridad = 1;
-            
-            
-            
+
             $i = 1;
             $traficoSoles = 0;
             $traficoDollar = 0;
@@ -905,26 +916,24 @@ class estadoResultado extends Reportes
             $objPHPExcel->getActiveSheet()->freezePane('B3');
             
             //ENCABEZADO DE CABINAS
-            foreach ($nombreCabinas as $key => $value){
+            foreach (array_reverse($mes_array,true) as $key => $value){
 
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$i].'1', $value->Nombre);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[$i].'1', self::getMes($value));
                     $objPHPExcel->setActiveSheetIndex(0)->getStyle($cols_asrray[$i].'1')->getFont()->setSize(16);
                     self::cellColor($cols_asrray[$i].'1', 'ff9900',$objPHPExcel);
 
-
-
-                    self::font($cols_asrray[$i].'1','FFFFFF','14',$objPHPExcel);
+                    self::font($cols_asrray[$i].'1','FFFFFF','16',$objPHPExcel);
                     $objPHPExcel->setActiveSheetIndex(0)->mergeCells($cols_asrray[$i].'1:'.$cols_asrray[($i+1)].'2');
 
                     //VALORES DEL CONTENIDO (INGRESOS)
-                    $trafico = self::getDataFullCarga($day,$value->Id,'TraficoCaptura');
+                    $trafico = self::getDataFullCarga($anio_array[$key],'TraficoCaptura');
                     $traficoDollar = $trafico;
 
-                    $servMov = self::getDataFullCarga($day,$value->Id,1);
-                    $servClaro = self::getDataFullCarga($day,$value->Id,2);
-                    $servDirecTv = self::getDataFullCarga($day,$value->Id,4);
-                    $servNextel = self::getDataFullCarga($day,$value->Id,3);
-                    $subArriendo = self::getDataFullCarga($day,$value->Id,'SubArriendos');
+                    $servMov = self::getDataFullCarga($anio_array[$key],1);
+                    $servClaro = self::getDataFullCarga($anio_array[$key],2);
+                    $servDirecTv = self::getDataFullCarga($anio_array[$key],4);
+                    $servNextel = self::getDataFullCarga($anio_array[$key],3);
+                    $subArriendo = self::getDataFullCarga($anio_array[$key],'SubArriendos');
 
                     $servMovDollar = ($servMov);
                     $servClaroDollar = ($servClaro);
@@ -940,11 +949,11 @@ class estadoResultado extends Reportes
                     $ingresosTotal = ($traficoDollar+$ventas+$subArriendoDollar);
 
                     //VALORES DEL CONTENIDO (MARGEN)
-                    $costoLlamadas = self::getDataComisionFullCarga($day,$value->Id,'llamadas');
-                    $comisionMov = self::getDataComisionFullCarga($day,$value->Id,1);
-                    $comisionClaro = self::getDataComisionFullCarga($day,$value->Id,2);
-                    $comisionDiecTv = self::getDataComisionFullCarga($day,$value->Id,4);
-                    $comisionNextel = self::getDataComisionFullCarga($day,$value->Id,3);
+                    $costoLlamadas = self::getDataComisionFullCarga($anio_array[$key],'llamadas');
+                    $comisionMov = self::getDataComisionFullCarga($anio_array[$key],1);
+                    $comisionClaro = self::getDataComisionFullCarga($anio_array[$key],2);
+                    $comisionDiecTv = self::getDataComisionFullCarga($anio_array[$key],4);
+                    $comisionNextel = self::getDataComisionFullCarga($anio_array[$key],3);
 
                     $traficoDollarMargen = $traficoDollar-$costoLlamadas;
                     $servMovDollarMargen = $comisionMov;
@@ -956,22 +965,22 @@ class estadoResultado extends Reportes
                     $totalMargen = $traficoDollarMargen+$totalVentasMargen+$subArriendoMargen;
 
                     //VALORES DEL CONTENIDO (EGRESOS)
-                    $alquiler = self::getDataEgresos($day, $value->Id, $paridad, 39);
-                    $nomina = self::getDataEgresos($day, $value->Id, $paridad, 75);
-                    $servGenerales = self::getDataEgresos($day, $value->Id, $paridad, 'Generales');
-                    $otrosGastos = self::getDataEgresos($day, $value->Id, $paridad, 'Otros');
+                    $alquiler = self::getDataEgresos($anio_array[$key], 39);
+                    $nomina = self::getDataEgresos($anio_array[$key], 75);
+                    $servGenerales = self::getDataEgresos($anio_array[$key], 'Generales');
+                    $otrosGastos = self::getDataEgresos($anio_array[$key], 'Otros');
                     $totalGastos = $alquiler+$nomina+$servGenerales+$otrosGastos;
 
                     //VALORES DEL CONTENIDO (IMPUESTOS)
-                    $sunat = self::getDataImpuestos($day, $value->Id, $paridad, 'Sunat');
-                    $arbitrios = self::getDataImpuestos($day, $value->Id, $paridad, 'Arbitiros');
-                    $otrosImpuestos = self::getDataImpuestos($day, $value->Id, $paridad, 'Otros');
+                    $sunat = self::getDataImpuestos($anio_array[$key], 'Sunat');
+                    $arbitrios = self::getDataImpuestos($anio_array[$key], 'Arbitiros');
+                    $otrosImpuestos = self::getDataImpuestos($anio_array[$key], 'Otros');
                     $totalImpuestos = $sunat+$arbitrios+$otrosImpuestos+($traficoDollar*0.5/100)+($traficoDollar*0.5/100)+($traficoDollar*1/100)+($traficoDollar*1.5/100);
 
                     //VALORES DE CONTENIDO (TOTALES)
                     $TOTALEBITDA = $totalMargen-$totalGastos;
                     $GANANCIANETA = $TOTALEBITDA - $totalImpuestos;
-                    $AJUSTECICLOINGRESO = self::getDataCicloIngreso($day, $value->Id, $paridad);
+                    $AJUSTECICLOINGRESO = self::getDataCicloIngreso($anio_array[$key], $paridad);
                     $GANANCIATOTALNETA = $GANANCIANETA + $AJUSTECICLOINGRESO;
 
 
@@ -1135,9 +1144,13 @@ class estadoResultado extends Reportes
                     self::fontSite($cols_asrray[($i+1)].'40','000000','10','right',$objPHPExcel);
                     self::setCurrency($cols_asrray[($i+1)].'40','USD$',$objPHPExcel);
 
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'42', "=SUM(".$cols_asrray[($i+1)].'38'.":".$cols_asrray[($i+1)].'40'.")");
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'42', "CAPEX");
                     self::fontSite($cols_asrray[($i+1)].'42','000000','10','right',$objPHPExcel);
                     self::setCurrency($cols_asrray[($i+1)].'42','USD$',$objPHPExcel);
+                    
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cols_asrray[($i+1)].'44', "=SUM(".$cols_asrray[($i+1)].'38'.":".$cols_asrray[($i+1)].'40'.")");
+                    self::fontSite($cols_asrray[($i+1)].'44','000000','10','right',$objPHPExcel);
+                    self::setCurrency($cols_asrray[($i+1)].'44','USD$',$objPHPExcel);
 
 
 
@@ -1149,12 +1162,12 @@ class estadoResultado extends Reportes
                     $objPHPExcel->getActiveSheet()->getColumnDimension($cols_asrray[($i+1)])->setWidth(16);
 
 
-                    for($j=1;$j<43;$j++){
+                    for($j=1;$j<45;$j++){
                         self::borderColor('A'.$j,'FFFFFF',$objPHPExcel);
                         self::borderColor($cols_asrray[$i].$j,'FFFFFF',$objPHPExcel);
                         self::borderColor($cols_asrray[($i+1)].$j,'FFFFFF',$objPHPExcel);
 
-                        if($j == 3 || $j == 12 || $j == 21 || $j == 27 || $j == 29 || $j == 38 || $j == 40 || $j == 42){
+                        if($j == 3 || $j == 12 || $j == 21 || $j == 27 || $j == 29 || $j == 38 || $j == 40 || $j == 42 || $j == 44) {
                             self::cellColor($cols_asrray[$i].$j, 'AAAAAA',$objPHPExcel);
                             self::cellColor($cols_asrray[($i+1)].$j, 'AAAAAA',$objPHPExcel);
 

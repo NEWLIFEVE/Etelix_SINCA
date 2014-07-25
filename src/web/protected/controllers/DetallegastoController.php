@@ -574,6 +574,7 @@ class DetallegastoController extends Controller {
                 array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
                 array('label'=>'_____ESTADO RESULTADO______','url'=>array('')),
                 array('label' => 'Estado de Resultados EEFF', 'url' => array('detalleingreso/estadoResultado')),
+                array('label' => 'Estado de Resultados EEFF REMO', 'url' => array('detalleingreso/estadoResultadoRemo')),
             );
         }
         /* TESORERO */

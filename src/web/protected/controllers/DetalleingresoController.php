@@ -50,6 +50,7 @@ class DetalleingresoController extends Controller
                         'ReporteFullCarga',
                         'ReporteCaptura',
                         'EstadoResultado',
+                        'EstadoResultadoRemo',
                         'CreateCostoLlamadas',
                     ),
                     'users'=>Users::UsuariosPorTipo(3),
@@ -536,6 +537,18 @@ class DetalleingresoController extends Controller
             ));
         }
         
+        public function actionEstadoResultadoRemo()
+        {
+            $model=new Detalleingreso('search');
+            $model->unsetAttributes();  // clear any default values
+            if (isset($_GET['Detalleingreso']))
+                $model->attributes = $_GET['Detalleingreso'];
+
+            $this->render('estadoResultadoREMO', array(
+                'model' => $model,
+            ));
+        }
+        
         public function actionAdminIngreso()
         {
             $model=new Detalleingreso('search');
@@ -905,6 +918,7 @@ class DetalleingresoController extends Controller
                 array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
                 array('label'=>'_____ESTADO RESULTADO______','url'=>array('')),
                 array('label' => 'Estado de Resultados EEFF', 'url' => array('detalleingreso/estadoResultado')),
+                array('label' => 'Estado de Resultados EEFF REMO', 'url' => array('detalleingreso/estadoResultadoRemo')),
             );
         }
         /* TESORERO */

@@ -34,6 +34,12 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function estadoResultadoRemo($day,$name,$dir)
+    {
+        $var=  estadoResultadoRemo::reporte($day,$name,$dir);
+        return $var;
+    }
+    
     /**
      * Documentacion va aqui
      */
@@ -288,7 +294,8 @@ class Reportes extends CApplicationComponent
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Claro (S/.)</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios DirecTv (S/.)</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Nextel (S/.)</th>    
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios FullCarga (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>    
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Total Ventas (S/.)</th>    
                             </tr>
                         </thead>';

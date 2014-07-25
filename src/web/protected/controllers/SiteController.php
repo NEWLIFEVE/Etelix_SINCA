@@ -454,6 +454,10 @@ class SiteController extends Controller
         {
             Yii::app()->reporte->estadoResultado($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
         }
+        if($_GET['table']=='estadoResultadoRemo')
+        {
+            Yii::app()->reporte->estadoResultadoRemo($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
+        }
         
         foreach($files as $key => $file)
         {

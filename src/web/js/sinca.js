@@ -201,7 +201,7 @@ $(document).ready(function()
                                   'diferencialBrightstarClaro','diferencialBrightstarDirecTv','diferencialBrightstarNextel',
                                   'diferencialCapturaSoles','diferencialCapturaDollar','acumuladoCI','sobrante','sobranteAcumCI',
                                   'otrosServiciosFullCarga','traficoCapturaDollar','traficoCapturaSoles','diferencialCapturaSoles','diferencialCapturaDollar',
-                                  'diferencialBancario','concilicacionBancaria');
+                                  'diferencialBancario','concilicacionBancaria','totalVentas','diferencialBrightstarMovistar','diferencialBrightstarClaro');
         var diferente=['No Declarado','No Declarado','0.00','0.00','0.00','&nbsp;','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00','&nbsp;','0.00','&nbsp;','0.00','0.00','0.00','0.00',''];
         for(var i=0;i<arrayCols.length;i++){
             totalsBalance(arrayCols[i],diferente[i]);
@@ -645,6 +645,9 @@ $(document).ready(function()
             }
             if($(this).attr('id') == 'ExcelCabina'){
                 gridview = 'estadoResultado';
+            }
+            if($(this).attr('id') == 'botonExcelConsolidadoREMO'){
+                gridview = 'estadoResultadoRemo';
             }
             
             var name = genNameFile(gridview);
@@ -1568,6 +1571,9 @@ $(document).ready(function()
         }
         if(gridview=='estadoResultado'){
             name = 'SINCA EEFF Cabinas Peru'+fecha;
+        }
+        if(gridview=='estadoResultadoRemo'){
+            name = 'SINCA REMO Cabinas Peru'+fecha;
         }
 
         return name;   

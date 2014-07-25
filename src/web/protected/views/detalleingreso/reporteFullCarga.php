@@ -393,10 +393,10 @@ function reinstallDatePicker2(id, data) {
             <td id="todas" style="width: 80px; text-align: center;"> Todas </td>
             <!--<td id="balanceTotalesBrightstar1"></td>-->
             <td id="totalRecargaMov" class="dif" style="text-align: center;"></td>
-            <td id="totalesDiferencialBrightstarMovistar" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarMovistar" class="dif" style="text-align: center;"></td>
             
             <td id="totalRecargaClaro" class="dif" style="text-align: center;"></td>
-            <td id="totalesDiferencialBrightstarClaro" class="dif" style="text-align: center;"></td>
+            <td id="totaldiferencialBrightstarClaro" class="dif" style="text-align: center;"></td>
             
             <td id="totalServDirecTv" class="dif" style="text-align: center;"></td>
             <td id="totaldiferencialBrightstarDirecTv" class="dif" style="text-align: center;"></td>
