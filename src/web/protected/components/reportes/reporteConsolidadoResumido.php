@@ -318,7 +318,7 @@ class reporteConsolidadoResumido extends Reportes
                     $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[4].($key+4), $registro->Observaciones);
                     self::font($cols_asrray[4].($key+4),'000000','10',$objPHPExcel);
                     
-                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[5].($key+4), $registro->sTATUS->Nombre);
+                    $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[5].($key+4), Novedad::getStatus($registro->STATUS_Id));
                     self::font($cols_asrray[5].($key+4),'000000','10',$objPHPExcel);
                     
                     $objPHPExcel->setActiveSheetIndex($sheet)->setCellValue($cols_asrray[6].($key+4), $registro->Fecha.'/'.date('H:i',strtotime($registro->Hora)));
