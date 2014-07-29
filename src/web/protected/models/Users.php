@@ -174,7 +174,7 @@ class Users extends CActiveRecord
     }
     
     public static function getUserIdFromCabina($cabinaID){
-        $resulset = Users::model()->findBySql("SELECT Max(id) as id FROM users WHERE CABINA_Id=$cabinaID AND status=1 AND tipo=1");
+        $resulset = Users::model()->findBySql("SELECT Max(id) as id FROM users WHERE CABINA_Id=$cabinaID AND status=1 AND tipo=1;");
         return $resulset->id;
     }
 

@@ -102,6 +102,8 @@ class Detalleingreso extends CActiveRecord
         public $FechaFinCaptura;
         
         public $Vereficar;
+        public $FechaBalance;
+        
 
         public function tableName()
 	{

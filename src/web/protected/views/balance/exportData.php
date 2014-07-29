@@ -216,104 +216,104 @@ set_time_limit(7200);
 
 ///*-------------------INICIO - EXPORTAR DATA DE BALANCE A CICLO INGRESO--------------------------------------*/
 //
-$sql = "SELECT b.*, p.Valor as Paridad
-        FROM balance as b
-        INNER JOIN paridad as p ON p.Id = b.PARIDAD_Id
-        WHERE b.CABINA_Id != 18 
-        AND b.CABINA_Id != 19
-        AND b.Fecha != '0000-00-00'
-        ORDER BY b.Fecha;";
-
-$cicloIngresos = Balance::model()->findAllBySql($sql);
+//$sql = "SELECT b.*, p.Valor as Paridad
+//        FROM balance as b
+//        INNER JOIN paridad as p ON p.Id = b.PARIDAD_Id
+//        WHERE b.CABINA_Id != 18 
+//        AND b.CABINA_Id != 19
+//        AND b.Fecha != '0000-00-00'
+//        ORDER BY b.Fecha;";
 //
-//echo '<table>';
+//$cicloIngresos = Balance::model()->findAllBySql($sql);
 ////
-////echo "<tr><td>Fecha</td> <td>Hora</td> <td>MontoDeposito</td> <td>MontoBanco</td> 
-////              <td>NumReferencia</td> <td>Depositante</td> <td>CuentaId</td> <td>CabinaId</td></tr>";
+////echo '<table>';
+//////
+//////echo "<tr><td>Fecha</td> <td>Hora</td> <td>MontoDeposito</td> <td>MontoBanco</td> 
+//////              <td>NumReferencia</td> <td>Depositante</td> <td>CuentaId</td> <td>CabinaId</td></tr>";
+////
+//foreach ($cicloIngresos as $key => $value) {
+//    
+//    $Paridad = $value->Paridad;
+//    
+//    $Fecha = $value->Fecha;
+//    $FechaDep = $value->FechaDep;
+//    $Hora = $value->HoraDep;
+//    $MontoDeposito = $value->MontoDeposito;
+//    $MontoBanco = $value->MontoBanco;
+//    $NumReferencia = $value->NumRefDeposito;
+//    $Depositante = $value->Depositante;
+//    $CuentaId = $value->CUENTA_Id;
+//    $CabinaId = $value->CABINA_Id;
+//    
+//    $RecargaVentasMov = $value->RecargaVentasMov;
+//    $RecargaVentasClaro = $value->RecargaVentasClaro;
+//    $TraficoCapturaDollar = $value->TraficoCapturaDollar;
+//    
+//    $FijoLocal = $value->FijoLocal;
+//    $FijoProvincia = $value->FijoProvincia;
+//    $FijoLima = $value->FijoLima;
+//    $Rural = $value->Rural;
+//    $Celular = $value->Celular;
+//    $LDI = $value->LDI;
+//    
+//    $OtrosServicios = $value->OtrosServicios;
+//    $RecargaCelularMov = $value->RecargaCelularMov;
+//    $RecargaFonoYaMov = $value->RecargaFonoYaMov;
+//    $RecargaCelularClaro = $value->RecargaCelularClaro;
+//    $RecargaFonoClaro = $value->RecargaFonoClaro;
+//    
+//    $Trafico = $FijoLocal+$FijoProvincia+$FijoLima+$Rural+$Celular+$LDI;
+//    $TotalVentas = $Trafico+$RecargaCelularMov+$RecargaFonoYaMov+$RecargaCelularClaro+$RecargaFonoClaro+$OtrosServicios;
+//    
+//    $DifBancario = $MontoBanco - $TotalVentas;
+//    $ConBancaria = $MontoBanco - $MontoDeposito;
+//    
+//    $DiferencialMov = ($RecargaVentasMov-($RecargaCelularMov+$RecargaFonoYaMov));
+//    $DiferencialClaro = ($RecargaVentasClaro-($RecargaCelularClaro+$RecargaFonoClaro));
+//    
+//    $DiferencialCaptura = (($Trafico-$TraficoCapturaDollar*$Paridad)/$Paridad);
+//    
+//    $AcumuladoCaptura = $value->Acumulado;
+//    
+//    $Sobrante = (($DifBancario+$DiferencialMov+$DiferencialClaro+($DiferencialCaptura*$Paridad))/$Paridad);
+//    $AcumuladoSobrante = $value->SobranteAcum;
+//    
+//    
+////    echo "<tr>
+////            <td>$Fecha</td> <td>$CabinaId</td> <td>$DifBancario</td> <td>$ConBancaria</td> 
+////            <td>$DiferencialMov</td> <td>$DiferencialClaro</td> <td>$DiferencialCaptura</td> <td>$AcumuladoCaptura</td>
+////            <td>$Sobrante</td> <td>$AcumuladoSobrante</td>    
+////          </tr>";
+//    
+//    // CREATE DEPOSITOS
+//    $CicloIngreso = new CicloIngresoModelo;
+//    $CicloIngreso->unsetAttributes(); 
+//    
+//    $CicloIngreso->Fecha = $Fecha;
+//    $CicloIngreso->CABINA_Id = $CabinaId;
+//    
+//    $CicloIngreso->DiferencialBancario = round($DifBancario,2);
+//    $CicloIngreso->ConciliacionBancaria = round($ConBancaria,2);
+//    
+//    $CicloIngreso->DiferencialMovistar = round($DiferencialMov,2);
+//    $CicloIngreso->DiferencialClaro = round($DiferencialClaro,2);
+//    
+//    $CicloIngreso->DiferencialCaptura = round($DiferencialCaptura,2);
+//    $CicloIngreso->AcumuladoCaptura = round($AcumuladoCaptura,2);
+//            
+//    $CicloIngreso->Sobrante = round($Sobrante,2);
+//    $CicloIngreso->AcumuladoSobrante = round($AcumuladoSobrante,2);       
+//    
+//    $CicloIngreso->save();
+//    
+////    echo'<pre>'.print_r($CicloIngreso).'</pre>';
+//    
+//}
+////
+////echo '</table>';
+////
+/////*-------------------FIN - EXPORTAR DATA DE BALANCE A CICLO INGRESO--------------------------------------*/
 //
-foreach ($cicloIngresos as $key => $value) {
-    
-    $Paridad = $value->Paridad;
-    
-    $Fecha = $value->Fecha;
-    $FechaDep = $value->FechaDep;
-    $Hora = $value->HoraDep;
-    $MontoDeposito = $value->MontoDeposito;
-    $MontoBanco = $value->MontoBanco;
-    $NumReferencia = $value->NumRefDeposito;
-    $Depositante = $value->Depositante;
-    $CuentaId = $value->CUENTA_Id;
-    $CabinaId = $value->CABINA_Id;
-    
-    $RecargaVentasMov = $value->RecargaVentasMov;
-    $RecargaVentasClaro = $value->RecargaVentasClaro;
-    $TraficoCapturaDollar = $value->TraficoCapturaDollar;
-    
-    $FijoLocal = $value->FijoLocal;
-    $FijoProvincia = $value->FijoProvincia;
-    $FijoLima = $value->FijoLima;
-    $Rural = $value->Rural;
-    $Celular = $value->Celular;
-    $LDI = $value->LDI;
-    
-    $OtrosServicios = $value->OtrosServicios;
-    $RecargaCelularMov = $value->RecargaCelularMov;
-    $RecargaFonoYaMov = $value->RecargaFonoYaMov;
-    $RecargaCelularClaro = $value->RecargaCelularClaro;
-    $RecargaFonoClaro = $value->RecargaFonoClaro;
-    
-    $Trafico = $FijoLocal+$FijoProvincia+$FijoLima+$Rural+$Celular+$LDI;
-    $TotalVentas = $Trafico+$RecargaCelularMov+$RecargaFonoYaMov+$RecargaCelularClaro+$RecargaFonoClaro+$OtrosServicios;
-    
-    $DifBancario = $MontoBanco - $TotalVentas;
-    $ConBancaria = $MontoBanco - $MontoDeposito;
-    
-    $DiferencialMov = ($RecargaVentasMov-($RecargaCelularMov+$RecargaFonoYaMov));
-    $DiferencialClaro = ($RecargaVentasClaro-($RecargaCelularClaro+$RecargaFonoClaro));
-    
-    $DiferencialCaptura = (($Trafico-$TraficoCapturaDollar*$Paridad)/$Paridad);
-    
-    $AcumuladoCaptura = $value->Acumulado;
-    
-    $Sobrante = (($DifBancario+$DiferencialMov+$DiferencialClaro+($DiferencialCaptura*$Paridad))/$Paridad);
-    $AcumuladoSobrante = $value->SobranteAcum;
-    
-    
-//    echo "<tr>
-//            <td>$Fecha</td> <td>$CabinaId</td> <td>$DifBancario</td> <td>$ConBancaria</td> 
-//            <td>$DiferencialMov</td> <td>$DiferencialClaro</td> <td>$DiferencialCaptura</td> <td>$AcumuladoCaptura</td>
-//            <td>$Sobrante</td> <td>$AcumuladoSobrante</td>    
-//          </tr>";
-    
-    // CREATE DEPOSITOS
-    $CicloIngreso = new CicloIngresoModelo;
-    $CicloIngreso->unsetAttributes(); 
-    
-    $CicloIngreso->Fecha = $Fecha;
-    $CicloIngreso->CABINA_Id = $CabinaId;
-    
-    $CicloIngreso->DiferencialBancario = round($DifBancario,2);
-    $CicloIngreso->ConciliacionBancaria = round($ConBancaria,2);
-    
-    $CicloIngreso->DiferencialMovistar = round($DiferencialMov,2);
-    $CicloIngreso->DiferencialClaro = round($DiferencialClaro,2);
-    
-    $CicloIngreso->DiferencialCaptura = round($DiferencialCaptura,2);
-    $CicloIngreso->AcumuladoCaptura = round($AcumuladoCaptura,2);
-            
-    $CicloIngreso->Sobrante = round($Sobrante,2);
-    $CicloIngreso->AcumuladoSobrante = round($AcumuladoSobrante,2);       
-    
-    $CicloIngreso->save();
-    
-//    echo'<pre>'.print_r($CicloIngreso).'</pre>';
-    
-}
-//
-//echo '</table>';
-//
-///*-------------------FIN - EXPORTAR DATA DE BALANCE A CICLO INGRESO--------------------------------------*/
-
 
 
 
