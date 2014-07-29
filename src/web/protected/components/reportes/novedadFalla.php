@@ -26,7 +26,7 @@
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->User.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.htmlentities($registro->Descripcion, ENT_QUOTES,'UTF-8').'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Num.'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Puesto.'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.NovedadLocutorio::getLocutorioRow($registro->Id).'</td>
                                 </tr>';
 
                 }
@@ -48,7 +48,7 @@
                     INNER JOIN tiponovedad as t ON t.Id = n.TIPONOVEDAD_Id
                     INNER JOIN users as u ON u.id = n.users_id
                     WHERE n.Id IN ($ids)
-                    ORDER BY n.Fecha DESC, n.Hora ASC;";
+                    ORDER BY n.Fecha DESC, n.Hora DESC;";
             
               return Novedad::model()->findAllBySql($sql); 
          

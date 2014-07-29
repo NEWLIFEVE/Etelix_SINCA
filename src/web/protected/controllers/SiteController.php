@@ -146,15 +146,15 @@ class SiteController extends Controller
         switch ($tipoUsuario) {
             case 1: return '/site/recordatorio';
             break;
-            case 2: return '/balance/index';
+            case 2: return '/detalleingreso/UploadFullCarga';
             break;
-            case 3: return '/balance/controlPanel';
+            case 3: return '/log/controlPanel';
             break;
-            case 4: return '/balance/reporteDepositos';
+            case 4: return '/deposito/reporteDepositos';
             break;
-            case 5: return '/balance/controlPanel';
+            case 5: return '/log/controlPanel';
             break;
-            case 6: return '/balance/controlPanel';
+            case 6: return '/log/controlPanel';
             break;
             case 7: return '/nomina/adminEmpleado';
             break;
@@ -186,7 +186,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/index'),'label'=>'Reportes/Balances','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/detalleingreso/uploadFullCarga'),'label'=>'Reportes/Balances','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/pabrightstar/create'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/create'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/GerenteOp)','visible'=>!Yii::app()->user->isGuest),
@@ -199,7 +199,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/controlPanel'),'label'=>'Balances','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/log/controlPanel'),'label'=>'Ingresos','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/novedad/admin'),'label'=>'Fallas','visible'=>!Yii::app()->user->isGuest),
@@ -215,7 +215,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/reporteDepositos'),'label'=>'Reportes','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/deposito/reporteDepositos'),'label'=>'Reportes','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/paridad/create'),'label'=>'Banco/Tesoreria','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/Tesorero)','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->profileUrl,'label'=>Yii::app()->getModule('user')->t("Profile"),'visible'=>!Yii::app()->user->isGuest),
@@ -227,7 +227,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/controlPanel'),'label'=>'Balances','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/log/controlPanel'),'label'=>'Balances','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/novedad/admin'),'label'=>'Fallas','visible'=>!Yii::app()->user->isGuest),
@@ -243,7 +243,7 @@ class SiteController extends Controller
             return array(
                 array('url'=>Yii::app()->getModule('user')->loginUrl,'label'=>Yii::app()->getModule('user')->t("Login"),'visible'=>Yii::app()->user->isGuest),
                 array('url'=>Yii::app()->getModule('user')->registrationUrl,'label'=>Yii::app()->getModule('user')->t("Register"),'visible'=>Yii::app()->user->isGuest),
-                array('url'=>array('/balance/controlPanel'),'label'=>'Reportes','visible'=>!Yii::app()->user->isGuest),
+                array('url'=>array('/log/controlPanel'),'label'=>'Reportes','visible'=>!Yii::app()->user->isGuest),
                 array('url'=>array('/detallegasto/estadoGastos'),'label'=>'Gastos','visible'=>!Yii::app()->user->isGuest), 
                 array('url'=>array('/pabrightstar/admin'),'label'=>'P.A.B.','visible'=>!Yii::app()->user->isGuest), 
                 array('url'=>Yii::app()->getModule('user')->logoutUrl,'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->getModule('user')->user($idUsuario)->username.'/GerenteCont)','visible'=>!Yii::app()->user->isGuest),
@@ -321,12 +321,12 @@ class SiteController extends Controller
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
             $files['balance']['name']=$_GET['name'];
-            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],$_GET['name'],true);
+            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$_GET['name'],true);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],$_GET['name'],true);
+            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$_GET['name'],true);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {
@@ -450,6 +450,14 @@ class SiteController extends Controller
         {
             Yii::app()->reporte->reporteConsolidadoResumido($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
         }
+        if($_GET['table']=='estadoResultado')
+        {
+            Yii::app()->reporte->estadoResultado($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
+        }
+        if($_GET['table']=='estadoResultadoRemo')
+        {
+            Yii::app()->reporte->estadoResultadoRemo($_GET['mes'],str_replace("/","_",$_GET['name']),NULL);
+        }
         
         foreach($files as $key => $file)
         {
@@ -469,15 +477,15 @@ class SiteController extends Controller
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
             $files['balance']['name']=$_GET['name'];
-            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['ids'],$topic,false);
-            $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['ids'],$topic,true);
+            $files['balance']['body']=Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$topic,false);
+            $files['balance']['excel']=Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$topic,true);
             $files['balance']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['balance']['name'].".xls";    
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
             $files['libroVentas']['name']=$_GET['name'];
-            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['ids'],$topic,false);
-            $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['ids'],$topic,true);
+            $files['libroVentas']['body']=Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$topic,false);
+            $files['libroVentas']['excel']=Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$topic,true);
             $files['libroVentas']['dir']=Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$files['libroVentas']['name'].".xls";        
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
@@ -661,6 +669,16 @@ class SiteController extends Controller
             $body = Yii::app()->reporte->reporteConsolidadoResumido($dia,$name,$dir);
             Yii::app()->correo->sendEmail($cuerpo,$correo,$name,$dir);
         }
+        if($_GET['table']=='estadoResultado')
+        {
+            $name = str_replace("/","_",$_GET['name']);
+            $dir = Yii::getPathOfAlias('webroot.adjuntos').DIRECTORY_SEPARATOR.$name.".xlsx";
+            $dia = $_GET['date'];
+            $cuerpo = "<h2 style='font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;letter-spacing: -1px;text-transform: uppercase;>".$_GET['name']."<h2>";
+            
+            $body = Yii::app()->reporte->estadoResultado($dia,$name,$dir);
+            Yii::app()->correo->sendEmail($cuerpo,$correo,$name,$dir);
+        }
         
         foreach($files as $key => $file)
         {   
@@ -676,11 +694,11 @@ class SiteController extends Controller
     { 
         if($_GET['table']=='balance-grid' || $_GET['table']=='balance-grid-oculta')
         {
-            echo Yii::app()->reporte->balanceAdmin($_GET['ids'],$_GET['name'],false);
+            echo Yii::app()->reporte->balanceAdmin($_GET['fechas'],$_GET['cabinas'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceLibroVentas' || $_GET['table']=='balanceLibroVentasOculta')
         {
-            echo Yii::app()->reporte->libroVenta($_GET['ids'],$_GET['name'],false);
+            echo Yii::app()->reporte->libroVenta($_GET['fechas'],$_GET['cabinas'],$_GET['name'],false);
         }
         if($_GET['table']=='balanceReporteDepositos' || $_GET['table']=='balanceReporteDepositosOculta')
         {

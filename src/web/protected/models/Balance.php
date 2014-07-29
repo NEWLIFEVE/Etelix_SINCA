@@ -343,6 +343,7 @@ class Balance extends CActiveRecord
             $pagina=Balance::model()->count($condition);
             $orden="Fecha ASC";
         }
+            
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
                 'sort'=>array('defaultOrder'=>$orden),
@@ -538,22 +539,22 @@ class Balance extends CActiveRecord
      */
 	public static function pintarDiff($montoDeposito,$montoBanco)
 	{
-        $resta = $montoDeposito-$montoBanco;
-        if ($resta!=0)
-        {
-            //return array('style'=>'text-align: center; color: red;');
-            return array('style'=>'color: red;');
+            $resta = $montoDeposito-$montoBanco;
+            if ($resta!=0)
+            {
+                //return array('style'=>'text-align: center; color: red;');
+                return array('style'=>'color: red;');
+            }
+            else
+            {
+                return array('style'=>'text-align: center;');
+            }
         }
-        else
-        {
-            return array('style'=>'text-align: center;');
-        }
-    }
 
     /**
      * @access public
      */
-    public function disable()
+        public function disable()
 	{
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
@@ -1376,15 +1377,42 @@ class Balance extends CActiveRecord
         return $mes;
     } 
     
+
+//    public static function Acumulado($fecha,$cabina,$total)
+//    {
+//        $sum = 0;
+//        $primero_mes = date('Y-m', strtotime($fecha)).'-01';
+//        if($total == false)
+//            $sum = self::model()->findBySql("SELECT SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)-IFNULL(b.TraficoCapturaDollar,0)*p.Valor)/p.Valor) as DifDollar 
+//                                             FROM balance as b 
+//                                             INNER JOIN paridad as p ON p.id = b.PARIDAD_Id 
+//                                             WHERE b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha' AND b.CABINA_Id = $cabina;");
+//        else
+//            $sum = self::model()->findBySql("SELECT SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)-IFNULL(b.TraficoCapturaDollar,0)*p.Valor)/p.Valor) as DifDollar 
+//                                            FROM balance as b 
+//                                            INNER JOIN paridad as p ON p.id = b.PARIDAD_Id 
+//                                            INNER JOIN cabina as c ON c.Id = b.CABINA_Id 
+//                                            WHERE (b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha') AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19 AND Id != 20);");
+//            
+//        return Yii::app()->format->formatDecimal($sum->DifDollar);
+//    }
+    
+
     public static function Acumulado($fecha,$cabina,$total)
     {
         $sum = 0;
         $primero_mes = date('Y-m', strtotime($fecha)).'-01';
         if($total == false)
-            $sum = self::model()->findBySql("SELECT SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)-IFNULL(b.TraficoCapturaDollar,0)*p.Valor)/p.Valor) as DifDollar 
-                                             FROM balance as b 
-                                             INNER JOIN paridad as p ON p.id = b.PARIDAD_Id 
-                                             WHERE b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha' AND b.CABINA_Id = $cabina;");
+
+            $sum = self::model()->findBySql("SELECT SUM(d.Monto) as DifDollar 
+                                             FROM detalleingreso as d
+                                             INNER JOIN tipo_ingresos as t ON t.Id = d.TIPOINGRESO_Id
+                                             INNER JOIN users as u ON u.id = d.USERS_Id
+                                             WHERE d.FechaMes >= '$primero_mes' 
+                                             AND d.FechaMes <= '$fecha'
+                                             AND d.CABINA_Id = $cabina 
+                                             AND t.COMPANIA_Id = 5 
+                                             AND u.tipo = 1;");
         else
             $sum = self::model()->findBySql("SELECT SUM((IFNULL(b.FijoLocal,0)+IFNULL(b.FijoProvincia,0)+IFNULL(b.FijoLima,0)+IFNULL(b.Rural,0)+IFNULL(b.Celular,0)+IFNULL(b.LDI,0)-IFNULL(b.TraficoCapturaDollar,0)*p.Valor)/p.Valor) as DifDollar 
                                             FROM balance as b 
@@ -1392,7 +1420,8 @@ class Balance extends CActiveRecord
                                             INNER JOIN cabina as c ON c.Id = b.CABINA_Id 
                                             WHERE (b.Fecha >= '$primero_mes' AND b.Fecha <= '$fecha') AND b.CABINA_Id IN(SELECT Id FROM cabina WHERE status=1 AND Id != 18 AND Id != 19);");
             
-        return Yii::app()->format->formatDecimal($sum->DifDollar);
+
+        return round($sum->DifDollar,2);
     }
 
     

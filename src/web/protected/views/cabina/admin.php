@@ -4,7 +4,7 @@
 
 Yii::import('webroot.protected.controllers.BalanceController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
-$this->menu=BalanceController::controlAcceso($tipoUsuario);
+$this->menu=  DetalleingresoController::controlAccesoBalance($tipoUsuario);
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){

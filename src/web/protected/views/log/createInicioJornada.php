@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 Yii::import('webroot.protected.controllers.BalanceController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
-$this->menu=BalanceController::controlAcceso($tipoUsuario);
+$this->menu=  DetalleingresoController::controlAcceso($tipoUsuario);
 //$this->menu=array(
 //	array('label'=>'List Log', 'url'=>array('index')),
 //	array('label'=>'Manage Log', 'url'=>array('admin')),

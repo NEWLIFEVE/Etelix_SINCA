@@ -1,5 +1,4 @@
 <?php
-
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -19,9 +18,10 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+                'application.controllers.*',
 		'application.modules.user.models.*',
 		'application.modules.user.components.*',
-        'application.modules.user.components.PHPExcel.*',
+                'application.modules.user.components.PHPExcel.*',
 		'application.components.reportes.*'
 		),
 	'modules'=>array(
@@ -91,15 +91,15 @@ return array(
 			),
 		'log'=>array(
 			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-                    'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-                ),
-				// uncomment the following to show log messages on web pages
-				//array(
-				//	'class'=>'CWebLogRoute',
-				//		),
-				),
+//			'routes'=>array(
+////				array(
+//////                    'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+////                ),
+//				// uncomment the following to show log messages on web pages
+//				//array(
+//				//	'class'=>'CWebLogRoute',
+//				//		),
+//				),
 			),
 		'format'=>array(
 			'class'=>'application.components.Formatter',

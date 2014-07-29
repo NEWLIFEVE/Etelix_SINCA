@@ -4,7 +4,7 @@
 
 Yii::import('webroot.protected.controllers.BalanceController');
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
-$this->menu=BalanceController::controlAcceso($tipoUsuario);
+$this->menu=DetalleingresoController::controlAcceso($tipoUsuario);
 ?>
 
 <!--<h1>Update Cabina <?php // echo $model->Id; ?></h1>-->

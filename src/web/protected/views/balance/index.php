@@ -49,7 +49,9 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 	'itemView'=>'_view',
 ));*/ ?>
 
-<?php $this->widget('ext.EAjaxUpload.EAjaxUpload',
+<?php 
+
+$this->widget('ext.EAjaxUpload.EAjaxUpload',
 array(
         'id'=>'uploadFile',
         'config'=>array(

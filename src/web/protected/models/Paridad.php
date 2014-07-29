@@ -90,4 +90,15 @@ class Paridad extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public static function getParidad($fecha)
+	{
+            $model = self::model()->findBySql("SELECT Valor
+                                               FROM paridad 
+                                               WHERE Fecha <= '$fecha' ORDER BY Fecha DESC LIMIT 1;");
+            if($model->Valor != NULL)
+                return $model->Valor;
+            else
+                return '0.00';
+	}
 }

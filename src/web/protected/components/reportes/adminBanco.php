@@ -22,7 +22,7 @@
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Fecha.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.$registro->Nombre.'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format($registro->SaldoApBanco, $type).'</td>
-                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Balance::sumMontoBanco($registro->Fecha,$registro->CUENTA_Id), $type).'</td>
+                                    <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Deposito::sumMontoBanco($registro->Fecha,$registro->CUENTA_Id), $type).'</td>
                                     <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(Detallegasto::sumGastosBanco($registro->Fecha,$registro->CUENTA_Id), $type).'</td>  
                                     <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format(($registro->SaldoApBanco+Balance::sumMontoBanco($registro->Fecha,$registro->CUENTA_Id)-Detallegasto::sumGastosBanco($registro->Fecha,$registro->CUENTA_Id)), $type).'</td>  
                                     <td '.Reportes::defineStyleTd($key+2).'>'.Reportes::format($registro->SaldoCierreBanco, $type).'</td>    
