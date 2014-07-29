@@ -19,13 +19,13 @@ $this->menu= SaldocabinaController::controlAcceso($tipoUsuario);
 <h1>Declarar Saldo de Apertura</h1>
 
 <?php 
-$horario = Utility::hora(15,true);
-if($horario)
-{
-	echo "Lo sentimos, solo puede declarar saldo de apertura hasta las 12:00pm.";
-}
-else
-{
+//$horario = Utility::hora(15,true);
+//if($horario)
+//{
+//	echo "Lo sentimos, solo puede declarar saldo de apertura hasta las 12:00pm.";
+//}
+//else
+//{
 	echo $this->renderPartial('_form_apertura', array('model'=>$model)); 
-}
+//}
 ?>
