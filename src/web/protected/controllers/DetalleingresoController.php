@@ -226,7 +226,7 @@ class DetalleingresoController extends Controller
         
         public function actionCreateLlamadas()
         {
-            $model=new Detalleingreso;
+            $model=new Detalleingreso('formServices');
 
             $this->performAjaxValidationBalance($model);
             if(isset($_POST['Detalleingreso']))
