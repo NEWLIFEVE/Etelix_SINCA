@@ -120,8 +120,9 @@ class Detalleingreso extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('CABINA_Id, CUENTA_Id, moneda, Monto, FechaMes, USERS_Id, TIPOINGRESO_Id', 'required'),
-			array('Id, moneda, USERS_Id, TIPOINGRESO_Id, CABINA_Id, CUENTA_Id', 'numerical', 'integerOnly'=>true),
-			array('Monto', 'length', 'max'=>15),
+			array('Id, Monto, moneda, USERS_Id, TIPOINGRESO_Id, CABINA_Id, CUENTA_Id', 'numerical', 'integerOnly'=>true),
+			array('FechaMes', 'type', 'type' => 'date', 'message' => '{attribute} debe ser una fecha.', 'dateFormat' => 'yyyy-MM-dd'),
+                        array('Monto', 'length', 'max'=>15),
 			array('Descripcion', 'length', 'max'=>245),
 			array('TransferenciaPago', 'length', 'max'=>35),
 			array('FechaTransf', 'safe'),
@@ -153,7 +154,8 @@ class Detalleingreso extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+            
+                $arrayLabels = array(
 			'Id' => 'ID',
 			'Monto' => 'Monto',
 			'FechaMes' => 'Mes',
@@ -190,12 +192,18 @@ class Detalleingreso extends CActiveRecord
                         'Sobrante'=>'Sobrante (USD $)',
                         'SobranteAcum'=>'Sobrante Acumulado (USD $)',
                         'Ventas'=>'Seleccionar Compañia',
-                        'FechaBalance'=>'Fecha del Balance <span class="required">*</span>',
+                        'FechaBalance'=>'Fecha del Balance',
                         'FijoLocal'=>'Fijo Local',
                         'DifFullCarga'=>'Diferencial FullCarga',
-
-
 		);
+            
+                switch($this->scenario){
+                case 'formServices':
+                    $arrayLabels['FechaMes'] = 'Fecha del Balance';
+                break;
+               }
+               
+               return $arrayLabels;
 	}
 
 	/**
