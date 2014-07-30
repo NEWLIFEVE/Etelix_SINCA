@@ -237,3 +237,9 @@ td#col div.row{
 td#col div.row{
     margin-right: 3%;
 }
+
+div#Detalleingreso_FechaMes_em_ {
+    width: 16%;
+    float: left;
+    text-align: right;
+}

@@ -52,6 +52,7 @@ class Detallegasto extends CActiveRecord
     public $tipogasto_id;
     public $cabina_id;
     public $moneda_id;
+    public $moneda;
     //
 
     /**
@@ -317,7 +318,7 @@ class Detallegasto extends CActiveRecord
     
     public static function verificarGasto($tipoGasto, $cabina, $maneda, $mes, $beneficiario,$categoria){
         
-        if($tipoGasto == 68 || $categoria == 7){
+        if($tipoGasto == 68 || $tipoGasto == 72 || $tipoGasto == 2 || $categoria == 7){
 
                return false;
 

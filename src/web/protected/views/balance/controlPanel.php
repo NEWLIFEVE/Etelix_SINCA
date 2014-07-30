@@ -31,6 +31,8 @@ if(!isset($_POST["formFecha"]) || $_POST["formFecha"]==""){
     $diaMostrar = $dias[date('D',mktime(0, 0, 0,$mon , $day, $year))];
     $horamostrar = "Hora Actual: ".date("h:i:s A",time())." Lima / Per&uacute;.";
     
+    
+    
 }
 elseif(isset($_POST["formFecha"])){
 
@@ -74,7 +76,7 @@ $this->breadcrumbs=array(
 );
 
 $tipoUsuario = Yii::app()->getModule('user')->user()->tipo;
-$this->menu=BalanceController::controlAcceso($tipoUsuario);
+$this->menu=LogController::controlAcceso($tipoUsuario);
 ?>
 
 <head>
@@ -282,7 +284,7 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 $sqlCP3 = Cabina::model()->findBySql("SELECT Id, Nombre, HoraIni, HoraFin, HoraIniDom, HoraFinDom FROM cabina WHERE Id = $codigo[$i]");
                 
                 
-    $post = $model->find('CABINA_Id = :id and Fecha = :fecha', array(':id' => $i, ':fecha' => $fechaActual));
+    //$post = $model->find('CABINA_Id = :id and Fecha = :fecha', array(':id' => $i, ':fecha' => $fechaActual));
     ?><tr <?php echo ($x++) % 2 == 0 ? "style='background-color:#CCC'" : ""; ?>>
         <td style='font-size:10px; font-weight:bold; color:#FFFFFF; background: #1967B2' >
                 <div align="center" style="width:80px;"><?php echo $nombre[$i];//$cabinas->readColumn(1); ?></div>
@@ -342,14 +344,6 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     
                 <?php } ?>
             
-<!--            <td><?php if ($post->SaldoApMov !== null) {
-                ?>
-                    <div align="center"><img  src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
-                <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                    <?php }
-                    ?>
-            </td>-->
             
             <?php 
 /********************************LLAMADAS*******************************************************/
@@ -375,14 +369,6 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                     
                 <?php } ?>
             
-            <!--<td><?php if ($post->FechaIngresoLlamadas !== null) {
-                ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
-                <?php } else { ?>
-                    <div align="center"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                    <?php }
-                    ?>            
-            </td>-->
             
             <?php 
 /********************************DEPOSITOS*******************************************************/
@@ -410,14 +396,6 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 <?php } ?>
             
             
-<!--            <td><?php if ($post->FechaIngresoDeposito !== null) {
-                ?>
-                    <div align="center"><img src=""<?php echo Yii::app()->theme->baseUrl; ?>/img/si.png"></div>
-                <?php } else { ?>
-                   <div align="center"> <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/no.png"></div>
-                    <?php }
-                    ?>            
-            </td>-->
             
             <?php 
 /********************************SALDO CIERRE*******************************************************/
@@ -445,14 +423,6 @@ WHERE l.ACCIONLOG_Id = :accion and l.Fecha = :fecha and l.USERS_Id = u.Id and u.
                 <?php } ?>
          
             
-<!--            <td><?php if ($post->SaldoCierreMov !== null) {
-                ?>
-                    <div align="center"><img src="http://fullredperu.com/images/check-icon.png"></div>
-                <?php } else { ?>
-                    <div align="center"><img src="http://fullredperu.com/images/no-icon.png"></div>
-                    <?php }
-                    ?>            
-            </td>-->
             
             <?php 
 /********************************FIN JORNADA*******************************************************/

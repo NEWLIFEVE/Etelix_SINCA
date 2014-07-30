@@ -52,9 +52,12 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 		'NumRefDeposito',
 		'MontoBanco',
 		'ConciliacionBancaria',
+            
 		'FechaIngresoLlamadas',
 		'FechaIngresoDeposito',
+            
                 'TraficoCapturaDollar',
+            
                 'RecargaVentasMov',
                 'RecargaVentasClaro',
             

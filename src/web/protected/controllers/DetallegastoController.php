@@ -54,6 +54,7 @@ class DetallegastoController extends Controller {
                     'filtrarPorStatus',
                     'updateGasto',
                     'mostrarFinal',
+                    'matrizNomina',
                 ),
                 'users'=>Users::UsuariosPorTipo(2),
             ),
@@ -571,6 +572,9 @@ class DetallegastoController extends Controller {
                 array('label' => 'Matriz de Gastos', 'url' => array('detallegasto/matrizGastos')),
                 array('label' => 'Matriz de Gastos Evolucion', 'url' => array('detallegasto/MatrizGastosEvolucion')),
                 array('label' => 'Matriz de Nomina', 'url' => array('detallegasto/matrizNomina')),
+                array('label'=>'_____ESTADO RESULTADO______','url'=>array('')),
+                array('label' => 'Estado de Resultados EEFF', 'url' => array('detalleingreso/estadoResultado')),
+                array('label' => 'Estado de Resultados EEFF REMO', 'url' => array('detalleingreso/estadoResultadoRemo')),
             );
         }
         /* TESORERO */

@@ -21,15 +21,15 @@ $this->menu=BalanceController::controlAcceso($tipoUsuario);
 
 
 <?php 
-$horario = Utility::hora(15,true);
-if($horario)
-{
-	echo "Lo sentimos, solo puede declarar depositos hasta las 3:00pm.";
-}
-else
-{
+//$horario = Utility::hora(15,true);
+//if($horario)
+//{
+//	echo "Lo sentimos, solo puede declarar depositos hasta las 3:00pm.";
+//}
+//else
+//{
 	echo "<h5 style='color:red;'>Adevertencia: 'Cada deposito que declare debe corresponder al balance de un solo dia laboral'.</h5>";
 	echo $this->renderPartial('_form_deposito', array('model'=>$model));
-}
+//}
 
 ?>

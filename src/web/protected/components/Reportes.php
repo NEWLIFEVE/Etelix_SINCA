@@ -28,20 +28,32 @@ class Reportes extends CApplicationComponent
         return $var;
     }
     
+    public function estadoResultado($day,$name,$dir)
+    {
+        $var=  estadoResultado::reporte($day,$name,$dir);
+        return $var;
+    }
+    
+    public function estadoResultadoRemo($day,$name,$dir)
+    {
+        $var=  estadoResultadoRemo::reporte($day,$name,$dir);
+        return $var;
+    }
+    
     /**
      * Documentacion va aqui
      */
     
-    public function balanceAdmin($ids,$name,$type)
+    public function balanceAdmin($fecha,$cabina,$name,$type)
     {
-        $var=  balanceAdmin::reporte($ids,$name,$type);
+        $var=  balanceAdmin::reporte($fecha,$cabina,$name,$type);
         return $var;
     }
 
-    public function libroVenta($ids,$name,$type)
+    public function libroVenta($fecha,$cabina,$name,$type)
 
     {
-        $var= libroVenta::reporte($ids,$name,$type);
+        $var= libroVenta::reporte($fecha,$cabina,$name,$type);
         return $var;
     }
     
@@ -260,13 +272,14 @@ class Reportes extends CApplicationComponent
             case "balance":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Cabina</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c3">Saldo Apertura Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c4">Saldo Apertura Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="Fechas" width="70">Fecha</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2" width="80">Cabina</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c3">Saldo Apertura (S/.)</th>
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c5">Trafico (S/.)</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Recarga Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Recarga Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c6">Servicios Movistar (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Servicios Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Servicios DirecTv (S/.)</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c7">Servicios Nextel (S/.)</th>    
                                 <th '.self::defineStyleHeader("balance").' id="balance-grid_c8">Monto Deposito (S/.)</th>
                             </tr>
                         </thead>';
@@ -274,12 +287,15 @@ class Reportes extends CApplicationComponent
             case "libroV":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("libroV").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("libroV").' id="Fechas" width="70">Fecha</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c2" width="80">Cabina</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c5">Trafico (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Recarga Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Recarga Claro (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Servicios Movistar (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios DirecTv (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Nextel (S/.)</th>    
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios FullCarga (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>    
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Total Ventas (S/.)</th>    
                             </tr>
                         </thead>';
@@ -287,8 +303,8 @@ class Reportes extends CApplicationComponent
             case "depositos":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("depositos").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("depositos").' id="Fechas" width="70">Fecha</th>
+                                <th '.self::defineStyleHeader("depositos").' id="balance-grid_c2" width="80">Cabina</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c5">Total  Ventas (S/.) "A"</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c6">Monto Deposito (S/.) "B"</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">Numero de Ref Deposito</th>
@@ -301,9 +317,8 @@ class Reportes extends CApplicationComponent
             case "captura":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("captura").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("captura").' id="balance-grid_c2">Cabina</th>
-                                <th '.self::defineStyleHeader("captura").' id="balance-grid_c5">Minutos segun Captura</th>
+                                <th '.self::defineStyleHeader("captura").' id="Fechas" width="70">Fecha</th>
+                                <th '.self::defineStyleHeader("captura").' id="balance-grid_c2" width="80">Cabina</th>
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c6">Trafico Captura (USD $)</th>
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c7">Paridad Cambiaria (S/.|$)</th>
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c8">Capt Soles</th>   
@@ -315,25 +330,34 @@ class Reportes extends CApplicationComponent
             case "brightstar":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("brightstar").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c2">Cabina</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Recarga Ventas Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Diferencial Brightstar Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Recarga Ventas Claro (S/.)</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Brightstar Claro (S/.)</th>   
+                                <th '.self::defineStyleHeader("brightstar").' id="Fechas" width="70">Fecha</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c2" width="80">Cabina</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios Movistar (S/.)</th>    
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Diferencial Movistar (S/.)</th>
+                                
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Diferencial Claro (S/.)</th>
+
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios DirecTv (S/.)</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Diferencial DirecTv (S/.))</th>
+
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Servicios Nextel (S/.)</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Nextel (S/.)</th>   
                             </tr>
                         </thead>';
                 break;
             case "cicloI":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("balance").' id="Fechas" width="70">Fecha</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2" width="80">Cabina</th>
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c5">Total de Ventas (S/.)</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c6">Diferencial Bancario (S/.)</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c7">'.htmlentities('Conciliación Bancaria (S/.)', ENT_QUOTES,'UTF-8').'</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Brightstar Movistar (S/.)</th>  
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Brightstar Claro (S/.)</th>  
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Movistar (S/.)</th>  
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Claro (S/.)</th> 
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial DirecTv (S/.)</th>  
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Nextel (S/.)</th>     
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c7">Paridad Cambiaria (S/.|$)</th> 
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c8">Diferencial Captura Soles (S/.)</th>   
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c8">Diferencial Captura Dollar (USD $)</th> 
@@ -346,27 +370,29 @@ class Reportes extends CApplicationComponent
             case "cicloIC":
                 $header='<thead>
                             <tr >
-                                <th '.self::defineStyleHeader("balance").' id="Fechas">Fecha</th>
-                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2">Cabina</th>
+                                <th '.self::defineStyleHeader("balance").' id="Fechas" width="70">Fecha</th>
+                                <th '.self::defineStyleHeader("balance").' id="balance-grid_c2" width="80">Cabina</th>
                                     
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c5">Trafico (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Recarga Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Recarga Claro (S/.)</th>
-                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c6">Servicios Movistar (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios DirecTv (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c7">Servicios Nextel (S/.)</th>    
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios FullCarga (S/.)</th>
+                                <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Otros Servicios (S/.)</th>    
                                 <th '.self::defineStyleHeader("libroV").' id="balance-grid_c8">Total Ventas (S/.)</th>
                                     
                                 <th '.self::defineStyleHeader("depositos").' id="b alance-grid_c6">Fecha del Deposito</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Hora del Deposito</th>
-                                    
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c6">Monto Deposito (S/.)</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Monto Banco (S/.)</th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">Diferencial Bancario (S/.) </th>
                                 <th '.self::defineStyleHeader("depositos").' id="balance-grid_c8">'.htmlentities('Conciliación Bancaria (S/.)', ENT_QUOTES,'UTF-8').'</th>
                                 
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Recarga Ventas Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Diferencial Brightstar Movistar (S/.)</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Recarga Ventas Claro (S/.)</th>
-                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Brightstar Claro (S/.)</th> 
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c5">Diferencial Movistar (S/.)</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c6">Diferencial Claro (S/.)</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c7">Diferencial DirecTv (S/.)</th>
+                                <th '.self::defineStyleHeader("brightstar").' id="balance-grid_c8">Diferencial Nextel (S/.)</th> 
                                 
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c6">Trafico Captura (USD $)</th>
                                 <th '.self::defineStyleHeader("captura").' id="balance-grid_c7">Paridad Cambiaria (S/.|$)</th>
