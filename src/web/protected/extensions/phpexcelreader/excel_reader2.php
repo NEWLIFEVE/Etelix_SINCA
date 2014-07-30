@@ -746,7 +746,7 @@ class Spreadsheet_Excel_Reader {
                 $_SESSION['servicio'] = Array();
                 $_SESSION['fecha'] = Array();
                 
-                $_SESSION['list'] = Array();
+                $countRowsSave = NULL;
                 
                 $arrayFecha = Array();
                 $arrayCabina = Array();
@@ -918,7 +918,7 @@ class Spreadsheet_Excel_Reader {
 
                 }
                 
-//                 $_SESSION['list'][0] = $a;
+                $countRowsSave = $a;
 
                 if($i > 0){
                     Detalleingreso::deleteVentasFullCarga($arrayFecha,$arrayCabina,$arrayTipoIngreso);
@@ -1091,7 +1091,7 @@ class Spreadsheet_Excel_Reader {
                     }
                 }
             
-            return;
+            return $countRowsSave;
 	}
 	
 	// --------------
