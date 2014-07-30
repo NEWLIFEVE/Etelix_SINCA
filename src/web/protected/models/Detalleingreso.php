@@ -102,7 +102,9 @@ class Detalleingreso extends CActiveRecord
         public $FechaFinCaptura;
         
         public $Vereficar;
-        
+        public $FechaBalance;
+
+
 
         public function tableName()
 	{
@@ -188,7 +190,7 @@ class Detalleingreso extends CActiveRecord
                         'Sobrante'=>'Sobrante (USD $)',
                         'SobranteAcum'=>'Sobrante Acumulado (USD $)',
                         'Ventas'=>'Seleccionar Compañia',
-                        'FechaBalance'=>'Fecha del Balance',
+                        'FechaBalance'=>'Fecha del Balance <span class="required">*</span>',
                         'FijoLocal'=>'Fijo Local',
                         'DifFullCarga'=>'Diferencial FullCarga',
 

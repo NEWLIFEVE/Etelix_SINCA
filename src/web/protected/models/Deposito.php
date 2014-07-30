@@ -49,7 +49,7 @@ class Deposito extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('Fecha, Hora, MontoDep, NumRef, CUENTA_Id, CABINA_Id, FechaCorrespondiente', 'required'),
-			array('CUENTA_Id, CABINA_Id, TiempoCierre', 'numerical', 'integerOnly'=>true),
+			array('CUENTA_Id, CABINA_Id, TiempoCierre, MontoDep', 'numerical', 'integerOnly'=>true),
 			array('MontoDep, MontoBanco', 'length', 'max'=>15),
 			array('NumRef, Depositante', 'length', 'max'=>45),
 			// The following rule is used by search().

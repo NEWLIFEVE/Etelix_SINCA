@@ -2045,7 +2045,7 @@ $(document).ready(function()
                         $('div#ventasServicios div#'+select.replace(" ","")+' div#'+select.replace(" ","")).append(
                             '<div class="row" style="width: 50%; /*float: left;*/display: inline-table;">'+
                                     '<label for="Detalleingreso_'+arrayServicios[i]+'"> '+arrayServicios[i]+' (S/.)</label>'+
-                                    '<input id="Detalle_'+arrayServicios[i].split(' ').join('_')+'" name="Detalle['+arrayServicios[i].replace(" ","_")+']" type="number" min="1">'+
+                                    '<input id="Detalle_'+arrayServicios[i].split(' ').join('_')+'" name="Detalle['+arrayServicios[i].replace(" ","_")+']" type="number" min="1" step="any">'+
                             '</div>'); 
                     }    
 
