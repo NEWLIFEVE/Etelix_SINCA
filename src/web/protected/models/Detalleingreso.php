@@ -103,7 +103,8 @@ class Detalleingreso extends CActiveRecord
         
         public $Vereficar;
         public $FechaBalance;
-        
+
+
 
         public function tableName()
 	{
@@ -118,7 +119,7 @@ class Detalleingreso extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('CABINA_Id, CUENTA_Id, moneda, Monto, FechaMes, USERS_Id, TIPOINGRESO_Id, FechaBalance', 'required'),
+			array('CABINA_Id, CUENTA_Id, moneda, Monto, FechaMes, USERS_Id, TIPOINGRESO_Id', 'required'),
 			array('Id, moneda, USERS_Id, TIPOINGRESO_Id, CABINA_Id, CUENTA_Id', 'numerical', 'integerOnly'=>true),
 			array('Monto', 'length', 'max'=>15),
 			array('Descripcion', 'length', 'max'=>245),
@@ -189,7 +190,7 @@ class Detalleingreso extends CActiveRecord
                         'Sobrante'=>'Sobrante (USD $)',
                         'SobranteAcum'=>'Sobrante Acumulado (USD $)',
                         'Ventas'=>'Seleccionar Compañia',
-                        'FechaBalance'=>'Fecha del Balance',
+                        'FechaBalance'=>'Fecha del Balance <span class="required">*</span>',
                         'FijoLocal'=>'Fijo Local',
                         'DifFullCarga'=>'Diferencial FullCarga',
 

@@ -299,7 +299,12 @@ class DetalleingresoController extends Controller
 
                 if(file_exists($ruta1)){
                     $data1=new JPhpExcelReader($ruta1);
-                    $data1->saveDB("FullCarga");
+                    $countRowsSave = $data1->saveDB("FullCarga");
+                    if($countRowsSave > 0){
+                        Yii::app()->user->setFlash('success',$countRowsSave." Registro(s) Guardado(s) Exitosamente"); 
+                    }else{
+                        Yii::app()->user->setFlash('error',"ERROR: No se Guardaron los Registros"); 
+                    }
                 }elseif(!file_exists($ruta1)){
                     Yii::app()->user->setFlash('error',"ERROR: Debe Seleccionar un Archivo");  
                 }
