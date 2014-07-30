@@ -899,6 +899,8 @@ class Spreadsheet_Excel_Reader {
                                 $IngresoNuevo->Descripcion = NULL;
                                 if($IngresoNuevo->save()){
                                     $a++;
+                                }elseif($IngresoNuevo->save(false)){
+                                    $a++;
                                 }
 
                             }else{

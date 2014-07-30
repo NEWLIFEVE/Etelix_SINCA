@@ -261,7 +261,7 @@ class DetalleingresoController extends Controller
                                 $model->CUENTA_Id = 4;
                             }    
 
-                            if($model->save()){
+                            if($model->save(false)){
                                 $i++;
                             }
                         }

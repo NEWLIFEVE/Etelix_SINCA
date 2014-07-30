@@ -3,6 +3,17 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+- Corrección en Modulo de Fallas: Se pueden Generar los Reportes Consolidados de Fallas a Partir de Cualquier Fecha. 
+- Creación del Reporte de Estado de Resultados y REMO. 
+- Agregada Carga de Trafico de Sori y Costo en Llamadas.
+- Agregada Carga de Archivo FullCarga. 
+- Cambio en el Formulario para Delcarar los nuevos Servicios por los Operadores por Compañia.
+- Migracion de Data de la Tabla Balance a Ciclo de Ingreso, Deposito, Saldo Cabinas y Detalleingreso.
+- Agragadas las Nuevas Compañias de FullCarga. 
+- Cambio en la Tabla de Comisiones para Generarlas por Tipo de Ingreso.
+- Creacion de Tablas de Ciclo de Ingreso, Deposito, Saldo Cabinas y Tipo de Comision. 
+
+
 Realese 1.8.3.1
 - Fix en Ciclo de Ingresos, se estaba descartando valores de la cabina COMAS en funciones de ACUMULADO.
     
