@@ -3,6 +3,8 @@ Etelix_SINCA
 
 Sistema para control de Cabinas Telefonicas
 
+Realese 2.0
+
 - Corrección en Modulo de Fallas: Se pueden Generar los Reportes Consolidados de Fallas a Partir de Cualquier Fecha. 
 - Creación del Reporte de Estado de Resultados y REMO. 
 - Agregada Carga de Trafico de Sori y Costo en Llamadas.
