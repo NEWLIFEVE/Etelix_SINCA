@@ -1120,12 +1120,15 @@ $(document).ready(function()
             if($(this).attr('id') == 'CorreoResumidoER'){
                 gridview = 'estadoResultado';
             }
+            if($(this).attr('id') == 'CorreoResumidoREMO'){
+                gridview = 'estadoResultadoRemo';
+            }
             
             
             
             var date = $('div#fecha2').text();
             var name = genNameFile(gridview);
-//            alert(date);
+//            alert(gridview);
             
             if($('div#fecha2').length){
             //Creamos la variable que contiene la tabla generada.
