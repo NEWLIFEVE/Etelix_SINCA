@@ -29,10 +29,13 @@ class Deposito extends CActiveRecord
         public $MontoDeposito;
         public $NumRefDeposito;
         public $FechaIngresoDeposito;
+        public $ConciliacionBancaria;
 
-    
-    
-	public function tableName()
+
+
+
+
+        public function tableName()
 	{
 		return 'deposito';
 	}
